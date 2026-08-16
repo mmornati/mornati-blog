@@ -4,44 +4,47 @@ tags:
 - automation
 - google-calendar
 - home-assistant
+categories:
+- Smart Home
+- Home Assistant
+description: 'Use Google Calendar events to control Home Assistant automations — set holiday flags, trigger input_booleans, and let your home respond to your schedule.'
 date: '2022-12-29T09:52:46.706000+00:00'
 slug: home-assistant-control-automation-with-google-calendar
 ---
 
 
+Automations in [Home Assistant](https://www.home-assistant.io/) are very powerful, allowing us to control anything in our home and reduce cost and consumption.
 
-Automations in [Home Assistant](https://www.home-assistant.io/) are very powerful allowing us to control anything in our home and, in this way, help reduce cost and consumption.
-
-To simplify the management I decided to use events to trigger `input_boolean` flags, and then use the boolean value to trigger what was needed. In this case, if I want to add events I don't need to change a lot of automation because the boolean value is making an abstraction layer.
+To simplify management, I decided to use events to trigger `input_boolean` flags, and then use those booleans to trigger automations. This way, adding events doesn't require changing many automations because the boolean provides an abstraction layer.
 
 ## Holidays Flag
 
-I'll try to drive you to my solution using an example. What about if you want to adapt your home automation on holiday? Following what I said just before, I added a holidays flag
+Let me walk you through my solution with an example. What about if you want to adapt your home automation on holiday? Following what I said just before, I added a holiday flag
 
 ![](/images/home-assistant-control-automation-with-google-calendar/00-3c04ae4e-c939-4d5f-9e58-316701ed2257.png)
 
-This flag is then used in automation I want to change when I'm not at home for a "long period". For example the water heater:
+This flag is then used in automations I want to change when I'm away for an extended period. For example the water heater:
 
 ![](/images/home-assistant-control-automation-with-google-calendar/01-33e89fe3-7da2-483f-b86c-a1645f1658c6.png)
 
-It is started during the night **but only** if the holiday flag is off.
+It runs during the night, but only if the holiday flag is off.
 
 ## Control the flag
 
-And now, how to know if I'm on holiday or not? A simple way to control it, as it is a flag, is switching it manually. But, in 2022, who is still doing manual things? 😂  
-In Home Assistant there is a [Google Calendar integration](https://www.home-assistant.io/integrations/google/) that allows you to download all the events from one, or more, calendars in a google account. Each of these events became a home assistant event... and then the rest is everything you already know 😎
+So how do I know if I'm on holiday? A simple way is to switch it manually. But who still does things manually? 😂  
+In Home Assistant there is a [Google Calendar integration](https://www.home-assistant.io/integrations/google/) that lets you download events from one or more Google calendars. Each event becomes a Home Assistant event... and the rest is what you already know 😎
 
-When installing the integration you can add it a read or read/write access to the calendars. In some cases, you would like to create new events from home assistant (Did not use it on my side already).
+When installing the integration, you can give it read or read/write access to the calendars. You might want to create events from Home Assistant (I haven't used that yet).
 
 ![](/images/home-assistant-control-automation-with-google-calendar/02-ce6e66da-7f08-4ca3-ae3d-281a4d1fc3f2.png)
 
-Once connected you can see the list of calendars you are managing in your google account, each of them is giving an `entity` in home assistant
+Once connected, you can see your Google calendars, each becoming an `entity` in Home Assistant
 
 ![](/images/home-assistant-control-automation-with-google-calendar/03-bf3dbc40-651b-4146-a714-8530053e8934.png)
 
-Oh, what's that `homeautomation` calendar? 🤩 I created it to separate my personal events, from the ones I would like to use to control the automation. But it is not necessary to do it in this way.
+Oh, what's that `homeautomation` calendar? 🤩 I created it to separate personal events from automation-control events. But it is not necessary to do it in this way.
 
-From now on, you can create `contition` or `trigger` in automation script based on what happens on the calendar entity.
+From now on, you can create conditions or triggers based on calendar events.
 
 ```yaml
 - alias: Calendar Holidays Event
@@ -72,8 +75,8 @@ In this example, the automation is triggered by the `start` and `end` calendar e
 
 ![](/images/home-assistant-control-automation-with-google-calendar/04-fb589f8e-4852-4153-b381-d4357da3df13.png)
 
-Create your calendar event, and then let the home automate 😎  
-Once synchronized with Home Assistant, the `calendar.homeautomation` entity will give you the information about the first detected event:
+Create your calendar event and let the home automate 😎  
+Once synced, the `calendar.homeautomation` entity will show information about the upcoming event:
 
 ```yaml
 message: Holidays
@@ -87,4 +90,4 @@ friendly_name: Homeautomation
 ```
 
   
-As I have a separate calendar to control the automation, the holidays putting in this one can be different from the real holidays days. In the example with the water heater, I would like to start back all the automation the day before I come back home.
+Since I have a separate calendar for automation control, the holidays in this one can differ from my actual holiday days. In the water heater example, I'd want the automation to resume the day before I return home.
