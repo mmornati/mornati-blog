@@ -2,16 +2,31 @@
 title: Update OpenELEC on RaspberryPI
 date: '2013-02-27T23:00:00+00:00'
 slug: update-openelec-on-raspberrypi
+categories:
+  - Linux
+  - Raspberry Pi
+  - Media Center
+tags:
+  - openelec
+  - raspberrypi
+  - xbmc
+  - kodi
+  - update
+  - script
+description: A practical guide to updating OpenELEC on a Raspberry Pi media center using a simple shell script, with step-by-step instructions for SSH access and automation.
 ---
 
+## Introduction
 
+You can use a [RaspberryPI](http://www.raspberrypi.org/) computer in many different ways. Personally I decided to use it as mediacenter with an [XBMC](http://xbmc.org/) program.
 
-You can use a <a href="http://www.raspberrypi.org/" target="_blank">RaspberryPI</a> computer in many differents way. Personally I decided to use it as mediacenter with an <a href="http://xbmc.org/" target="_blank">XBMC</a> program.
-
-After the first installation I spent lot of time to configure any things in XBMC: share folders for videos, share folders for music, ... So the problem I had was about the "update" process. The OpenELEC is based on a linux distribution but there is nothing to automate packages installation or update (I mean something like <strong>yum</strong> or <strong>apt-get</strong>), I it's not possible for any system update to reconfigure anything.
+After the first installation I spent a lot of time configuring things in XBMC: share folders for videos, share folders for music, ... So the problem I had was about the "update" process. OpenELEC is based on a linux distribution but there is nothing to automate packages installation or update (I mean something like **yum** or **apt-get**), and it's not necessary to reconfigure anything for system updates.
 
 I looked on internet and in the end I found a simple script that help you in the update process.
-<pre class="language-bash line-numbers"><code class="language-bash">
+
+## The Update Script
+
+```bash
 #!/bin/bash
 
 # change working directory 
@@ -85,13 +100,20 @@ echo "Enjoy!"
 sleep 5s
 sync
 reboot
-</code></pre>
+```
+
 Sorry to the author because I can't remember where I found it, and I don't even know if it's the original version or if I modified it. In any case it works perfectly.
+
+## Usage
 
 What you just need to do is to copy it on your RaspberryPi/OpenELEC system and execute it. The script will check if a new version is available, it will download it and then reboot the raspberry when all is ready for the update (update will be automatically installed after the reboot).
 
-How you can copy the script on your OpenELEC and execute an update? You can make an <strong>SSH connection </strong>to the RaspberryPi.
-<pre class="language-bash command-line" data-user="marco" data-host="notebook" data-output="2-10"><code class="language-bash">ssh root@192.168.0.25
+## SSH Connection
+
+How you can copy the script on your OpenELEC and execute an update? You can make an **SSH connection** to the RaspberryPi.
+
+```bash
+ssh root@192.168.0.25
 ##############################################
 # OpenELEC - The living room PC for everyone #
 # ...... visit http://www.openelec.tv ...... #
@@ -100,31 +122,48 @@ How you can copy the script on your OpenELEC and execute an update? You can make
 OpenELEC Version: devel-20130119143821-r12975
 OpenELEC git: 6bc259fb5cdf4f941e85e43132a0a31e211af937
 root@192.168.0.25's password: 
-</code></pre>
-Where <strong>192.168.0.25</strong> is the ip address of my Raspberry. I make the SSH connection using a Linux/Mac computer (where ssh is available by default on the command line); if you are on Windows, you need to use <a href="http://www.putty.org/" target="_blank">Putty</a> to make the ssh connection!
+```
+
+Where **192.168.0.25** is the IP address of my Raspberry. I make the SSH connection using a Linux/Mac computer (where ssh is available by default on the command line); if you are on Windows, you need to use [Putty](http://www.putty.org/) to make the ssh connection!
 
 The default username/password to connect to OpenELEC via SSH are:
 
-username: <strong>root
-</strong>password: <strong>openelec</strong>
+username: **root**
+password: **openelec**
 
-After connection you can create your script where you want on your system (you are root so be carefull because you can do anything). Normally where you have a lot of free space is <strong>/storege</strong>, but if you are not sure, you can check it with a <strong>df -h</strong>:
-<pre class="language-bash command-line" data-user="root" data-host="raspberrypi" data-output="2-8"><code class="language-bash">df -h
+After connection you can create your script where you want on your system (you are root so be careful because you can do anything). Normally where you have the most free space is **/storage**, but if you are not sure, you can check it with a **df -h**:
+
+```bash
+df -h
 Filesystem                Size      Used Available Use% Mounted on
 none                    185.0M     90.1M     94.9M  49% /dev
 /dev/mmcblk0p1          124.7M     98.8M     26.0M  79% /flash
 /dev/mmcblk0p2            3.6G    127.5M      3.3G   4% /storage
 /dev/loop0               90.0M     90.0M         0 100% /
-none                    186.5M         0    186.5M   0% /dev/shm</code></pre>
+none                    186.5M         0    186.5M   0% /dev/shm
+```
 
-Then you can create the script file using <strong>vi</strong>, for example typing something like:
-<pre class="language-bash command-line" data-user="root" data-host="raspberrypi"><code class="language-bash">vi update.sh</code></pre>
+Then you can create the script file using **vi**, for example typing something like:
+
+```bash
+vi update.sh
+```
+
 And here you can paste the content of the script I put in this article.
-After this you need to make the script <em>executable</em> and execute it, with:
-<pre class="language-bash command-line" data-user="root" data-host="raspberrypi"><code class="language-bash">chmod +x update.sh
-./update.sh</code></pre>
+
+## Running the Update
+
+After this you need to make the script *executable* and execute it, with:
+
+```bash
+chmod +x update.sh
+./update.sh
+```
+
 You should have an output like the following:
-<pre class="language-bash command-line" data-user="root" data-host="raspberrypi" data-output="2-17"><code class="language-bash">./update.sh 
+
+```bash
+./update.sh 
 Update required, will download latest version.
 Connecting to openelec.thestateofme.com (46.149.19.9:80)
 OpenELEC-RPi.arm-dev 100% |*****************************************************************************************************| 92078k  0:00:00 ETA
@@ -140,5 +179,7 @@ OpenELEC-RPi.arm-devel-20130228144321-r13387/INSTALL
 OpenELEC files succesfully moved to update directory
 Temporary files deleted
 System will restart shortly
-Enjoy!</code></pre>
+Enjoy!
+```
+
 Finished! After the reboot your OpenELEC is updated. You can check it simply with an ssh connection (after the connection you should see the version directly on your screen) or going in the settings in your XBMC.
