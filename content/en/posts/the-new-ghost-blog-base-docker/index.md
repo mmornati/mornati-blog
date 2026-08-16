@@ -2,22 +2,37 @@
 title: The new Ghost Blog base Docker
 date: '2017-09-16T22:00:00+00:00'
 slug: the-new-ghost-blog-base-docker
+categories:
+  - DevOps
+  - Docker
+  - Blogging
+tags:
+  - docker
+  - ghost
+  - blog
+  - nginx
+  - devops
+description: A lightweight, reusable Ghost blog Docker image stripped of custom plugins, making it easy for anyone to deploy and run.
 ---
 
+I'm continuing to work on slimming down the [Docker Ghost Blog](/docker-ghost-blog-slim-down/) I created.
 
+## Overview
 
-I'm going ahead working on the slim of the [Docker Ghost Blog ](https://blog.mornati.net/docker-ghost-blog-slim-down/) I created.
+I started the project to simplify managing my blog and, for this reason, it was keeping all the things I needed. Which is another way of saying that it wasn't really "basic" enough to be used by anyone.
 
-I started the project to simplify the manage of my Blog and, for this reason, was keeping all the things I needed. Which is another way to say that it wasn't so "basic" to be used by anyone.
+I was pleasantly surprised to see that the Docker was pulled plenty of times: **100K+ times** (which is the max count for the docker hub... I don't know exactly how many times was downloaded!).
 
-I was happily hurt in seeing that the Docker was pulled plenty of times: **100K+ times** (which is the max count for the docker hub... I don't know exactly how many times was downloaded!).
+For this reason I removed all the custom things from this base version I'm using in my blog, the [Cloudinary storage plugin](/ghost-storage-cloudinary/) for example, providing an easy-to-use Docker for anyone.
 
-For this reason I removed from this base version all the custom things I'm using in my blog, the [Cloudinary storage plugin](https://blog.mornati.net/ghost-storage-cloudinary/) for example, providing an easy to use Docker for anyone.
+## Usage
 
-#### How can I start using Ghost?
-Quick and easy:
-<pre class="language-bash command-line" data-user="mmornati" data-host="macosx"><code class="language-bash">docker pull mmornati/docker-ghostblog:1.8.6
-docker run -d -p 2368:2368 -v /opt/blog-data:/ghost-override mmornati/docker-ghostblog:1.8.6</code></pre>
+**How can I start using Ghost?** Quick and easy:
+
+```bash
+docker pull mmornati/docker-ghostblog:1.8.6
+docker run -d -p 2368:2368 -v /opt/blog-data:/ghost-override mmornati/docker-ghostblog:1.8.6
+```
 
 These commands are downloading the **1.8.6** version of the docker and starting it up on the **2368** port and using the **/opt/blog-data** folder as blog content folder.
 
