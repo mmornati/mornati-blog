@@ -2,24 +2,35 @@
 title: 'Kermit: new videos documentation'
 date: '2012-05-15T22:00:00+00:00'
 slug: kermit-new-videos-documentation
+categories:
+  - DevOps
+  - System Administration
+  - Tools
+tags:
+  - kermit
+  - mcollective
+  - videos
+  - documentation
+  - tutorial
+description: 'KermIT project releases new tutorial videos covering basic operations, post-installation steps, and server details.'
 ---
 
+## Overview
 
+With [@LouisCoilliot](https://twitter.com/#!/LouisCoilliot) we are preparing some new videos that will be used to explain kermit's main functionalities; basically, they will serve as a doc extension. You can find all the videos on the [KermIT](http://www.kermit.fr) website (we are actually preparing the new version).
 
-With <a href="https://twitter.com/#!/LouisCoilliot">@LouisCoilliot</a> we are preparing some new videos that will be used to explain kermit's main functionalities; basically will be a doc extension. Naturally you could find all the videos on the <a href="http://www.kermit.fr">KermIT</a> website (we are actually preparing the new version).
+## Videos
 
 KermIT: execute basic operations
 
-<iframe src="http://www.youtube.com/embed/GtL4bQG9Zbw" frameborder="0" width="560" height="315"></iframe>
+<http://www.youtube.com/watch?v=GtL4bQG9Zbw>
 
 KermIT: Post installation steps
 
-<iframe src="http://www.youtube.com/embed/cN-ZmtemdMI" frameborder="0" width="560" height="315"></iframe>
+<http://www.youtube.com/watch?v=cN-ZmtemdMI>
 
 KermIT: Server details
 
-<iframe width="560" height="315" src="http://www.youtube.com/embed/kJOAK8cuWhk" frameborder="0" allowfullscreen></iframe>
+<http://www.youtube.com/watch?v=kJOAK8cuWhk>
 
-&nbsp;
-
-Stay tuned for many others KermIT news!!
+Stay tuned for many more KermIT news!!
