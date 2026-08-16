@@ -8,7 +8,7 @@ tags:
   - social-login
   - oneall
   - plugin
-categories: ["WordPress", "Plugins"]
+categories: [WordPress, Plugins, Social Media]
 description: "Review of the OneAll Social Login plugin for WordPress — installation, configuration, and social network integration for single sign-on."
 ---
 
