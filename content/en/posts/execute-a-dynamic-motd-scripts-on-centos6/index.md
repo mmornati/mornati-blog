@@ -2,22 +2,43 @@
 title: Execute a dynamic MOTD scripts on Centos6
 date: '2013-11-11T23:00:00+00:00'
 slug: execute-a-dynamic-motd-scripts-on-centos6
+categories:
+  - System Administration
+  - DevOps
+tags:
+  - centos
+  - motd
+  - pam
+  - linux
+  - sysadmin
+description: How to configure dynamic MOTD (Message Of The Day) scripts on CentOS 6 or any RedHat-based system using PAM and custom bash scripts.
 ---
 
+A thing I found useful in the default configuration of Debian and Ubuntu Systems is the MOTD message (Message Of The Day) display. Any time you log into the system, you get information about package updates, load, and more.
 
+The following guide shows how to configure it on a CentOS system (or any RedHat-based system).
 
-A thing I found useful in the default configuration of Debian and Ubuntu Systems, is the MOTD message (Message Of The Day) display, any time you login into system, information about packages updates, load, ...
+## PAM Configuration
 
-The following guide display how you can configure it on a Centos System (or we could say any RedHat based system).
+First, we need to configure a PAM connection module:
 
-First of all, we need to configure a PAM connection module:
-<pre><code> <code>vi /etc/pam.d/login</code></pre>
-Adding this line at the end of the file
-<pre><code> <code>session    optional     pam_motd.so</code></pre>
-Then we need to create our scripts and execute it anytime we log into system. For the execution part, as you surely know, any bash execution, run a script named <strong>/etc/profile</strong> (with, if presents, some user customizations). So we can simply add a call to our scripts at the end of this file, something like <em>/usr/local/bin/dynmotd</em>.
+```bash
+vi /etc/pam.d/login
+```
 
-Then create, and make executable, the scripts, putting all information you want to display to the users. The following is, for example, the script I'm using on my home server.
-<pre><code> <code>blog/core/built/scripts/ghost.js:      updateScrollPos(this, sPos.scrollLeft, sPos.scrollTop);
+Add this line at the end of the file:
+
+```
+session    optional     pam_motd.so
+```
+
+## Creating the Dynamic MOTD Script
+
+Then we need to create our scripts and execute them anytime we log into the system. For the execution part, as you surely know, any bash shell runs a script named `/etc/profile` (with user customizations if present). So we can simply add a call to our scripts at the end of this file, something like `/usr/local/bin/dynmotd`.
+
+Then create, and make executable, the script, putting all the information you want to display to users. The following is the script I'm using on my home server:
+
+```bash
 #!/bin/bash
 
 PROCCOUNT=`ps -Afl | wc -l`
@@ -33,11 +54,11 @@ PRIVLAGED="Regular User"
 fi
 
 echo -e "\033[1;32m
- _                                                            _                    
-| |                                                      _   (_)              _    
-| | _   ___  ____   ____   ____   ___   ____ ____   ____| |_  _   ____   ____| |_  
-| || \ / _ \|    \ / _  ) |    \ / _ \ / ___)  _ \ / _  |  _)| | |  _ \ / _  )  _) 
-| | | | |_| | | | ( (/ / _| | | | |_| | |   | | | ( ( | | |__| |_| | | ( (/ /| |__ 
+ _                                                            _
+| |                                                      _   (_)              _
+| | _   ___  ____   ____   ____   ___   ____ ____   ____| |_  _   ____   ____| |_
+| || \ / _ \|    \ / _  ) |    \ / _ \ / ___)  _ \ / _  |  _)| | |  _ \ / _  )  _)
+| | | | |_| | | | ( (/ / _| | | | |_| | |   | | | ( ( | | |__| |_| | | ( (/ /| |__
 |_| |_|\___/|_|_|_|\____|_)_|_|_|\___/|_|   |_| |_|\_||_|\___)_(_)_| |_|\____)\___)
 
 \033[0;35m+++++++++++++++++: \033[0;37mSystem Data\033[0;35m :+++++++++++++++++++
@@ -53,18 +74,27 @@ echo -e "\033[1;32m
 \033[0;35m+ \033[0;37mPrivlages \033[0;35m= \033[1;32m$PRIVLAGED
 \033[0;35m+  \033[0;37mSessions \033[0;35m= \033[1;32m`who | grep $USER | wc -l` of $ENDSESSION MAX
 \033[0;35m+ \033[0;37mProcesses \033[0;35m= \033[1;32m$PROCCOUNT of `ulimit -u` MAX
-\033[0;35m+++++++++++++++++++++++++++++++++++++++++++++++++++</code></pre>
-You can put what you want on this scripts, but if you have commands that takes long time to run, means your login takes long time!!
-For example, you can see in my script, I'm using informations contents into a file named <em>/tmp/yum_updates.txt</em>. This file just has the number of updates available for my system and I'm using file because the yum execution could take long time, if a repository updates is needed. The file is updated by another scripts I put on my crontab:
-<pre><code> <code>0 0 * * * /usr/local/bin/check_updates &gt; /tmp/yum_updates.txt</code></pre>
-The scripts contains:
-<pre><code> <code>#!/bin/sh
+\033[0;35m+++++++++++++++++++++++++++++++++++++++++++++++++++"
+```
+
+You can put whatever you want in this script, but if you have commands that take a long time to run, your login will take a long time too! For example, you can see in my script I'm using information from a file named `/tmp/yum_updates.txt`. This file just has the number of updates available for my system. I use a file because the yum execution could take a long time if a repository update is needed. The file is updated by another script I put in my crontab:
+
+```
+0 0 * * * /usr/local/bin/check_updates > /tmp/yum_updates.txt
+```
+
+The script contains:
+
+```bash
+#!/bin/sh
 
 IFACE=eth0
 
 if [ -n "$(/sbin/ifconfig $IFACE | /bin/grep RUNNING)" ]; then
-        /usr/bin/yum -d 0 check-update 2&gt;/dev/null | echo $(($(wc -l)-1))
+        /usr/bin/yum -d 0 check-update 2>/dev/null | echo $(($(wc -l)-1))
 fi
 
-exit 0</code></pre>
-Means, if my server is connected (with eth0) then execute the command <em>yum check-update</em> putting the result in the text file.
+exit 0
+```
+
+This means if my server is connected (via eth0), it executes `yum check-update` and puts the result in the text file.
