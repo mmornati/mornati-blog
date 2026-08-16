@@ -2,8 +2,36 @@
 title: What are symbolic operations?
 date: '2008-07-23T22:00:00+00:00'
 slug: what-are-symbolic-operations
+categories:
+  - Symbolic
+  - System Administration
+tags:
+  - symbolic
+  - operations
+  - func
+  - administration
+description: A guide explaining what Symbolic operations are and how administrators can create new operations using the func module.
 ---
 
+As the official guide illustrates, Symbolic administrators can create new functions that users can perform by simply adding new operations. An operation is an object built using the func module, method, and parameters.
 
+## Adding New Operations
 
-As official guide illustrates, symbolic administrator can create function users could do, simply adding new operations. An operation is an object built using func module, method and parameters.<br /><br />What administrator has to do to add a new operation is:<br /><ul><li>Assign a name that will be shown to users</li><li>Select a func operation, selecting module and method over that module. i.e. module: command, method: run</li><li>Add some optional parameters to complete the operation. For example if he has coded the operation over module command with method run, he need to decide which linux command function he want to execute.</li><li>Add some optional parameters that will be ask to user before operation run. To make completely dynamic the operation coding, in fact, something need to be added during the execution by the user. For example, administrator could decide that for a specific group of users, must be created an operation to make able the execution of all linux command. So he has to code an operation over "command run" and the add a parameter named "Command to run" that users will complete before operation running.</li></ul><br />Authority assignment is the last operation he has to do to shown new operation to the user. In fact, all symbolic operations, machines and scripts are shown only to users that are enabled to use.<br /><br />At runtime this operation will be completed with machine hostname (the one where user click before operation selection), the (optional) parameters that user must complete and all is stored in a table with "ready state" attached. Will be symbolic engine to select ready operation and call func for the execution.
+To add a new operation, an administrator needs to perform the following steps:
+
+- Assign a name that will be displayed to users
+- Select a func operation by choosing the module and method for that module, for example:
+  ```
+  module: command
+  method: run
+  ```
+- Add optional parameters to complete the operation. For example, if the administrator has created an operation using the `command` module with the `run` method, they need to decide which Linux command function they want to execute
+- Add optional parameters that will be requested from the user before the operation runs. To make the operation coding completely dynamic, some information needs to be provided by the user during execution. For example, an administrator might decide that for a specific group of users, an operation should be created to enable the execution of all Linux commands. In this case, they would create an operation using `command run` and then add a parameter named "Command to run" that users will complete before the operation executes
+
+## Authority Assignment
+
+The final step an administrator needs to perform is assigning authority to show the new operation to users. In fact, all Symbolic operations, machines, and scripts are displayed only to users who are authorized to use them.
+
+## Runtime Behavior
+
+At runtime, the operation will be completed with the machine hostname (the one where the user clicked before selecting the operation), the optional parameters that the user must provide, and everything is stored in a table with a "ready state" attached. The Symbolic engine will then select the ready operation and call func for execution.
