@@ -153,7 +153,8 @@
 {{ end }}
 
 {{/* Firebase */}}
-{{ if site.Params.firebase.apiKey }}
+{{ $fbApiKey := os.Getenv "FIREBASE_API_KEY" | default site.Params.firebase.apiKey }}
+{{ if $fbApiKey }}
   {{ $firebase := resources.Get "js/firebase.js" }}
   {{ $firebase = $firebase | resources.Minify | resources.Fingerprint (site.Params.fingerprintAlgorithm | default "sha512") }}
   <script type="module" src="{{ $firebase.RelPermalink }}" integrity="{{ $firebase.Data.Integrity }}"></script>
@@ -184,13 +185,13 @@
         data-likes="{{ .likes }}">
   {
     "config": {
-      "apiKey": "{{ site.Params.firebase.apiKey }}",
-      "authDomain": "{{ site.Params.firebase.authDomain }}",
-      "projectId": "{{ site.Params.firebase.projectId }}",
-      "storageBucket": "{{ site.Params.firebase.storageBucket }}",
-      "messagingSenderId": "{{ site.Params.firebase.messagingSenderId }}",
-      "appId": "{{ site.Params.firebase.appId }}",
-      "measurementId": "{{ site.Params.firebase.measurementId }}"
+      "apiKey": "{{ os.Getenv "FIREBASE_API_KEY" | default site.Params.firebase.apiKey }}",
+      "authDomain": "{{ os.Getenv "FIREBASE_AUTH_DOMAIN" | default site.Params.firebase.authDomain }}",
+      "projectId": "{{ os.Getenv "FIREBASE_PROJECT_ID" | default site.Params.firebase.projectId }}",
+      "storageBucket": "{{ os.Getenv "FIREBASE_STORAGE_BUCKET" | default site.Params.firebase.storageBucket }}",
+      "messagingSenderId": "{{ os.Getenv "FIREBASE_MESSAGING_SENDER_ID" | default site.Params.firebase.messagingSenderId }}",
+      "appId": "{{ os.Getenv "FIREBASE_APP_ID" | default site.Params.firebase.appId }}",
+      "measurementId": "{{ os.Getenv "FIREBASE_MEASUREMENT_ID" | default site.Params.firebase.measurementId }}"
     }
   }
 </script>
