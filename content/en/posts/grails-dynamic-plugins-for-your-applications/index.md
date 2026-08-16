@@ -2,8 +2,170 @@
 title: Grails - Dynamic Plugins for your applications
 date: '2008-07-25T22:00:00+00:00'
 slug: grails-dynamic-plugins-for-your-applications
+categories:
+  - Grails
+  - Groovy
+  - Web Development
+tags:
+  - grails
+  - groovy
+  - plugins
+  - quartz
+  - dynamic loading
+  - java
+  - opensymbolic
+description: Learn how to dynamically load plugins at runtime in Grails applications, scan plugin folders, read configuration files, and schedule jobs using Quartz. This approach enables adding new features to your web application without redeployment.
 ---
 
+The new functionality offered by Groovy/Grails enables you to write highly dynamic applications with the ability to add new features to your web application at runtime! This approach moves us away from traditional JEE standards where libraries, scripts, classes, and other resources must be bundled in your WAR file or provided by the application server.
 
+I believe this traditional approach to development is outdated and could contribute to Java's decline. I'm being dramatic, I know, but there's a lot of confusion within Java, Java standards, and the various Java projects. It's time for a change! :)
 
-The new functionality offers from Groovy/Grails make you able to write a very dynamical application and the possibility to add some new features to your web application at run-time!! Naturally we are exiting a "little bit" from JEE standards where our library/scritps/class and so on, must be in your war or provided from application server.<br />What I think about this, is that this way to see the development is a little bit old and could bring java to death! I'm dramatic, I know, but there is lot of confusion inside java, java standard and all java project.<br />It's time to change!! :)<br /><br />Anyway...<br /><br />What I'll explain is the way that we are using to add plugins (some functions) to OpenSymbolic, after application installation and, if you want, after webserver startup (I don't know what JBoss thinks about this... I'll do some test when all will be ready).<br /><br />Our goal was to obtain a way to add some schedulable functions (Quartz Job) to our application leaving to user the decision about which he needs and which not (in a future article we will see the real usage in Symbolic).<br /><br /><span style="font-weight: bold;">First step</span><br /><span style="font-style: italic;">Question:</span> How can I add a Job Dynamically to my scheduler?<br /><span style="font-style: italic;">Answer:</span> at the moment I can't! :(<br /><br /><span style="font-style: italic;">Solution:</span> I called <a href="http://www.linkedin.com/in/nebolsin">Sergey Nebolsin</a>, the Quartz plugin developer, exposing my problem, and in ONE NIGHT (underline well ONE), he send me the implementation.<br /><span style="font-style: italic;">Lesson learned:</span> If I need something for the following day... I will have to call Sergey!! :P (Really thanks again for your work and help Sergey!!)<br /><br /><span style="font-weight: bold;">Second step</span><br />Writing a bit of code to see if I can really do what I'm thinking.<br /><br />Here what I have.<br /><br />All my plugins will be contained in a specific folder on my machine (configured in configuration file of my application).<br /><pre><code>/etc/symbolic/plugins<br />   -&gt; /nagios_plugin<br />   -&gt; /msn_plugin<br />   -&gt; /dont_know_plugin<br /></code></pre><br />Each of these folders contains the file I need: in my test a configuration file and one script file.<br />So... with a simple script I could try to scan these folders look for what I need.<br /><pre><code>import org.codehaus.groovy.grails.commons.ConfigurationHolder<br /><br />class PluginService {<br /><br />   boolean transactional = false<br /><br />   static CONFIG_FILE_EXT = 'conf'<br />   static SCRIPT_FILE_EXT = 'groovy'<br />   static LIB_FOLDER = 'lib'<br /><br />   public void init() {<br />       //Scan Plugins Folder<br />       def pluginsFolder = ConfigurationHolder.config.plugin.folder<br />       log.debug "Scanning plugin folder: ${pluginsFolder}"<br />       if (pluginsFolder) {<br />           new File(pluginsFolder).eachDir {dir -&gt;<br />               log.debug "Directory found: ${dir}"<br />               def dataMap = [:]<br />             <br />               //Read Plugin File and configuring it<br />               dir.eachFile {file -&gt;<br />                   if (file.isFile()) {<br />                       if (file.name.contains(CONFIG_FILE_EXT)) {<br />                           log.debug "File ${file.name} is the configuration file"<br />                           def pluginConfiguration = readConfigFile(file)<br />                           dataMap['pluginName'] = pluginConfiguration.get("job.name")<br />                           dataMap['cronString'] =  pluginConfiguration.get("job.cron")<br />                       } else if (file.name.contains(SCRIPT_FILE_EXT)) {<br />                           log.debug "File ${file.name} is the script file"<br />                           dataMap['scriptFile'] = file<br />                       } else {<br />                           log.debug "File ${file.name} will be ignored!"<br />                       }<br />                   } else {<br />                       if (file.name.equals(LIB_FOLDER)) {<br />                           log.debug "Lib folder found... adding jars to classpath."<br />                       }<br />                   }<br />               }<br />               DefaultPluginJob.schedule(dataMap['cronString'], dataMap)<br />           }<br />       }<br /><br />       else {<br />           logger.info "No plugins folder set. Nothing to load!"<br />       }<br /><br />   }<br /><br /><br />   def readConfigFile = {file -&gt;<br />       Properties prop = new Properties()<br />       if (file) {<br />           prop.load (new FileInputStream(file))<br />       }<br />       prop<br />   }<br />}<br /></code></pre><br />It's just a simple test... there are many improvements to do! ;)<br /><br />Class "DefaultPluginJob" is a simple Quartz Job, that you can create in a standard grails way, and, with a new plugin release made by Sergey, it has some static methods that you can use to add your job to your quartz scheduler!<br /><br />Here is the code of Job:<br /><pre><code>import org.quartz.JobDataMap<br />import org.quartz.JobExecutionContext<br /><br />class DefaultPluginJob {<br /><br />   static triggers = { }<br /><br />   def execute(context) {<br /><br />       String instName = context.getJobDetail().getName();<br />       String instGroup = context.getJobDetail().getGroup();<br />       def file = context.mergedJobDataMap.get("scriptFile")<br /><br />       Binding binding = new Binding();<br />       GroovyShell shell = new GroovyShell(binding);<br /><br />       def scriptResult = shell.evaluate(file.text);<br /><br />   }<br />}<br /></code></pre><br />It seems very simple, no? :)<br /><br /><span style="font-weight: bold;">Third step</span><br />To create a real extension of your application, you may need to add also some libraries used by your script: you cannot add all existing java libraries to your application because someone would create a plugin that will use that libraries! ;)<br /><br />A very simple way we have found to solve this problem is adding a lib sub-folder to your plugin folder, where you can put all your libraries.<br />The plugin server, scanning folders, will add your jars to root class loader in this way:<br /><pre><code>this.class.classLoader.rootLoader.addURL(new URL("${file}"))<br /></code></pre><br />By now you can use all classes contained in your added jar files! :D<br /><br /><span style="font-weight: bold;">Future...</span><br />What I need to solve now, is a way to prevent jar conflict. Add all to root class loader, in fact, could make some problems to your application or simply to your other plugins.<br />I think that a solution could be write something inside your job, that will add your library only to your job instances during (before) execution of the script!<br />If anyone has any ideas about that... is welcome! :P
+## Introduction
+
+This article explains how we're adding plugins (functions) to OpenSymbolic after application installation and, if desired, after web server startup (I'm not sure what JBoss will think about this... I'll run some tests when everything is ready).
+
+Our goal was to create a way to add schedulable functions (Quartz Jobs) to our application, giving users the flexibility to choose which plugins they need and which they don't. In a future article, we'll explore the real-world usage in Symbolic.
+
+## First Step: Dynamic Job Scheduling
+
+**Question:** How can I add a Job dynamically to my scheduler?
+
+**Answer:** At the moment, I can't! :(
+
+**Solution:** I contacted [Sergey Nebolsin](http://www.linkedin.com/in/nebolsin), the Quartz plugin developer, explained my problem, and in **ONE NIGHT** (yes, ONE), he sent me the implementation.
+
+**Lesson learned:** If I need something for the following day... I'll have to call Sergey!! :P (Really, thanks again for your work and help, Sergey!!)
+
+## Second Step: Writing the Code
+
+Let's see if I can actually implement what I'm thinking.
+
+### Plugin Structure
+
+All plugins are contained in a specific folder on the machine (configured in the application's configuration file):
+
+```
+/etc/symbolic/plugins
+   -> /nagios_plugin
+   -> /msn_plugin
+   -> /dont_know_plugin
+```
+
+Each of these folders contains the necessary files. In my tests, each plugin has a configuration file and a script file.
+
+### Plugin Service Implementation
+
+With a simple script, I can scan these folders to find what I need:
+
+```groovy
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
+
+class PluginService {
+
+   boolean transactional = false
+
+   static CONFIG_FILE_EXT = 'conf'
+   static SCRIPT_FILE_EXT = 'groovy'
+   static LIB_FOLDER = 'lib'
+
+   public void init() {
+       // Scan Plugins Folder
+       def pluginsFolder = ConfigurationHolder.config.plugin.folder
+       log.debug "Scanning plugin folder: ${pluginsFolder}"
+       
+       if (pluginsFolder) {
+           new File(pluginsFolder).eachDir { dir ->
+               log.debug "Directory found: ${dir}"
+               def dataMap = [:]
+               
+               // Read Plugin File and configure it
+               dir.eachFile { file ->
+                   if (file.isFile()) {
+                       if (file.name.contains(CONFIG_FILE_EXT)) {
+                           log.debug "File ${file.name} is the configuration file"
+                           def pluginConfiguration = readConfigFile(file)
+                           dataMap['pluginName'] = pluginConfiguration.get("job.name")
+                           dataMap['cronString'] = pluginConfiguration.get("job.cron")
+                       } else if (file.name.contains(SCRIPT_FILE_EXT)) {
+                           log.debug "File ${file.name} is the script file"
+                           dataMap['scriptFile'] = file
+                       } else {
+                           log.debug "File ${file.name} will be ignored!"
+                       }
+                   } else {
+                       if (file.name.equals(LIB_FOLDER)) {
+                           log.debug "Lib folder found... adding jars to classpath."
+                       }
+                   }
+               }
+               DefaultPluginJob.schedule(dataMap['cronString'], dataMap)
+           }
+       }
+       else {
+           logger.info "No plugins folder set. Nothing to load!"
+       }
+   }
+
+   def readConfigFile = { file ->
+       Properties prop = new Properties()
+       if (file) {
+           prop.load(new FileInputStream(file))
+       }
+       prop
+   }
+}
+```
+
+It's just a simple test... there are many improvements to make! ;)
+
+### Default Plugin Job
+
+The `DefaultPluginJob` class is a simple Quartz Job that you can create in the standard Grails way. With a new plugin release made by Sergey, it has some static methods that you can use to add your job to the Quartz scheduler!
+
+Here's the Job code:
+
+```groovy
+import org.quartz.JobDataMap
+import org.quartz.JobExecutionContext
+
+class DefaultPluginJob {
+
+   static triggers = { }
+
+   def execute(context) {
+
+       String instName = context.getJobDetail().getName()
+       String instGroup = context.getJobDetail().getGroup()
+       def file = context.mergedJobDataMap.get("scriptFile")
+
+       Binding binding = new Binding()
+       GroovyShell shell = new GroovyShell(binding)
+
+       def scriptResult = shell.evaluate(file.text)
+
+   }
+}
+```
+
+It seems very simple, doesn't it? :)
+
+## Third Step: Adding Libraries
+
+To create a real extension of your application, you may need to add libraries used by your script. You can't include all existing Java libraries in your application because someone might create a plugin that uses those libraries! ;)
+
+A simple solution we found is to add a `lib` sub-folder to your plugin folder where you can place all required libraries. The plugin server, while scanning folders, will add your JARs to the root class loader like this:
+
+```groovy
+this.class.classLoader.rootLoader.addURL(new URL("${file}"))
+```
+
+Now you can use all classes contained in your added JAR files! :D
+
+## Future Considerations
+
+What I need to solve now is a way to prevent JAR conflicts. Adding everything to the root class loader could cause problems for your application or other plugins.
+
+I think a solution could be to write something inside your job that adds your library only to your job instances during (before) execution of the script!
+
+If anyone has ideas about this... they're welcome! :P
