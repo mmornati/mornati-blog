@@ -14,8 +14,11 @@ cta = ""
 # Enable native Fuse.js search (Ctrl+K / Cmd+K)
 enableSearch = true
 
-# shareData / social sharing
+# ShareData / social sharing
 enableSharingButtons = true
+
+# Enable copy-to-clipboard button on code blocks
+enableCodeCopy = true
 
 # Header & footer
 showFooterAttribution = true
