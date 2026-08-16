@@ -5,6 +5,7 @@ tags:
 - coding
 - rag
 date: '2026-01-11T21:40:36.640000+00:00'
+categories: [AI, Development, DevOps]
 slug: stop-repeating-yourself-to-ai-how-i-built-a-local-rag-system-for-coding-assistants
 description: Build a local RAG system to give AI coding assistants persistent memory
   and improve efficiency. Introducing Nexus-Dev, an open-source solution
