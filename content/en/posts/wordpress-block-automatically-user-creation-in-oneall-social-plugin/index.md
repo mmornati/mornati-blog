@@ -8,6 +8,7 @@ tags:
 - social-login
 - plugin
 - security
+categories: [WordPress, Plugins, Security]
 description: 'How to disable automatic user registration in the OneAll social plugin for WordPress by adding a check for the users_can_register option.'
 ---
 
