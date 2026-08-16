@@ -75,15 +75,14 @@ mainSections = ["posts"]
   404page = false
 
 # Umami analytics. More info: https://blowfish.page/docs/configuration/
-# Fill these in once your Umami instance is up:
-# [umamiAnalytics]
-#   websiteid = "REPLACE-ME"
-#   domain = "https://umami.your-domain.com"
-#   scriptname = "script.js"
-#   enableTrackEvent = true
+# websiteid comes from your Umami dashboard (Settings -> Websites).
+[umamiAnalytics]
+  websiteid = "73fbdc13-077f-4f47-9b39-cf6312f7011a"
+  domain = "https://umami.mornati.net"
+  scriptname = "script.js"
+  enableTrackEvent = true
 
-# Remark42 comments. Set host (e.g. https://blog.mornati.net/web) once your
-# remark42 container is behind Traefik. Leave host empty to keep comments off.
+# Remark42 comments.
 [remark42]
   siteId = "blog.mornati.net"
-  host = ""
+  host = "https://blog.mornati.net/web"
