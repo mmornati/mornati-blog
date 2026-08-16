@@ -7,6 +7,7 @@ tags:
 - security
 - pentesting
 date: '2026-01-01T09:00:08.213000+00:00'
+categories: [Security, Development, DevOps]
 slug: securing-python-code-execution-how-we-protected-our-server-from-untrusted-code
 description: Learn how to secure Python code execution with Docker containers, restricted
   namespaces, and layered defense strategies against untrusted code
