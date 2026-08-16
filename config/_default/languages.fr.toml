@@ -1,0 +1,25 @@
+# -- French language configuration --
+
+locale = "fr-FR"
+label = "Français"
+contentDir = "content/fr"
+weight = 3
+title = "Mornati Blog"
+
+[params]
+  displayName = "Mornati Blog"
+  isoCode = "fr"
+  rtl = false
+  dateFormat = "2 January 2006"
+
+  description = "Blog de développement de Marco Mornati - expériences, self-hosting et open source."
+
+  [params.author]
+    name = "Marco Mornati"
+    image = "img/avatar.svg"
+    headline = "Développeur · Adepte du self-hosting · Passionné d'OSS"
+    bio = "J'écris sur les logiciels que je construis, que je self-héberge et que je casser en production."
+    links = [
+      { github = "https://github.com/mmornati" },
+      { blog = "https://blog.mornati.net/" },
+    ]

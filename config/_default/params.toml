@@ -1,0 +1,82 @@
+# -- Site Parameters --
+# https://blowfish.page/docs/configuration/
+
+# Colour scheme. 'blowfish' is the default; others: ocean, fire, etc.
+colorScheme = "blowfish"
+
+# Appearance / dark mode
+defaultAppearance = "light"
+autoSwitchAppearance = true
+
+# Icon/emoji used as a call-to-action on the profile homepage hero
+cta = ""
+
+# Enable native Fuse.js search (Ctrl+K / Cmd+K)
+enableSearch = true
+
+# shareData / social sharing
+enableSharingButtons = true
+
+# Header & footer
+showFooterAttribution = true
+
+# Sections the home/archive pages pull from.
+# EN posts live under content/en/posts, IT under content/it/posts, FR under content/fr/posts.
+mainSections = ["posts"]
+
+# Homepage layout
+[homepage]
+  layout = "profile"
+  showRecent = true
+  showRecentItems = 8
+  showMoreLink = true
+  showMoreLinkDest = "archive"
+
+# Article defaults
+[article]
+  showDate = true
+  showAuthor = true
+  showBreadcrumbs = true
+  showDraftLabel = true
+  showEdit = false
+  showHeadingAnchors = true
+  showPagination = true
+  showReadingTime = true
+  showTableOfContents = true
+  showTaxonomies = false
+  showWordCount = true
+  sharingLinks = ["twitter", "mastodon", "facebook", "linkedin", "reddit", "whatsapp"]
+  showZenMode = true
+
+# List pages (taxonomies, archive, search, home)
+[list]
+  showBreadcrumbs = true
+  showDate = true
+  showTableOfContents = false
+  groupByYear = true
+  layoutBackgroundBlur = false
+
+# Custom header image (optional)
+[header]
+  layout = "basic"
+
+# Footer menu sidebar columns (referenced from menus.*.toml)
+[footer]
+  showMenu = true
+  showCopyright = true
+  showPoweredBy = true
+  showThemeAttribution = true
+
+# 404 page
+[notFound]
+  title = "404"
+  subtitle = "Page not found"
+  404page = false
+
+# Umami analytics. More info: https://blowfish.page/docs/configuration/
+# Fill these in once your Umami instance is up:
+# [umamiAnalytics]
+#   websiteid = "REPLACE-ME"
+#   domain = "https://umami.your-domain.com"
+#   scriptname = "script.js"
+#   enableTrackEvent = true

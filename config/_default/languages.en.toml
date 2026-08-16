@@ -1,0 +1,28 @@
+# -- English (default) language configuration --
+
+locale = "en-US"
+label = "English"
+contentDir = "content/en"
+weight = 1
+title = "Mornati Blog"
+
+[params]
+  # Site display name and description
+  displayName = "Mornati Blog"
+  isoCode = "en"
+  rtl = false
+
+  # PaperCSS articles are served from /rss.xml
+  dateFormat = "2 January 2006"
+
+  description = "Developer blog by Marco Mornati - experiments, self-hosting, and open source."
+
+  [params.author]
+    name = "Marco Mornati"
+    image = "img/avatar.svg"
+    headline = "Developer · Self-hoster · OSS enthusiast"
+    bio = "I write about the software I build, self-host and break in production."
+    links = [
+      { github = "https://github.com/mmornati" },
+      { blog = "https://blog.mornati.net/" },
+    ]

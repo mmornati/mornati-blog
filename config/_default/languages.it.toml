@@ -1,0 +1,25 @@
+# -- Italian language configuration --
+
+locale = "it-IT"
+label = "Italiano"
+contentDir = "content/it"
+weight = 2
+title = "Mornati Blog"
+
+[params]
+  displayName = "Mornati Blog"
+  isoCode = "it"
+  rtl = false
+  dateFormat = "2 January 2006"
+
+  description = "Blog di sviluppo di Marco Mornati - esperimenti, self-hosting e open source."
+
+  [params.author]
+    name = "Marco Mornati"
+    image = "img/avatar.svg"
+    headline = "Sviluppatore · Self-hoster · Appassionato OSS"
+    bio = "Scrivo del software che costruisco, self-hosto e rompo in produzione."
+    links = [
+      { github = "https://github.com/mmornati" },
+      { blog = "https://blog.mornati.net/" },
+    ]

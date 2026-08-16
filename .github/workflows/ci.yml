@@ -1,0 +1,43 @@
+name: CI — build & validate
+
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['content/**', 'static/images/**', 'README.md', 'DEPLOYMENT.md']
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (with submodules)
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: '0.164.0'
+          extended: true
+
+      - name: Build site
+        run: |
+          hugo --minify --gc --baseURL https://blog.mornati.net/
+          python3 scripts/generate_redirects.py
+
+      - name: Validate output
+        run: |
+          test -f public/index.html
+          test -f public/index.json
+          test -d public/it/posts
+          test -d public/fr/posts
+          POSTS=$(find public -path '*/posts/*' -name index.html | wc -l)
+          echo "post pages built: $POSTS"
+          REDIRECTS=$(find public -maxdepth 1 -type d | wc -l)
+          test -f public/blog-da-iphone/index.html
+          echo "root redirect stubs present"

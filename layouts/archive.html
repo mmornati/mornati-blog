@@ -1,0 +1,48 @@
+{{ define "main" }}
+  {{ .Scratch.Set "scope" "list" }}
+
+  <header>
+    {{ if .Params.showBreadcrumbs | default (site.Params.list.showBreadcrumbs | default false) }}
+      {{ partial "breadcrumbs.html" . }}
+    {{ end }}
+    <h1 class="mt-5 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+      {{ .Title | emojify }}
+    </h1>
+    <div class="mt-1 mb-2 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+      {{ partial "article-meta/list.html" (dict "context" . "scope" "single") }}
+    </div>
+  </header>
+
+  <section class="mt-8 prose flex max-w-full flex-col dark:prose-invert mb-10">
+    <div class="min-w-0 min-h-0 max-w-prose w-full">
+      {{ .Content }}
+    </div>
+  </section>
+
+  <section class="space-y-10 w-full">
+    {{ $posts := slice }}
+    {{ range hugo.Sites }}
+      {{ range where .RegularPages "Type" "in" site.Params.mainSections }}
+        {{ $posts = $posts | append . }}
+      {{ end }}
+    {{ end }}
+    {{ $byYear := dict }}
+    {{ range sort $posts "Date" "desc" }}
+      {{ $year := .Date.Format "2006" }}
+      {{ $list := index $byYear $year | default slice }}
+      {{ $byYear = merge $byYear (dict $year ($list | append .)) }}
+    {{ end }}
+    {{ range $year, $pages := $byYear }}
+      <div>
+        <h2 class="mt-12 text-2xl font-bold text-neutral-700 first:mt-8 dark:text-neutral-300">
+          {{ $year }}
+        </h2>
+        <div class="space-y-10 mt-6">
+          {{ range $pages }}
+            {{ partial "article-link/simple.html" . }}
+          {{ end }}
+        </div>
+      </div>
+    {{ end }}
+  </section>
+{{ end }}

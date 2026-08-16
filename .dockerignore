@@ -1,0 +1,15 @@
+.git
+.gitmodules
+_raw
+public
+build
+docker-compose.yml
+Dockerfile
+Makefile
+README.md
+DEPLOYMENT.md
+.env
+.env.*
+*.log
+.DS_Store
+node_modules

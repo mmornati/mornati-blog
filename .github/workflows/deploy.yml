@@ -1,0 +1,54 @@
+name: Deploy blog
+
+on:
+  push:
+    branches: [main]
+    paths: ['content/**', 'config/**', 'layouts/**', 'assets/**', 'i18n/**', 'static/**', 'themes/blowfish/**']
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  CLOUDINARY_FOLDER: blog
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (with submodules)
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          lfs: false
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: '0.164.0'
+          extended: true
+
+      - name: Build site
+        run: |
+          hugo --minify --gc --baseURL https://blog.mornati.net/
+          python3 scripts/generate_redirects.py
+
+      - name: Sync images to Cloudinary + rewrite HTML
+        if: env.CLOUDINARY_CLOUD_NAME != ''
+        env:
+          CLOUDINARY_CLOUD_NAME: ${{ secrets.CLOUDINARY_CLOUD_NAME }}
+          CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
+          CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
+        run: python3 scripts/cloudinary_sync.py
+
+      - name: Deploy static site to 'deploy' branch for Coolify
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          publish_branch: deploy
+          allow_empty_commit: true
+          force_orphan: false
+          user_name: 'github-actions[bot]'
+          user_email: '41898282+github-actions[bot]@users.noreply.github.com'

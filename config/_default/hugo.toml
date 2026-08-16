@@ -1,0 +1,77 @@
+# -- Site Configuration --
+# Refer to the Blowfish theme docs for more details: https://blowfish.page/docs/
+
+theme = "blowfish"
+baseURL = "https://blog.mornati.net/"
+
+defaultContentLanguage = "en"
+defaultContentLanguageInSubdir = false
+
+enableRobotsTXT = true
+summaryLength = 0
+
+buildDrafts = false
+buildFuture = false
+
+enableEmoji = true
+
+# Serve the RSS feed at /rss.xml (path used on the old Hashnode blog)
+[outputFormats]
+  [outputFormats.RSS]
+    mediatype = "application/rss+xml"
+    baseName = "rss"
+
+[pagination]
+  pagerSize = 30
+
+[imaging]
+  anchor = "Center"
+
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+  author = "authors"
+  series = "series"
+
+[sitemap]
+  changefreq = "daily"
+  filename = "sitemap.xml"
+  priority = 0.5
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+# English posts stay at the blog root (https://blog.mornati.net/<slug>/).
+# Italian and French posts explicitly set `url` and `aliases` in their front matter.
+[permalinks]
+  posts = "/:slug"
+
+[related]
+  threshold = 0
+  toLower = false
+
+  [[related.indices]]
+    name = "tags"
+    weight = 100
+
+  [[related.indices]]
+    name = "categories"
+    weight = 100
+
+  [[related.indices]]
+    name = "series"
+    weight = 50
+
+  [[related.indices]]
+    name = "authors"
+    weight = 20
+
+  [[related.indices]]
+    name = "date"
+    weight = 10
+
+  [[related.indices]]
+    applyFilter = false
+    name = "fragmentrefs"
+    type = "fragments"
+    weight = 10

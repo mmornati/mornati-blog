@@ -1,0 +1,15 @@
+services:
+  # Local preview: builds the site and serves it at http://localhost:8080
+  # Usage: docker compose up --build
+  preview:
+    build:
+      context: .
+      args:
+        # Optional: enable Cloudinary URL rewrite at build time, e.g.
+        #   CLOUD_NAME: your_cloud_name
+        #   CLOUD_FOLDER: blog
+        CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME:-}
+        CLOUD_FOLDER: ${CLOUDINARY_FOLDER:-blog}
+    ports:
+      - "8080:80"
+    restart: unless-stopped

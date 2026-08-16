@@ -1,0 +1,14 @@
+/* Custom styles. This file is concatenated with the theme CSS as-is (no Tailwind processing),
+   so only plain CSS is allowed here. Use classes that already exist in the theme where possible. */
+
+/* Keep images from overflowing narrow screens. */
+article img,
+.article-content img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* HTML anchors pasted from the old Medium-era posts. */
+a[name] {
+  display: block;
+}

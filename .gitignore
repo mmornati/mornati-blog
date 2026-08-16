@@ -1,0 +1,11 @@
+.DS_Store
+*.log
+.env
+.env.*
+!.env.example
+build/
+public/
+_raw/
+resources/
+.hugo_build.lock
+docs.md
