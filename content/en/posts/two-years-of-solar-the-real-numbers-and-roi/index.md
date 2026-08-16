@@ -59,7 +59,7 @@ The summary table below is taken from the dashboard's "Yearly summary" block, wh
 A few things stand out:
 
 1. **Production was flatter across years than expected.** Year 1 looked a touch sunnier than Year 2 — Sept 2024 to Aug 2025 was 6,498 kWh vs. 5,963 kWh Sept 2025 to Aug 2026 — but the rolling 12-month window (6,429 kWh) sits neatly in between, suggesting mostly weather noise rather than a downward drift.
-2. **Self-consumption share stays in the 60 % band.** Roughly 60.8 % of every kWh produced was used on-site. Without deliberate load shifting (no smart EV charging tied to production yet), this is the natural shape of a household where most daytime loads are already minimal: fridge, internet, a couple of hours of cooking, and that's about it.
+2. **Self-consumption share stays in the 60 % band.** Roughly 60.8 % of every kWh produced was used on-site. *Caveat: this 60.8 % is a reconciled figure anchored to the Year-1 OA invoice and the Linky "active energy injected" register — see the methodology section. It predates most of the EV solar-charging described below, and likely **understates** the true present-day self-consumption now that the V2C Trydan is set to "mixed" mode and feeds surplus directly into the car.*
 3. **Surplus is creeping up** (2,431 → ~2,458 kWh). That tracks with summer-heavy Year 2 — more peak-hour sun, more export. Year 2 production itself is slightly lower, but the share of it that arrives when nobody's home is higher.
 
 ## How I trust the numbers
@@ -93,13 +93,31 @@ Plus the yearly summary table, a 12-complete-months rollup, a before/after grid-
 - The Chart.js bundle is non-trivial and would re-download on every post pageview. As a separate page it is fetched only when someone actually wants to explore.
 - It is easier to share as a standalone URL — useful for installers showing clients what "24 months of measured data" looks like.
 
+## The V2C Trydan and the EV charging loop
+
+The biggest single behavioural change in this household after the panels went up was the V2C Trydan wallbox in the garage, which charges whichever of the two EVs is plugged in. It is configured in **mixed mode**: it tries to draw only as much current as the surplus solar allows, and tops up from the grid at off-peak hours if the car is still below its target SoC.
+
+Concretely, the Trydan is currently set up with:
+
+- **Charge mode**: `mixed` (dynamic modulation between solar-only and grid top-up)
+- **Dynamic intensity modulation**: on
+- **Min intensity**: 6 A (≈ 1.4 kW — the Trydan refuses to charge below this even if surplus is smaller, to avoid the car complaining about the very-low-current pilot signal)
+- **Max intensity**: 16 A (≈ 3.7 kW single-phase)
+- **Live sensors in Home Assistant**: `sensor.evse_10_0_0_120_charge_power` (current draw, W), `sensor.evse_10_0_0_120_house_power` (whole-house draw seen from the EVSE perspective), `sensor.evse_10_0_0_120_photovoltaic_power` (PV seen from the EVSE perspective), `sensor.evse_solar_percentage` (% of EV charging currently coming from solar), `sensor.evse_average_charging_power` (kW, average over the active session).
+
+In mixed mode the car becomes the most elastic load in the house. When a sunny morning turns into a cloudy afternoon, the Trydan throttles from 16 A down toward the minimum; if a cloud edge lines up with the car drawing too, it pulls the residual from the grid without complaint. The result is that the *real* surplus the rest of this post talks about (the OA-paid kWhs) is mostly solar that the **car could not absorb at that instant**, not solar the rest of the house refused.
+
+That reframes the 60.8 % number meaningfully: it is the share of production the rest of the house — fridge, internet, cooking, hot water — happened to consume. EV charging eats most of the surplus before it reaches the OA meter. The dashboard does not currently separate these two pools; the OA invoice and the Linky "energy injected" register see the same thing regardless.
+
+> **Honest data note.** The long-term statistics recorder on these EVSE sensors has only ~7 days of history as of writing, so I cannot quote you a clean "% of EV charging from solar over 12 months" figure from Home Assistant. The mode and the dynamic range are real; the *averages* are not yet trustable. Once the recorder catches up (or once I add a dedicated `utility_meter` helper for the EVSE), this section will get precise numbers — for now it tells you the mechanism, not the totals.
+
 ## The Home Assistant angle (one paragraph)
 
-This is the only place I'll mention Home Assistant explicitly, because it is genuinely relevant: the production numbers above are validated against a live telemetry sensor that I check on my phone most days. Over the last 90 days, the daily-production sensor averages **13.59 kWh/day** — almost exactly what a back-of-the-envelope calculation from the yearly total + a typical summer/winter seasonality would predict. The cumulative ECU counter sits 0.13 % ahead of the cumulative monthly report, which is within the noise of occasional meter resets / timestamp skew. The OA invoice still pays on the report, so the report wins when there is a disagreement.
+Beyond the EVSE sensors, the production numbers above are validated against a live telemetry sensor that I check on my phone most days. Over the last 90 days, the daily-production sensor averages **13.59 kWh/day** — almost exactly what a back-of-the-envelope calculation from the yearly total + a typical summer/winter seasonality would predict. The cumulative ECU counter sits 0.13 % ahead of the cumulative monthly report, which is within the noise of occasional meter resets / timestamp skew. The OA invoice still pays on the report, so the report wins when there is a disagreement.
 
-The forecast sensors (predicting today/tomorrow production from the cloud-cover forecast) are useful for one specific load-shifting decision: *whether to plug the EV in tonight, or to wait until tomorrow*. It is not a huge optimization at this scale, but it does shift a meaningful share of charging into solar-rich hours.
+The forecast sensors (predicting today/tomorrow production from the cloud-cover forecast) are useful for one specific load-shifting decision: *which car to plug in tonight, given tomorrow's predicted sun*. That is more nuanced than the old "wait for sun or charge tonight" framing — it lets the V2C Trydan start a session automatically when tomorrow's forecast is good enough that mixed-mode will do most of the work.
 
-If there is interest I can write up the HA setup later — the short version is: a couple of REST sensors, a `template` sensor, and a small helper script for the surplus estimate.
+If there is interest I can write up the HA setup later — the short version is: a couple of REST sensors, a `template` sensor, a `utility_meter` for EVSE energy, and a small automation that watches the surplus forecast to pick the cheapest night to charge.
 
 ## ROI: 11.1 years. What changes it?
 
@@ -127,7 +145,7 @@ The short version of this is that **solar in northern/south-central France pays 
 
 - **Production source:** the APS monthly report, total 12,461 kWh over 24 months. The HA ECU counter reads 12,476.8 kWh (≈0.13 % gap, within meter-reset noise; the inverter value is what is paid on, so it is the canonical figure here).
 - **Grid import:** monthly readings from the French network operator (exact). Peak/off-peak split per month is linearly interpolated from the Linky "peak index" / "off-peak index" registers — accurate enough at monthly resolution, not suitable for daily analytics.
-- **Self-consumption:** Year 1 reconciled exactly against the 2,431 kWh OA surplus on the invoice. Year 2 estimated from the Linky "active energy injected" register (2,457.9 kWh) under the OA 9,600 kWh/year Tier-1 ceiling.
+- **Self-consumption:** Year 1 reconciled exactly against the 2,431 kWh OA surplus on the invoice. Year 2 estimated from the Linky "active energy injected" register (2,457.9 kWh) under the OA 9,600 kWh/year Tier-1 ceiling. **Important caveat:** the 60.8 % figure does *not* include the EV-charging effect — the dichotomy anchors on the OA invoice, which only sees what flows *out* of the house to the grid. EV charging (V2C Trydan, mixed mode) absorbs solar that would otherwise have been exported, so it raises real on-site self-consumption above 60.8 % without changing the OA surplus number. The dashboard and the 60.8 % are mutually consistent; they are not a complete picture of where the kWhs actually went.
 - **Tariffs:** EDF-style base option, all-in (TTC). HP €0.2110, HC €0.1624, OA resale €0.1301. Your contract almost certainly differs.
 - **Caveat — before/after grid import comparison:** the "before" period is January → August 2024 (8 months), the "after" period is September 2024 → 10 August 2026 (≈23.6 months). The two are not seasonally symmetric, the household added an EV charger in between, and heating demand is concentrated in the winter months. The comparison is illustrative; treat the 41.3 → 37.2 kWh/day number as a *direction* more than a *magnitude*.
 - **Not financial advice.** I am sharing my own household data. Run your own numbers with your own tariffs and your own consumption profile before making decisions.

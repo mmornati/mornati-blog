@@ -40,7 +40,7 @@ Le tableau de bord interactif derrière ces chiffres — production, import, bil
 
 - **12 panneaux**, répartis équitablement en 3 strings de 4 (un string par micro-onduleur). Pas d'optimiseur par panneau — les DS3 font leur propre MPPT par panneau.
 - **Pas de batterie.** Tout le surplus est réinjecté sur le réseau et payé au tarif de l'Obligation d'Apart (OA) résidentiel à 13,01 c€/kWh (Tier 1, plafond 9 600 kWh/an), puis 5,00 c€/kWh au-delà.
-- **Tarifs utilisés pour le calcul du coût évité** (TTC, option base EDF) : HP 0,2110 €/kWh, HC 0,1624 €/kWh, abonnement fixe 30,59 €/mois. Je suppose que le solaire autoconsommé remplace principalement des achats en heures pleines, ce qui est l'hypothèse conservatrice pour un foyer sans pilotage actif des charges.
+- **Tarifs utilisés pour le calcul du coût évité** (TTC, option base EDF) : HP 0,2110 €/kWh, HC 0,1624 €/kWh, abonnement fixe 30,59 €/mois. Je suppose que le solaire autoconsommé remplace principalement des achats en heures pleines, ce qui est l'hypothèse conservatrice pour un foyer sans pilotage actif des charges *mais avec une borne V2C Trydan en mode « mixed » qui absorbe le surplus à la demande — voir la section dédiée plus bas*.
 - **Monitoring** : Home Assistant avec :
   - le compteur énergie de l'ECU APS (`sensor.ecu_lifetime_energy`, actuellement 12 476,8 kWh),
   - le rapport mensuel officiel des micro-onduleurs (les chiffres derrière chaque graphique ici),
@@ -62,7 +62,7 @@ Le tableau récapitulatif ci-dessous provient du bloc « Bilan annuel » du tabl
 Quelques observations :
 
 1. **La production est plus stable entre années que prévu.** L'Année 1 (sept 2024 → août 2025) a été légèrement plus ensoleillée que l'Année 2 (5 963 kWh vs 6 498 kWh), mais la fenêtre glissante 12 mois (6 429 kWh) se situe pile entre les deux, ce qui suggère essentiellement du bruit météo plutôt qu'une tendance baissière.
-2. **La part d'autoconsommation reste dans la bande 60 %.** Environ 60,8 % de chaque kWh produit est consommé sur place. Sans pilotage des charges (pas encore de recharge VE pilotée par la production), c'est la forme naturelle d'un foyer où les charges diurnes sont déjà faibles : frigo, box internet, deux heures de cuisson et c'est à peu près tout.
+2. **La part d'autoconsommation reste dans la bande 60 %.** Environ 60,8 % de chaque kWh produit est consommé sur place. *Biais important : ce 60,8 % est un chiffre réconcilié ancré sur la facture OA Année 1 et sur le registre Linky « énergie active injectée » — voir la section méthodologie. Il **précède** l'essentiel de la recharge VE solaire décrite plus bas, et sous-estime donc *vraisemblablement* l'autoconsommation réelle actuelle, depuis que la borne V2C Trydan est en mode « mixed » et absorbe directement le surplus dans la voiture.*
 3. **Le surplus augmente lentement** (2 431 → ~2 458 kWh). Cela suit la dominante estivale de l'Année 2 — plus de soleil aux heures de pointe, plus d'export. La production annuelle est un peu inférieure, mais la part qui arrive quand personne n'est à la maison est plus grande.
 
 ## Comment je fais confiance aux chiffres
@@ -96,13 +96,31 @@ Plus le tableau récapitulatif annuel, un rollup sur 12 mois complets, une compa
 - Le bundle Chart.js n'est pas anodin et se retéléchargerait à chaque visite de l'article. En page séparée, il n'est chargé que quand quelqu'un veut vraiment explorer.
 - Il est plus facile à partager comme URL autonome — utile pour un installateur qui veut montrer à un client ce que « 24 mois de données mesurées » signifie concrètement.
 
+## La borne V2C Trydan et la boucle de recharge VE
+
+Le plus gros changement comportemental du foyer après l'installation solaire a été la borne V2C Trydan dans le garage, qui recharge à tour de rôle l'une des deux voitures électriques. Elle est configurée en **mode « mixed »** : elle essaie de ne tirer que le courant que le surplus solaire permet, et complète sur le réseau en heures creuses si la voiture n'a pas atteint son SoC cible.
+
+Concrètement, la Trydan est aujourd'hui paramétrée ainsi :
+
+- **Mode de charge** : `mixed` (modulation dynamique entre solaire seul et complément réseau)
+- **Modulation dynamique d'intensité** : activée
+- **Intensité minimale** : 6 A (≈ 1,4 kW — la Trydan refuse de charger en dessous pour éviter que la voiture ne se plaigne du signal pilote trop faible)
+- **Intensité maximale** : 16 A (≈ 3,7 kW monophasé)
+- **Capteurs temps réel dans Home Assistant** : `sensor.evse_10_0_0_120_charge_power` (puissance instantanée, W), `sensor.evse_10_0_0_120_house_power` (consommation maison vue de la borne), `sensor.evse_10_0_0_120_photovoltaic_power` (production PV vue de la borne), `sensor.evse_solar_percentage` (% de la recharge VE actuellement issue du solaire), `sensor.evse_average_charging_power` (kW, moyenne sur la session active).
+
+En mode « mixed », la voiture devient la charge la plus élastique de la maison. Quand une matinée ensoleillée vire à un après-midi nuageux, la Trydan baisse l'intensité de 16 A vers le minimum ; si une rafale nuageuse tombe pendant que la voiture tire encore un peu, le résiduel est ponctionné sur le réseau sans broncher. Résultat : le *vrai* surplus dont parle la suite de cet article (les kWh facturés OA) est essentiellement du solaire que **la voiture n'a pas pu absorber à cet instant**, pas du solaire refusé par le reste du foyer.
+
+Cela recadre assez fortement le chiffre de 60,8 % : c'est la part de production que le reste du foyer — frigo, box internet, cuisson, eau chaude — a *consommée*. La recharge VE absorbe la majorité du surplus avant qu'il n'arrive au compteur OA. Le tableau de bord ne sépare pas encore ces deux flux ; la facture OA et le registre Linky « énergie injectée » voient la même chose quel que soit le destinataire final du kWh.
+
+> **Note d'honnêteté sur les données.** Le recorder long-terme de Home Assistant sur ces capteurs EVSE n'a qu'environ 7 jours d'historique au moment où j'écris, donc je ne peux pas vous donner un chiffre propre de type « X % de la recharge VE sur 12 mois vient du solaire » depuis HA. Le mode et la plage d'intensité sont réels ; les *moyennes* ne sont pas encore fiables. Quand le recorder rattrapera son retard (ou quand j'aurai ajouté un `utility_meter` dédié pour la borne), cette section gagnera en précision — en attendant, elle décrit le mécanisme, pas les volumes.
+
 ## L'angle Home Assistant (un paragraphe)
 
-C'est le seul endroit où je mentionnerai explicitement Home Assistant, parce qu'il est pertinent : les chiffres de production ci-dessus sont validés contre un capteur de télémétrie en temps réel que je consulte sur mon téléphone quasi quotidiennement. Sur les 90 derniers jours, le capteur de production journalière affiche une moyenne de **13,59 kWh/jour** — quasiment ce que donnerait un calcul rapide à partir du total annuel + une saisonnalité été/hiver typique. Le compteur cumul ECU est en avance de 0,13 % sur le rapport mensuel cumulé, ce qui reste dans le bruit des resets ponctuels / décalages d'horodatage. La facture OA reste payée sur le rapport, donc c'est lui qui fait foi en cas de divergence.
+Au-delà des capteurs EVSE, les chiffres de production ci-dessus sont validés contre un capteur de télémétrie en temps réel que je consulte sur mon téléphone quasi quotidiennement. Sur les 90 derniers jours, le capteur de production journalière affiche une moyenne de **13,59 kWh/jour** — quasiment ce que donnerait un calcul rapide à partir du total annuel + une saisonnalité été/hiver typique. Le compteur cumul ECU est en avance de 0,13 % sur le rapport mensuel cumulé, ce qui reste dans le bruit des resets ponctuels / décalages d'horodatage. La facture OA reste payée sur le rapport, donc c'est lui qui fait foi en cas de divergence.
 
-Les capteurs de prévision (production jour/nuitaille prédite à partir des prévisions de couverture nuageuse) sont utiles pour une décision précise de décalage de charge : *brancher la VE cette nuit, ou attendre demain ?* Ce n'est pas une optimisation énorme à cette échelle, mais cela déplace une part significative de la recharge vers les heures productives.
+Les capteurs de prévision (production jour/nuitaille prédite à partir des prévisions de couverture nuageuse) sont utiles pour une décision précise de décalage de charge : *quelle voiture brancher cette nuit, étant donné le soleil prévu demain ?* C'est plus subtil que l'ancien arbitrage « j'attends le soleil ou je charge cette nuit » — cela permet à la V2C Trydan de démarrer automatiquement une session quand la prévision du lendemain est suffisante pour que le mode « mixed » fasse l'essentiel du travail.
 
-S'il y a de l'intérêt je peux détailler la configuration HA plus tard — la version courte : quelques capteurs REST, un capteur `template`, et un petit script d'aide pour l'estimation du surplus.
+S'il y a de l'intérêt je peux détailler la configuration HA plus tard — la version courte : quelques capteurs REST, un capteur `template`, un `utility_meter` pour l'énergie de la borne, et une petite automation qui surveille la prévision de surplus pour choisir la nuit la moins chère pour charger.
 
 ## ROI : 11,1 ans. Qu'est-ce qui le change ?
 
@@ -130,7 +148,7 @@ La version courte : **le solaire dans le centre-sud/nord de la France est rentab
 
 - **Source production :** rapport mensuel des micro-onduleurs, total 12 461 kWh sur 24 mois. Le compteur ECU HA indique 12 476,8 kWh (≈0,13 % d'écart, dans le bruit des resets ; la valeur micro-onduleurs est ce qui est payé, c'est donc la valeur canonique ici).
 - **Import réseau :** relevés mensuels du gestionnaire de réseau (exacts). La répartition HP/HC mensuelle est interpolée linéairement à partir des registres Linky « index HP » / « index HC » — assez précise à résolution mensuelle, pas utilisable pour l'analyse journalière.
-- **Autoconsommation :** Année 1 réconciliée exactement avec les 2 431 kWh du surplus OA sur facture. Année 2 estimée à partir du registre Linky « énergie active injectée » (2 457,9 kWh) sous le plafond Tier 1 de 9 600 kWh/an.
+- **Autoconsommation :** Année 1 réconciliée exactement avec les 2 431 kWh du surplus OA sur facture. Année 2 estimée à partir du registre Linky « énergie active injectée » (2 457,9 kWh) sous le plafond Tier 1 de 9 600 kWh/an. **Biais important :** le 60,8 % n'inclut *pas* l'effet de la recharge VE — la dichotomie s'ancre sur la facture OA, qui ne voit que ce qui *sort* de la maison vers le réseau. La recharge VE (V2C Trydan, mode « mixed ») absorbe du solaire qui aurait autrement été exporté, donc elle relève l'autoconsommation réelle au-dessus de 60,8 % sans changer le surplus OA facturé. Le tableau de bord et le 60,8 % sont cohérents entre eux ; ils ne sont pas une image complète de là où vont réellement les kWh.
 - **Tarifs :** option base EDF, TTC. HP 0,2110 €, HC 0,1624 €, revente OA 0,1301 €. Votre contrat en diffère presque certainement.
 - **Biais — comparaison avant/après import réseau :** la période « avant » couvre janvier → août 2024 (8 mois), la période « après » couvre septembre 2024 → 10 août 2026 (≈23,6 mois). Les deux ne sont pas symétriques saisonnièrement, le foyer a fait l'acquisition d'une borne VE entre les deux, et la demande de chauffage se concentre sur les mois d'hiver. La comparaison est illustrative ; traitez le passage 41,3 → 37,2 kWh/jour comme une *direction* plus que comme une *magnitude*.
 - **Pas un conseil financier.** Je partage les données de mon propre foyer. Faites vos propres chiffres avec vos tarifs et votre profil de consommation avant toute décision.
