@@ -1,6 +1,6 @@
 ---
 title: "Archive"
-description: "All blog posts, in every language."
+description: "All blog posts."
 layout: "archive"
 showBreadcrumbs: true
 url: "/archive/"

@@ -20,12 +20,7 @@
   </section>
 
   <section class="space-y-10 w-full">
-    {{ $posts := slice }}
-    {{ range hugo.Sites }}
-      {{ range where .RegularPages "Type" "in" site.Params.mainSections }}
-        {{ $posts = $posts | append . }}
-      {{ end }}
-    {{ end }}
+    {{ $posts := where .Site.RegularPages "Type" "in" site.Params.mainSections }}
     {{ $byYear := dict }}
     {{ range sort $posts "Date" "desc" }}
       {{ $year := .Date.Format "2006" }}

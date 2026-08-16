@@ -9,7 +9,7 @@
 [[main]]
   identifier = "archive"
   name = "Archivio"
-  url = "/archive/"
+  url = "/it/archive/"
   weight = 20
 
 [[main]]
@@ -27,7 +27,7 @@
 [[footer]]
   identifier = "archive"
   name = "Archivio"
-  url = "/archive/"
+  url = "/it/archive/"
   weight = 10
 
 [[footer]]
