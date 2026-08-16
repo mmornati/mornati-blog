@@ -28,16 +28,23 @@ servizi fault-tolerant in produzione. Concretamente, passo la maggior parte del 
 Quasi tutto quello che costruisco finisce open source su [GitHub](https://github.com/mmornati).
 Alcuni progetti a cui sono particolarmente affezionato:
 
+- **[docker-mock-rpmbuilder](https://github.com/mmornati/docker-mock-rpmbuilder)** — build RPM su
+  qualsiasi piattaforma usando il progetto Mock.
+- **[springboot-osgi-sample](https://github.com/mmornati/springboot-osgi-sample)** — OSGi in esecuzione
+  dentro un'applicazione Spring Boot.
+- **[ha-energy-analysis](https://github.com/mmornati/ha-energy-analysis)** — analisi energetiche da
+  Home Assistant per capire se pannelli e batteria ripagano davvero… che i numeri mi diano o meno
+  ragione.
+- **[home-assistant-csnet-home](https://github.com/mmornati/home-assistant-csnet-home)** — controllo
+  delle pompe di calore Hitachi (CSNet / atw-iot-01) da Home Assistant.
+- **[leanproxy-mcp](https://github.com/mmornati/leanproxy-mcp)** — un "token firewall" per MCP che
+  riduce i costi dei token LLM tenendo i segreti fuori dai prompt.
+- **[home-assistant-mel-garbage-collection](https://github.com/mmornati/home-assistant-mel-garbage-collection)** —
+  integrazione Home Assistant per la raccolta rifiuti MEL (Lilla).
 - **[gphoto2proton](https://github.com/mmornati/gphoto2proton)** — migra un export di Google Photos
   verso Proton Drive, con gestione degli album, fix degli EXIF e streaming.
-- **[leanproxy-mcp](https://github.com/mmornati/leanproxy-mcp)** — un "token firewall" per MCP che
-  riduce i costi dei token dell'AI proteggendo il codice dalla fuga di segreti.
-- **[nexus-dev](https://github.com/mmornati/nexus-dev)** — un server MCP che dà agli agenti di coding
-  una memoria persistente e locale basata su LanceDB.
-- **[ha-energy-analysis](https://github.com/mmornati/ha-energy-analysis)** — analisi energetiche da
-  Home Assistant per validare il ROI di pannelli e batteria… che i numeri mi diano o meno ragione.
-- **[xpeng-mate](https://github.com/mmornati/xpeng-mate)** — porta i dati dei veicoli XPeng nei
-  dashboard Grafana.
+- **[ruby-noise-detection](https://github.com/mmornati/ruby-noise-detection)** — un vecchio script
+  Ruby per la rilevazione del rumore. Tenuto per nostalgia — funziona ancora.
 
 ## Questo blog
 

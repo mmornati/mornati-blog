@@ -28,16 +28,23 @@ fault-tolerant services running in production. Concretely, I spend most of my ti
 Most of what I build ends up open source on [GitHub](https://github.com/mmornati). A few projects I'm
 particularly fond of:
 
+- **[docker-mock-rpmbuilder](https://github.com/mmornati/docker-mock-rpmbuilder)** — build RPMs on
+  any platform using the Mock project.
+- **[springboot-osgi-sample](https://github.com/mmornati/springboot-osgi-sample)** — OSGi running
+  inside a Spring Boot application.
+- **[ha-energy-analysis](https://github.com/mmornati/ha-energy-analysis)** — Home Assistant energy
+  analytics to check whether the solar panels and battery actually pay off… whether or not the
+  numbers are kind to me.
+- **[home-assistant-csnet-home](https://github.com/mmornati/home-assistant-csnet-home)** — control
+  Hitachi heat pumps (CSNet / atw-iot-01) from Home Assistant.
+- **[leanproxy-mcp](https://github.com/mmornati/leanproxy-mcp)** — a "token firewall" for MCP that
+  cuts LLM token costs while keeping secrets out of prompts.
+- **[home-assistant-mel-garbage-collection](https://github.com/mmornati/home-assistant-mel-garbage-collection)** —
+  Home Assistant integration for MEL waste collection (Lille).
 - **[gphoto2proton](https://github.com/mmornati/gphoto2proton)** — migrate a Google Photos export to
   Proton Drive, with album handling, EXIF fixes and streaming.
-- **[leanproxy-mcp](https://github.com/mmornati/leanproxy-mcp)** — a "token firewall" for MCP that
-  cuts AI token costs while securing your code from secret leaks.
-- **[nexus-dev](https://github.com/mmornati/nexus-dev)** — an MCP server giving AI coding agents
-  persistent, local memory backed by LanceDB.
-- **[ha-energy-analysis](https://github.com/mmornati/ha-energy-analysis)** — Home Assistant energy
-  analytics to validate solar panels and battery ROI… whether or not the numbers are kind to me.
-- **[xpeng-mate](https://github.com/mmornati/xpeng-mate)** — pull data from XPeng vehicles into
-  Grafana dashboards.
+- **[ruby-noise-detection](https://github.com/mmornati/ruby-noise-detection)** — an old-school Ruby
+  script for noise detection. Kept for nostalgia — it still works.
 
 ## This blog
 
