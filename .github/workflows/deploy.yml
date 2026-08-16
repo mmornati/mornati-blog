@@ -13,6 +13,9 @@ concurrency:
 env:
   CLOUDINARY_FOLDER: blog
 
+permissions:
+  contents: write
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
