@@ -5,16 +5,20 @@ tags:
 - script
 - light
 - home-assistant
+categories:
+- Smart Home
+- DIY
+- Home Assistant
+description: "Simulate presence at home with random lights using a Home Assistant script — perfect for deterring burglars while you're away."
 date: '2022-12-30T09:00:42.305000+00:00'
 slug: home-assistant-simple-presence-simulation-script
 ---
 
 
-
-Do you remember the "[Home Alone](https://en.wikipedia.org/wiki/Home_Alone)" movie? When Kevin simulate the presence of his family at home using lights, television sounds, persons moving in the living room, ...?  
+Do you remember "[Home Alone](https://en.wikipedia.org/wiki/Home_Alone)"? When Kevin simulates his family's presence using lights, television sounds, persons moving in the living room, ...?  
 You can do the same using your Smart Home devices and Home Assistant.
 
-What to control depends on the connected devices you have but there are infinite possibilities: start the light randomly, play music if presence is detected somewhere around the home, ... I show here a simple script controlled by automation to start **a random light** at a **random hour**.
+What to control depends on your devices, but there are infinite possibilities: turn on lights randomly, play music when motion is detected... Here's a simple script that starts a random light at a random time.
 
 ## The script
 
@@ -43,17 +47,17 @@ light_duration:
 
 I found it somewhere on the net a while ago, but I don't remember exactly where (so, sorry about the missing reference if you are the original writer of the script 😅).
 
-The script is executing sequentially the `turn_on`, `delay` and `turn_off`, each of these steps is getting a variable: the light (or it can be any device with ON/OFF mode) to control and the global duration.
+The script runs `turn_on`, `delay`, and `turn_off` sequentially, each using a variable: the light (or any device with ON/OFF mode) and the overall duration.
 
-The `parallel` at the beginning allows several lights to be started in the same timeframe.
+The `parallel` mode allows multiple lights to run simultaneously.
 
 ![](/images/home-assistant-simple-presence-simulation-script/00-557297a8-6c59-4135-91a6-1c87f5eb0d04.png)
 
-If you use a different mode, a previously started script can be killed and so the lights will never be turned off. I preferred the parallel to have an even more random simulation.
+With other modes, a running script would be killed, and the light would never turn off. I chose parallel for a more random simulation.
 
 ## The automation
 
-The automation will then start the script providing the correct parameters.
+The automation then starts the script with the correct parameters.
 
 ```yaml
 - id: random_away_lights
@@ -78,22 +82,22 @@ The automation will then start the script providing the correct parameters.
       duration: "00:{{ '{:02}'.format(range(5,30) | random | int) }}:00"
 ```
 
-The `trigger` I'm using a simple `time_pattern`: the automation is started every 30 minutes. I preferred this to a specific time or event because we can be outside the home even after the specific chosen event. To understand this, imagine you decide to start the automation at 20h and then, in the condition you have to add a check "if I'm not at home". If this check is false the automation stop without any execution. But, if you leave the home at 20h05 it will never be triggered again. To fix this you can create a second automation linked to the "going out event" but personally I find it easy to understand with a simple time pattern. There is a code executed every 30 minutes, but in the end, home assistant is mainly doing nothing.
+The `trigger` is a simple `time_pattern`: the automation runs every 30 minutes. I prefer this over a specific time because we might be away even after the chosen event. For example, if you set the automation at 8 PM and add an 'away from home' condition, but leave at 8:05 PM, it never triggers. But, if you leave the home at 20h05 it will never be triggered again. You could create a second automation for leaving events, but I find the time pattern simpler. The code runs every 30 minutes, but Home Assistant is mostly idle.
 
-The `condition` is a group of checks. It is executed only if:
+The `condition` is a group of checks. It runs only if:
 
 * the `away` boolean is true. In my case, the boolean is set to true when I set the alarm in "away mode".
     
-* We are after the `sunset,` or better 30 minutes before the sunset using the offset I put. So I simulate the presence only if it is dark outside
+* It's after sunset (or 30 minutes before, using the offset) I put. So presence is only simulated when it's dark outside
     
-* until a specific hour. The script goes ahead doing stuff until 23h59.
+* I limit it to a specific hour — the script runs until 11:59 PM.
     
 
-The `action` is where we are then doing the magic: the previous configuration script is executed with the two variables (light and duration) **filled** **dynamically up.**
+The `action` is where the magic happens: the script is executed with dynamically filled variables.
 
 The **light choice** is made using  
 `{{states.group.simulation_lights.attributes.entity_id | random}}`  
-I created a group with a list of lights I want to use to simulate the presence. I put only the lights within the rooms visible from the outside.
+I created a group of lights visible from the outside.
 
 ```yaml
 simulation_lights:
@@ -105,7 +109,7 @@ simulation_lights:
     - light.salon_corner
 ```
 
-The `random` function is used to select randomly 😎 within the provided list. The result is the entity ID to use.
+The `random` function selects a random light from the list. The result is the entity ID to use.
 
 The **duration** is selected in a similar way with  
 `"00:{{ '{:02}'.format(range(5,30) | random | int) }}:00"`  
@@ -119,9 +123,9 @@ To understand the script:
 * `random` nothing to add I think
     
 * `int` is to convert the result as a number without a decimal.  
-    If we put it all together the script can be read as the following: *select a random number between 5 and 30, converted it into an integer, and then formatted as 2 digit string.*
+    Put together, the script reads as follows: *select a random number between 5 and 30, convert to integer, format as a 2-digit string.*
     
 
-If we get the whole automation at once, `every 30 minutes the automation is started and if the conditions are met, a light within the defined group is selected and turned on for a random time between 5 and 30`.
+So every 30 minutes, if conditions are met, a random light is selected and turned on for 5 to 30 minutes.
 
-You can change any of the parameters I described, to adapt everything to your particular case.
+You can adjust any of these parameters to suit your needs.
