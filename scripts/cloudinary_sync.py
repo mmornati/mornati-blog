@@ -55,7 +55,7 @@ def env(name: str, required: bool = False) -> str:
 
 
 def upload_image(path: Path, public_id: str, folder: str,
-                 cloud: str, api_key: str, api_secret: str) -> None:
+                 cloud: str, api_key: str, api_secret: str) -> dict:
     """Signed, unauthenticated-style upload using the REST upload endpoint."""
     timestamp = str(int(time.time()))
     params = {"folder": folder, "public_id": public_id, "timestamp": timestamp}
@@ -81,14 +81,41 @@ def upload_image(path: Path, public_id: str, folder: str,
         UPLOAD_ENDPOINT.format(cloud=cloud), data=bytes(body),
         headers={"Content-Type": f"multipart/form-data; boundary={boundary}"})
     with urllib.request.urlopen(req, timeout=120) as resp:
+        payload = resp.read().decode("utf-8", "replace")
         if resp.status != 200:
-            raise RuntimeError(f"HTTP {resp.status}")
+            raise RuntimeError(f"HTTP {resp.status}: {payload[:200]}")
+    try:
+        return json.loads(payload)
+    except json.JSONDecodeError:
+        return {}
 
 
 def local_images() -> list[Path]:
     if not IMAGES_ROOT.exists():
         return []
     return sorted(p for p in IMAGES_ROOT.rglob("*") if p.is_file())
+
+
+def is_real_image(path: Path) -> bool:
+    """Reject HTML/error pages accidentally saved with an image extension."""
+    try:
+        with path.open("rb") as f:
+            head = f.read(12)
+    except OSError:
+        return False
+    if head[:8] == b"\x89PNG\r\n\x1a\n":
+        return True
+    if head[:3] in (b"\xff\xd8\xff",):
+        return True
+    if head[:6] in (b"GIF87a", b"GIF89a"):
+        return True
+    if head[:4] == b"RIFF" and head[8:12] == b"WEBP":
+        return True
+    if head[:4] == b"\x00\x00\x00\x1c" or b"ftyp" in head[4:12]:
+        return True
+    if b"<svg" in head.lower() or b"<?xml" in head.lower():
+        return True
+    return False
 
 
 def load_state() -> dict:
@@ -103,10 +130,18 @@ def save_state(state: dict) -> None:
                           encoding="utf-8")
 
 
+def state_digest(entry) -> str:
+    """Old state stored plain digests; new state stores {digest, public_id, url}."""
+    if isinstance(entry, dict):
+        return entry.get("digest", "")
+    return entry if isinstance(entry, str) else ""
+
+
 def rewrite_html(cloud: str, folder: str) -> int:
     if not PUBLIC_ROOT.exists():
         print("[cloudinary] public/ missing — nothing to rewrite")
         return 0
+    state = load_state()
     prefix = (f"https://res.cloudinary.com/{cloud}/image/upload/"
               f"f_auto,q_auto/{folder}/")
     count = 0
@@ -114,9 +149,20 @@ def rewrite_html(cloud: str, folder: str) -> int:
         text = html.read_text(encoding="utf-8")
         if "/images/" not in text:
             continue
-        new = text.replace('/images/', prefix)
-        if new != text:
-            html.write_text(new, encoding="utf-8")
+        changed = False
+        for m in set(re.findall(r"/images/([^\"'$<>{}]+)", text)):
+            url = ""
+            entry = state.get(m)
+            if isinstance(entry, dict) and entry.get("url"):
+                url = entry["url"]
+            else:
+                url = prefix + m
+            old = "/images/" + m
+            if old in text:
+                text = text.replace(old, url)
+                changed = True
+        if changed:
+            html.write_text(text, encoding="utf-8")
             count += 1
     return count
 
@@ -144,11 +190,29 @@ def main() -> int:
     state = load_state()
     images = local_images()
     changed = []
+    skipped = []
     for img in images:
         rel = img.relative_to(IMAGES_ROOT).as_posix()
         digest = sha256_file(img)
-        if args.force or state.get(rel) != digest:
+        entry = state.get(rel)
+
+        if not is_real_image(img):
+            # Dead-link artifact (HTML page saved with an image extension):
+            # not a real image, Cloudinary will always reject it. Mark it
+            # forever so it is never retried.
+            if isinstance(entry, dict) and entry.get("dead"):
+                continue
+            state[rel] = {"digest": digest, "dead": True}
+            skipped.append(rel)
+            continue
+
+        needs_url = not (isinstance(entry, dict) and entry.get("url"))
+        if args.force or state_digest(entry) != digest or needs_url:
             changed.append((img, rel, digest))
+
+    if skipped:
+        print(f"[cloudinary] skipped {len(skipped)} non-image artifact(s): "
+              + ", ".join(skipped[:5]) + ("…" if len(skipped) > 5 else ""))
 
     if args.dry_run:
         for img, rel, _ in changed:
@@ -161,8 +225,13 @@ def main() -> int:
         public_id = f"{folder}/{rel}"
         print(f"[cloudinary] upload {rel}")
         try:
-            upload_image(img, public_id, folder, cloud, api_key, api_secret)
-            state[rel] = digest
+            resp = upload_image(img, public_id, folder, cloud, api_key, api_secret)
+            pid = resp.get("public_id") or public_id
+            url = resp.get("secure_url") or resp.get("url") or ""
+            if not url:
+                raise RuntimeError(f"no url in upload response: {resp}")
+            state[rel] = {"digest": digest, "public_id": pid, "url": url}
+            print(f"[cloudinary]   → {url}")
         except Exception as exc:
             failures.append((rel, str(exc)))
             if strict:
