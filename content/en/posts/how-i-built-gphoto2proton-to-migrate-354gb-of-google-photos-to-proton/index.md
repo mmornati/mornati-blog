@@ -6,6 +6,7 @@ tags:
 - open-source
 - google-photos
 - proton
+categories: [Development, Open Source, Migration]
 date: '2026-08-01T18:04:49.167000+00:00'
 slug: how-i-built-gphoto2proton-to-migrate-354gb-of-google-photos-to-proton
 description: How I built a script to migrate 354GB from Google Photos to Proton. Why
@@ -16,7 +17,7 @@ description: How I built a script to migrate 354GB from Google Photos to Proton.
 
 If you're reading this, you're probably in the same boat I was: a happy Proton subscriber who wants to leave Google Photos behind, but can't find a straightforward migration path, especially if you're not on Windows.
 
-The official Proton desktop apps handle photo upload natively on Windows, but on macOS and Linux you're left with the `proton-drive` CLI and documentation that doesn't tell you half of what you need to know. After spending days going down rabbit holes, I built (in the end it was not me, but Claude :P) [gphoto2proton](https://github.com/mmornati/gphoto2proton), and learned some hard lessons about Proton's architecture along the way.
+The official Proton desktop apps handle photo upload natively on Windows, but on macOS and Linux you're left with the `proton-drive` CLI and documentation that doesn't tell you half of what you need to know. After spending days going down rabbit holes, I built [gphoto2proton](https://github.com/mmornati/gphoto2proton) (with Claude's help), and learned some hard lessons about Proton's architecture along the way.
 
 ## The Pain Point
 
@@ -28,7 +29,7 @@ If you're on Windows, the Proton Drive desktop app just works: it uploads to bot
 
 Here's the first thing nobody tells you: **Proton Drive and Proton Photos are not the same thing**.
 
-They share a backend (your files end up in the same encrypted storage. And if I trust what I can see with the Drive API, even the encrypted storage is different for the 2 services), but they're accessed through completely different APIs:
+They share a backend (your files end up in the same encrypted storage, though based on what I can see through the Drive API, even the encrypted storage is different between the two services), but they're accessed through completely different APIs:
 
 *   **Proton Drive** uses the standard Drive API: files go to "My Files", manageable through the SDK, the CLI's `filesystem` commands, or third-party bridges like rclone.
     
