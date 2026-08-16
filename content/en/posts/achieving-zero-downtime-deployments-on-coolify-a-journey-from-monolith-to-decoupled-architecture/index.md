@@ -7,6 +7,7 @@ tags:
 - coolify
 - archi
 date: '2025-12-30T21:29:24.831000+00:00'
+categories: [DevOps, Docker, Architecture]
 slug: achieving-zero-downtime-deployments-on-coolify-a-journey-from-monolith-to-decoupled-architecture
 description: Use Coolify for zero-downtime deployments by transforming your monolithic
   setup into an efficient, decoupled architecture
@@ -20,7 +21,7 @@ If you've ever deployed a web application, you know the pain: push a small front
 
 The culprit? A monolithic Docker Compose setup where every service was tightly coupled. Change the frontend? Restart the database. Update the backend? Restart everything. It was frustrating, inefficient, and frankly, unprofessional.
 
-I decided it was time for a something different and more professional, even for a free test website. I migrated from a single `docker-compose.prod.yml` file orchestrating everything to a decoupled, three-tier architecture that enables true zero-downtime deployments on Coolify. The result? I can now deploy frontend changes without touching the database, update the backend independently, and keep the infrastructure services running 24/7 (almost 😂)
+I decided it was time for something different and more professional, even for a free test website. I migrated from a single `docker-compose.prod.yml` file orchestrating everything to a decoupled, three-tier architecture that enables true zero-downtime deployments on Coolify. The result? I can now deploy frontend changes without touching the database, update the backend independently, and keep the infrastructure services running 24/7 (almost 😂)
 
 In this post, I'll walk you through our journey: the problems we faced, the architecture we designed, and how we implemented it. Whether you're running a similar setup or just curious about zero-downtime deployments, I hope this experience helps you avoid the pitfalls I encountered.
 
