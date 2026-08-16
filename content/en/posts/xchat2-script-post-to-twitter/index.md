@@ -2,13 +2,31 @@
 title: 'XChat2 script: post to Twitter'
 date: '2011-10-04T22:00:00+00:00'
 slug: xchat2-script-post-to-twitter
+categories:
+  - Development
+  - IRC
+  - Scripting
+tags:
+  - xchat
+  - irc
+  - twitter
+  - python
+  - script
+  - notification
+  - dm
+description: >-
+  Forward IRC private messages to Twitter DM using a simple XChat Python script.
 ---
 
+## Introduction
 
+If you have an XChat instance running on a server 24 hours a day and you access it once a day (or less like me), you might miss a lot of private messages (or Direct Messages using IRC naming) that you won't see for days. So, to receive a notification for any Direct Message (both for main chat and private one), you can add to your XChat a simple script to forward any message to another service (like Email, Twitter, Facebook or what you prefer). Here I'll show a script to send a message privately to you on Twitter.
 
-<p>If you have an XChat instance running on a server 24 hours a day and you access it once a day (or less like me), you should receive lot of private messages (or Direct Messages using IRC naming) that you will see after days. So, to allow you to directly receive a notify for any Direct Message (both for main chat and private one), you can add to your XChat a simple script to forward any message to another service (like EMail, Twitter, Facebook or what you prefer). Here I'll show a script to send a message privately to you on twitter.</p>
-<pre><code> # XChat Twitter DM notify plugin
-# Copyright (C) 2011 Marco Mornati &lt;ilmorna@gmail.com&gt;
+## The Script
+
+```python
+ # XChat Twitter DM notify plugin
+# Copyright (C) 2011 Marco Mornati <ilmorna@gmail.com>
 #
 #   This library is free software; you can redistribute it and/or modify it
 #   under the terms of the GNU Lesser General Public License as published by the
@@ -62,11 +80,17 @@ xchat.hook_print("Focus Tab", focus_cb)
 xchat.hook_print("Channel Action Hilight", highlight_cb)
 xchat.hook_print("Channel Msg Hilight", highlight_cb)
 xchat.hook_print("Private Message", private_cb)
-xchat.hook_print("Private Message to Dialog", private_cb)</code></pre>
-<p>The only things you have to do are:</p>
-<ul>
-<li>Create a new application in your twitter account (going to <a href="https://dev.twitter.com/apps">OAuth</a> page). All key and secrets must be substituted where you initialize your twitter Api (twitter.Api line on the scripts). A things to remember is the application you are creating must has <strong>read and write</strong> access to your account</li>
-<li>Change the target ussername (in the script is <strong>twitter_nick</strong>). For example, you if you want to receive a private message to your twitter account when a DirectMessage is sent to you in xchat, here you have to put your twitter username.</li>
-<li>Install script in your xchat (usually $HOME/.xchat2 folder). You can also test the script just loading id using the menu voice <em>Load plugin or script</em></li>
-</ul>
-<p>That's all. If all worked well, you can test sending a private message to you on IRC and you should receive a private message on twitter :D Let me know if you have any better idea to do the same thing, or if you have problem and/or fix on the proposed script.</p>
+xchat.hook_print("Private Message to Dialog", private_cb)
+```
+
+## Setup Instructions
+
+The only things you have to do are:
+
+- Create a new application in your Twitter account (going to the [OAuth](https://developer.twitter.com/) page). All keys and secrets must be substituted where you initialize your Twitter Api (`twitter.Api` line in the script). One thing to remember is the application you are creating must have **read and write** access to your account.
+- Change the target username (in the script it is **twitter_nick**). For example, if you want to receive a private message to your Twitter account when a Direct Message is sent to you in XChat, here you have to put your Twitter username.
+- Install the script in your XChat (usually `$HOME/.xchat2` folder). You can also test the script just by loading it using the menu option *Load plugin or script*.
+
+## Testing
+
+That's all. If all worked well, you can test sending a private message to you on IRC and you should receive a private message on Twitter :D Let me know if you have any better idea to do the same thing, or if you have problem and/or fix on the proposed script.
