@@ -2,27 +2,47 @@
 title: Optimize Ghost for SEO - Page Title
 date: '2014-02-08T23:00:00+00:00'
 slug: optimize-ghost-for-seo-page-title
+categories:
+  - Blogging
+  - Web Development
+  - SEO
+tags:
+  - ghost
+  - seo
+  - page-title
+  - nodejs
+  - blogging
+description: How to optimize page titles in Ghost for better SEO by adding the blog name suffix, with two approaches: theme customization and core modification.
 ---
 
+The Ghost blogging platform doesn't currently have plugins (and maybe will always be that way).
+Something I was missing after migration is the SEO optimization for any blog post... so I started making it by myself.
 
-
-The Ghost blogging platform does not actually have plugins (and maybe will always be this way).
-A thing I missing after migration is the SEO optimization for any blog post... so I stated making it by myself.
+## Overview
 
 First step: change page title to respect SEO "rules". The title of any post page should also have the blog name suffix:
 
-<pre class="language-html"><code class="language-html">&lt;title&gt;Post title | Blog name&lt;title&gt;
-</code></pre>
+```html
+<title>Post title | Blog name<title>
+```
 
 To accomplish this in Ghost you can proceed into two different ways:
 
-* Personalise the *default.hbs* file in your theme
-<pre class="language-html"><code class="language-html">&lt;title&gt;{{meta_title}} | {{@blog.title}}&lt;/title&gt;</code></pre>
+## Method 1: Theme Only
 
-* Change the Ghost core to provides the *meta_title* variable with the correct value, allowing you to change theme without losing SEO customisations. Edit the file **core/server/helpers/index.js** around the line 395.
-Following the complete code of my meta_title function:
+Personalise the *default.hbs* file in your theme
 
-<pre class="language-javascript"><code class="language-javascript">coreHelpers.meta_title = function (options) {
+```html
+<title>{{meta_title}} | {{@blog.title}}</title>
+```
+
+## Method 2: Core Modification
+
+Change the Ghost core to provide the *meta_title* variable with the correct value, allowing you to change theme without losing SEO customisations. Edit the file **core/server/helpers/index.js** around the line 395.
+Here's the complete code of my meta_title function:
+
+```javascript
+coreHelpers.meta_title = function (options) {
     /*jslint unparam:true*/
     var title = "",
         blog;
@@ -32,8 +52,8 @@ Following the complete code of my meta_title function:
             blog = config.theme();
             title = blog.title;
         } else if (this.post) {
-            <b>blog = config.theme();
-            title = this.post.title + ' | ' + blog.title;</b>
+            **blog = config.theme();
+            title = this.post.title + ' | ' + blog.title;**
         }
     }
 
@@ -42,7 +62,7 @@ Following the complete code of my meta_title function:
         return new hbs.handlebars.SafeString(title.trim());
     });
 };
-</code></pre>
+```
 
 In bold the code I changed.
 
