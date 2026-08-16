@@ -8,7 +8,7 @@ tags:
 date: '2025-12-28T15:14:36.216000+00:00'
 categories: [Development, AI, Education]
 slug: building-cyber-code-academy-a-pure-vibe-coding-experiment
-description: 'Découvrez Cyber Code Academy : une plateforme gamifiée pour apprendre Python, pilotée par l'IA et développée avec du "vibe coding pur" pour s'amuser de manière interactive'
+description: "Découvrez Cyber Code Academy : une plateforme gamifiée pour apprendre Python, pilotée par l'IA et développée avec du \"vibe coding pur\" pour s'amuser de manière interactive"
 ---
 
 Mon fils vient de commencer à apprendre Python à l'école ici en France. Python ! Quand j'avais son âge, on codait en Basic, puis en Pascal. Les temps ont changé, et la façon dont les enfants apprennent à coder aussi.
