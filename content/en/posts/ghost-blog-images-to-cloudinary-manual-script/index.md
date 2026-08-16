@@ -51,3 +51,4 @@ And now you just need to update your blog post with the new content: all your im
 In the next version I'll make the update automatic. 
 The target is: new post, upload all images to cloadinary, update post into the blog.
 I prefer not to modify Ghost code (it will be easy to add the automatic upload to cloadinary) because they already have this feature in the dev roadmap and because I'd like to be able to update Ghost easily when a new version is released.
+
