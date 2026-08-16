@@ -1,15 +1,17 @@
 {{- $host := site.Params.remark42.host | default "" }}
+{{- $apiHost := "" }}
+{{- if $host }}{{ $apiHost = strings.TrimSuffix "/web" $host }}{{ end }}
 {{- $siteID := site.Params.remark42.siteId | default "blog.mornati.net" }}
 {{- if $host }}
 <div id="remark42"></div>
 <script>
   window.remark_config = {
-    host: {{ $host | string | jsonify }},
-    site_id: {{ $siteID | string | jsonify }},
-    url: {{ .Permalink | string | jsonify }},
+    host: {{ $apiHost | jsonify | safeJS }},
+    site_id: {{ $siteID | jsonify | safeJS }},
+    url: {{ .Permalink | jsonify | safeJS }},
     theme: {{- if and (eq site.Params.defaultAppearance "dark") (not site.Params.autoSwitchAppearance) }}
       "dark"{{- else }} "light"{{- end }},
-    locale: {{ .Lang | string | jsonify }},
+    locale: {{ .Lang | jsonify | safeJS }},
     max_shown_comments: 10,
     components: ["embed"],
   };
@@ -17,11 +19,11 @@
 <script>
   (function (c) {
     var d = document, s = d.createElement("script");
-    s.src = c + "/web/embed.js";
+    s.src = window.remark_config.host + "/web/embed.js";
     s.defer = true;
     s.async = true;
     (d.head || d.body).appendChild(s);
-  })(window.remark_config.host);
+  })();
 </script>
 <noscript>Please enable JavaScript to view the comments.</noscript>
 {{- end }}
