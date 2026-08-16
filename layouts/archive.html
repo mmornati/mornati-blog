@@ -32,13 +32,18 @@
       {{ $list := index $byYear $year | default slice }}
       {{ $byYear = merge $byYear (dict $year ($list | append .)) }}
     {{ end }}
+    {{ $years := slice }}
     {{ range $year, $pages := $byYear }}
+      {{ $years = $years | append $year }}
+    {{ end }}
+    {{ range sort $years "value" "desc" }}
+      {{ $year := . }}
       <div>
         <h2 class="mt-12 text-2xl font-bold text-neutral-700 first:mt-8 dark:text-neutral-300">
           {{ $year }}
         </h2>
         <div class="space-y-10 mt-6">
-          {{ range $pages }}
+          {{ range index $byYear $year }}
             {{ partial "article-link/simple.html" . }}
           {{ end }}
         </div>
