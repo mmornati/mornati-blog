@@ -1,9 +1,54 @@
 ---
-title: 'Symbolic: Synch Operation Pool'
+title: 'Symbolic: Synchronous Operation Pool'
 date: '2008-07-22T22:00:00+00:00'
 slug: symbolic-synch-operation-pool
+tags:
+  - symbolic
+  - architecture
+  - synchronous
+  - pool-manager
+  - func
+description: 'How Symbolic manages synchronous operations using a Pool Manager to avoid bottlenecks and enable concurrent execution of admin procedures.'
 ---
 
+## Introduction
 
+Most processes, scripts, or operations you can run using Symbolic are asynchronous, meaning that multiprocess/thread control is delegated to the Func framework. However, there are situations where you may need to run processes in synchronous mode: some admin procedures should run directly while waiting for the response (i.e., when you need to proceed or complete Symbolic configuration).
 
-Most of the processes, script or operation, you can run using Symbolic are asynchronous, this means that multiprocess/thread control is delegated to func. There are some other situation where you may need run process in synchronous mode: some admin procedures should be run directly waiting for the response (i.e is needed to going on or to complete symbolic configuration).<br />Following the standard "running channel" used to run async script, can generate a bottleneck: my RunnerJob must wait the end of ran process and so it's impossible to run any other operation till the end of the async one.<br /><br />To solve this problem Symbolic has a Pool Manager used and called from RunnerJob. Is a bit more than simple synchronized list of processes: you can decide how many "concurrent" synchronous processes you want and it exposes some method to "book" your process execution, send process and check process status.<br /><br />Following diagram exposes how Symbolic manages synch operations.<br /><br /><br /><a onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}" href="http://2.bp.blogspot.com/_mcrRJdyp-jg/SId-LjJKkfI/AAAAAAAAEdU/uLiJi7QdJJg/s1600-h/SyncPool.png">![](/images/symbolic-synch-operation-pool/00-SyncPool.png)</a><br /><ol><li>User or administrator "try" to run a synch operation</li><li>User calls reach the RunnerJob that, calling PoolManager try to book a place for sync job execution</li><li>If there is a place to process user request, PoolManager responds with the position assigned in pool list. If you want this is what happens when you want to book an hotel room or a theater seat: you call, if there's what you ask you received booking number, in any other case you have to wait.<br /></li><li>If JobRunner receives a useful position in the pool list, he start the process asked from the user and then send reference to running process and provided position to PoolManager. If JobRunner receives a "no free places found" it returns an answer the user with an error message.</li><li>Process is queued in the pool list and it goes ahead with the execution</li><li>Any "X" seconds there is another job, ControllerJob, that calls PoolManager asking if there is any process that has finished the execution</li><li>If something is found a messege ControllerJob sends a message to User with the execution result.</li></ol>This kind of implementation is something like asynchronous call for the Symbolic engine because there is no "internal" process that wait for the execution end. It's only an synch call for the user that can do nothing more on the application till the end of the process he ran.
+Following the standard "running channel" used to run async scripts can generate a bottleneck: the RunnerJob must wait for the end of the running process, making it impossible to run any other operation until the async one completes.
+
+## The Pool Manager Solution
+
+To solve this problem, Symbolic has a Pool Manager that is used and called from RunnerJob. It is more than a simple synchronized list of processes: you can decide how many concurrent synchronous processes you want, and it exposes methods to "book" your process execution, send the process, and check process status.
+
+The following diagram illustrates how Symbolic manages synchronous operations:
+
+![Symbolic Synchronous Operation Pool Diagram](/static/images/symbolic-synch-operation-pool/00-SyncPool.png)
+
+```mermaid
+graph TD
+    A[User/Admin] -->|Request sync operation| B[RunnerJob]
+    B -->|Book place| C[PoolManager]
+    C -->|Position or 'no free places'| B
+    B -->|If position available| D[Start Process]
+    D -->|Send reference & position| C
+    B -->|If no free places| E[Return error to user]
+    C -->|Queue process| F[Pool List]
+    G[ControllerJob] -->|Every X seconds| C
+    C -->|Check completed processes| G
+    G -->|Send result| A
+```
+
+## Workflow Steps
+
+1. User or administrator attempts to run a sync operation
+2. User calls reach the RunnerJob, which calls PoolManager to try to book a place for sync job execution
+3. If there is a place to process the user request, PoolManager responds with the position assigned in the pool list. This is similar to booking a hotel room or a theater seat: you call, and if there is what you asked for, you receive a booking number; otherwise, you have to wait.
+4. If JobRunner receives a useful position in the pool list, it starts the process requested by the user and then sends the reference to the running process and the provided position to PoolManager. If JobRunner receives a "no free places found" response, it returns an error message to the user.
+5. The process is queued in the pool list and proceeds with execution
+6. Every "X" seconds, another job, ControllerJob, calls PoolManager to check if any process has finished execution
+7. If a completed process is found, ControllerJob sends a message to the user with the execution result
+
+## Implementation Details
+
+This kind of implementation is essentially an asynchronous call for the Symbolic engine because there is no internal process that waits for the execution to end. It is only a sync call for the user, who can do nothing more on the application until the process they ran completes.
