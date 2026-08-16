@@ -1,85 +1,151 @@
 ---
-title: Install Django in shared host...
+title: Install Django in a Shared Hosting Environment
 date: '2011-09-01T22:00:00+00:00'
 slug: install-django-in-shared-host
+categories:
+  - Web Development
+  - Django
+tags:
+  - django
+  - python
+  - shared hosting
+  - bluehost
+  - fastcgi
+  - apache
+description: A step-by-step guide to installing Django on shared hosting without root access, covering Django installation, FastCGI configuration, and Apache setup.
 ---
 
+After [discovering Python 2.6](http://blog.mornati.net/2011/08/31/bluehost-com-and-python-2-6/) on my shared hosting, the next step is to install [Django](https://www.djangoproject.com/). Since my user account is not a *sudoer* and I don't have the root password, I cannot use the server's package system for installation.
 
+Fortunately, Python projects like Django are quite simple to install manually.
 
-The next step (after the <a href="http://blog.mornati.net/2011/08/31/bluehost-com-and-python-2-6/">Python 2.6 discovered</a>) is to install <a href="https://www.djangoproject.com/">Django</a> in my shared host.
-Naturally my user account is not a <em>sudoers</em> and I don't have the root password, so the installation using the server package system is not possible.
+## Installing Django
 
-Fortunately any Python project is quite simple to install, and Django is a Python project :D
-<pre><code> wget http://www.djangoproject.com/download/1.3/tarball/
+Download and install Django using the following commands:
+
+```bash
+wget http://www.djangoproject.com/download/1.3/tarball/
 tar xzvf Django-1.3.tar.gz
 cd Django-1.3
-python2.6 setup.py install --user</code></pre>
-<strong>Note</strong>: I used <em>python2.6</em> command to show out I want to install and use it with that version of Python. Naturally if you have an alias <em>python</em> should be sufficient. Same thing if you want to install it using Python 2.4, in this case the <em>--user</em> option does not work, so the right command to run is
-<pre><code> python setup.py install --home $HOME/.local</code></pre>
-Then, add yur Django installation to your user PATH, setting it in <em>.bashrc</em> file. In your home folder run:
-<pre><code> vi .bashrc
-export PATH=$HOME/.local/bin:$HOME/.local/usr/bin:$PATH</code></pre>
-<div>After this two simple steps Django is ready and you can create your first project (or install your existing project).</div>
-<div>Supposing you have your Django project installed into <em>~/projects/kermit-webui </em>to make it accessible from browser you need two components configured. The first thing is a Python fastcgi script to load your Django application, the second thing is the .htaccess file to configure your Apache and load the script.</div>
-<div>First of all we create the <em>public_html</em> folder where we put our two components</div>
-<div>
-<pre><code> mkdir ~/public_html/kermit
-cd ~/public_html/kermit</code></pre>
-</div>
-<div>Here we will create the fastcgi script</div>
-<div>
-<pre><code> vi kermit.fcgi
+python2.6 setup.py install --user
+```
 
+**Note:** I used the `python2.6` command to specify that I want to install and use Django with Python 2.6. If you have a `python` alias configured, that should be sufficient. For Python 2.4, the `--user` option does not work, so use this command instead:
+
+```bash
+python setup.py install --home $HOME/.local
+```
+
+## Adding Django to Your PATH
+
+Next, add your Django installation to your user PATH by editing your `.bashrc` file. In your home folder, run:
+
+```bash
+vi .bashrc
+```
+
+Add the following line:
+
+```bash
+export PATH=$HOME/.local/bin:$HOME/.local/usr/bin:$PATH
+```
+
+After these two simple steps, Django is ready and you can create your first project or install an existing one.
+
+## Configuring Your Django Project for the Web
+
+Assuming you have your Django project installed in `~/projects/kermit-webui`, you need to configure two components to make it accessible from a browser:
+
+1. A Python FastCGI script to load your Django application
+2. An `.htaccess` file to configure Apache and load the script
+
+### Creating the Public HTML Folder
+
+First, create the `public_html` folder where these components will reside:
+
+```bash
+mkdir ~/public_html/kermit
+cd ~/public_html/kermit
+```
+
+### Creating the FastCGI Script
+
+Create the FastCGI script with the following content:
+
+```bash
+vi kermit.fcgi
+```
+
+```python
 #!/usr/bin/python2.6
 import sys, os
+
 # Add a custom Python path.
 sys.path.insert(0, "/home/user/.local/lib/python2.6")
 sys.path.insert(13, "/home/user/projects/kermit")
+
 os.environ['DJANGO_SETTINGS_MODULE'] = "webui.settings"
+
 from django.core.servers.fastcgi import runfastcgi
-runfastcgi(method="threaded", daemonize="false")</code></pre>
-At the end of the script, as you can see, we start the fastcgi listener, to accept incoming requests.
+runfastcgi(method="threaded", daemonize="false")
+```
 
-</div>
-<div>
-<div>
-<div>Now we are ready to configure the .htaccess file</div>
-<div>
-<pre><code> vi .htaccess
+At the end of the script, as you can see, we start the FastCGI listener to accept incoming requests.
 
+### Configuring the .htaccess File
+
+Now configure the `.htaccess` file:
+
+```bash
+vi .htaccess
+```
+
+```apache
 AddHandler fcgid-script .fcgi
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_URI} !=/favicon.ico
-RewriteCond %{REQUEST_URI} !^/static/     
+RewriteCond %{REQUEST_URI} !^/static/
 
-RewriteRule ^(.*)$ kermit.fcgi/$1 [QSA,L]</code></pre>
-Basically we are configuring the <a href="http://httpd.apache.org/docs/current/mod/mod_rewrite.html">Apache RewriteEngine</a>, saying that all requests sould be sent to <em>kermit.fcgi</em> script except requests with <em>/static/</em> in the url (my static file, like css, imgs, js, ... are there) and favicon.ico.
+RewriteRule ^(.*)$ kermit.fcgi/$1 [QSA,L]
+```
 
-</div>
-<div>This script should have 755 access rule, so:</div>
-<div>
-<pre><code> chmod 0755 kermit.fcgi</code></pre>
-</div>
-<div>
-<div>
-<div>And that's "all". Depending on your hosting and projects could be necessary to install some other packages. On BlueHost to use Django with fastcgi you need to install <em>flup </em>project.</div>
-<div>
-<pre><code> $ wget http://www.saddi.com/software/flup/dist/flup-1.0.2.tar.gz
-$ tar xzvf flup-1.0.2.tar.gz
-$ cd flup-1.0.2</code></pre>
-</div>
-<div>
+This configuration sets up the [Apache RewriteEngine](http://httpd.apache.org/docs/current/mod/mod_rewrite.html) to direct all requests to the `kermit.fcgi` script, except for requests containing `/static/` in the URL (where static files like CSS, images, and JavaScript are stored) and `favicon.ico`.
 
-Like shown before, for Python 2.6/2.7:
-<pre><code> $ python setup.py install --user</code></pre>
-For previous versions:
-<pre><code> $ python setup.py install --home $HOME/.local</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-Now you can browse your django application :D
+### Setting File Permissions
 
-If you want to see a first result of this test, point your browser on <a href="http://kermit.mornati.net">http://kermit.mornati.net</a>
+The FastCGI script needs executable permissions:
+
+```bash
+chmod 0755 kermit.fcgi
+```
+
+## Installing Additional Packages
+
+That's all for the basic setup. Depending on your hosting provider and project requirements, you may need to install additional packages. For BlueHost, using Django with FastCGI requires installing the [flup](http://www.saddi.com/software/flup/) project.
+
+Download and install flup:
+
+```bash
+wget http://www.saddi.com/software/flup/dist/flup-1.0.2.tar.gz
+tar xzvf flup-1.0.2.tar.gz
+cd flup-1.0.2
+```
+
+For Python 2.6/2.7:
+
+```bash
+python setup.py install --user
+```
+
+For earlier Python versions:
+
+```bash
+python setup.py install --home $HOME/.local
+```
+
+## Conclusion
+
+Now you can browse your Django application! :D
+
+To see a working example of this setup, point your browser to [http://kermit.mornati.net](http://kermit.mornati.net).
