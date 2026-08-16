@@ -37,6 +37,12 @@ jobs:
           hugo --minify --gc --baseURL https://blog.mornati.net/
           python3 scripts/generate_redirects.py
 
+      - name: Cache Cloudinary sync state
+        uses: actions/cache@v4
+        with:
+          path: build/cloudinary.synced.json
+          key: cloudinary-sync-${{ runner.os }}
+
       - name: Sync images to Cloudinary + rewrite HTML
         if: env.CLOUDINARY_CLOUD_NAME != ''
         env:
