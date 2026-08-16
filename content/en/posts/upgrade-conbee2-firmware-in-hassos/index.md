@@ -3,20 +3,22 @@ title: Upgrade ConBee2 Firmware in HassOS
 tags:
 - raspberry-pi
 - smart-home
+categories:
+- Smart Home
+- DIY
+- IoT
+description: Step-by-step guide to manually upgrade the ConBee II firmware in HassOS when Phoscon falsely reports your firmware is up to date.
 date: '2021-05-02T07:50:09.178000+00:00'
 slug: upgrade-conbee2-firmware-in-hassos
 ---
 
-
-
-I used deConz in Home Assistant for the last 9 months and I discovered some crazy things in the way deConz is working. The strangest one is surely the gateway firmware update (for me a ConBee2): even if you are on a 1-year-old firmware, in Phoscon you always have the message "your version is updated".
+I've been using deConz with Home Assistant for the last 9 months and discovered some strange things in the way deConz works. The strangest thing is the gateway firmware update (for me a ConBee II): even if you're running year-old firmware, in Phoscon you always get the message "your version is updated".
 
 ![image.png](/images/upgrade-conbee2-firmware-in-hassos/00-0CTdwfWJs.png)
 
-The only thing to do to really have the latest firmware version is to use the manual upgrade process, which is working in home assistant even if  [the official documentation](https://github.com/dresden-elektronik/deconz-rest-plugin/wiki/Update-deCONZ-manually#update-in-docker)  says no.
+The only way to get the latest firmware version is to use the manual upgrade process, which works in Home Assistant even if [the official documentation](https://github.com/dresden-elektronik/deconz-rest-plugin/wiki/Update-deCONZ-manually#update-in-docker) says no.
 
-
-1. First of all you need to know what is the device name of your zigbee gateway. The easiest way is on the docker startup. At the beginning is showing you the list of devices and the line with the "Serial" is your gateway one (mine is `/dev/ttyACM1`).
+1. First of all you need to know what is the device name of your zigbee gateway. The easiest way is to check the Docker startup logs. It shows you the list of devices and the line with 'Serial' is your gateway (mine is `/dev/ttyACM1`).
 ```
 [s6-init] making user provided files available at /var/run/s6/etc...exited 0.
 [s6-init] ensuring user provided files have correct perms...exited 0.
@@ -34,25 +36,25 @@ Path             | Vendor | Product | Serial     | Type
 2. Stop the deConz Integration. You can do it on the interface...
 ![image.png](/images/upgrade-conbee2-firmware-in-hassos/01-lTlYRhOHWe.png)
 **NOTE** If you have 'Watchdog' activated it may be better to disable it on the integration during this process. It could start the integration up unattended.
-3. SSH to hass (standard SSH, not the OS one).
-4. Start the deConz container to use the Gateway flasher binary. Here you should specify the device retrieved to step `1` and you should override the `entrypoint` which is configured to start the deConz app.
+3. SSH to Hass (standard SSH, not the OS-level one).
+4. Start the deConz container to use the Gateway flasher binary. Here, specify the device from step `1` and override the `entrypoint` which is configured to start the deConz app.
 ```
 docker run --rm -ti --privileged=true --device /dev/ttyACM1:/dev/ttyACM1 -v /dev/bus/usb:/dev/bus/usb --entrypoint /bin/bash homeassistant/aarch64-addon-deconz:6.8.0
 ``` 
-5.  [Download the latest firmware](http://deconz.dresden-elektronik.de/deconz-firmware/) , if it is not already contained in the Docker image (folder `/usr/share/deCONZ/firmware/`).
+5. [Download the latest firmware](http://deconz.dresden-elektronik.de/deconz-firmware/), if it is not already contained in the Docker image (folder `/usr/share/deCONZ/firmware/`).
 ```
 wget http://deconz.dresden-elektronik.de/deconz-firmware/deCONZ_ConBeeII_0x266b0700.bin.GCF
 ```
-**NOTE** The firmware in this example is the latest available released on 29/04/2021. If you have a different Gateway from Dresden Elektronik, you can find the firmware at the same URL
+**NOTE** The firmware in this example is the latest available released on 29/04/2021. If you have a different gateway from Dresden Elektronik, you can find the firmware at the same URL
 ![image.png](/images/upgrade-conbee2-firmware-in-hassos/02-QOqN82IrN.png)
 6. Upgrade the firmware with the following command
 ```
 GCFFlasher_internal -d /dev/ttyACM1 -x 3 -f deCONZ_ConBeeII_0x266b0700.bin.GCF
 ```
-The `-d` parameter correspond to the device name found on the first step.
-The `-x` parameter is the log level. With value 3 you should have lot of details
+The `-d` parameter corresponds to the device name found on the first step.
+The `-x` parameter is the log level. With value 3 you'll get lots of details
 The `-f` is where you should provide the firmware filename. 
-Waiting only a few seconds and you should have the firmware upgrade message.
+After just a few seconds, you should see the firmware upgrade message.
 ```
 root@5b3be22b1c2c:/# GCFFlasher_internal -d /dev/ttyACM1 -x 3 -f deCONZ_ConBeeII_0x266b0700.bin.GCF
 GCFFlasher V3_17 (c) dresden elektronik ingenieurtechnik gmbh
