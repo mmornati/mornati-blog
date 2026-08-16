@@ -2,12 +2,29 @@
 title: 'Spring MVC: Database MessageSource fall back to properties file'
 date: '2013-06-13T22:00:00+00:00'
 slug: spring-mvc-database-messagesource-fall-back-to-properties-file
+categories:
+  - Java
+  - Spring
+  - Web Development
+tags:
+  - spring
+  - spring-mvc
+  - i18n
+  - messagesource
+  - java
+  - localization
+description: >-
+  How to implement a database-driven MessageSource in Spring MVC with fallback
+  to properties files, allowing users to update translations at runtime without
+  redeployment.
 ---
 
+## Overview
 
+For a highly dynamic application, I needed to allow users (admin users) to update some translation messages without having to redeploy application any time (for example, some messages about operations to accomplish that change almost any week).
+To allow this with the framework I'm using (Spring MVC) I decided to change the message resource strategy, adding a database-driven source with priority to the "standard" properties file messages.
 
-For an high dynamic application I need to allow users (admin users) to update some translation messages without having to redeploy application any time (for example, some messages about operation to accomplished change almost any week).
-To allow this with the framework I'm using (Spring MVC) I decided to change the Message Resource politics, adding a database driven in priority to the "standard" properties file messages.
+## Configuration
 
 In your application context (i.e. root-context.xml) you have to configure the two message resource beans:
 
@@ -25,9 +42,12 @@ In your application context (i.e. root-context.xml) you have to configure the tw
     </bean>
 ```
 
-The <em>propertiesMessageSource</em> is the one using the properties file with translated message, the <em>messageSource </em>(the one used by default for the Spring MVC framework) just inject the service to load messages from database and set the propertiesMessageSource has a parent (the fallback message source).
+The *propertiesMessageSource* is the one using the properties file with translated message, the *messageSource* (the one used by default for the Spring MVC framework) just inject the service to load messages from database and set the propertiesMessageSource as a parent (the fallback message source).
 
-<pre class="language-java line-numbers"><code class="language-java">package net.mornati.configuration;
+## DatabaseDrivenMessageSource
+
+```java
+package net.mornati.configuration;
 
 import net.mornati.model.MessageResource;
 import net.mornati.service.MessageResourceService;
@@ -76,7 +96,7 @@ public class DatabaseDrivenMessageSource extends AbstractMessageSource implement
     }
 
     private String getText(String code, Locale locale) {
-        Map&lt;String, String&gt; localized = properties.get(code);
+        Map<String, String> localized = properties.get(code);
         String textForCurrentLanguage = null;
         if (localized != null) {
             textForCurrentLanguage = localized.get(locale.getLanguage());
@@ -101,12 +121,12 @@ public class DatabaseDrivenMessageSource extends AbstractMessageSource implement
         properties.putAll(loadTexts());
     }
 
-    protected Map&lt;String, Map&lt;String, String&gt;&gt; loadTexts() {
+    protected Map<String, Map<String, String>> loadTexts() {
         log.debug("loadTexts");
-        Map&lt;String, Map&lt;String, String&gt;&gt; m = new HashMap&lt;String, Map&lt;String, String&gt;&gt;();
-        List&lt;MessageResource&gt; texts = messageResourceService.loadAllMessages();
+        Map<String, Map<String, String>> m = new HashMap<String, Map<String, String>>();
+        List<MessageResource> texts = messageResourceService.loadAllMessages();
         for (MessageResource text : texts) {
-            Map&lt;String, String&gt; v = new HashMap&lt;String, String&gt;();
+            Map<String, String> v = new HashMap<String, String>();
             v.put("en", text.getEnglish());
             v.put("de", text.getGerman());
             v.put("fr", text.getFrench());
@@ -120,24 +140,35 @@ public class DatabaseDrivenMessageSource extends AbstractMessageSource implement
     public void setResourceLoader(ResourceLoader resourceLoader) {
         this.resourceLoader = (resourceLoader != null ? resourceLoader : new DefaultResourceLoader());
     }
-}</code></pre>
-In this class you will load all messages from database during the class instantiation (with the <em>reload</em> method) and then you can simply access to your cached messages.
+}
+```
 
-If user changes/adds messages to database with the application started, you can simply invoke the reload method, with something like this:
-<pre class="language-java line-numbers"><code class="language-java">private void reloadDatabaseMessages() {
+In this class you will load all messages from database during the class instantiation (with the *reload* method) and then you can simply access your cached messages.
+
+## Reloading Messages
+
+If user changes/adds messages to database with the application started, you can invoke the reload method, with something like this:
+
+```java
+private void reloadDatabaseMessages() {
         //Reload Messages
         if (messageSource instanceof DatabaseDrivenMessageSource) {
             ((DatabaseDrivenMessageSource)messageSource).reload();
         } else if (messageSource instanceof DelegatingMessageSource) {
             DelegatingMessageSource myMessage = ((DelegatingMessageSource)messageSource);
-            if (myMessage.getParentMessageSource()!=null &amp;&amp; myMessage.getParentMessageSource() instanceof DatabaseDrivenMessageSource) {
+            if (myMessage.getParentMessageSource()!=null && myMessage.getParentMessageSource() instanceof DatabaseDrivenMessageSource) {
                 ((DatabaseDrivenMessageSource) myMessage.getParentMessageSource()).reload();
             }
         }
     }
-</code></pre>
-In the end, you can configure your database model as you prefer (depends about the information you need to store). In my exampe I created a simple class with the message code (the same you have in the properties files) and messages for any supported language.
-<pre class="language-java line-numbers"><code class="language-java">package net.mornati.model;
+```
+
+## Message Model
+
+In the end, you can configure your database model as you prefer (depends about the information you need to store). In my example I created a simple class with the message code (the same you have in the properties files) and messages for any supported language.
+
+```java
+package net.mornati.model;
 
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.RelationTargetAuditMode;
@@ -236,6 +267,6 @@ public class MessageResource implements Serializable {
         return messageKey != null ? messageKey.hashCode() : 0;
     }
 }
-</code></pre>
-That's all. You should have now an application that will try to load messages using the database message resource (not executing a query anytime, but reading the cached messages) and if message is not found in db it will try to look for it into property file.
-In this way you ca create a page that allow you to override messages without restarting the application/web server.
+```
+
+That's all. You should have now an application that will try to load messages using the database message resource (not executing a query anytime, but reading the cached messages) and if message is not found in db it will try to look for it into property file. In this way you can create a page that allow you to override messages without restarting the application/web server.
