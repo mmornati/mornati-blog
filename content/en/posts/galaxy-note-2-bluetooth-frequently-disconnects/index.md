@@ -24,3 +24,4 @@ When Bluetooth device (X) is disconnected -> Enable WiFi
 In this way, any time I start up my car, my tasker disables the WiFi and Bluetooth works without any problem!
 
 I didn't tested with Lollipop yet (there is anything official for Note2 at the moment) and I don't know if this problem is fixed; but if you have any strange problem with your bluetooth just try to turn off the phone's WiFi.
+
