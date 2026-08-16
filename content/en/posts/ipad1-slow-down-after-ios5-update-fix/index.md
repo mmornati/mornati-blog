@@ -13,6 +13,7 @@ tags:
   - fix
   - apple
 description: How to fix iPad1 slowdowns and crashes after updating to iOS 5 by resetting all settings without losing personal data.
+---
 
 After I updated my iPad1 (I know it's not the latest apple device, but I'm not an apple fanatic :)) to iOS5, and later to iOS 5.0.1, I noticed that was really slow in the normal usage and applications crashed almost once every hour. At the end I had an iPad but it wasn't a pleasure to use it like the past.
 
