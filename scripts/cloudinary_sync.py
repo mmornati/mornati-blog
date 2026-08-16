@@ -168,6 +168,10 @@ def main() -> int:
             if strict:
                 break
 
+    # Remember every successfully uploaded image even when some fail, so the
+    # CI cache keeps the delta and a later run only retries the failures.
+    save_state(state)
+
     if failures:
         fail_log = ROOT / "build" / "cloudinary-failure.log"
         fail_log.parent.mkdir(parents=True, exist_ok=True)
@@ -176,12 +180,13 @@ def main() -> int:
             encoding="utf-8")
         print(f"[cloudinary] WARNING: {len(failures)} upload(s) failed "
               f"→ keeping local images, skipping HTML rewrite "
-              f"(see {fail_log})")
+              f"(see {fail_log}); state saved for {len(state)} images")
+        for rel, err in failures:
+            print(f"[cloudinary]   FAILED {rel}: {err}")
         if strict:
             sys.exit(f"aborting: {len(failures)} upload(s) failed "
                      f"(CLOUDINARY_STRICT=true)")
     else:
-        save_state(state)
         n = rewrite_html(cloud, folder)
         print(f"[cloudinary] uploaded {len(changed)}/{len(images)}; "
               f"rewrote {n} HTML files")

@@ -41,7 +41,10 @@ jobs:
         uses: actions/cache@v4
         with:
           path: build/cloudinary.synced.json
-          key: cloudinary-sync-${{ runner.os }}
+          key: cloudinary-sync-${{ runner.os }}-${{ hashFiles('static/images/**', 'scripts/cloudinary_sync.py') }}
+          restore-keys: |
+            cloudinary-sync-${{ runner.os }}-
+          save-always: true
 
       - name: Sync images to Cloudinary + rewrite HTML
         if: env.CLOUDINARY_CLOUD_NAME != ''
