@@ -9,12 +9,14 @@ tags:
 - iot
 date: '2026-08-16T10:00:00.000000+00:00'
 slug: monitoring-water-softener-salt-level-with-home-assistant
+translationKey: monitoring-water-softener-salt-level-with-home-assistant
 categories:
 - Smart Home
 - DIY
 - Home Assistant
 description: How to monitor your water softener salt level using a waterproof Zigbee water leak sensor and Home Assistant automation.
 cover: cover.png
+showHero: true
 ---
 
 If you have a water softener at home, you know how important it is to keep the salt reservoir filled. Running out of salt means hard water flowing through your home, which can damage appliances, leave scale deposits, and make your skin feel dry. But how do you know when it's time to refill before it's too late?
