@@ -8,8 +8,7 @@ tags:
   - mac
   - osx
   - samba
-categories:
-  - Hardware
+categories: [Hardware, macOS, Samsung]
 description: Step-by-step guide to configure the "Scan to PC" button on Samsung SCX-3405W multifunction printer for Mac OSX using Samba sharing.
 ---
 
