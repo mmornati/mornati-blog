@@ -11,8 +11,7 @@ tags:
   - bash
   - perl
   - xml-rpc
-categories:
-  - Development
+categories: [Development, Symbolic, Scripting]
 description: Learn how to create well-formed scripts for Symbolic with proper metadata tags, supported languages, XML-RPC communication, and parameter handling.
 ---
 
