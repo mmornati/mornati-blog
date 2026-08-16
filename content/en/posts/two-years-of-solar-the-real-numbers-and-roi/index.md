@@ -23,7 +23,7 @@ I have 24 months of measured data: monthly production reports from the inverters
 
 | Metric | Value |
 | --- | --- |
-| Panels | 12 (≈ 3 kWp) on 3 APS DS3 micro-inverters (4 per inverter) |
+| Panels | 12 (≈ 6 kWp) on 3 APS DS3 micro-inverters (4 per inverter) |
 | Commissioning | September 2024 |
 | Total production (24 months) | **12,461 kWh** |
 | Self-consumed | **7,572 kWh (60.8 %)** |

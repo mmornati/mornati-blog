@@ -26,7 +26,7 @@ J'ai 24 mois de données mesurées : rapports de production mensuels des micro-o
 
 | Métrique | Valeur |
 | --- | --- |
-| Panneaux | 12 (≈ 3 kWc) sur 3 micro-onduleurs APS DS3 (4 par onduleur) |
+| Panneaux | 12 (≈ 6 kWc) sur 3 micro-onduleurs APS DS3 (4 par onduleur) |
 | Mise en service | septembre 2024 |
 | Production totale (24 mois) | **12 461 kWh** |
 | Autoconsommée | **7 572 kWh (60,8 %)** |
