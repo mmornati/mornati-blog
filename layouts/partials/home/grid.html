@@ -1,0 +1,62 @@
+{{ $disableImageOptimization := .Site.Params.disableImageOptimization | default false }}
+{{ $recentArticles := 8 }}
+{{ if index .Site.Params.homepage "showRecentItems" }}
+  {{ $recentArticles = .Site.Params.homepage.showRecentItems }}
+{{ end }}
+{{ $recentPosts := first $recentArticles (sort (where .Site.RegularPages "Type" "in" .Site.Params.mainSections) "Date" "desc") }}
+
+<div class="space-y-8">
+  <header class="flex items-center gap-4">
+    {{ with .Site.Params.Author.image }}
+      {{ $authorImage := "" }}
+      {{ if or (strings.HasPrefix . "http:") (strings.HasPrefix . "https:") }}
+        {{ $authorImage = resources.GetRemote . }}
+      {{ else }}
+        {{ $authorImage = resources.Get . }}
+      {{ end }}
+      {{ if $authorImage }}
+        {{ $final := $authorImage }}
+        {{ if not (or $disableImageOptimization (eq $authorImage.MediaType.SubType "svg")) }}
+          {{ $final = $authorImage.Fill (print "160x160 q" ( $.Site.Params.Author.imagequality | default "96" )) }}
+        {{ end }}
+        <img
+          class="h-16 w-16 rounded-full"
+          width="64"
+          height="64"
+          alt="{{ $.Site.Params.Author.name | default `Author` }}"
+          src="{{ $final.RelPermalink }}">
+      {{ end }}
+    {{ end }}
+    <div>
+      <h1 class="text-3xl font-extrabold">
+        {{ .Site.Params.Author.name | default .Site.Title }}
+      </h1>
+      {{ with .Site.Params.Author.headline }}
+        <h2 class="text-lg text-neutral-500 dark:text-neutral-400">
+          {{ . | markdownify }}
+        </h2>
+      {{ end }}
+    </div>
+  </header>
+
+  <hr class="border-neutral-300 dark:border-neutral-600">
+
+  <h2 class="text-2xl font-extrabold">{{ i18n "shortcode.recent_articles" | emojify }}</h2>
+
+  <section class="w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+    {{ range $recentPosts }}
+      {{ partial "article-link/card.html" . }}
+    {{ end }}
+  </section>
+
+  {{ if .Site.Params.homepage.showMoreLink | default false }}
+    <div class="mt-10 flex justify-center">
+      <a href="{{ .Site.Params.homepage.showMoreLinkDest | default "archive" | relLangURL }}">
+        <button
+          class="bg-transparent hover:text-primary-500 prose dark:prose-invert font-semibold py-2 px-4 border border-primary-500 hover:border-transparent rounded">
+          {{ i18n "recent.show_more" | markdownify }}
+        </button>
+      </a>
+    </div>
+  {{ end }}
+</div>

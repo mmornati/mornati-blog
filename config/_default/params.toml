@@ -26,7 +26,7 @@ mainSections = ["posts"]
 
 # Homepage layout
 [homepage]
-  layout = "profile"
+  layout = "grid"
   showRecent = true
   showRecentItems = 8
   showMoreLink = true
@@ -53,6 +53,7 @@ mainSections = ["posts"]
 [list]
   showBreadcrumbs = true
   showDate = true
+  showSummary = true
   showTableOfContents = false
   groupByYear = true
   layoutBackgroundBlur = false
