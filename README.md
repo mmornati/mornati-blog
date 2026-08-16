@@ -29,8 +29,8 @@ _raw/blog-posts  Hashnode backup clone (gitignored, read-only source)
 Prerequisites: Python 3.10+, Docker (or a native `hugo-extended` 0.164.x).
 
 ```sh
-git clone --recurse-submodules git@github.com:mmornati/mornati.net-blog.git
-cd mornati.net-blog
+git clone --recurse-submodules git@github.com:mmornati/mornati-blog.git
+cd mornati-blog
 
 # 1. (re)generate content from the Hashnode backup (optional)
 make migrate          # or: python3 scripts/migrate.py --workers 24
@@ -66,6 +66,9 @@ to enable it.
 
 ### Comments (Remark42)
 
+Blowfish v2.105 requires a user-provided `layouts/partials/comments.html`
+(included in this repo) plus `[article] showComments = true`. Set the
+`host` under `[remark42]` in `config/_default/params.toml` to enable it.
 See `DEPLOYMENT.md` for the full Remark42 + Traefik setup and the legacy
 comment import procedure.
 

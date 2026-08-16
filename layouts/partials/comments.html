@@ -1,0 +1,27 @@
+{{- $host := site.Params.remark42.host | default "" }}
+{{- $siteID := site.Params.remark42.siteId | default "blog.mornati.net" }}
+{{- if $host }}
+<div id="remark42"></div>
+<script>
+  window.remark_config = {
+    host: {{ $host | string | jsonify }},
+    site_id: {{ $siteID | string | jsonify }},
+    url: {{ .Permalink | string | jsonify }},
+    theme: {{- if and (eq site.Params.defaultAppearance "dark") (not site.Params.autoSwitchAppearance) }}
+      "dark"{{- else }} "light"{{- end }},
+    locale: {{ .Lang | string | jsonify }},
+    max_shown_comments: 10,
+    components: ["embed"],
+  };
+</script>
+<script>
+  (function (c) {
+    var d = document, s = d.createElement("script");
+    s.src = c + "/web/embed.js";
+    s.defer = true;
+    s.async = true;
+    (d.head || d.body).appendChild(s);
+  })(window.remark_config.host);
+</script>
+<noscript>Please enable JavaScript to view the comments.</noscript>
+{{- end }}

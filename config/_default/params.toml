@@ -47,6 +47,7 @@ mainSections = ["posts"]
   showWordCount = true
   sharingLinks = ["twitter", "mastodon", "facebook", "linkedin", "reddit", "whatsapp"]
   showZenMode = true
+  showComments = true
 
 # List pages (taxonomies, archive, search, home)
 [list]
@@ -80,3 +81,9 @@ mainSections = ["posts"]
 #   domain = "https://umami.your-domain.com"
 #   scriptname = "script.js"
 #   enableTrackEvent = true
+
+# Remark42 comments. Set host (e.g. https://blog.mornati.net/web) once your
+# remark42 container is behind Traefik. Leave host empty to keep comments off.
+[remark42]
+  siteId = "blog.mornati.net"
+  host = ""
