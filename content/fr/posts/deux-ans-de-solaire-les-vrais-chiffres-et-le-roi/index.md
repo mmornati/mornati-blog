@@ -114,6 +114,26 @@ Cela recadre assez fortement le chiffre de 60,8 % : c'est la part de production 
 
 > **Note d'honnêteté sur les données.** Le recorder long-terme de Home Assistant sur ces capteurs EVSE n'a qu'environ 7 jours d'historique au moment où j'écris, donc je ne peux pas vous donner un chiffre propre de type « X % de la recharge VE sur 12 mois vient du solaire » depuis HA. Le mode et la plage d'intensité sont réels ; les *moyennes* ne sont pas encore fiables. Quand le recorder rattrapera son retard (ou quand j'aurai ajouté un `utility_meter` dédié pour la borne), cette section gagnera en précision — en attendant, elle décrit le mécanisme, pas les volumes.
 
+## Les deux cumulus et la fenêtre HC de midi
+
+La deuxième charge élastique qui mérite d'être racontée, c'est la paire de chauffe-eau électriques — un dans la cave, un dans le garage. Ils étaient à l'origine câblés sur la programmation HC EDF standard (creuses ≈ 22:30 → 06:30 en hiver, décalées plus tard en été), qui est l'énergie réseau la moins chère mais aussi la moins bien alignée avec le solaire.
+
+L'idée que je voulais tester est simple : au lieu de les faire tourner la nuit, les pousser dans la **fenêtre HC de midi** (~12:00 → 14:00 heure locale) — le seul moment de la journée où le prix contractuel est le tarif HC *et* où le soleil est proche de son pic quotidien. Par journée ensoleillée, les cumulus tournent alors essentiellement sur solaire ; par journée nuageuse, ils tournent au moins sur le tarif HC. Dans les deux cas, ils évitent le tarif HP.
+
+Home Assistant rend cette automatisation triviale. La paire est commutée par un seul relais sur un compteur Shelly EM (`switch.energy_meter_cumulus`), et les deux automatisations spécifiques aux cumulus font le reste :
+
+- **`automation.cumulus_cave_actives_en_hc`** et **`automation.cumulus_garage_actives_en_hc`** — activent les cumulus au début de chaque fenêtre HC (vérifié sur `last_triggered` : la dernière exécution a été à 12:09 heure locale, soit pile l'ouverture HC de midi).
+- **`automation.comulus_desactives_en_hp`** — les désactive à la fin de la fenêtre HC (dernière exécution à 14:09 heure locale, soit la fermeture HC de 14:00).
+- **`automation.cumulus_cave_night_completion_if_needed`** et **`automation.cumulus_garage_night_completion_if_needed`** — réactivent les cumulus pendant la fenêtre HC de nuit *uniquement* si les ballons sont sous leur cible (le toggle `input_boolean.force_cumulus_hc` me permet de forcer un cycle nuit complet pour des invités, etc.).
+
+Capteurs utilisés pour garder un œil :
+
+- `sensor.cumulus_cave_daily_on_time` et `sensor.cumulus_garage_daily_on_time` — heures ON du jour, par cumulus (typique : ~2 h cave, ~1 h garage par journée ensoleillée, proche de zéro par journée grise et froide).
+- `sensor.daily_cave_energy` et `sensor.daily_garage_energy` — kWh par cumulus et par jour (la cave est le plus gros ballon et tourne plus longtemps).
+- `sensor.energy_meter_cumulus_cave_energy` et `sensor.energy_meter_cumulus_garage_energy` — kWh cumulés depuis l'installation du compteur.
+
+Mécaniquement, les deux cumulus tirent une charge assez lourde (~2 kW chacun), donc c'est le plus gros poste non-VE de la maison. Les coincer dans la fenêtre HC de midi transforme le surplus OA que j'aurais sinon laissé exporter vers le réseau en eau chaude — qui est le bon usage de cette énergie, et que le tableau de bord capte implicitement (le surplus exporté journalier est ce que les cumulus n'ont *pas* absorbé).
+
 ## L'angle Home Assistant (un paragraphe)
 
 Au-delà des capteurs EVSE, les chiffres de production ci-dessus sont validés contre un capteur de télémétrie en temps réel que je consulte sur mon téléphone quasi quotidiennement. Sur les 90 derniers jours, le capteur de production journalière affiche une moyenne de **13,59 kWh/jour** — quasiment ce que donnerait un calcul rapide à partir du total annuel + une saisonnalité été/hiver typique. Le compteur cumul ECU est en avance de 0,13 % sur le rapport mensuel cumulé, ce qui reste dans le bruit des resets ponctuels / décalages d'horodatage. La facture OA reste payée sur le rapport, donc c'est lui qui fait foi en cas de divergence.

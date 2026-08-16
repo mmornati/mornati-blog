@@ -111,6 +111,26 @@ That reframes the 60.8 % number meaningfully: it is the share of production the 
 
 > **Honest data note.** The long-term statistics recorder on these EVSE sensors has only ~7 days of history as of writing, so I cannot quote you a clean "% of EV charging from solar over 12 months" figure from Home Assistant. The mode and the dynamic range are real; the *averages* are not yet trustable. Once the recorder catches up (or once I add a dedicated `utility_meter` helper for the EVSE), this section will get precise numbers — for now it tells you the mechanism, not the totals.
 
+## The two water heaters and the midday HC window
+
+The second elastic load worth describing is the pair of electric water heaters — one in the cellar, one in the garage. They were originally wired to the standard EDF HC programme (off-peak hours roughly 22:30 → 06:30 in winter, shifted later in summer), which is the cheapest grid energy but also the worst match for solar.
+
+The idea I wanted to test was simple: instead of running them at night, push them into the **midday HC window** (~12:00 → 14:00 local) — the only time of day when the contracted price is the HC tariff *and* the sun is close to its daily peak. On a sunny day, the heaters then run mostly on solar; on a cloudy day, they still run on the cheaper HC grid. Either way, they avoid the peak-hour tariff.
+
+Home Assistant makes this trivial to automate. The pair is switched by a single relay on a Shelly EM energy meter (`switch.energy_meter_cumulus`), and the two cumulus-specific automations do the rest:
+
+- **`automation.cumulus_cave_actives_en_hc`** and **`automation.cumulus_garage_actives_en_hc`** — turn the heaters on at the start of each HC window (verified against `last_triggered`: the most recent run fired at 12:09 local, i.e. exactly the noon HC start).
+- **`automation.comulus_desactives_en_hp`** — turn them back off at the end of the HC window (most recent run fired at 14:09 local — i.e. the 14:00 HC end).
+- **`automation.cumulus_cave_night_completion_if_needed`** and **`automation.cumulus_garage_night_completion_if_needed`** — re-enable the heaters during the standard night HC window *only if* the tanks are below target (the `input_boolean.force_cumulus_hc` toggle lets me force a full night cycle for guests, etc.).
+
+Sensors used to keep an eye on it:
+
+- `sensor.cumulus_cave_daily_on_time` and `sensor.cumulus_garage_daily_on_time` — hours ON today, per heater (typical: ~2 h cellar, ~1 h garage on a sunny day, near zero on a cold overcast day).
+- `sensor.daily_cave_energy` and `sensor.daily_garage_energy` — kWh per heater per day (the cellar is the larger tank and runs longer).
+- `sensor.energy_meter_cumulus_cave_energy` and `sensor.energy_meter_cumulus_garage_energy` — cumulative kWh since meter install.
+
+Mechanically, the two heaters pull a fairly large load (~2 kW each), so they're the largest single non-EV device in the house. Squeezing them into the noon HC window means the OA surplus I would otherwise have paid the grid to absorb becomes hot water instead — which is the right use of the energy, and one the dashboard captures implicitly (the daily surplus-export figure is what the heaters did *not* absorb).
+
 ## The Home Assistant angle (one paragraph)
 
 Beyond the EVSE sensors, the production numbers above are validated against a live telemetry sensor that I check on my phone most days. Over the last 90 days, the daily-production sensor averages **13.59 kWh/day** — almost exactly what a back-of-the-envelope calculation from the yearly total + a typical summer/winter seasonality would predict. The cumulative ECU counter sits 0.13 % ahead of the cumulative monthly report, which is within the noise of occasional meter resets / timestamp skew. The OA invoice still pays on the report, so the report wins when there is a disagreement.
