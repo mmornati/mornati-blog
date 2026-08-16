@@ -7,12 +7,15 @@ tags:
 - cover
 date: '2023-01-01T09:00:42.310000+00:00'
 slug: homeassistant-close-cover-to-control-the-home-temperature
+categories:
+- Smart Home
+- DIY
+- Home Assistant
+description: Improve energy efficiency by automatically closing covers based on internal and external temperature readings.
 ---
 
-
-
-Today I will show you a simple script to help increase your home's energetic performance by regulating the internal temperature base on the external values.  
-It is the first simpler version based on a single temperature point but I have a newer one ready to be tested but I need to wait for hotter days 😅
+Today I'll show you a simple script to improve your home's energy efficiency by regulating internal temperature based on external values.  
+This is the first simple version based on a single temperature point. I have a newer version ready to test, but I need to wait for hotter days 😅
 
 **What do you need for this?**  
 \* Automatic / Home Assistant controller Covers  
@@ -21,8 +24,8 @@ It is the first simpler version based on a single temperature point but I have a
 
 ### **The Trigger**
 
-As I already described for the presence simulation script, the trigger is a `time_pattern` because I want to constantly recheck during a specific time frame if conditions are met.  
-An alternative, to reduce the number of execution, is to use a [Multi Trigger](https://www.home-assistant.io/docs/automation/trigger/#multiple-triggers): when one of the triggers is validated, the automation is started. I will see at the end of the blog article how we can change automation in this way.
+As with the presence simulation script, I use a `time_pattern` trigger because I want to constantly recheck conditions during a specific timeframe.  
+An alternative to reduce executions is a [multi-trigger](https://www.home-assistant.io/docs/automation/trigger/#multiple-triggers): when any trigger is validated, the automation starts. I'll cover this at the end.
 
 ```yaml
 trigger:
@@ -30,11 +33,11 @@ trigger:
     minutes: "/5"
 ```
 
-Automation is started every 5 minutes
+The automation runs every 5 minutes.
 
 ### **The Conditions**
 
-Here we will find a lot of tests to be sure we are closing at the right moment.
+Here are the conditions to ensure we close at the right time.
 
 ```yaml
 condition:
@@ -58,7 +61,7 @@ condition:
 ```
 
 **Time**  
-The window covers I want to control are south-exposed, for this reason, I'm going to execute the automation only during the afternoon when the sun is completely facing the windows: `after: "12:30:00" before: "18:00:00"`
+The covers I want to control face south, so I only run the automation during the afternoon when the sun is directly facing the windows: `after: "12:30:00" before: "18:00:00"`
 
 **Not executed already**
 
@@ -73,8 +76,8 @@ The window covers I want to control are south-exposed, for this reason, I'm goin
           value_template: "{{ ( as_timestamp(now()) - as_timestamp(state_attr('automation.close_cover_based_on_afternoon_temperature', 'last_triggered')) |int(0)) > 28800 }}"
 ```
 
-This part of the script, which seems hard to understand I know, is used to check if the automation was already fired (until the execution) **or** never executed at all (necessary for the first execution or if the last time was long away that historic data are removed).  
-For this check, we use the `last_triggered` property on the automation itself, checking if it `none` or if the last execution was fired more than **8 hours** before. Why 8 hours? Never mind, in the end, you just need to put here a value preventing the execution in the same timeframe (12h30 to 18h) and allowing the execution the day after (18h to 12h30). The value 8 is covering both 2 cases: greater than 6:30 hours (18-12h30) and less than 18:30 hours (12h30 - 18h).
+This part — which I know seems complex — checks if the automation already fired (up to this execution) **or** was never executed (needed for the first run or when the last run was so long ago that historical data was removed).  
+We use the `last_triggered` property, checking if it's `none` or if the last execution was more than **8 hours** ago. Why 8 hours? It just needs to prevent re-execution in the same timeframe (12:30-18:00) while allowing it the next day (18:00-12:30). 8 covers both: greater than 6.5 hours (18:00-12:30) and less than 18.5 hours (12:30-18:00).
 
 **Temperature**
 
@@ -86,15 +89,15 @@ For this check, we use the `last_triggered` property on the automation itself, c
       above: 20
 ```
 
-The 2 other conditions are checking the internal and external temperature.  
-For the internal, second condition, I'm checking only the temperature sensor in the room where I control the covers and it must be **above** 20 degrees to trigger the automation.  
-The other condition is checking the difference between the internal and the external temperature: the external must be at least 2 degrees greater than the internal.  
+The other two conditions check internal and external temperature.  
+The second condition checks the temperature in the room with the covers — it must be **above** 20°C.  
+The next condition checks the difference: external must be at least 2°C warmer than internal.  
 \* `states.sensor.netatmo_maison_willems_indoor_namodule1_temperature.state|float` external module  
 \* `states.sensor.capteur_movement_salon_temperature.state|float + 2` internal module + 2 degrees.
 
 ### The Action
 
-If everything is validated, the covers are closed.
+If all conditions are met, the covers close.
 
 ```yaml
   action:
@@ -109,8 +112,8 @@ If everything is validated, the covers are closed.
         position: 40
 ```
 
-All the covers I want to control are placed at 40%. Not completely closed, but it is enough to reduce the light entering the room.  
-I added an additional cover in a separate room without creating another action. It is only to simplify the management as the exposure is the same.
+All the covers I want to control are placed at 40%. Not fully closed, but enough to reduce sunlight entering the room.  
+I added another cover from a different room without creating a separate action — the exposure is the same.
 
 If we put it all together the script is the following:
 
@@ -150,13 +153,13 @@ If we put it all together the script is the following:
         position: 40
 ```
 
-I used it for the last 2 years and there is a big difference in the temperature feeling you have when the covers are closed. So it is a big game changer for me.
+I've been using this for 2 years and it makes a big difference in how the temperature feels. It's a game changer for me.
 
 ### **Different triggers to reduce the number of execution**
 
-As I said at the beginning, we can find a different way to manage the trigger, instead of the simple `time_pattern`. This will contribute to reducing the number of executions: even if the action is not fired, we are entering in the conditions check, using a little bit of your CPU.
+As I said earlier, we can use a different trigger instead of `time_pattern` to reduce executions. Even without firing the action, checking conditions uses some CPU.
 
-If we get back our automation, the real information we need to trigger the automation is the temperature: external is more than 2 degrees greater than internal and internal is above 20 degrees.  
+Looking at our automation, the real trigger is temperature: external is more than 2 degrees greater than internal and internal is above 20 degrees.  
 An example of what we can change:
 
 ```yaml
@@ -168,8 +171,8 @@ automation:
         minutes: 5
 ```
 
-In this way, we are triggering based on the external vs internal condition, and we check if the value remains true for at least 5 minutes.  
-We could add a second trigger about the internal temperature only, but we have to keep in mind that the trigger is evaluated with an **or** condition: if at least one is true, the action script is executed (but maybe conditions prevent it to be fired).
+This triggers based on the external vs internal condition, and we check if the value remains true for at least 5 minutes.  
+We could add a second trigger for internal temperature, but triggers use **OR** logic: if any is true, the action runs (though conditions may prevent it).
 
 ```yaml
     - platform: numeric_state
@@ -177,14 +180,14 @@ We could add a second trigger about the internal temperature only, but we have t
       above: 20
 ```
 
-It is up to you to define what is the best trigger in your situation, and what you are ready to accept in terms of the number of "false" executions.
+It's up to you to decide the best trigger and how many false executions you're willing to accept.
 
 ### Future enhancement
 
-This is the version I used so far but the action was "wrongly" fired sometime. As it is based only on temperature, in the summer all the conditions can be valid even if it is rainy outside. With these weather conditions, the internal temperature is not increasing because the sun is not going through the windows.  
-At the end of summer, I installed some new external motion sensors I can use to add a new parameter: *light intensity.*
+This is the version I've used so far, but it sometimes fired incorrectly. Since it's temperature-based, summer conditions can be met even when it's raining outside. In those conditions, the indoor temperature doesn't rise because the sun isn't coming through the windows.  
+At the end of summer, I installed external motion sensors to add a new parameter: *light intensity.*
 
 ![](/images/homeassistant-close-cover-to-control-the-home-temperature/00-cdc0b1d4-5e15-42de-8b35-c96978aba0a0.png)
 
-What I added is a test about the *lux* parameter, which I'm already using to trigger the external spots.  
+I added a test for the *lux* parameter, which I already use for external lights.  
 But this is another story 😎
