@@ -16,9 +16,9 @@ title = "Mornati Blog"
 
   [params.author]
     name = "Marco Mornati"
-    image = "img/avatar.svg"
-    headline = "Sviluppatore · Self-hoster · Appassionato OSS"
-    bio = "Scrivo del software che costruisco, self-hosto e rompo in produzione."
+    image = "img/avatar.jpg"
+    headline = "Ingegnere software · Self-hoster · Appassionato di AI e OSS"
+    bio = "Costruisco, self-hosto e a volte rompo software in produzione — scrivendo di strumenti AI, coding agent e infrastrutture."
     links = [
       { github = "https://github.com/mmornati" },
       { blog = "https://blog.mornati.net/" },

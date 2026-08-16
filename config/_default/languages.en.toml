@@ -19,9 +19,9 @@ title = "Mornati Blog"
 
   [params.author]
     name = "Marco Mornati"
-    image = "img/avatar.svg"
-    headline = "Developer · Self-hoster · OSS enthusiast"
-    bio = "I write about the software I build, self-host and break in production."
+    image = "img/avatar.jpg"
+    headline = "Software engineer · Self-hoster · AI & OSS enthusiast"
+    bio = "I build, self-host and sometimes break software in production — writing about AI tooling, coding agents and infrastructure."
     links = [
       { github = "https://github.com/mmornati" },
       { blog = "https://blog.mornati.net/" },
