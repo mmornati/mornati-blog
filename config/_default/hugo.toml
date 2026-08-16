@@ -75,3 +75,7 @@ enableEmoji = true
     name = "fragmentrefs"
     type = "fragments"
     weight = 10
+
+[security]
+  [security.funcs]
+    getenv = ['^HUGO_', '^CI$', '^FIREBASE_']
