@@ -2,8 +2,87 @@
 title: Well-Formed Symbolic Script
 date: '2008-07-21T22:00:00+00:00'
 slug: well-formed-symbolic-script
+tags:
+  - symbolic
+  - automation
+  - scripting
+  - python
+  - groovy
+  - bash
+  - perl
+  - xml-rpc
+categories:
+  - Development
+description: Learn how to create well-formed scripts for Symbolic with proper metadata tags, supported languages, XML-RPC communication, and parameter handling.
 ---
 
+The first step to create a well-formed script is to add a series of metadata tags at the beginning of the script file within a "commented area". These tags allow Symbolic to recognize and adapt to your script.
 
+## Supported Languages
 
-The first step to make a well-formed script is to add, at the beginning of the script file in a "commented area", a series of tag that will recognize from Symbolic and adapt the application accordingly to the script.<br /><br />To write your own script you can choose between one of the four supported languages: <span style="font-weight: bold;">Groovy</span>, <span style="font-weight: bold;">Python</span>, <span style="font-weight: bold;">Bash</span>, <span style="font-weight: bold;">Perl</span><br /><br />The current accepted tag are:<br /><ul><li><span style="font-style: italic;">@Name</span>: the name for your script. Is used to shown to the users your saved script.</li><li><span style="font-style: italic;">@Author</span>: name and references of the script's author.</li><li><span style="font-style: italic;">@Type</span>: type of your script. Valid values are: python, groovy, bash, perl</li><li><span style="font-style: italic;">@Description</span>: a full description to inform users about what script really does.</li></ul>Putting just this four simple tags at the beginning of your script, and copying your script in symbolic scripts folder, make Symbolic application able to recognized the script so that users can run it.<br /><br /><span style="font-weight: bold;">XML-RPC Communication</span><br />Symbolic exposes a service to which script can connect to get some useful information (like a Symbolic certified machines) and to post execution result.<br />All "user-runnable" scripts in fact are launched in a way that can we call "asynchronous": Symbolic does not wait the answer from each ran script; so the only way that we can use to communicate the result to Symbolic if calling it through a defined service.<br />In Symbolic there is an implementation of XML-RPC server that exposes a method to post result from script:postInformation(result). So in your scripts you have to put some lines of code that call XML-RPC server to post the result information.<br />When Symbolic call a script provides these parameters:<br /><br /><span style="font-style: italic;">-a</span>: asynchronous execution. Caller will not wait for script answer, so result must be posted through xml-rpc server<br /><span style="font-style: italic;">-p proccesID</span>: is the Symbolic identification of ran script<br /><span style="font-style: italic;">-s serverAddress</span>: xml-rpc server address.<br /><br />For example if you have a python script, symbolic will call it using something like:<br /><pre><code>python script.py -a -p 10 -s http://localhost:8080/symbolic/api/xmlrpc<br /></code></pre><br />So you need to get this parameters inside your script if you want to communicate with Symbolic.<br /><br />The answer that Symbolic expects must be formatted as dictionary/map with these information:<br /><pre><code>["process_id":SYMBOLIC_PROC_ID,"status":process_status,"response":some_information]<br /></code></pre><br /><span style="font-style: italic;">process_id</span>: is the process id provided during symbolic script invocation.<br /><span style="font-style: italic;">status</span>: is the result of your script/process (0:Success, 1:Error)<br /><span style="font-style: italic;">response</span>: what you want. It's better something Human-Readable because will be shown to user without any kind of parsing.<br /><br /><span style="font-weight: bold;">Authentication</span><br />The symbolic rpm server is secured behind a password protection. So when you create, inside your script, an instance of xmlrpc client you need to post BasicAuthentication username and password or you will get an "access forbidden error" from Symbolic.<br />As default setting there is an user that scripts can use to connect to server:<br /><pre><code>username: externalscript<br />password: externalscript<br /></code></pre><br />Symbolic administrator could change this information or create many other script-enable accounts. These account must have associated a custom script authority (like default created during installation) or root authority (it's better to do not use this authority to make script enable to communicate with symbolic!)
+You can write your own scripts using one of the four supported languages:
+
+- **Groovy**
+- **Python**
+- **Bash**
+- **Perl**
+
+## Required Metadata Tags
+
+The currently accepted tags are:
+
+- `@Name`: The name for your script. This is displayed to users for your saved script.
+- `@Author`: Name and references of the script's author.
+- `@Type`: The type of your script. Valid values are: `python`, `groovy`, `bash`, `perl`
+- `@Description`: A full description to inform users about what the script actually does.
+
+Adding these four simple tags at the beginning of your script and copying your script into the Symbolic scripts folder makes the Symbolic application able to recognize the script so that users can run it.
+
+## XML-RPC Communication
+
+Symbolic exposes a service to which scripts can connect to get useful information (such as Symbolic certified machines) and to post execution results.
+
+All user-runnable scripts are launched asynchronously: Symbolic does not wait for the answer from each executed script. Therefore, the only way to communicate the result to Symbolic is by calling it through the defined XML-RPC service.
+
+Symbolic includes an implementation of an XML-RPC server that exposes a method to post results from scripts: `postInformation(result)`. In your scripts, you need to include lines of code that call the XML-RPC server to post the result information.
+
+## Script Parameters
+
+When Symbolic calls a script, it provides the following parameters:
+
+- `-a`: Asynchronous execution. The caller will not wait for the script's answer, so the result must be posted through the XML-RPC server.
+- `-p processID`: The Symbolic identification of the running script.
+- `-s serverAddress`: The XML-RPC server address.
+
+For example, if you have a Python script, Symbolic will call it using something like:
+
+```bash
+python script.py -a -p 10 -s http://localhost:8080/symbolic/api/xmlrpc
+```
+
+You need to parse these parameters inside your script if you want to communicate with Symbolic.
+
+## Expected Response Format
+
+The response that Symbolic expects must be formatted as a dictionary/map with the following information:
+
+```python
+{"process_id": SYMBOLIC_PROC_ID, "status": process_status, "response": some_information}
+```
+
+- `process_id`: The process ID provided during Symbolic script invocation.
+- `status`: The result of your script/process (`0`: Success, `1`: Error)
+- `response`: What you want to return. It is best to provide something human-readable as it will be shown to the user without any kind of parsing.
+
+## Authentication
+
+The Symbolic XML-RPC server is secured with password protection. When you create an instance of an XML-RPC client in your script, you need to provide Basic Authentication with a username and password, or you will receive an "access forbidden" error from Symbolic.
+
+By default, there is a user that scripts can use to connect to the server:
+
+```
+username: externalscript
+password: externalscript
+```
+
+Symbolic administrators can change this information or create additional script-enabled accounts. These accounts must have an associated custom script authority (like the default created during installation) or root authority. However, it is recommended not to use root authority to enable scripts to communicate with Symbolic for security reasons.
