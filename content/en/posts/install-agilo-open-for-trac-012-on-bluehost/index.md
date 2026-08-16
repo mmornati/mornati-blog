@@ -2,6 +2,7 @@
 title: Install Agilo Open for Trac 0.12 on BlueHost
 date: '2012-05-25T22:00:00+00:00'
 slug: install-agilo-open-for-trac-012-on-bluehost
+categories: [Development, Project Management, Tools]
 ---
 
 
