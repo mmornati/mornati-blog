@@ -6,11 +6,14 @@ tags:
 - motion-sensor
 date: '2023-01-02T07:00:42.411000+00:00'
 slug: home-assistant-motion-sensor-coupled-with-a-switch
+categories:
+- Smart Home
+- DIY
+- Home Assistant
+description: Use a motion sensor and an input boolean to prevent outdoor lights from turning off when manually switched on.
 ---
 
-
-
-Did you already move your harms to your motion sensor to power on your external light, for example when you are on your deck having dinner? It happened all the time to me and it is really frustrating... so I created automation to stop it! 😎
+Have you ever waved your arms at a motion sensor to turn on your outdoor light while having dinner on the deck? It happened to me all the time and was really frustrating... so I created an automation to stop it! 😎
 
 **What do you need?**
 
@@ -24,23 +27,23 @@ Did you already move your harms to your motion sensor to power on your external 
 ## **Input Boolean**
 
 Nothing special here, you just need to put it within your `input_boolean.yaml` file or directly in the `configuration.yaml`, depending on how you are managing your HassIO configuration.  
-To simplify my global configuration, on my side I put this within the global configuration file: `input_boolean: !include components/input_boolean.yaml`
+To simplify things, I put this in my global configuration file: `input_boolean: !include components/input_boolean.yaml`
 
 ```yaml
 input_boolean: !include components/input_boolean.yaml
 ```
 
-Which then allows you to put all your booleans configurations within the defined file.
+This lets you keep all boolean configurations in one file.
 
-A different way to include external files, which I'm using with automation, is to put a folder instead of a file and ask Home Assistant to merge everything to get the final configuration:automation: `!include_dir_merge_list automations/`
+Another approach, which I use for automations, is to use a folder and let Home Assistant merge everything: `automation: !include_dir_merge_list automations/`
 
 ```yaml
 automation: !include_dir_merge_list automations/
 ```
 
-This allows your *automation* folder to put 1 YAML per automation and so separate it to simplify the management.
+This lets you put one YAML per automation, keeping things organized.
 
-Anyway, getting back to our boolean. What you have to put inside the external file is:
+Back to our boolean. What to put in the file:
 
 ```yaml
 terrasse_salon_auto_on:
@@ -52,7 +55,7 @@ This will create an `input_boolean` named `terrasse_salon_auto_on` we will use l
 
 ## **The Automation**
 
-We have two different automation to control the power-on and the power-off.
+We have two automations: one for power-on, one for power-off.
 
 ```yaml
 - alias: Terrasse Salon ON
@@ -104,11 +107,11 @@ We have two different automation to control the power-on and the power-off.
       entity_id: input_boolean.terrasse_salon_auto_on
 ```
 
-As usual, we will enter each part of the script to understand what it does.
+Let's go through each part to understand how it works.
 
 ### **The Trigger**
 
-We want to turn on and off the light bulb when motion is detected. So we will use a state trigger on this particular sensor.
+We want to control the light based on motion detection, so we use a state trigger on the motion sensor.
 
 ```yaml
 trigger:
@@ -117,9 +120,9 @@ trigger:
     to: "on"
 ```
 
-When the `occupancy` sensor of the motion sensor is moving to `on` the script is triggered.
+When the occupancy sensor turns on, the automation triggers.
 
-For the off part, we improve a little bit the trigger to prevent the light from flickering all the time if we are outside but not always moving or not always in front of the motion sensor.
+For the off trigger, we improve it slightly to prevent flickering when movement isn't constant.
 
 ```yaml
 trigger:
@@ -130,11 +133,11 @@ trigger:
       minutes: 2
 ```
 
-The `for minutes` is doing the job: if the occupancy is off for at least 2 minutes, the action is triggered.
+The `for: minutes` handles this: if occupancy is off for 2 minutes, the action triggers.
 
 ### **The Conditions**
 
-If there is motion, when do we want to power on the light? If it is dark and if, for sure, the light is off. So, this is mainly what we find:
+When there's motion, when should the light turn on? When it's dark and the light is off, of course.
 
 ```yaml
 condition:
@@ -151,12 +154,12 @@ condition:
 
 * The `state` part is checking if the light is off
     
-* The `numeric_state` is validated by the illuminance value provided by the motion sensor. Which value to put here? Just made some tests. 0 should be a good value (no light at all) but I preferred to move a little bit up to have the power bulb powered on with low illuminance.
+* `numeric_state` checks the motion sensor's illuminance value. What value to use? I ran some tests. 0 would work (no light), but I moved it up slightly to also trigger in low light.
     
-* The last `state` is another `input_boolean` I added to be able to completely prevent light from being powered on. I'm using this during the night: if the night alarm is on, this means nobody will go outside, so I don't want to have the lights powered on by movements.
+* The last `state` is another `input_boolean` that can completely disable the light. I use this at night: if the alarm is on, no one will be outside, so motion shouldn't turn on the light.
     
 
-For the power-off action, there is something similar, but it is here we will use the added input boolean to do the magic.
+The power-off automation is similar, but this is where the magic happens with our `input_boolean`.
 
 ```yaml
   condition:
@@ -173,16 +176,16 @@ For the power-off action, there is something similar, but it is here we will use
           state: "on"
 ```
 
-* The `state` of the light. It sure must be on
+* The light must be on.
     
-* The state `input_boolean` we previously configured. We will power off the light bulb if it was automatically turned on (we will see in a while when this flag will be turned on). This means if we power on the light with the home assistant application or if a switch, the flag should be false and the light won't be turned off.
+* The `input_boolean` we configured. The light turns off only if it was turned on by automation. If we turned it on manually, the flag stays false and the light won't turn off automatically.
     
-* Here you will see a `or` condition with a second `input_boolean.ignore_light_manual_on`. I'm using it to disable the previous flag: If I want to turn off anyway the light, never mind how it was turned on.
+* There's also an `or` condition with a second boolean that overrides this: it forces the light off regardless of how it was turned on.
     
 
 ### **The Action**
 
-If everything is validated the light should be turned on or off, depending on the automation we are considering, but not only: we will control the `input_boolean` at this level.
+If conditions are met, the light turns on or off — and we also control the `input_boolean`.
 
 ```yaml
   action:
@@ -192,10 +195,10 @@ If everything is validated the light should be turned on or off, depending on th
       entity_id: input_boolean.terrasse_salon_auto_on
 ```
 
-You can see in the turn-on script, two services are fired: one for the light itself and the second one to move the boolean to `true`. This means if the light is turned on by the automation, the boolean contains the value to check this.  
-It is in my opinion the simple way to control this, but you can check in many other ways.
+The turn-on script fires two services: one for the light, one to set the boolean to `true`. This marks that the light was turned on by automation.  
+This is the simplest way I've found, but there are other approaches.
 
-On the power-off part, it is exactly the opposite: we move the flag to false to get back to the initial state.
+The power-off does the opposite: it sets the flag back to false.
 
 ```yaml
   action:
