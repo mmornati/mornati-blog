@@ -7,6 +7,7 @@ tags:
 - developer
 - learning
 date: '2025-12-31T17:51:16.624000+00:00'
+categories: [Development, AI, Education]
 slug: behind-the-scenes-the-admin-section-of-cyber-code-academy
 description: Explore the powerful admin tools of Cyber Code Academy for challenge
   creation, monitoring, semantic validation, and AI-driven platform management
