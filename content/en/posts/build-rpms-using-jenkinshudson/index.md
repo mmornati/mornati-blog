@@ -1,17 +1,31 @@
 ---
 title: Build RPMs using Jenkins/Hudson
+tags:
+- jenkins
+- rpm
+- makefile
+- ci
+- hudson
+categories:
+- DevOps
+- CI/CD
+description: How to build RPM packages using Jenkins/Hudson CI with a Makefile, including source tarball creation, spec-file configuration, and automated upload to a yum repository.
 date: '2021-09-13T22:00:00+00:00'
 slug: build-rpms-using-jenkinshudson
 ---
 
+## Overview
 
+A continuous integration system like Jenkins, originally created for Java projects, can now be used for many build activities. You can, for example, find plugins for iOS project CI builds, Android platforms, Python projects, and more.
 
-A continuous integration system, like <a href="http://jenkins-ci.org/">Jenkins</a>, that is not created for project "outside  java world", can be used today for many <em>build activities</em>. You can, for example, find plugin for iOS project CI build, android platform, python project, ...
+Here I'll show a way to use it to build **RPM**s in CI.
 
-Here I'll shown a way to use it to build <strong>RPM</strong>s in CI.
+## The Makefile
 
-First think, for simplicity in Jenkins build script, I suggest you to use a <a href="http://en.wikipedia.org/wiki/Make_(software)">Makefile</a> for your project. Following an example created for the <a href="http://www.opensymbolic.com">OpenSymbolic</a> and <a href="http://www.kermit.fr">Kermit</a> projects.
-<pre class="language-bash"><code class="language-bash">TOPDIR = $(shell pwd)
+First thing, for simplicity in the Jenkins build script, I suggest using a [Makefile](http://en.wikipedia.org/wiki/Make_(software)) for your project. Following an example created for the [OpenSymbolic](http://www.opensymbolic.com) and [Kermit](http://www.kermit.fr) projects.
+
+```bash
+TOPDIR = $(shell pwd)
 DATE="date +%Y%m%d"
 PROGRAMNAME=kermit-webui
 RELEASE=0.0.3
@@ -31,7 +45,7 @@ bumprelease:
 build: clean
 	echo $(TOPDIR)
 	echo "- Create Changelog file"
-	git shortlog &gt; changelog.txt
+	git shortlog > changelog.txt
 	echo "- Create new $(TMPDIR)/$(BUILDDIR)"
 	mkdir -p $(TMPDIR)/$(BUILDDIR)
 	mkdir -p $(TMPDIR)/$(BUILDDIR)/$(PROGRAMNAME)
@@ -103,16 +117,23 @@ rpms: build manpage sdist
 	--define "_specdir %{_topdir}" 
 	--define "_sourcedir  %{_topdir}" 
 	--define "vendor Think" 
-	-ba misc/specs/kermit-webui.spec</code></pre>
-The important part is the one inside <em>build</em> where we create the source .tgz file (with the correct name) to use later, in the <em>rpms</em> part of the makefile, to create the RPM. There are different way to create it and, maybe, this one is not the best you can create; later we will a see a different way to configure it without using the makefile and downloading sources from Github.
+	-ba misc/specs/kermit-webui.spec
+```
 
-After the Makefile creation you can try to compile your project simply running <em>make</em> command in the folder where you have created the Makefile (usually the project root folder).
+The important part is the one inside *build* where we create the source .tgz file (with the correct name) to use later, in the *rpms* part of the makefile, to create the RPM. There are different ways to create it and, maybe, this one is not the best you can create; later we'll see a different way to configure it without using a Makefile and by downloading sources from GitHub.
 
-Now we can configure a new project inside Jenkins, that should be a **free style project** with a build step with **execute shell** configuration.
-<a href="https://res.cloudinary.com/blog-mornati-net/image/upload/v1391641476/Schermata-09-2455819-alle-21_04_17_dc3jxp.png">![](/images/build-rpms-using-jenkinshudson/00-Schermata-09-2455819-alle-21_04_17_dc3jxp.png)</a>
+After creating the Makefile, you can try to compile your project simply running the *make* command in the folder where you have created the Makefile (usually the project root folder).
 
-You can just put *make* and Jenkins will build the project. Here we have an example that will get created RPM and will update a local yum repository that will be uploaded on a server using ftp at the end of build step.
+## Jenkins Configuration
 
-<a href="https://res.cloudinary.com/blog-mornati-net/image/upload/v1391641475/Schermata-09-2455819-alle-21_09_12_vswstu.png">![](/images/build-rpms-using-jenkinshudson/01-Schermata-09-2455819-alle-21_09_12_vswstu.png)</a>
+Now we can configure a new project inside Jenkins, that should be a **free style project** with a build step with **execute shell** configuration.
 
-Now you have a Jenkins that will build a new RPM after any commit (or once a day, depending on your build configuration) and upload the new RPM on an online repository. Easy and working :)
+[![image](/images/build-rpms-using-jenkinshudson/00-Schermata-09-2455819-alle-21_04_17_dc3jxp.png)](https://res.cloudinary.com/blog-mornati-net/image/upload/v1391641476/Schermata-09-2455819-alle-21_04_17_dc3jxp.png)
+
+You can just put *make* and Jenkins will build the project. Here's an example that creates an RPM and will update a local yum repository that will be uploaded to a server via FTP at the end of the build step.
+
+[![image](/images/build-rpms-using-jenkinshudson/01-Schermata-09-2455819-alle-21_09_12_vswstu.png)](https://res.cloudinary.com/blog-mornati-net/image/upload/v1391641475/Schermata-09-2455819-alle-21_09_12_vswstu.png)
+
+## How It Works
+
+Now you have a Jenkins setup that builds a new RPM after every commit (or once a day, depending on your build configuration) and uploads the new RPM on an online repository. Easy and it works :)
