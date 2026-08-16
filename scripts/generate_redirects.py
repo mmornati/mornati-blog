@@ -71,6 +71,43 @@ def _frontmatter(path: Path):
     return fm
 
 
+def _collect_tags() -> set:
+    """Collect every tag referenced in post front matter."""
+    tags = set()
+    for index in (CONTENT / "en" / "posts").glob("*/index.md"):
+        tags |= _tags_in(index)
+    for lang in ("it", "fr"):
+        for index in (CONTENT / lang / "posts").glob("*/index.md"):
+            tags |= _tags_in(index)
+    return tags
+
+
+def _tags_in(path: Path) -> set:
+    m = FM_RE.match(path.read_text(encoding="utf-8"))
+    if not m:
+        return set()
+    tags = set()
+    in_tags = False
+    for line in m.group(1).splitlines():
+        if line.startswith("tags:"):
+            rest = line[5:].strip()
+            if rest.startswith("["):
+                for x in rest.strip("[]").split(","):
+                    x = x.strip().strip("'\"")
+                    if x:
+                        tags.add(x)
+                in_tags = False
+            else:
+                in_tags = True
+            continue
+        if in_tags:
+            if line.startswith("-"):
+                tags.add(line[1:].strip().strip("'\""))
+            elif line.strip() and not line.startswith(" "):
+                in_tags = False
+    return tags
+
+
 def main() -> int:
     written = []
     for lang in ("it", "fr"):
@@ -94,7 +131,20 @@ def main() -> int:
                 stub.write_text(
                     TEMPLATE.format(target=target), encoding="utf-8")
                 written.append(str(stub.relative_to(PUBLIC)))
-    print(f"[redirects] wrote {len(written)} root redirect stubs")
+
+    # Old Hashnode used /tag/<name>; Blowfish uses /tags/<name>.
+    all_tags = _collect_tags()
+    tag_stubs = 0
+    for tag in sorted(all_tags):
+        stub = PUBLIC / "tag" / tag / "index.html"
+        stub.parent.mkdir(parents=True, exist_ok=True)
+        stub.write_text(
+            TEMPLATE.format(target=f"/tags/{tag}/"), encoding="utf-8")
+        written.append(f"tag/{tag}/index.html")
+        tag_stubs += 1
+
+    print(f"[redirects] wrote {len(written)} root redirect stubs "
+          f"({tag_stubs} tag redirects)")
     if written:
         print("\n".join(f"  /{w}" for w in written))
     return 0

@@ -40,4 +40,5 @@ jobs:
           echo "post pages built: $POSTS"
           REDIRECTS=$(find public -maxdepth 1 -type d | wc -l)
           test -f public/blog-da-iphone/index.html
-          echo "root redirect stubs present"
+          test -f public/tag/docker/index.html
+          echo "root redirect stubs present (+ tag redirects)"
