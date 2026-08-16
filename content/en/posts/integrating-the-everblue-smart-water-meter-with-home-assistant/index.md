@@ -9,11 +9,16 @@ date: '2024-04-30T09:23:58.877000+00:00'
 slug: integrating-the-everblue-smart-water-meter-with-home-assistant
 description: Track water usage efficiently by integrating Everblue Smart Water Meter
   with Home Assistant. Step-by-step guide for meticulous monitoring and control
+categories:
+- Smart Home
+- DIY
+- Home Assistant
+- Water
 ---
 
 
 
-Welcome to a detailed guide where I share my experience with one of the most challenging projects I’ve tackled using HomeAssistant: integrating the Everblue smart water meter. This guide will walk you through the entire process, step by step.
+Welcome to a detailed guide where I share my experience with one of the most challenging projects I've tackled using Home Assistant: integrating the Everblue smart water meter. This guide will walk you through the entire process, step by step.
 
 ### **Introduction**
 
@@ -21,7 +26,7 @@ In France, many homes are now equipped with the [Everblue water meter](https://w
 
 ### **Why Integrate Everblue with Home Assistant?**
 
-As someone who enjoys automating every possible aspect of my home, integrating Everblue with Home Assistant allows me to monitor and control water usage meticulously. This setup helps answer questions like, "How much water does a shower use?" or "What’s the consumption when running the washing machine?" By incorporating Everblue into the Home Assistant energy dashboard, you can track these metrics over time, optimizing your water usage and understanding your consumption patterns. For this project, you will need:
+As someone who enjoys automating every possible aspect of my home, integrating Everblue with Home Assistant allows me to monitor and control water usage meticulously. This setup helps answer questions like, "How much water does a shower use?" or "What's the consumption when running the washing machine?" By incorporating Everblue into the Home Assistant energy dashboard, you can track these metrics over time, optimizing your water usage and understanding your consumption patterns. For this project, you will need:
 
 * A Raspberry Pi (any model will do; I used an old RPi Rev B)
     
@@ -51,7 +56,7 @@ Make sure to adjust the device frequency as necessary, as slight deviations from
 ./everblu_meters 0
 ```
 
-If at the end of scan process the reported frequency is 0, this means device was not found. You may have to test several time before to have the device working frequency. When working you will have a message like the following one:
+If the scan reports frequency 0, the device wasn't found. You may need to try several times before finding the working frequency. When it works, you'll see a message like this:
 
 ```json
 { 
@@ -62,9 +67,9 @@ If at the end of scan process the reported frequency is 0, this means device was
 }
 ```
 
-Once everything is well configured you can complete scheduling the EverBlue meter read once per day to prevent the device battery drain and, remember: working hours only!
+Once configured, schedule the Everblue meter to read once per day to save battery, and remember: working hours only!
 
-On my side I create a simple crontab:
+I created a simple crontab:
 
 ```bash
 crontab -e
@@ -76,7 +81,7 @@ With the following content:
 0 10 * * 1-5 /home/mmornati/everblu-meters-pi/everblu_meters 433.7560 >> /tmp/everblu.log 2>&1
 ```
 
-This will be executed every week day at 10 a.m. and writing execution logs in the `/tmp/everblu.log` file let me check if everything is ok.
+This runs every weekday at 10 a.m., and writing logs to `/tmp/everblu.log` lets me verify everything is working.
 
 The file content
 
@@ -107,7 +112,7 @@ Local Time    : Mon Apr 29 10:00:09 2024
 RSSI  /  LQI  : -48dBm  /  -128
 ```
 
-**The interesting thing** in the information returned by the everblue meter you have the working hours of your device helping you for the schedule \`from 06H to 18H\`
+**The interesting thing** in the information returned by the Everblue meter is the device's working hours, which helps with scheduling `from 06H to 18H`.
 
 ### **Displaying Information in Home Assistant**
 
@@ -137,11 +142,11 @@ These sensors will now appear in your Energy Dashboard, allowing you to monitor 
 
 ### **Common Issues**
 
-Occasionally, the script may fail to detect the Everblue meter. I’ve modified the script to retry several times before giving up, which resolves the issue most of the time. If problems persist, they're usually resolved the following day.
+Occasionally, the script may fail to detect the Everblue meter. I've modified the script to retry several times before giving up, which resolves the issue most of the time. If problems persist, they're usually resolved the following day.
 
 ![](/images/integrating-the-everblue-smart-water-meter-with-home-assistant/01-126ac512-d8a4-43e4-9ac5-33243213165f.png)
 
-Replace the line 323 with the following code:
+Replace line 323 with the following code:
 
 ```cpp
 int i=0; 
