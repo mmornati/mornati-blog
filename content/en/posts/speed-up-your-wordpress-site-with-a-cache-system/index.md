@@ -2,18 +2,24 @@
 title: Speed up your Wordpress site with a cache system
 date: '2013-11-12T23:00:00+00:00'
 slug: speed-up-your-wordpress-site-with-a-cache-system
+categories: [WordPress, Performance, DevOps]
+tags: [wordpress, cache, w3-total-cache, nginx, performance, optimization]
+description: "A performance comparison of WordPress with and without W3 Total Cache, including Nginx configuration tips."
 ---
 
-
+## Overview
 
 I was reading articles about caching systems for Wordpress, and I found many conflicting opinions: or completely pro cache or absolutely against cache framework.
 
-I then decided to make a simple test to verify if it was really useful to have a cache on this blog (I've <a href="http://wordpress.org/plugins/w3-total-cache/">W3 Total Cache</a> installed since the beginning) and here you are the results...
+I then decided to make a simple test to verify if it was really useful to have caching on this blog (I've had [W3 Total Cache](http://wordpress.org/plugins/w3-total-cache/) installed since the beginning) and here are the results...
 NB. On my nginx web server I've gzip activated on both tests with a browser cache for all static files.
 
-<strong>Without cache</strong>
-<pre><code> <code>MacBook-Pro-di-Marco:~ mmornati$ ab -n 100 -c5 http://blog.mornati.net/
-This is ApacheBench, Version 2.3 &lt;$Revision: 655654 $&gt;
+## Test Results
+
+**Without cache**
+```bash
+MacBook-Pro-di-Marco:~ mmornati$ ab -n 100 -c5 http://blog.mornati.net/
+This is ApacheBench, Version 2.3 <$Revision: 655654 $>
 Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
 Licensed to The Apache Software Foundation, http://www.apache.org/
 
@@ -54,10 +60,13 @@ Percentage of the requests served within a certain time (ms)
   95%   4160
   98%   4779
   99%   4947
- 100%   4947 (longest request)</code></pre>
-<strong>With W3C Total Cache</strong>
-<pre><code> <code>MacBook-Pro-di-Marco:~ mmornati$ ab -n 100 -c5 http://blog.mornati.net/
-This is ApacheBench, Version 2.3 &lt;$Revision: 655654 $&gt;
+ 100%   4947 (longest request)
+```
+
+**With W3 Total Cache**
+```bash
+MacBook-Pro-di-Marco:~ mmornati$ ab -n 100 -c5 http://blog.mornati.net/
+This is ApacheBench, Version 2.3 <$Revision: 655654 $>
 Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
 Licensed to The Apache Software Foundation, http://www.apache.org/
 
@@ -98,14 +107,21 @@ Percentage of the requests served within a certain time (ms)
   95%    184
   98%    200
   99%    207
- 100%    207 (longest request)</code></pre>
+ 100%    207 (longest request)
+```
+
+## Conclusion
+
 I think the results are impressive:
-4947 vs 207 ms = <strong>2289,855%</strong> better with the cache activate
+4947 vs 207 ms = **2289,855%** better with the cache activated
 
-You have to set correctly your Wordpress cache framework to prevent caching problems; for example, new post not shown on the homepage... but, I think you should have a caching framework on a wordpress website!
+You need to correctly configure your Wordpress cache framework to prevent caching problems; for example, new posts not showing up on the homepage... but, I think you should use a caching framework on a wordpress website!
 
-If you decide to use it with the NGINX web server, here you are my configuration.
-<pre><code> <code>server {
+## Nginx Configuration
+
+If you decide to use it with the NGINX web server, here is my configuration.
+```nginx
+server {
     listen 5.135.145.38:80;
     server_name blog.mornati.net;
 
@@ -131,7 +147,7 @@ If you decide to use it with the NGINX web server, here you are my configuration
         if (!-f $request_filename) {
             rewrite ^/wp-content/w3tc/min/(.+\.(css|js))$ /wp-content/w3tc/min/index.php?file=$1 last;
             # Use the following line instead for versions of W3TC pre-0.9.2.2
-            # rewrite ^/wp-content/w3tc/min/([a-f0-9]+)\/(.+)\.(include(\-(footer|body))?(-nb)?)\.[0-9]+\.(css|js)$ /wp-content/w3tc/min/index.php?tt=$1&amp;gg=$2&amp;g=$3&amp;t=$7 last;
+            # rewrite ^/wp-content/w3tc/min/([a-f0-9]+)\/(.+)\.(include(\-(footer|body))?(-nb)?)\.[0-9]+\.(css|js)$ /wp-content/w3tc/min/index.php?tt=$1&gg=$2&g=$3&t=$7 last;
         }
     }
 
@@ -158,7 +174,7 @@ If you decide to use it with the NGINX web server, here you are my configuration
 
     # Use cached or actual file if they exists, otherwise pass request to WordPress
     location / {
-        try_files /wp-content/w3tc/pgcache/$cache_uri/_index.html $uri $uri/ /index.php?q=$uri&amp;$args;
+        try_files /wp-content/w3tc/pgcache/$cache_uri/_index.html $uri $uri/ /index.php?q=$uri&$args;
     }
 
     # Cache static files for as long as possible
@@ -185,4 +201,5 @@ If you decide to use it with the NGINX web server, here you are my configuration
         fastcgi_param   SCRIPT_NAME        $fastcgi_script_name;
     }
 
-}</code></pre>
+}
+```
