@@ -53,6 +53,7 @@ mainSections = ["posts"]
   sharingLinks = ["twitter", "mastodon", "facebook", "linkedin", "reddit", "whatsapp"]
   showZenMode = true
   showComments = true
+  showHero = true
 
 # List pages (taxonomies, archive, search, home)
 [list]
