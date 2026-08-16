@@ -11,8 +11,7 @@ tags:
   - perl
   - xml-rpc
   - quartz
-categories:
-  - Development
+categories: [Development, Symbolic, Automation]
 description: Learn how Symbolic executes pre-configured user scripts asynchronously using a runner-process, XML-RPC communication, and external system processes.
 ---
 
