@@ -82,7 +82,7 @@ def upload_image(path: Path, public_id: str, folder: str,
         headers={"Content-Type": f"multipart/form-data; boundary={boundary}"})
     with urllib.request.urlopen(req, timeout=120) as resp:
         if resp.status != 200:
-            sys.exit(f"upload failed for {public_id} (HTTP {resp.status})")
+            raise RuntimeError(f"HTTP {resp.status}")
 
 
 def local_images() -> list[Path]:
@@ -139,6 +139,7 @@ def main() -> int:
 
     api_key = env("CLOUDINARY_API_KEY", required=True)
     api_secret = env("CLOUDINARY_API_SECRET", required=True)
+    strict = os.environ.get("CLOUDINARY_STRICT", "").lower() in ("1", "true", "yes")
 
     state = load_state()
     images = local_images()
@@ -155,16 +156,35 @@ def main() -> int:
         print(f"[cloudinary] dry-run: {len(changed)} of {len(images)} changed")
         return 0
 
+    failures = []
     for img, rel, digest in changed:
         public_id = f"{folder}/{rel}"
         print(f"[cloudinary] upload {rel}")
-        upload_image(img, public_id, folder, cloud, api_key, api_secret)
-        state[rel] = digest
+        try:
+            upload_image(img, public_id, folder, cloud, api_key, api_secret)
+            state[rel] = digest
+        except Exception as exc:
+            failures.append((rel, str(exc)))
+            if strict:
+                break
 
-    save_state(state)
-    n = rewrite_html(cloud, folder)
-    print(f"[cloudinary] uploaded {len(changed)}/{len(images)}; "
-          f"rewrote {n} HTML files")
+    if failures:
+        fail_log = ROOT / "build" / "cloudinary-failure.log"
+        fail_log.parent.mkdir(parents=True, exist_ok=True)
+        fail_log.write_text(
+            "".join(f"{rel}: {err}\n" for rel, err in failures),
+            encoding="utf-8")
+        print(f"[cloudinary] WARNING: {len(failures)} upload(s) failed "
+              f"→ keeping local images, skipping HTML rewrite "
+              f"(see {fail_log})")
+        if strict:
+            sys.exit(f"aborting: {len(failures)} upload(s) failed "
+                     f"(CLOUDINARY_STRICT=true)")
+    else:
+        save_state(state)
+        n = rewrite_html(cloud, folder)
+        print(f"[cloudinary] uploaded {len(changed)}/{len(images)}; "
+              f"rewrote {n} HTML files")
     return 0
 
 
