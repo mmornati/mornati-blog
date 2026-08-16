@@ -7,12 +7,10 @@ tags:
 - llm
 - copilot
 - open-telemetry
+categories: [AI, Development, Observability]
 date: '2026-06-15T20:18:59.728000+00:00'
 slug: lifting-the-lid-on-copilot-s-black-box-observability-for-llm-code-generation
 ---
-
-
-
 ## Introduction: The Black Box of AI Code Generation
 
 When you ask GitHub Copilot to write a function, refactor a module, or explain a complex piece of code, the response you get is the output of a probabilistic model. Unlike a traditional deterministic program—where the same input always produces the same output—an LLM (Large Language Model) generates each token based on a probability distribution over its vocabulary. The same prompt can yield different completions across invocations, and the internal reasoning that led to a particular choice of tool or sequence of steps is opaque.

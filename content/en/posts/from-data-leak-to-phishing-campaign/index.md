@@ -7,14 +7,12 @@ tags:
 - simplelogin
 - proton
 - email-alias-management
+categories: [Security, Privacy]
 date: '2026-07-26T21:12:10.371000+00:00'
 slug: from-data-leak-to-phishing-campaign
 description: How Cultura & FFT data breaches fed targeted phishing via SendGrid —
   and why one alias per website is your best defense.
 ---
-
-
-
 ## Introduction
 
 In recent months/years, two French organizations suffered significant data breaches: Cultura (September 2024) and the Fédération Française de Tennis (January 2026). Months later, the leaked data is actively being used in targeted phishing campaigns.
