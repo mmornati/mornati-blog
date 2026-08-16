@@ -2,14 +2,26 @@
 title: Install CynogenMod 11 on Galaxy Note 2 N7100
 date: '2014-09-26T22:00:00+00:00'
 slug: install-cynogenmod-11-on-galaxy-note-2-n7100
+categories:
+  - Android
+  - Mobile
+  - ROMs
+tags:
+  - cyanogenmod
+  - galaxy-note-2
+  - android
+  - rom
+  - root
+  - odin
+  - recovery
+description: Step-by-step guide to root your Samsung Galaxy Note 2 N7100 and install CyanogenMod 11 using Odin and PhilZ recovery.
 ---
 
-
-
 ![CyanogenMod11](/images/install-cynogenmod-11-on-galaxy-note-2-n7100/00-ojblzkc3x1pfnpdlirgi.jpg)
-#### Root your Note 2
 
-First of all, you need to prepare your computer with the Samsung Note 2 driver installed. The best way to do it is installing [Kies](http://www.samsung.com/fr/support/usefulsoftware/KIES/).
+## Root Your Note 2
+
+First of all, you need to prepare your computer with the Samsung Note 2 driver installed. The easiest way is to install [Kies](http://www.samsung.com/fr/support/usefulsoftware/KIES/).
 
 * Copy the SuperSU update.zip file to your Galaxy Note 2.
 * Now power off your phone and boot it into the Download Mode by pressing and holding **Volume Down**, **Home** and **Power** buttons together. Hold the buttons until the screen powers on and the warning screen appears. Then tap **Volume Up** key to enter Download Mode.
@@ -36,20 +48,20 @@ First of all, you need to prepare your computer with the Samsung Note 2 driver i
 **Problem#2**: If Fix no1 doesn't work for you then try this out:
 
 * Download Terminal Emulator from the playstore.
-* Launch it and type the following code: 
+* Launch it and type the following code:
 
 `su pm disable com.sec.knox.seandroid`
 
 **Note**: This will disable the Knox apps which prevent SuperSu from running
 
-**Problem#3**:  If none of the above steps work to disable Knox. Then try the following:
+**Problem#3**: If none of the above steps work to disable Knox. Then try the following:
 
 * Using any Root Explorer go to /system / app & / system / priv-app and delete all the apps having the word Knox in it. Also delete their corresponding odex files.
 * This should work without fail. But doing this modifies your system partition and you may lose OTA functionality temporarily.
 
-[Via](http://www.ibtimes.co.uk/root-galaxy-note-2-n7100-android-4-4-2-kitkat-install-philz-recovery-1447891)
+[Via - Root Galaxy Note 2](http://www.ibtimes.co.uk/root-galaxy-note-2-n7100-android-4-4-2-kitkat-install-philz-recovery-1447891)
 
-#### Install CyanogenMod 11
+## Install CyanogenMod 11
 
 * Download the CyanogenMod version you prefer and the GoogleApps.
 
@@ -57,13 +69,13 @@ First of all, you need to prepare your computer with the Samsung Note 2 driver i
 
 [GApps](http://wiki.cyanogenmod.org/w/Google_Apps)
 
-* Copy these two files on your phone. The target location is not important, the best is to copy both files into your phone root folder to easy access and copy speed.
-* Restart the phone into the recovery mode (**home** + **power** + **volume up** when samunsung logo appear, leave the **home** button until the recovery app is charged)
+* Copy these two files on your phone. The target location is not important, the best is to copy both files into your phone's root folder for easy access and copy speed.
+* Restart the phone into the recovery mode (**home** + **power** + **volume up** when the Samsung logo appears, leave the **home** button until the recovery app is charged)
 * Wipe all Data, Cache and, in the advanced menu, the Dalvik Cache.
 * Select the *Install ZIP* option and choose the CM installation file
-* At the end of this installation, repete the procedure to install GApps
-* Back to the main menu and select *Reboot* manu option
+* At the end of this installation, repeat the procedure to install GApps
+* Back to the main menu and select *Reboot* menu option
 
-CM 11 is now installed on your Note2 Phone. 
+CM 11 is now installed on your Note2 Phone.
 
 **Note**: The first startup could take several minutes
