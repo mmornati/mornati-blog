@@ -7,7 +7,7 @@ tags:
 - simplelogin
 - proton
 - email-alias-management
-categories: [Security, Privacy]
+categories: [Security, AI, Development]
 date: '2026-07-26T21:12:10.371000+00:00'
 slug: from-data-leak-to-phishing-campaign
 description: How Cultura & FFT data breaches fed targeted phishing via SendGrid —
@@ -15,7 +15,7 @@ description: How Cultura & FFT data breaches fed targeted phishing via SendGrid 
 ---
 ## Introduction
 
-In recent months/years, two French organizations suffered significant data breaches: Cultura (September 2024) and the Fédération Française de Tennis (January 2026). Months later, the leaked data is actively being used in targeted phishing campaigns.
+In recent years, two French organizations suffered significant data breaches: Cultura (September 2024) and the Fédération Française de Tennis (January 2026). Months later, the leaked data is actively being used in targeted phishing campaigns.
 
 This post traces the full chain — from the initial breach to the phishing email landing in an inbox — using real email headers as evidence. But more importantly, it's a **training exercise**: it shows how a simple practice — one email address per website — transforms you from a passive victim into someone who can instantly identify the source of a leak, contain the damage in one click, and move on.
 
