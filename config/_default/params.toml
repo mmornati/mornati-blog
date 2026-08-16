@@ -78,7 +78,7 @@ mainSections = ["posts"]
 # websiteid comes from your Umami dashboard (Settings -> Websites).
 [umamiAnalytics]
   websiteid = "73fbdc13-077f-4f47-9b39-cf6312f7011a"
-  domain = "https://umami.mornati.net"
+  domain = "umami.mornati.net"
   scriptname = "script.js"
   enableTrackEvent = true
 
