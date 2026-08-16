@@ -8,7 +8,7 @@ tags:
 - adoucisseur
 - iot
 date: '2026-08-16T10:00:00.000000+00:00'
-slug: surveillance-du-niveau-de-sel-de-ladoucisseur-avec-home-assistant
+slug: monitoring-water-softener-salt-level-with-home-assistant
 categories:
 - Maison Intelligente
 - DIY
