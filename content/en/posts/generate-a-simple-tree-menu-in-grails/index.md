@@ -1,9 +1,92 @@
 ---
 title: Generate a simple tree-menu in Grails
-date: '2008-07-21T22:00:00+00:00'
+date: 2008-07-21T22:00:00+00:00
 slug: generate-a-simple-tree-menu-in-grails
+draft: false
+categories: [Grails, Web Development]
+tags: [grails, groovy, tree-menu, recursion, gsp]
 ---
 
+This is one of the many posts you can find online about generating tree menus using JavaScript or Java. What I want to illustrate here is a method that uses **recursion** on both the back-end (Java/Groovy code that generates the tree structure) and front-end (a GSP template that renders itself recursively).
 
+The starting point is that our page is not a "simple" page but is written using **Grails templates**. Templates are Grails' way to structure your front-end code and provide a highly reusable mechanism that you can call simply using a defined taglib.
 
-<span style="font-weight: bold;"></span>It's seems one of the many posts you can find in internet that helps you to generate a tree-menu using javascript/java/... What I want to illustrate is a method that use recursion in back-end (java code that generate the Tree structure) and front-end (a gsp that shown the tree calling itself!!).<br /><br />In fact, the start point, is that our page is not a "simple" page but is written as grails templates.<br />Template is a grails way to get your front-end code structured and provide an highly re-usable mechanism that you can call simply using a defined taglib.<br /><br /><pre><code>class TreeMenu {<br /><br />    def addNode = {nodeElement, machine, tagList -&gt;<br />        def nodes = [:]<br />        nodes[machine.hostName] =  machine<br />        def newList = tagList - nodeElement<br />        newList?.each {currentTag -&gt;<br />            nodes[currentTag.name] = addNode(currentTag, machine, newList)<br />        }<br /><br />        nodes<br />    }<br />}<br /></code></pre><br />Is an extraction of my program codes... in the original version the data structure is not a simple Map but I've a complex object, so I can do, for example, a check if there is a node with current provided name and so on.<br />What this code try to do, is to add a Machine to each Tree-Tag I'm sending to function as a List.<br />"nodeName" is the current node where I want my machine<br />"machine" is the object name I want in my tree<br />"tagList" is the list of all tree-node where my machine will be put<br /><br />For example, I could have this situation<br /><br />machine: "TryMachine"<br />tagList: ["A", "B"]<br /><br /><pre><code>TreeMenu.addNode(&quot;Root&quot;, machine, tagList)<br /></code></pre><br />The result of this method invokation will be:<br /><pre><code> Root <br /> &#124;-&gt; A<br /> &#124;   &#124;-&gt;B<br /> &#124;   &#124;  &#124;TryMachine<br /> &#124;   &#124;TryMachine<br /> &#124;-&gt; B<br /> &#124;   &#124;TryMachine<br /> &#124;   &#124;-&gt; A<br /> &#124;   &#124;   &#124;TryMachine<br /> &#124; TryMachine<br /></code></pre><br /><span style="font-weight: bold;">Display the tree</span><br />The extraordinary feature offers by grails is, as I said, the usage of recursion on the front-end, that make you able to create a page without insertion of some java codes: all just with default grails taglibs.<br />Here an example gets from my code:<br /><pre><code>&lt;g:each in=&quot;${nodes}&quot; var=&quot;element&quot;&gt;<br />    &lt;g:if test=&quot;${element.value instanceof Machine}&quot;&gt;<br />            ${element.name}<br />    &lt;/g:if&gt;<br />    &lt;g:else&gt;<br />    &lt;g:machineList template=&quot;/templates/machineTree&quot; data=&quot;${element}&quot;/&gt;<br />    &lt;/g:else&gt;<br />&lt;/g:each&gt;<br /></code></pre><br />And in your page, where you want to put your tree, you can just simply call the template:<br /><pre><code>&lt;g:machineList template=&quot;/templates/machineTree&quot; data=&quot;${treeData}&quot;/&gt;<br /></code></pre><br />Is a just a simple example (and, in fact, I'm not sure that with mods I've done to create this post, all work well :P), If you want you can make some improvements to this code, attaching, for example, javascript functions to get your tree-node opened and closed, or some other kinds of object type.u
+## Backend: Building the Tree Structure
+
+Here's an extraction from my program code. In the original version, the data structure is not a simple `Map` but a complex object, allowing me to perform checks like verifying if a node with a given name already exists.
+
+The goal of this code is to add a `Machine` object to each tree tag in the provided list.
+
+```groovy
+class TreeMenu {
+    def addNode = { nodeElement, machine, tagList ->
+        def nodes = [:]
+        nodes[machine.hostName] = machine
+        def newList = tagList - nodeElement
+        newList?.each { currentTag ->
+            nodes[currentTag.name] = addNode(currentTag, machine, newList)
+        }
+        nodes
+    }
+}
+```
+
+### Parameters Explanation
+
+- **`nodeElement`**: The current node where I want to place my machine
+- **`machine`**: The object I want to include in my tree
+- **`tagList`**: The list of all tree nodes where my machine will be placed
+
+### Example Usage
+
+Given:
+- `machine`: `"TryMachine"`
+- `tagList`: `["A", "B"]`
+
+Calling:
+```groovy
+TreeMenu.addNode("Root", machine, tagList)
+```
+
+Would produce a tree structure like:
+
+```
+Root
+├── A
+│   └── TryMachine
+├── B
+│   └── TryMachine
+└── TryMachine
+```
+
+## Frontend: Displaying the Tree
+
+The extraordinary feature offered by Grails is the ability to use **recursion on the front-end**, allowing you to create pages without inserting Java code - all using default Grails taglibs.
+
+Here's an example from my code:
+
+```html
+<g:each in="${nodes}" var="element">
+    <g:if test="${element.value instanceof Machine}">
+        ${element.name}
+    </g:if>
+    <g:else>
+        <g:machineList template="/templates/machineTree" data="${element}"/>
+    </g:else>
+</g:each>
+```
+
+In your page, where you want to display your tree, you can simply call the template:
+
+```html
+<g:machineList template="/templates/machineTree" data="${treeData}"/>
+```
+
+## Conclusion
+
+This is just a simple example. You can make improvements to this code by:
+- Adding JavaScript functions to expand/collapse tree nodes
+- Supporting other types of objects
+- Enhancing the visual representation
+
+*Note: This was an early experiment, and I wasn't entirely sure all modifications I made to create this post would work perfectly!*
