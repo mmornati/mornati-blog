@@ -14,6 +14,7 @@ tags:
 - heat-pump
 - hitachi
 - csnet
+categories: [Smart Home, AI, Home Assistant, IoT]
 date: '2026-02-25T13:36:10.152000+00:00'
 slug: reverse-engineering-hitachis-cloud-api-with-ai-from-browser-devtools-to-a-full-home-assistant-integration-1
 ---

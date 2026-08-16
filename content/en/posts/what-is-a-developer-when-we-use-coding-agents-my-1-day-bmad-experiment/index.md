@@ -5,6 +5,7 @@ tags:
 - development
 - developer
 - ai-coding-agent
+categories: [Career, AI, Development]
 date: '2026-03-14T17:41:36.693000+00:00'
 slug: what-is-a-developer-when-we-use-coding-agents-my-1-day-bmad-experiment
 description: Is coding dead? A 1-day experiment with the BMAD method. Discover why

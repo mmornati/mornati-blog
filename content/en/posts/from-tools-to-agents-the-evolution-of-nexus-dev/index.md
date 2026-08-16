@@ -6,6 +6,7 @@ tags:
 - agents
 - mcp
 - mcp-server
+categories: [Development, AI, Tools]
 date: '2026-01-17T13:01:03.593000+00:00'
 slug: from-tools-to-agents-the-evolution-of-nexus-dev
 description: Discover how Nexus-Dev transforms from tools to AI agents, enhancing

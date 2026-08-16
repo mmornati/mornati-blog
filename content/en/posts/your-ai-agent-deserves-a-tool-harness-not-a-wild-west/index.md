@@ -15,6 +15,7 @@ tags:
 - token-optimization
 date: '2026-05-31T16:47:18.187000+00:00'
 slug: your-ai-agent-deserves-a-tool-harness-not-a-wild-west
+categories: [AI, Development, Architecture]
 description: Move past the wild west of AI agents. Discover how to build a proxy-driven,
   benchmark-validated ecosystem to optimize your MCP tools and token costs.
 ---

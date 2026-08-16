@@ -6,6 +6,7 @@ tags:
 - tokenization
 - llm
 - rag
+categories: [AI, Development, Optimization]
 date: '2026-01-17T16:30:08.207000+00:00'
 slug: how-rag-can-cut-your-ai-coding-costs-by-80
 description: Learn how Retrieval-Augmented Generation (RAG) dramatically reduces AI

@@ -7,6 +7,7 @@ tags:
 - llm
 - copilot
 - open-telemetry
+categories: [AI, Development, DevOps]
 date: '2026-06-15T20:18:59.728000+00:00'
 slug: lifting-the-lid-on-copilot-s-black-box-observability-for-llm-code-generation
 ---

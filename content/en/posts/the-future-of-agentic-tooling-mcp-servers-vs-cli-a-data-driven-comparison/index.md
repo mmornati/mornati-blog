@@ -9,6 +9,7 @@ tags:
 - mcp
 - developers-tools
 - token-optimization
+categories: [AI, Development, Architecture]
 date: '2026-04-27T20:05:48.208000+00:00'
 slug: the-future-of-agentic-tooling-mcp-servers-vs-cli-a-data-driven-comparison
 description: 'Native MCP costs 137× more tokens than CLI in a typical dev session.

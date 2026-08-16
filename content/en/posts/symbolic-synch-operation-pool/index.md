@@ -8,6 +8,7 @@ tags:
   - synchronous
   - pool-manager
   - func
+categories: [Development, Symbolic, Architecture]
 description: 'How Symbolic manages synchronous operations using a Pool Manager to avoid bottlenecks and enable concurrent execution of admin procedures.'
 ---
 
