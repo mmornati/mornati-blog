@@ -13,6 +13,12 @@
   weight = 20
 
 [[main]]
+  identifier = "solar-data"
+  name = "Solar data"
+  url = "/solar-analysis/"
+  weight = 30
+
+[[main]]
   identifier = "github"
   name = "GitHub"
   url = "https://github.com/mmornati"
