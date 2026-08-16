@@ -2,9 +2,17 @@
 title: 'Logio Puppet Modules: automatic installation'
 date: '2014-03-30T22:00:00+00:00'
 slug: logio-puppet-modules-automatic-installation
+categories:
+  - DevOps
+  - Configuration Management
+tags:
+  - puppet
+  - logio
+  - logging
+  - devops
+  - automation
+description: 'A Puppet module for automatic installation of Logio server and harvester clients, with configuration examples for log streams.'
 ---
-
-
 
 I created a puppet module allowing you to automatically install logio server and/or harvester (logio client).
 
@@ -12,31 +20,34 @@ https://github.com/mmornati/puppet-logio
 
 As you can see into the readme file, the usage of this module is really simple.
 
-## Server installation
+## Server Installation
 
 To install the server you just need to include on your node definition the module ''logio::server''. With an external node yaml classifier, for example, the configuration should be:
 
-<pre class="language-yaml"><code class="language-yaml">---
+```yaml
+---
 classes:
    logio::server:
-</code></pre>
+```
 
-## Harvester (client) installation
+## Harvester (Client) Installation
 
-To install a client you have the ''logio::harvester'' module. You can simply add this module on your node definition, with the server parameter poiting to your logio server ip address:
+To install a client you have the ''logio::harvester'' module. You can simply add this module on your node definition, with the server parameter pointing to your logio server ip address:
 
-<pre class="language-yaml"><code class="language-yaml">---
+```yaml
+---
 classes:
    logio::harvester:
       logio_server: 127.0.0.1
-</code></pre>
+```
 
-## Add Logs and/or Streams
+## Add Logs And/or Streams
 
 To add a new log for your servers you can modify the templates ''templates/harvester.conf.erb''. You can simply add a new log file path to the default stream (system) or create a new stream with logs for it.
-Here for example a templates including apache logs:
+Here's an example template including apache logs:
 
-<pre class="language-puppet"><code class="language-puppet">exports.config = {
+```puppet
+exports.config = {
 nodeName: "<%= fqdn %>",
   logStreams: {
     system: [
@@ -52,11 +63,12 @@ nodeName: "<%= fqdn %>",
     host: '<%= logio_server %>',
     port: 28777
   }
-}</code></pre>
+}
+```
 
 You can then simply access to your installed logio server, pointing your browser to:
 
 `http://logio.ip.address:28778`
 
-where *logio.ip.address* the the machine's address or dnsname of your logio server.
+where *logio.ip.address* the machine's address or dnsname of your logio server.
 All harvester will then send new logs with a socket connection to your browser.
