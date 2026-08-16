@@ -12,7 +12,7 @@ tags:
   - page-title
   - nodejs
   - blogging
-description: How to optimize page titles in Ghost for better SEO by adding the blog name suffix, with two approaches: theme customization and core modification.
+description: 'How to optimize page titles in Ghost for better SEO by adding the blog name suffix, with two approaches: theme customization and core modification.'
 ---
 
 The Ghost blogging platform doesn't currently have plugins (and maybe will always be that way).
