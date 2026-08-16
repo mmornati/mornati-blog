@@ -312,7 +312,7 @@ Pourquoi 8 heures ? Ça empêche la ré-exécution dans la même plage horaire t
 ## Leçons Apprises Après 3 Ans
 
 1. **Les capteurs moyennés sont plus fiables** - Les pannes de capteurs uniques ne cassent pas le système
-2. **Les zones multiples sont importantes** - Différentes expositions需要不同的计时
+2. **Les zones multiples sont importantes** - Différentes expositions nécessitent des timing différents
 3. **La réouverture automatique est essentielle** - Les volets ne doivent pas rester fermés toute la nuit
 4. **Les intervalles de 10 minutes suffisent** - 5 minutes était excessif
 5. **Le différentiel de 2°C fonctionne bien** - Prévient les déclenchements par temps nuageux
