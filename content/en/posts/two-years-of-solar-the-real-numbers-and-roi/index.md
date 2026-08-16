@@ -7,6 +7,7 @@ tags:
 - data
 date: '2026-08-16T09:00:00+02:00'
 slug: two-years-of-solar-the-real-numbers-and-roi
+translationKey: two-years-of-solar-the-real-numbers-and-roi
 description: "24 months of measured data from a 12-panel rooftop installation — production, self-consumption, surplus revenue, and the actual return on investment."
 summary: "12 panels, 3 micro-inverters, no battery — here is what the first 24 months actually produced, self-consumed, exported, and earned."
 ---
