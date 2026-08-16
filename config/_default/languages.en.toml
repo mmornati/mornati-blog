@@ -8,7 +8,7 @@ title = "Mornati Blog"
 
 [params]
   # Site display name and description
-  displayName = "Mornati Blog"
+  displayName = "English Blog"
   isoCode = "en"
   rtl = false
 

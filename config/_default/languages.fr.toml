@@ -7,7 +7,7 @@ weight = 3
 title = "Mornati Blog"
 
 [params]
-  displayName = "Mornati Blog"
+  displayName = "French Blog"
   isoCode = "fr"
   rtl = false
   dateFormat = "2 January 2006"
