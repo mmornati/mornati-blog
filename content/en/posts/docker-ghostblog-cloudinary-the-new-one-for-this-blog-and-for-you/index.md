@@ -15,7 +15,9 @@ tags:
 description: "An all-in-one Docker image for running Ghost with Cloudinary storage — the same setup powering this blog."
 ---
 
-If you want an all-in-one Docker for your Blog, you can use my new [docker-ghostblog-cloudinary](https://github.com/mmornati/docker-ghostblog-cloudinary) (the one used to run this blog).
+I've been fine-tuning my blog setup and wanted to share a ready-to-use Docker image so you can benefit from it too.
+
+If you'd like a Docker for your Blog, you can use my new [docker-ghostblog-cloudinary](https://github.com/mmornati/docker-ghostblog-cloudinary) (the one used to run this blog).
 
 This Docker is based on the [docker-ghostblog](https://github.com/mmornati/docker-ghostblog) image and it adds a different storage for images: Cloudinary. Every time you add an image to a post, as a post background image, or in the blog settings, all the images are sent directly to Cloudinary and then served through it.
 
@@ -23,13 +25,13 @@ This Docker is based on the [docker-ghostblog](https://github.com/mmornati/docke
 
 **Why you should store images somewhere else than your blog host?**
 For me it depends only on your host and the persons visiting it. Images (and media files in general) are often the heaviest and slowest resources to load, so it is for me better to keep them as near as possible to the final "browser". And then we have to consider that, depending on your blog traffic, this can consume a lot of bandwidth and it can slow down the user experience.
-Ok, ok, that's not the case for my blog :) *BUT*...
+OK, that's not the case for my blog :) *BUT*...
 ![Schermata-2017-09-17-alle-21.13.01.png](/images/docker-ghostblog-cloudinary-the-new-one-for-this-blog-and-for-you/00-Schermata-2017-09-17-alle-21.13.01.png)
 the blog server is in France and there are readers from everywhere. I think this decision will allow a faster loading for anyone.
 
 ## Usage
 
-If you want the Docker with a pre-configured Cloudinary plugin, you can take this one.
+If you'd like a Docker with a pre-configured Cloudinary plugin, you can take this one.
 
 ```bash
 docker pull mmornati/docker-ghostblog-cloudinary:1.8.6
