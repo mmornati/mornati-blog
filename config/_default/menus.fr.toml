@@ -13,12 +13,6 @@
   weight = 20
 
 [[main]]
-  identifier = "recommendations"
-  name = "Recommandations"
-  url = "/page/recommendations/"
-  weight = 30
-
-[[main]]
   identifier = "github"
   name = "GitHub"
   url = "https://github.com/mmornati"
