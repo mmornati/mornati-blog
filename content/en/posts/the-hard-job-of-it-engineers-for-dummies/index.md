@@ -4,39 +4,41 @@ tags:
 - engineering
 - software-engineering
 - it
+categories:
+- Career
+- Software Engineering
 date: '2020-11-11T14:37:20.004000+00:00'
+description: A look at the daily challenges IT engineers face, from slow computers to cloud infrastructure, and why their job is harder than it looks.
 slug: the-hard-job-of-it-engineers-for-dummies
 ---
 
+I've been working in IT tech since... ever. I started too young, and I started because I like to learn new things. And that's what drives my life. During all these years I spent time to understand how things were working; learning, because things are changing every day; teaching to new guys what I learned,... and trust me, it's not as easy as you might think. 
+An IT guy is not (only) the person able to fix the problem on your printer; there are several different jobs and each requires a specific skill. And personally, I'm not sure I will be able to fix your printer problem 😜
 
-
-I've been working in IT tech since... ever. I started too young, and I started because I like to learn new things. And that what drives my life. During all these years I spent time to understand how things were working; learning, because things are changing every day; teaching to new guys what I learned,... and trust me, it is not so easy as you can think. 
-An IT guy is not (only) the person able to fix the problem on your printer; there are several different jobs and anyone required a specific skill. And personally, I'm not sure I will be able to fix your printer problem 😜
-
-I decided to write this article because in my career I've always met people thinking that what we were doing was too easy (or at least it was my feeling)
+I decided to write this article because in my career I've always met people thinking that what we did was too easy (or at least it was my feeling)
 
 > What? I cannot believe that adding this function will take 2 weeks
 
 > System is failing again, why you didn't fix the problem?
 
-> Oh yes, I didn't remember to say to you. Tomorrow we planned to do XXX that will bring 2 times traffic than usual on our systems.
+> Oh yes, I didn't remember to tell you. Tomorrow we planned to do XXX that will bring 2 times traffic than usual on our systems.
 
 I could spend all the article writing examples like these, and I'm pretty sure, if you are reading here and you are working in IT, you are already thinking about something that happened to you.
-But the goal is to show you, with everyday examples, all the things IT engineers are taking care of in their job and why we must trust what they are doing.
+But the goal is to show you, with everyday examples, all the things IT engineers are taking care of in their job and why we should trust what they do.
 
 ## Slow Computer
 You have a PC or Mac or again a mobile phone. I'm sure you have. And why after years you are spending money to change it?
 "Oh damn, it is very slow today, what is happening?".
 
-This morning, as usual, you wanted to move the latest photos in your catalog and make light/brightness changes to some of them. Arrived at your desk with your coffee, opened LightRoom (NDA Sorry Adobe :)) and wait... wait... wait... 
-What are doing here?
+This morning, as usual, you wanted to move the latest photos in your catalog and make light/brightness changes to some of them. You arrive at your desk with your coffee, opened LightRoom (NDA Sorry Adobe :)) and wait... wait... wait... 
+What now?
 * Close all other opened programs on your PC/Mac
 * Reboot it... usually it helps 😂
 * Clean files?
 * Call a friend?
 Then you realize that just yesterday you updated your Mac. Maybe it is related but... what can you do? 
 
-So, globally you could spend the whole day trying to fix your computer and without doing the activity you planned. Slowness reasons for computers are sometimes quite tricky to discover.
+So you could spend the whole day trying to fix your computer and without actually doing what you planned. The reasons for slowness are sometimes quite tricky to discover.
 
 ## Not enough disk space
 How many times in your life you had a problem like this one?
@@ -101,12 +103,12 @@ We can get back to the disk space example.
 You discovered you were out of space when you tried to save your document. How long does it take to find a solution? 2 minutes? 5 minutes?
 You had time for that and you were the only user on the PC.
 When you have thousands of computers that could run out of disk space, how to know which computer is the failing one? And if you are not "monitoring" your computers, you may know that "something is not working good" but you don't know exactly why. You need to check each of them to find that the problem is the missing disk space.
-How long it will take to check any of the thousands computers? Hours? Days?
-But you know, we were working at Amazon. How many customers are trying to buy during these hours/days? How much money you are losing because customers are not able to buy?
+How long will it take to check any of the thousands computers? Hours? Days?
+But you know, you're working at Amazon. How many customers are trying to buy during these hours/days? How much money are you losing because customers are not able to buy?
 
-Definitely, you cannot wait for a problem to fix it; an IT guy is imagining all the problems and find a solution even **before the problem occurs**.
+Definitely, you cannot wait for a problem to fix it; an IT person imagines all the problems and find a solution even **before the problem occurs**.
 
-Sometimes, as we have seen in the internet connection example, the problem is not coming in the same way you planned or you already found. 
+Sometimes, as we have seen in the internet connection example, the problem doesn't occur the same way you planned or you already found. 
 You thought about the possible problem, and you know how to fix it when it will occur (do not use Netflix during a video call, for example) but the system is failing (and nobody is using Netflix). So what?
 At this time you have to find a solution... and before you can find the solution **you need to understand what is the problem**. And time is running out... 
 
@@ -116,12 +118,12 @@ It is the same on the systems the IT engineers are working on... we can have ele
 Do you know where are all these computers today? Usually, not where the IT engineers are working. They cannot check the cables by themself. They cannot reboot the internet box using the power off button.
 Have you ever heard of Cloud Computing? Yeah, most of the IT Engineers computers today are moving to the Cloud. Somewhere, but we don't exactly know where (it is not always too important), there is a place where these thousands of computers are located, linked to the internet and to the power. And just there you will find other IT engineers doing exactly the same job to ensure that the thousands of computers work.
 
-Then you have IT engineers which are installing software on these computers and will ensure that it is always working as expected. Which is not slowing down, as the photo catalog; it is always secured, because hackers are out there spending time to find holes in computers.
-You will find IT engineers at different levels of a system, each one with a specific role and knowledge. And at a moment, you will meet even the one able to repair your printer.
+Then you have IT engineers which are installing software on these computers and will ensure that it is always working as expected. making sure it's not slowing down, as the photo catalog; it's always secure, because hackers are out there spending time to find holes in computers.
+You will find IT engineers at different levels of a system, each one with a specific role and knowledge. And at some point, you will meet even the one able to repair your printer.
 
 ## Conclusion
-I don't know if I reached my goal and if it is much more simple to understand what we are doing to provide an IT service (even to allow you to read this article there is a computer someone is working on!). Yes, because I'm one of those engineers working on an e-commerce system.
-I know sometimes is frustrating to see that we can't do what we planned because "a system is failing", but now you know. When a system is failing you surely have, somewhere in the world, a group of IT Engineers hardly working to try to find a solution, because customer satisfaction is the first thing matter.
+I don't know if I reached my goal and if it is much more simple to understand what we do to provide an IT service (even to allow you to read this article there is a computer someone is working on!). Yes, because I'm one of those engineers working on an e-commerce system.
+I know it's sometimes frustrating to see that we can't do what we planned because "a system is failing", but now you know. When a system is failing you surely have, somewhere in the world, a group of IT Engineers hard at work to try to find a solution, because customer satisfaction is what matters most.
 The system is failing because something they didn't plan happened; because something they didn't monitor failed; ...
 All these engineers are learning new things at this time; they are learning how to prevent the same problem in the future.
 So when the system is failing again it is not because they didn't do their job (yes sometimes this happens too, unfortunately). 
