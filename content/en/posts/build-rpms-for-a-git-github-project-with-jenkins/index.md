@@ -1,15 +1,28 @@
 ---
 title: Build RPMs for a Git (Github) project with Jenkins
+tags:
+- jenkins
+- rpm
+- github
+- git
+categories:
+- DevOps
+- CI/CD
+description: Build RPMs directly inside a Jenkins Free Style job using a shell build step, without a Makefile — with automatic git-based release detection.
 date: '2021-09-13T22:00:00+00:00'
 slug: build-rpms-for-a-git-github-project-with-jenkins
 ---
 
+## Overview
 
+[Earlier](http://blog.mornati.net/2011/09/14/build-rpms-using-jenkinshudson/) we showed a way to build RPMs with Jenkins using a Makefile. Now we will show a Jenkins based build (without creating a Makefile).
 
-<a href="http://blog.mornati.net/2011/09/14/build-rpms-using-jenkinshudson/">Here</a> we show a way to build RPMs with Jenkins using a Makefile. Now we will show a Jenkins based build (without create Makefle).
+## Jenkins Job Configuration
 
-So, you can directly create a new Job in your Jenkins using the **Free Style** creation method and adding a **shell** build step. Inside the text area you can put something like this:
-<pre class="language-bash"><code class="language-bash">testrel=$(/usr/bin/git diff HEAD~1 | awk '/[\t ]*\+[\t ]*Release/ {
+You can directly create a new Job in your Jenkins using the **Free Style** creation method and adding a **shell** build step. Inside the text area you can put something like this:
+
+```bash
+testrel=$(/usr/bin/git diff HEAD~1 | awk '/[\t ]*\+[\t ]*Release/ {
 print "NEWREL"; exit 0 }')
 if [ "$testrel" != "NEWREL" ]; then
     echo "There is no new release in the rpm spec files - do not rebuild."
@@ -26,9 +39,13 @@ cp misc/specs/*.spec rpmbuild/SPECS/
 sed -i "s/^[\t ]*Source0:.*/Source0: ${JOB_NAME}.tar.gz/g" rpmbuild/SPECS/*.spec
 sed -i "s/^[\t ]*%setup[\t ]\+-n[\t ]\+.*/%setup -n ${JOB_NAME}/g"
 rpmbuild/SPECS/*.spec
-rpmbuild --define "_topdir %(pwd)/rpmbuild" -ba rpmbuild/SPECS/*.spec</code></pre>
-The first line of the script checks for git log to find if *Release* is changed inside the spec file (that should be naturally committed as resources of your project); the project will be built only if you modified the Release inside the spec!
+rpmbuild --define "_topdir %(pwd)/rpmbuild" -ba rpmbuild/SPECS/*.spec
+```
 
-After that the operation is like the one proposed in the Makefile: creation of tar.gz source archive, creation of rpm-build directories, build rpm.
+## How It Works
 
-So, you can choose to put your build code completely inside Jenkins or create a Makefile and link your build process with your project (changes in project that requires build process changes won't impact Jenkins configuration.
+The first line of the script checks the git log to see if *Release* has changed inside the spec file (that should be naturally committed as resources of your project); the project will only be built if you modified Release inside the spec.
+
+After that, the process is similar to the Makefile approach: creation of tar.gz source archive, creation of rpm-build directories, build rpm.
+
+You can choose to put your build code entirely inside Jenkins or create a Makefile and link your build process with your project (changes that require build process changes won't impact the Jenkins configuration).
