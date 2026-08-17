@@ -12,7 +12,7 @@ tags:
 - iot
 date: '2026-08-17T12:00:00.000000+00:00'
 slug: integrating-self-hosted-arlo-with-home-assistant
-translationKey: arlo-base-station-replacement
+translationKey: arlo-home-assistant-integration
 categories:
 - Smart Home
 - DIY

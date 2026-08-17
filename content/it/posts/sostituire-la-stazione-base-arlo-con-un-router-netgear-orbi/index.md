@@ -977,6 +977,6 @@ Questo articolo ha coperto la parte che ha la peggiore curva "se non lo sai, non
 
 ---
 
-*Questo è l'articolo 1 di 3 nella serie Arlo. L'Articolo 2 (stack services + PR upstream) va online tra due settimane. L'Articolo 3 (integrazione Home Assistant) segue quello.*
+*Questo è l'articolo 1 di 3 nella serie Arlo. L'Articolo 2 copre lo stack services + le PR upstream. L'Articolo 3 copre l'integrazione Home Assistant.*
 
-*Continua a leggere → Articolo 2 — il link non si risolverà finché la Fase 3 non sarà pubblicata.*
+*Continua a leggere → [Articolo 2 — Services & PR upstream](/it/auto-ospitare-arlo-cam-api-correzioni-e-miglioramenti/) e [Articolo 3 — Integrazione Home Assistant](/it/integrare-arlo-auto-ospitato-con-home-assistant/).*

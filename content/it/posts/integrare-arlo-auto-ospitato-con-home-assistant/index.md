@@ -12,7 +12,7 @@ tags:
 - iot
 date: '2026-08-17T12:00:00.000000+00:00'
 slug: integrare-arlo-auto-ospitato-con-home-assistant
-translationKey: arlo-base-station-replacement
+translationKey: arlo-home-assistant-integration
 url: /it/integrare-arlo-auto-ospitato-con-home-assistant/
 aliases:
 - /integrare-arlo-auto-ospitato-con-home-assistant
@@ -25,7 +25,7 @@ cover: cover.jpg
 showHero: true
 ---
 
-Questo è il Post 3 — l'ultimo — di una serie di tre articoli sulla sostituzione della stazione base Arlo proprietaria con uno stack auto-ospitato. Nel [Post 1 di questa serie](/replacing-arlo-base-station-with-a-netgear-orbi-router/) ho coperto il livello di rete: come fare in modo che un Netgear Orbi RBR760 si spacci sufficientemente bene per la stazione base Arlo da far connettere, registrare, e continuare a streamare le telecamere. Nel [Post 2 di questa serie](/self-hosting-arlo-cam-api-patches-and-improvements/) ho coperto il livello server: lo stack Docker `arlo-cam-api`, il sidecar `arlo-snapshot` on-demand, il relay RTSP on-demand tramite MediaMTX, e le tre pull request upstream che ho contribuito per correggere i bug incontrati strada facendo.
+Questo è il Post 3 — l'ultimo — di una serie di tre articoli sulla sostituzione della stazione base Arlo proprietaria con uno stack auto-ospitato. Nel [Post 1 di questa serie](/it/sostituire-la-stazione-base-arlo-con-un-router-netgear-orbi/) ho coperto il livello di rete: come fare in modo che un Netgear Orbi RBR760 si spacci sufficientemente bene per la stazione base Arlo da far connettere, registrare, e continuare a streamare le telecamere. Nel [Post 2 di questa serie](/it/auto-ospitare-arlo-cam-api-correzioni-e-miglioramenti/) ho coperto il livello server: lo stack Docker `arlo-cam-api`, il sidecar `arlo-snapshot` on-demand, il relay RTSP on-demand tramite MediaMTX, e le tre pull request upstream che ho contribuito per correggere i bug incontrati strada facendo.
 
 In questo post copro il livello *Home Assistant* — come le quattro telecamere diventano entità di primo piano in HA, come un singolo `input_select` permette di scambiare l'autonomia della batteria con una presenza istantanea, e come la dashboard Lovelace finisce per assomigliare quasi esattamente all'app Arlo, tranne che ogni riga è sotto il vostro controllo. Il repository di accompagnamento su [github.com/mmornati/arlo-base-station](https://github.com/mmornati/arlo-base-station) contiene tutti i file di configurazione e patch menzionati qui.
 
@@ -670,7 +670,7 @@ Nessuna di queste è un blocker. Sono nice-to-have a cui arriverò quando ci arr
 
 ## Chiusura della serie
 
-Questo è il terzo e ultimo articolo della serie. Dal [livello di rete nel Post 1](/replacing-arlo-base-station-with-a-netgear-orbi-router/), attraverso i [servizi e le PR upstream nel Post 2](/self-hosting-arlo-cam-api-patches-and-improvements/), fino all'integrazione Home Assistant in questo post, avete ora una sostituzione open-source completa per la stazione base Arlo proprietaria. Ogni pezzo gira sul vostro hardware, ogni riga di configurazione è in version control, ogni contributo upstream è documentato, e l'unico costo ricorrente è l'elettricità per far girare il mini PC.
+Questo è il terzo e ultimo articolo della serie. Dal [livello di rete nel Post 1](/it/sostituire-la-stazione-base-arlo-con-un-router-netgear-orbi/), attraverso i [servizi e le PR upstream nel Post 2](/it/auto-ospitare-arlo-cam-api-correzioni-e-miglioramenti/), fino all'integrazione Home Assistant in questo post, avete ora una sostituzione open-source completa per la stazione base Arlo proprietaria. Ogni pezzo gira sul vostro hardware, ogni riga di configurazione è in version control, ogni contributo upstream è documentato, e l'unico costo ricorrente è l'elettricità per far girare il mini PC.
 
 Il repository di accompagnamento su [github.com/mmornati/arlo-base-station](https://github.com/mmornati/arlo-base-station) contiene ogni file referenziato nei tre post, con le copie di produzione, le patch, il docker-compose, e lo YAML Home Assistant in un unico posto. Forkatelo, inviate PR, aprite issue, e ditemi cosa funziona per voi.
 
@@ -678,6 +678,6 @@ Grazie per aver letto.
 
 ## Leggi il resto della serie
 
-- [Post 1 — Networking & Gateway Hack](/replacing-arlo-base-station-with-a-netgear-orbi-router/)
-- [Post 2 — Services & upstream PRs](/self-hosting-arlo-cam-api-patches-and-improvements/)
+- [Post 1 — Networking & Gateway Hack](/it/sostituire-la-stazione-base-arlo-con-un-router-netgear-orbi/)
+- [Post 2 — Services & upstream PRs](/it/auto-ospitare-arlo-cam-api-correzioni-e-miglioramenti/)
 - [Repository di accompagnamento](https://github.com/mmornati/arlo-base-station)

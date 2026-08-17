@@ -12,7 +12,7 @@ tags:
 - maison-connectée
 date: '2026-08-17T11:00:00.000000+00:00'
 slug: auto-heberger-arlo-cam-api-correctifs-et-ameliorations
-translationKey: arlo-base-station-replacement
+translationKey: arlo-self-hosting-cam-api
 url: /fr/auto-heberger-arlo-cam-api-correctifs-et-ameliorations/
 aliases:
 - /auto-heberger-arlo-cam-api-correctifs-et-ameliorations
@@ -26,7 +26,7 @@ cover: cover.jpg
 showHero: true
 ---
 
-Ceci est l'article 2 d'une série de trois sur le remplacement de la station de base Arlo propriétaire par une stack auto-hébergée. Dans l'[article 1 de cette série](/replacing-arlo-base-station-with-a-netgear-orbi-router/) j'ai couvert la couche réseau — comment faire en sorte qu'un Netgear Orbi RBR760 se fasse passer pour la station de base Arlo suffisamment bien pour que les caméras se connectent, s'enregistrent et streament. Dans cet article, je couvre la couche *serveur* : la stack Docker qui tourne réellement sur le mini PC, le sidecar Flask personnalisé qui capture des snapshots déclenchés par le mouvement, le relais RTSP à la demande qui rend le streaming en direct économe en batterie, et les trois pull requests upstream que j'ai contribué pour corriger les bugs que j'ai rencontrés en chemin.
+Ceci est l'article 2 d'une série de trois sur le remplacement de la station de base Arlo propriétaire par une stack auto-hébergée. Dans l'[article 1 de cette série](/fr/remplacer-la-station-de-base-arlo-par-un-routeur-netgear-orbi/) j'ai couvert la couche réseau — comment faire en sorte qu'un Netgear Orbi RBR760 se fasse passer pour la station de base Arlo suffisamment bien pour que les caméras se connectent, s'enregistrent et streament. Dans cet article, je couvre la couche *serveur* : la stack Docker qui tourne réellement sur le mini PC, le sidecar Flask personnalisé qui capture des snapshots déclenchés par le mouvement, le relais RTSP à la demande qui rend le streaming en direct économe en batterie, et les trois pull requests upstream que j'ai contribué pour corriger les bugs que j'ai rencontrés en chemin.
 
 Le troisième et dernier article couvrira Home Assistant — capteurs REST, cartes picture-glance, armement/désarmement, webhooks de mouvement — une fois que le reste de la stack sera solide. Le dépôt compagnon sur [github.com/mmornati/arlo-base-station](https://github.com/mmornati/arlo-base-station) contient tous les fichiers de configuration mentionnés ici.
 
@@ -678,8 +678,8 @@ Aucun de ceux-ci n'est bloquant. Ce sont des nice-to-haves sur lesquels je revie
 
 ## Et ensuite
 
-Cet article a couvert la couche serveur : la stack Docker, le sidecar snapshot personnalisé, le relais RTSP à la demande, et les trois correctifs upstream. Le prochain — et dernier — article de la série couvre le côté Home Assistant : capteurs REST pour batterie et signal, cartes picture-glance pour le dashboard, contrôles d'armement/désarmement, webhooks de mouvement, et le layout Lovelace. Ce sera dans l'[article 3 de cette série](/integrating-self-hosted-arlo-with-home-assistant/) (le lien ne se résoudra pas tant que la phase 4 ne sera pas publiée).
+Cet article a couvert la couche serveur : la stack Docker, le sidecar snapshot personnalisé, le relais RTSP à la demande, et les trois correctifs upstream. Le prochain — et dernier — article de la série couvre le côté Home Assistant : capteurs REST pour batterie et signal, cartes picture-glance pour le dashboard, contrôles d'armement/désarmement, webhooks de mouvement, et le layout Lovelace. Ce sera dans l'[article 3 de cette série](/fr/integrer-arlo-auto-heberge-avec-home-assistant/).
 
-Pour le côté réseau, voir l'[article 1 de cette série](/replacing-arlo-base-station-with-a-netgear-orbi-router/).
+Pour le côté réseau, voir l'[article 1 de cette série](/fr/remplacer-la-station-de-base-arlo-par-un-routeur-netgear-orbi/).
 
 Le dépôt compagnon est [github.com/mmornati/arlo-base-station](https://github.com/mmornati/arlo-base-station). Les PRs upstream sont [PR #29](https://github.com/brianschrameck/arlo-cam-api/pull/29), [PR #30](https://github.com/brianschrameck/arlo-cam-api/pull/30), et [PR #31](https://github.com/brianschrameck/arlo-cam-api/pull/31).

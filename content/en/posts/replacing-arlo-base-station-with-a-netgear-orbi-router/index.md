@@ -973,6 +973,6 @@ This post covered the part that has the worst "if you don't know, you cannot Goo
 
 ---
 
-*This is post 1 of 3 in the Arlo series. Post 2 (services stack + upstream PRs) goes live in two weeks. Post 3 (Home Assistant integration) follows that.*
+*This is post 1 of 3 in the Arlo series. Post 2 covers the services stack + upstream PRs. Post 3 covers the Home Assistant integration.*
 
-*Continue reading → Post 2 — link won't resolve until Phase 3 is published.*
+*Continue reading → [Post 2 — Services & upstream PRs](/self-hosting-arlo-cam-api-patches-and-improvements/) and [Post 3 — Home Assistant integration](/integrating-self-hosted-arlo-with-home-assistant/).*

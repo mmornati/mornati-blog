@@ -12,7 +12,7 @@ tags:
 - casa-intelligente
 date: '2026-08-17T11:00:00.000000+00:00'
 slug: auto-ospitare-arlo-cam-api-correzioni-e-miglioramenti
-translationKey: arlo-base-station-replacement
+translationKey: arlo-self-hosting-cam-api
 url: /it/auto-ospitare-arlo-cam-api-correzioni-e-miglioramenti/
 aliases:
 - /auto-ospitare-arlo-cam-api-correzioni-e-miglioramenti
@@ -26,7 +26,7 @@ cover: cover.jpg
 showHero: true
 ---
 
-Questo è il Post 2 di una serie di tre articoli sulla sostituzione della stazione base Arlo proprietaria con uno stack auto-ospitato. Nel [Post 1 di questa serie](/replacing-arlo-base-station-with-a-netgear-orbi-router/) ho coperto il livello di rete — come fare in modo che un Netgear Orbi RBR760 si spacci sufficientemente bene per la stazione base Arlo da far connettere, registrare e streamare le telecamere. In questo post copro il livello *server*: lo stack Docker che effettivamente gira sul mini PC, il sidecar Flask personalizzato che cattura snapshot attivati dal movimento, il relay RTSP on-demand che rende lo streaming live rispettoso della batteria, e le tre pull request upstream che ho contribuito per correggere bug incontrati strada facendo.
+Questo è il Post 2 di una serie di tre articoli sulla sostituzione della stazione base Arlo proprietaria con uno stack auto-ospitato. Nel [Post 1 di questa serie](/it/sostituire-la-stazione-base-arlo-con-un-router-netgear-orbi/) ho coperto il livello di rete — come fare in modo che un Netgear Orbi RBR760 si spacci sufficientemente bene per la stazione base Arlo da far connettere, registrare e streamare le telecamere. In questo post copro il livello *server*: lo stack Docker che effettivamente gira sul mini PC, il sidecar Flask personalizzato che cattura snapshot attivati dal movimento, il relay RTSP on-demand che rende lo streaming live rispettoso della batteria, e le tre pull request upstream che ho contribuito per correggere bug incontrati strada facendo.
 
 Il terzo e ultimo post coprirà Home Assistant — sensori REST, card picture-glance, arm/disarm, webhook di movimento — una volta che il resto dello stack sarà solido. Il repository di accompagnamento su [github.com/mmornati/arlo-base-station](https://github.com/mmornati/arlo-base-station) contiene tutti i file di configurazione menzionati qui.
 
@@ -677,8 +677,8 @@ Nessuno di questi è bloccante. Sono nice-to-have a cui arriverò quando arriver
 
 ## Cosa Viene Dopo
 
-Questo post ha coperto il livello server: lo stack Docker, il sidecar snapshot personalizzato, il relay RTSP on-demand, e le tre patch upstream. Il prossimo — e ultimo — post della serie copre il lato Home Assistant: sensori REST per batteria e segnale, card picture-glance per il dashboard, controlli di arm/disarm, webhook di movimento, e il layout Lovelace. Sarà nel [Post 3 di questa serie](/integrating-self-hosted-arlo-with-home-assistant/) (il link non si risolverà finché la fase 4 non sarà pubblicata).
+Questo post ha coperto il livello server: lo stack Docker, il sidecar snapshot personalizzato, il relay RTSP on-demand, e le tre patch upstream. Il prossimo — e ultimo — post della serie copre il lato Home Assistant: sensori REST per batteria e segnale, card picture-glance per il dashboard, controlli di arm/disarm, webhook di movimento, e il layout Lovelace. Sarà nel [Post 3 di questa serie](/it/integrare-arlo-auto-ospitato-con-home-assistant/).
 
-Per il lato networking, vedi il [Post 1 di questa serie](/replacing-arlo-base-station-with-a-netgear-orbi-router/).
+Per il lato networking, vedi il [Post 1 di questa serie](/it/sostituire-la-stazione-base-arlo-con-un-router-netgear-orbi/).
 
 Il repository di accompagnamento è [github.com/mmornati/arlo-base-station](https://github.com/mmornati/arlo-base-station). Le PR upstream sono [PR #29](https://github.com/brianschrameck/arlo-cam-api/pull/29), [PR #30](https://github.com/brianschrameck/arlo-cam-api/pull/30), e [PR #31](https://github.com/brianschrameck/arlo-cam-api/pull/31).

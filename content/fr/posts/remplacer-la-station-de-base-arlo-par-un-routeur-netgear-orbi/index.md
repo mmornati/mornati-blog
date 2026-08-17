@@ -977,6 +977,6 @@ Cet article a couvert la partie qui a la pire courbe « si vous ne savez pas, vo
 
 ---
 
-*Ceci est l'article 1 sur 3 dans la série Arlo. L'Article 2 (stack services + PRs upstream) sera publié dans deux semaines. L'Article 3 (intégration Home Assistant) suivra.*
+*Ceci est l'article 1 sur 3 dans la série Arlo. L'Article 2 couvre la stack services + les PRs upstream. L'Article 3 couvre l'intégration Home Assistant.*
 
-*Continuer la lecture → Article 2 — le lien ne résoudra pas tant que la Phase 3 ne sera pas publiée.*
+*Continuer la lecture → [Article 2 — Services & PRs upstream](/fr/auto-heberger-arlo-cam-api-correctifs-et-ameliorations/) et [Article 3 — Intégration Home Assistant](/fr/integrer-arlo-auto-heberge-avec-home-assistant/).*
