@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Solar installation analysis — micro-inverter dataset (since Sept. 2024)</title>
+<title>Solar installation analysis — APS DS3 (since Sept. 2024)</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
   :root { color-scheme: light; }
@@ -19,7 +19,9 @@
   .card .v { font-size: 1.45rem; font-weight: 700; color:#0f3d2e; }
   .card .l { font-size: .78rem; color:#5b6b7b; margin-top:3px; line-height:1.3; }
   .card.green .v { color:#1b7a4b; } .card.amber .v { color:#c07a12; } .card.blue .v { color:#1d4ed8; }
+  .card.violet .v { color:#7c3aed; }
   h2 { font-size: 1.15rem; margin: 30px 0 12px; color:#0f3d2e; border-bottom:2px solid #e2e8f0; padding-bottom:6px; }
+  h3 { font-size: 1.0rem; margin: 18px 0 8px; color:#1c2733; }
   .chart-wrap { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:14px; margin-bottom:18px; }
   .chart-wrap canvas { max-height: 320px; }
   table { width:100%; border-collapse:collapse; background:#fff; font-size:.85rem; }
@@ -31,14 +33,16 @@
   .note { font-size:.8rem; color:#5b6b7b; line-height:1.55; background:#fbfcfe; border:1px dashed #d5dde6; border-radius:8px; padding:12px 14px; margin-top:10px; }
   .note h3 { margin:0 0 6px; font-size:.9rem; color:#33475b; }
   .badge { display:inline-block; background:#e8f5ec; color:#0f3d2e; border-radius:6px; padding:2px 8px; font-size:.75rem; margin-left:6px; }
+  .badge.vm { background:#eef2ff; color:#3730a3; }
   footer { text-align:center; color:#8a97a5; font-size:.75rem; padding: 20px 0; }
+  code { background:#f1f3f5; padding:1px 5px; border-radius:3px; font-size:.85em; }
 </style>
 </head>
 <body>
 <header>
   <h1>☀️ Solar installation analysis</h1>
-  <p>12-panel rooftop installation with 3 APS DS3 micro-inverters · commissioned <b>September 2024</b> · data through <b>10 August 2026</b></p>
-  <p>Production : rapport mensuel des micro-onduleurs · Import réseau : compteur communicant Linky</p>
+  <p>12-panel rooftop installation with 3 APS DS3 micro-inverters · commissioned <b>September 2024</b> · data through <b>10 Aug 2026</b></p>
+  <p>Production : micro-inverter monthly report (ECU 216000283697) · Grid import : коммуnиcating Linky meter (PRM 01319247406465)</p>
 </header>
 <main>
 
@@ -46,8 +50,8 @@
     <div class="card green"><div class="v">12,461 kWh</div><div class="l">Total production since Sept. 2024</div></div>
     <div class="card amber"><div class="v">7,572 kWh</div><div class="l">Self-consumed (60.8 %)</div></div>
     <div class="card blue"><div class="v">4,889 kWh</div><div class="l">Surplus exported / OA resale</div></div>
-    <div class="card green"><div class="v">€2,234</div><div class="l">Total estimated gain (avoided + resale)</div></div>
-    <div class="card"><div class="v">11.1 years</div><div class="l">Return on investment (€13,000)</div></div>
+    <div class="card green"><div class="v">2,234 €</div><div class="l">Total estimated gain (avoided + resale)</div></div>
+    <div class="card"><div class="v">11.1 ans</div><div class="l">Return on investment (13,000 €)</div></div>
   </div>
 
   <h2>Monthly production <span class="badge">micro-inverter report — exact value</span></h2>
@@ -72,83 +76,108 @@
           <td>6498.1</td>
           <td>4067.2</td>
           <td>2431.0</td>
-          <td>€858.18</td>
-          <td>€316.26</td>
-          <td><b>€1,174.44</b></td>
+          <td>858.18 €</td>
+          <td>316.27 €</td>
+          <td><b>1174.45 €</b></td>
         </tr>
         <tr>
           <td>Year 2<br><small>Sept 2025 → Aug 2026 (partial)</small></td>
           <td>5963.1</td>
           <td>3505.1</td>
           <td>2457.8</td>
-          <td>€739.59</td>
-          <td>€319.78</td>
-          <td><b>€1,059.37</b></td>
+          <td>739.58 €</td>
+          <td>319.76 €</td>
+          <td><b>1059.34 €</b></td>
         </tr>
         <tr class="total">
           <td>Total</td><td>12461.2</td><td>7572.3</td><td>4888.8</td>
-          <td>€1,597.77</td><td>€636.04</td>
-          <td><b>€2,233.84</b></td>
+          <td>1597.76 €</td><td>636.03 €</td>
+          <td><b>2233.79 €</b></td>
         </tr>
       </table>
     </div>
     <div class="note">
       <h3>Calculation method</h3>
-      <p><b>Year 1</b>: actual surplus = <b>2,431 kWh</b> paid by the feed-in tariff contract at €0.1301/kWh = €316.27.<br>
-      <b>Year 2</b>: surplus estimated at <b>~2,458 kWh</b> (Linky "energy injected" register: 2,457.9 kWh) — under the €9,600/year OA cap.</p>
-      <p><b>Gain</b> = self-consumption × €0.211 (peak) + surplus × €0.1301. Self-consumed energy replaces peak-hour purchases.</p>
-      <p><b>Self-consumption</b>: a "daily self-consumption baseline" model (13.54 kWh/day in Y1, 12.44 kWh/day in Y2), tuned so the annual surplus matches reality exactly.</p>
+      <p><b>Year 1</b>: actual surplus = <b>2,431 kWh</b> paid by the OA feed-in tariff (13.01 c€/kWh = 316.27 €).<br><b>Year 2</b>: surplus estimated at <b>~2,458 kWh</b> (Linky &ldquo;active energy injected&rdquo; register: 2457.9 kWh) — under the OA Tier-1 ceiling of 9,600 kWh/yr.</p>
+      <p><b>Gain</b> = self-consumption × 0.211 € (peak) + surplus × 0.1301 €. Self-consumed energy replaces peak-hour grid purchases.</p>
+      <p><b>Self-consumption</b>: &ldquo;daily self-consumption baseline&rdquo; model (13.54 kWh/day year 1, 12.44 kWh/day year 2) tuned to reproduce exactly the annual surpluses.</p>
     </div>
   </div>
 
   <h2>Last 12 complete months <span class="badge">Aug 2025 → Jul 2026</span></h2>
   <div class="cards">
-    <div class="card green"><div class="v">6,429 kWh</div><div class="l">Production (avg 17.61 kWh/day)</div></div>
-    <div class="card blue"><div class="v">13,779 kWh</div><div class="l">Grid import (avg 37.75 kWh/day)</div></div>
+    <div class="card green"><div class="v">6,429 kWh</div><div class="l">Production (avg. 17.61 kWh/day)</div></div>
+    <div class="card blue"><div class="v">13,779 kWh</div><div class="l">Grid import (avg. 37.75 kWh/day)</div></div>
     <div class="card amber"><div class="v">3,801 kWh</div><div class="l">Self-consumed</div></div>
     <div class="card green"><div class="v">2,629 kWh</div><div class="l">Surplus exported</div></div>
-    <div class="card"><div class="v">€1,144</div><div class="l">Estimated gain over 12 months</div></div>
+    <div class="card"><div class="v">1,144 €</div><div class="l">Estimated gain over 12 months</div></div>
   </div>
 
-  <h2>Before / after installation</h2>
+  <h2>Electric vehicle (V2C Trydan) <span class="badge vm">VictoriaMetrics · since April 2025</span></h2>
+  <div class="cards">
+    <div class="card"><div class="v">2,975 kWh</div><div class="l">Total EV energy (17 months)</div></div>
+    <div class="card green"><div class="v">579 kWh</div><div class="l">From solar (19.5 %)</div></div>
+    <div class="card amber"><div class="v">73 %</div><div class="l">Solar share during daytime (6h–21h)</div></div>
+    <div class="card violet"><div class="v">12 %</div><div class="l">Share of OA surplus absorbed by the EV</div></div>
+  </div>
+
+  <h3>Monthly EV charging: solar vs grid</h3>
+  <div class="chart-wrap"><canvas id="evMonthlyChart"></canvas></div>
+
+  <h3>Charging and solar share by hour (local, 6h–21h)</h3>
+  <div class="chart-wrap"><canvas id="evHourlyChart"></canvas></div>
+
+  <div class="grid2">
+    <table>
+      <tr><th>Month</th><th>Charged kWh</th><th>Solar kWh</th><th>Solar share</th><th>Share of OA surplus</th></tr>
+      <tr><td>04/2025</td><td>370</td><td>115.0</td><td>31.1%</td><td>2.35%</td></tr><tr><td>05/2025</td><td>200</td><td>129.0</td><td>64.5%</td><td>2.64%</td></tr><tr><td>06/2025</td><td>226</td><td>69.0</td><td>30.5%</td><td>1.41%</td></tr><tr><td>07/2025</td><td>195</td><td>37.0</td><td>19.0%</td><td>0.76%</td></tr><tr><td>08/2025</td><td>138</td><td>20.0</td><td>14.5%</td><td>0.41%</td></tr><tr><td>09/2025</td><td>171</td><td>45.0</td><td>26.3%</td><td>0.92%</td></tr><tr><td>10/2025</td><td>164</td><td>14.0</td><td>8.5%</td><td>0.29%</td></tr><tr><td>11/2025</td><td>352</td><td>8.0</td><td>2.3%</td><td>0.16%</td></tr><tr><td>12/2025</td><td>253</td><td>1.4</td><td>0.6%</td><td>0.03%</td></tr><tr><td>01/2026</td><td>168</td><td>0.3</td><td>0.2%</td><td>0.01%</td></tr><tr><td>02/2026</td><td>166</td><td>0.6</td><td>0.4%</td><td>0.01%</td></tr><tr><td>03/2026</td><td>39</td><td>19.0</td><td>48.7%</td><td>0.39%</td></tr><tr><td>04/2026</td><td>145</td><td>25.0</td><td>17.2%</td><td>0.51%</td></tr><tr><td>05/2026</td><td>76</td><td>28.0</td><td>36.8%</td><td>0.57%</td></tr><tr><td>06/2026</td><td>153</td><td>60.0</td><td>39.2%</td><td>1.23%</td></tr><tr><td>07/2026</td><td>130</td><td>7.0</td><td>5.4%</td><td>0.14%</td></tr><tr><td>08/2026</td><td>29</td><td>0.9</td><td>3.1%</td><td>0.02%</td></tr>
+      <tr class="total"><td>Total</td><td>2,975</td><td>579.2</td><td>19.5%</td><td>11.8%</td></tr>
+    </table>
+    <div class="note">
+      <h3>Method and limitations</h3>
+      <p>Data sourced from <b>VictoriaMetrics</b> (1-hour step, trapezoidal integration). <code>sensor.evse_10_0_0_120_charge_power_value</code> × 1 h gives hourly charging; <code>min(charge_power, photovoltaic_power)</code> × 1 h gives the solar share.</p>
+      <p><b>Important caveat:</b> the VM exporter does not sample every minute; the 1 h step undercounts short bursts and days where the exporter delivered only one sample. Solar values are therefore a <i>lower bound</i> — the true share is likely a few points higher.</p>
+      <p><b>Charger</b>: V2C Trydan, <i>full solar</i> mode (HA select <code>mixed</code> + dynamic intensity modulation), 16 A per phase (11 kW triphase). Night charging is entirely grid-fed (rare: 67 kWh over 17 months).</p>
+    </div>
+  </div>
+
+  <h2>Before / after the installation</h2>
   <div class="grid2">
     <div class="note">
       <h3>Average daily grid import</h3>
       <table>
         <tr><th></th><th>Total import</th><th>Days</th><th>Avg/day</th></tr>
-        <tr><td>Before (Jan → Aug 2024)</td><td>10068.0 kWh</td><td>244</td><td><b>41.3 kWh/day</b></td></tr>
-        <tr><td>After (Sept 2024 → 10 Aug 2026)</td><td>26408.0 kWh</td><td>709</td><td><b>37.2 kWh/day</b></td></tr>
+        <tr><td>Before (Jan → Aug 2024)</td><td>10068.0 kWh</td><td>244</td><td><b>41.3 kWh/j</b></td></tr>
+        <tr><td>After (Sept 2024 → 10 Aug 2026)</td><td>26408.0 kWh</td><td>709</td><td><b>37.2 kWh/j</b></td></tr>
       </table>
-      <p style="margin-top:8px">Caveat: seasons and usage (EV charging, heating) differ between the two periods.</p>
+      <p style="margin-top:8px">Caveat: seasons and usage (EV, heating) differ between the two periods.</p>
     </div>
     <div class="note">
-      <h3>ROI</h3>
-      <p>Installation cost: <b>€13,000</b> (all taxes included).</p>
-      <p>Estimated gain: ≈ <b>€1,174.44/year</b> (full first year) and <b>€1,143.93</b> over the last 12 months.</p>
+      <h3>Return on investment</h3>
+      <p>Install cost: <b>13,000 €</b> (all-in).</p>
+      <p>Estimated gain: ≈ <b>1174.45 €/yr</b> (full year 1) and <b>1143.92 €</b> over the last 12 months.</p>
       <p>Payback period: <b>11.1 years</b> (≈ 11.4 years on a rolling basis).</p>
-      <p>Fixed subscription unchanged: €30.59/month. All-in tariffs: peak €0.211, off-peak €0.1624.</p>
+      <p>Standing charge unchanged: 30.59 €/month. All-in tariffs: peak 0.211 €, off-peak 0.1624 €.</p>
     </div>
   </div>
 
   <div class="note">
-    <h3>Methodology notes</h3>
+    <h3>Methodological notes</h3>
     <ul>
-      <li>Production: official micro-inverter monthly report (total 12,461 kWh). The Home Assistant meter reads 12,330.5 kWh (≈1 % gap — counter reset/timestamping; the inverter values are used).</li>
-      <li>Grid import: monthly readings from the network operator (exact). Peak/off-peak split obtained by interpolating Linky indexes (monthly approximation).</li>
-      <li>Surplus: Year 1 is exact (paid by the feed-in tariff, 2,431 kWh); Year 2 is estimated from the Linky "active energy injected" register. Monthly self-consumption is therefore an estimate.</li>
-      <li>Valuing self-consumption at the peak tariff assumes solar mostly replaces daytime (peak-hour) consumption.</li>
-      <li>Tariffs and the resulting economics evolve with the supply contract; page generated on "11/08/2026".</li>
+      <li>Production: official APS monthly report (total 12,461 kWh). The Home Assistant ECU counter shows 12330.5 kWh (≈ 1 % gap — meter reset / timestamp skew, APS values retained).</li>
+      <li>Grid import: monthly readings from the network operator (exact). Peak/off-peak split by interpolation of the Enedis registers (monthly approximation).</li>
+      <li>Surplus: Year 1 exact (OA invoice, 2,431 kWh), Year 2 estimated via the Linky &ldquo;active energy injected&rdquo; register. Monthly self-consumption is an estimate.</li>
+      <li>Self-consumption is valued at the peak tariff under the assumption that solar mainly replaces daytime (peak) consumption.</li>
+      <li>Tariffs and economic result vary with the contract; page generated on "17/08/2026".</li>
     </ul>
   </div>
 
-  <footer>Data source: network operator · micro-inverters · Home Assistant — static analysis generated by script.</footer>
+  <footer>Data: Enedis · APS · Home Assistant · VictoriaMetrics — static analysis generated by script (generate_analysis.py)</footer>
 </main>
 
 <script>
-const D = {"meta": {"generated": "11/08/2026", "install": "September 2024", "panels": "12 panels on 3 APS DS3 micro-inverters (4 per inverter)", "ecu_lifetime": 12330.5, "xls_total": 12461.2, "tarif_hp": 0.211, "tarif_hc": 0.1624, "tarif_oa": 0.1301, "abo": 30.59, "cout_install": 13000.0, "plafond_oa": 9600, "surplus_y1_contract": 2431.0, "surplus_y1_montant": 316.27, "surplus_y2_est": 2457.9, "baseline_y1": 13.54, "baseline_y2": 12.44}, "monthly": [{"m": "09/2024", "prod": 439.9, "sc": 406.3, "sur": 33.5, "imp": 694.0, "hp": 386.9, "hc": 307.1, "conso": 1100.3, "gain_sc": 85.74, "gain_sur": 4.36, "gain": 90.1}, {"m": "10/2024", "prod": 426.3, "sc": 419.9, "sur": 6.4, "imp": 820.0, "hp": 449.3, "hc": 370.7, "conso": 1239.9, "gain_sc": 88.59, "gain_sur": 0.83, "gain": 89.43}, {"m": "11/2024", "prod": 161.9, "sc": 161.9, "sur": 0.0, "imp": 1505.0, "hp": 836.0, "hc": 669.0, "conso": 1667.0, "gain_sc": 34.17, "gain_sur": 0.0, "gain": 34.17}, {"m": "12/2024", "prod": 103.7, "sc": 103.7, "sur": 0.0, "imp": 1818.0, "hp": 1052.5, "hc": 765.5, "conso": 1921.7, "gain_sc": 21.88, "gain_sur": 0.0, "gain": 21.88}, {"m": "01/2025", "prod": 171.7, "sc": 171.7, "sur": 0.0, "imp": 2093.0, "hp": 1173.7, "hc": 919.3, "conso": 2264.7, "gain_sc": 36.24, "gain_sur": 0.0, "gain": 36.24}, {"m": "02/2025", "prod": 311.5, "sc": 311.5, "sur": 0.0, "imp": 1467.0, "hp": 797.6, "hc": 669.4, "conso": 1778.5, "gain_sc": 65.72, "gain_sur": 0.0, "gain": 65.72}, {"m": "03/2025", "prod": 712.4, "sc": 419.9, "sur": 292.6, "imp": 1260.0, "hp": 690.4, "hc": 569.6, "conso": 1679.9, "gain_sc": 88.59, "gain_sur": 38.06, "gain": 126.66}, {"m": "04/2025", "prod": 837.0, "sc": 406.3, "sur": 430.7, "imp": 935.0, "hp": 418.7, "hc": 516.3, "conso": 1341.3, "gain_sc": 85.74, "gain_sur": 56.03, "gain": 141.77}, {"m": "05/2025", "prod": 823.3, "sc": 419.9, "sur": 403.4, "imp": 663.0, "hp": 249.5, "hc": 413.5, "conso": 1082.9, "gain_sc": 88.59, "gain_sur": 52.48, "gain": 141.08}, {"m": "06/2025", "prod": 881.0, "sc": 406.3, "sur": 474.7, "imp": 665.0, "hp": 239.4, "hc": 425.6, "conso": 1071.3, "gain_sc": 85.74, "gain_sur": 61.76, "gain": 147.49}, {"m": "07/2025", "prod": 848.4, "sc": 419.9, "sur": 428.5, "imp": 601.0, "hp": 215.5, "hc": 385.5, "conso": 1020.9, "gain_sc": 88.59, "gain_sur": 55.75, "gain": 144.35}, {"m": "08/2025", "prod": 781.0, "sc": 419.9, "sur": 361.2, "imp": 503.0, "hp": 199.8, "hc": 303.2, "conso": 922.9, "gain_sc": 88.59, "gain_sur": 46.99, "gain": 135.58}, {"m": "09/2025", "prod": 575.7, "sc": 373.3, "sur": 202.3, "imp": 771.0, "hp": 323.8, "hc": 447.2, "conso": 1144.3, "gain_sc": 78.77, "gain_sur": 26.33, "gain": 105.1}, {"m": "10/2025", "prod": 300.6, "sc": 300.6, "sur": 0.0, "imp": 1052.0, "hp": 516.4, "hc": 535.6, "conso": 1352.6, "gain_sc": 63.43, "gain_sur": 0.0, "gain": 63.43}, {"m": "11/2025", "prod": 200.1, "sc": 200.1, "sur": 0.0, "imp": 1662.0, "hp": 834.6, "hc": 827.4, "conso": 1862.1, "gain_sc": 42.23, "gain_sur": 0.0, "gain": 42.23}, {"m": "12/2025", "prod": 178.8, "sc": 178.8, "sur": 0.0, "imp": 1973.0, "hp": 1122.4, "hc": 850.6, "conso": 2151.8, "gain_sc": 37.72, "gain_sur": 0.0, "gain": 37.72}, {"m": "01/2026", "prod": 179.5, "sc": 179.5, "sur": 0.0, "imp": 2335.0, "hp": 1312.4, "hc": 1022.6, "conso": 2514.5, "gain_sc": 37.88, "gain_sur": 0.0, "gain": 37.88}, {"m": "02/2026", "prod": 244.4, "sc": 244.4, "sur": 0.0, "imp": 1669.0, "hp": 895.7, "hc": 773.3, "conso": 1913.4, "gain_sc": 51.56, "gain_sur": 0.0, "gain": 51.56}, {"m": "03/2026", "prod": 649.4, "sc": 385.8, "sur": 263.6, "imp": 1155.0, "hp": 591.9, "hc": 563.1, "conso": 1540.8, "gain_sc": 81.4, "gain_sur": 34.3, "gain": 115.7}, {"m": "04/2026", "prod": 790.6, "sc": 373.3, "sur": 417.2, "imp": 776.0, "hp": 400.2, "hc": 375.8, "conso": 1149.3, "gain_sc": 78.77, "gain_sur": 54.28, "gain": 133.05}, {"m": "05/2026", "prod": 769.5, "sc": 385.8, "sur": 383.7, "imp": 693.0, "hp": 337.1, "hc": 355.9, "conso": 1078.8, "gain_sc": 81.4, "gain_sur": 49.92, "gain": 131.32}, {"m": "06/2026", "prod": 827.6, "sc": 373.3, "sur": 454.3, "imp": 660.0, "hp": 321.2, "hc": 338.8, "conso": 1033.3, "gain_sc": 78.77, "gain_sur": 59.11, "gain": 137.88}, {"m": "07/2026", "prod": 932.1, "sc": 385.8, "sur": 546.4, "imp": 530.0, "hp": 236.6, "hc": 293.4, "conso": 915.8, "gain_sc": 81.4, "gain_sur": 71.08, "gain": 152.48}, {"m": "08/2026", "prod": 314.8, "sc": 124.4, "sur": 190.3, "imp": 108.0, "hp": 62.6, "hc": 45.4, "conso": 232.4, "gain_sc": 26.26, "gain_sur": 24.76, "gain": 51.02}], "totals": {"prod": 12461.2, "sc": 7572.3, "sur": 4888.8, "imp": 26408.0, "gain": 2233.84, "sc_rate": 60.8, "sur_rate": 39.2}, "year1": {"sc": 4067.2, "sur": 2430.9, "gain_sc": 858.18, "gain_sur": 316.26, "gain": 1174.44}, "year2": {"sc": 3505.2, "sur": 2458.0, "gain_sc": 739.59, "gain_sur": 319.78, "gain": 1059.37}, "rolling12": {"prod": 6429.3, "imp": 13779.0, "sc": 3800.6, "sur": 2628.7, "gain": 1143.93, "prod_day": 17.61, "imp_day": 37.75}, "before_after": {"pre_imp": 10068.0, "pre_days": 244, "pre_day": 41.3, "post_imp": 26408.0, "post_days": 709, "post_day": 37.2}, "roi": {"payback12": 11.4, "payback_full": 11.1, "annual_gain": 1174.44, "gain12": 1143.93}};
-Chart.defaults.font.family = "-apple-system, Segoe UI, Roboto, Arial, sans-serif";
-const months = ["09/2024", "10/2024", "11/2024", "12/2024", "01/2025", "02/2025", "03/2025", "04/2025", "05/2025", "06/2025", "07/2025", "08/2025", "09/2025", "10/2025", "11/2025", "12/2025", "01/2026", "02/2026", "03/2026", "04/2026", "05/2026", "06/2026", "07/2026", "08/2026"];
-const f = (v) => v.toLocaleString('en-GB');
+const D = {"meta": {"generated": "17/08/2026", "install": "September 2024", "panels": "12 panels on 3 APS DS3 micro-inverters (4 per inverter)", "ecu_lifetime": 12330.5, "xls_total": 12461.2, "tarif_hp": 0.211, "tarif_hc": 0.1624, "tarif_oa": 0.1301, "abo": 30.59, "cout_install": 13000.0, "plafond_oa": 9600, "surplus_y1_contract": 2431.0, "surplus_y1_montant": 316.27, "surplus_y2_est": 2457.9, "baseline_y1": 13.54, "baseline_y2": 12.44, "ev_total_kwh": 2975, "ev_solar_kwh": 579.0, "ev_grid_kwh": 2396.0, "ev_solar_pct": 19.5, "ev_day_solar_pct": 72.8, "ev_pct_surplus": 11.8}, "monthly": [{"m": "09/2024", "prod": 439.9, "sc": 406.3, "sur": 33.5, "imp": 694.0, "hp": 386.9, "hc": 307.1, "conso": 1100.3}, {"m": "10/2024", "prod": 426.3, "sc": 419.9, "sur": 6.4, "imp": 820.0, "hp": 449.3, "hc": 370.7, "conso": 1239.9}, {"m": "11/2024", "prod": 161.9, "sc": 161.9, "sur": 0.0, "imp": 1505.0, "hp": 836.0, "hc": 669.0, "conso": 1667.0}, {"m": "12/2024", "prod": 103.7, "sc": 103.7, "sur": 0.0, "imp": 1818.0, "hp": 1052.5, "hc": 765.5, "conso": 1921.7}, {"m": "01/2025", "prod": 171.7, "sc": 171.7, "sur": 0.0, "imp": 2093.0, "hp": 1173.7, "hc": 919.3, "conso": 2264.7}, {"m": "02/2025", "prod": 311.5, "sc": 311.5, "sur": 0.0, "imp": 1467.0, "hp": 797.6, "hc": 669.4, "conso": 1778.5}, {"m": "03/2025", "prod": 712.4, "sc": 419.9, "sur": 292.6, "imp": 1260.0, "hp": 690.4, "hc": 569.6, "conso": 1679.9}, {"m": "04/2025", "prod": 837.0, "sc": 406.3, "sur": 430.7, "imp": 935.0, "hp": 418.7, "hc": 516.3, "conso": 1341.3}, {"m": "05/2025", "prod": 823.3, "sc": 419.9, "sur": 403.4, "imp": 663.0, "hp": 249.5, "hc": 413.5, "conso": 1082.9}, {"m": "06/2025", "prod": 881.0, "sc": 406.3, "sur": 474.7, "imp": 665.0, "hp": 239.4, "hc": 425.6, "conso": 1071.3}, {"m": "07/2025", "prod": 848.4, "sc": 419.9, "sur": 428.5, "imp": 601.0, "hp": 215.5, "hc": 385.5, "conso": 1020.9}, {"m": "08/2025", "prod": 781.0, "sc": 419.9, "sur": 361.2, "imp": 503.0, "hp": 199.8, "hc": 303.2, "conso": 922.9}, {"m": "09/2025", "prod": 575.7, "sc": 373.3, "sur": 202.3, "imp": 771.0, "hp": 323.8, "hc": 447.2, "conso": 1144.3}, {"m": "10/2025", "prod": 300.6, "sc": 300.6, "sur": 0.0, "imp": 1052.0, "hp": 516.4, "hc": 535.6, "conso": 1352.6}, {"m": "11/2025", "prod": 200.1, "sc": 200.1, "sur": 0.0, "imp": 1662.0, "hp": 834.6, "hc": 827.4, "conso": 1862.1}, {"m": "12/2025", "prod": 178.8, "sc": 178.8, "sur": 0.0, "imp": 1973.0, "hp": 1122.4, "hc": 850.6, "conso": 2151.8}, {"m": "01/2026", "prod": 179.5, "sc": 179.5, "sur": 0.0, "imp": 2335.0, "hp": 1312.4, "hc": 1022.6, "conso": 2514.5}, {"m": "02/2026", "prod": 244.4, "sc": 244.4, "sur": 0.0, "imp": 1669.0, "hp": 895.7, "hc": 773.3, "conso": 1913.4}, {"m": "03/2026", "prod": 649.4, "sc": 385.8, "sur": 263.6, "imp": 1155.0, "hp": 591.9, "hc": 563.1, "conso": 1540.8}, {"m": "04/2026", "prod": 790.6, "sc": 373.3, "sur": 417.2, "imp": 776.0, "hp": 400.2, "hc": 375.8, "conso": 1149.3}, {"m": "05/2026", "prod": 769.5, "sc": 385.8, "sur": 383.7, "imp": 693.0, "hp": 337.1, "hc": 355.9, "conso": 1078.8}, {"m": "06/2026", "prod": 827.6, "sc": 373.3, "sur": 454.3, "imp": 660.0, "hp": 321.2, "hc": 338.8, "conso": 1033.3}, {"m": "07/2026", "prod": 932.1, "sc": 385.8, "sur": 546.4, "imp": 530.0, "hp": 236.6, "hc": 293.4, "conso": 915.8}, {"m": "08/2026", "prod": 314.8, "sc": 124.4, "sur": 190.3, "imp": 108.0, "hp": 62.6, "hc": 45.4, "conso": 232.4}], "totals": {"prod": 12461.2, "sc": 7572.3, "sur": 4888.8, "imp": 26408.0, "gain": 2233.79, "sc_rate": 60.8, "sur_rate": 39.2}, "year1": {"sc": 4067.2, "sur": 2431.0, "gain_sc": 858.18, "gain_sur": 316.27, "gain": 1174.45}, "year2": {"sc": 3505.1, "sur": 2457.8, "gain_sc": 739.58, "gain_sur": 319.76, "gain": 1059.34}, "rolling12": {"prod": 6429.3, "imp": 13779.0, "sc": 3800.6, "sur": 2628.7, "gain": 1143.92, "prod_day": 17.61, "imp_day": 37.75}, "before_after": {"pre_imp": 10068.0, "pre_days": 244, "pre_day": 41.3, "post_imp": 26408.0, "post_days": 709, "post_day": 37.2}, "roi": {"payback12": 11.4, "payback_full": 11.1, "annual_gain": 1174.45, "gain12": 1143.92}, "ev": {"total_kwh": 2975, "solar_kwh": 579.0, "grid_kwh": 2396.0, "solar_pct": 19.5, "day_solar_pct": 72.8, "night_kwh": 67.0, "pct_surplus": 11.8, "monthly": [{"m": "04/2025", "kwh": 370, "solar": 115, "pct": 31.1, "pct_sur": 2.35}, {"m": "05/2025", "kwh": 200, "solar": 129, "pct": 64.5, "pct_sur": 2.64}, {"m": "06/2025", "kwh": 226, "solar": 69, "pct": 30.5, "pct_sur": 1.41}, {"m": "07/2025", "kwh": 195, "solar": 37, "pct": 19.0, "pct_sur": 0.76}, {"m": "08/2025", "kwh": 138, "solar": 20, "pct": 14.5, "pct_sur": 0.41}, {"m": "09/2025", "kwh": 171, "solar": 45, "pct": 26.3, "pct_sur": 0.92}, {"m": "10/2025", "kwh": 164, "solar": 14, "pct": 8.5, "pct_sur": 0.29}, {"m": "11/2025", "kwh": 352, "solar": 8, "pct": 2.3, "pct_sur": 0.16}, {"m": "12/2025", "kwh": 253, "solar": 1.4, "pct": 0.6, "pct_sur": 0.03}, {"m": "01/2026", "kwh": 168, "solar": 0.3, "pct": 0.2, "pct_sur": 0.01}, {"m": "02/2026", "kwh": 166, "solar": 0.6, "pct": 0.4, "pct_sur": 0.01}, {"m": "03/2026", "kwh": 39, "solar": 19, "pct": 48.7, "pct_sur": 0.39}, {"m": "04/2026", "kwh": 145, "solar": 25, "pct": 17.2, "pct_sur": 0.51}, {"m": "05/2026", "kwh": 76, "solar": 28, "pct": 36.8, "pct_sur": 0.57}, {"m": "06/2026", "kwh": 153, "solar": 60, "pct": 39.2, "pct_sur": 1.23}, {"m": "07/2026", "kwh": 130, "solar": 7, "pct": 5.4, "pct_sur": 0.14}, {"m": "08/2026", "kwh": 29, "solar": 0.9, "pct": 3.1, "pct_sur": 0.02}], "hourly": [{"h": 6, "kwh": 36.2, "solar": 0.5, "pct": 1.4}, {"h": 7, "kwh": 39.6, "solar": 1.1, "pct": 2.8}, {"h": 8, "kwh": 9.8, "solar": 0.3, "pct": 3.1}, {"h": 9, "kwh": 11.9, "solar": 0.6, "pct": 5.0}, {"h": 10, "kwh": 12.5, "solar": 0.9, "pct": 7.2}, {"h": 11, "kwh": 32.9, "solar": 29.3, "pct": 89.1}, {"h": 12, "kwh": 59.9, "solar": 59.1, "pct": 98.7}, {"h": 13, "kwh": 43.9, "solar": 34.3, "pct": 78.1}, {"h": 14, "kwh": 41.8, "solar": 38.8, "pct": 92.8}, {"h": 15, "kwh": 134.3, "solar": 117.5, "pct": 87.5}, {"h": 16, "kwh": 146.2, "solar": 125.8, "pct": 86.0}, {"h": 17, "kwh": 137.2, "solar": 110.8, "pct": 80.8}, {"h": 18, "kwh": 71.3, "solar": 55.3, "pct": 77.6}, {"h": 19, "kwh": 20.6, "solar": 11.5, "pct": 55.8}, {"h": 20, "kwh": 1.3, "solar": 1.0, "pct": 76.9}, {"h": 21, "kwh": 7.5, "solar": 0.6, "pct": 8.0}]}};
+const f = (v) => v.toLocaleString('en-US');
 
 const barOpts = (legend=true) => ({
   responsive: true, maintainAspectRatio: false,
@@ -159,6 +188,8 @@ const barOpts = (legend=true) => ({
   }
 });
 
+const months = ["09/2024", "10/2024", "11/2024", "12/2024", "01/2025", "02/2025", "03/2025", "04/2025", "05/2025", "06/2025", "07/2025", "08/2025", "09/2025", "10/2025", "11/2025", "12/2025", "01/2026", "02/2026", "03/2026", "04/2026", "05/2026", "06/2026", "07/2026", "08/2026"];
+
 // Production
 new Chart(document.getElementById('prodChart'), {
   type: 'bar',
@@ -166,34 +197,33 @@ new Chart(document.getElementById('prodChart'), {
   options: barOpts(false)
 });
 
-// Import peak / off-peak
+// Import HP/HC
 new Chart(document.getElementById('importChart'), {
   type: 'bar',
   data: { labels: months, datasets: [
-    { label: 'Peak hours (kWh)', data: [386.9, 449.3, 836.0, 1052.5, 1173.7, 797.6, 690.4, 418.7, 249.5, 239.4, 215.5, 199.8, 323.8, 516.4, 834.6, 1122.4, 1312.4, 895.7, 591.9, 400.2, 337.1, 321.2, 236.6, 62.6], backgroundColor: '#1d4ed8' },
-    { label: 'Off-peak hours (kWh)', data: [307.1, 370.7, 669.0, 765.5, 919.3, 669.4, 569.6, 516.3, 413.5, 425.6, 385.5, 303.2, 447.2, 535.6, 827.4, 850.6, 1022.6, 773.3, 563.1, 375.8, 355.9, 338.8, 293.4, 45.4], backgroundColor: '#93b4f5' }
+    { label: 'HP (kWh)', data: [386.9, 449.3, 836.0, 1052.5, 1173.7, 797.6, 690.4, 418.7, 249.5, 239.4, 215.5, 199.8, 323.8, 516.4, 834.6, 1122.4, 1312.4, 895.7, 591.9, 400.2, 337.1, 321.2, 236.6, 62.6], backgroundColor: '#1d4ed8' },
+    { label: 'HC (kWh)', data: [307.1, 370.7, 669.0, 765.5, 919.3, 669.4, 569.6, 516.3, 413.5, 425.6, 385.5, 303.2, 447.2, 535.6, 827.4, 850.6, 1022.6, 773.3, 563.1, 375.8, 355.9, 338.8, 293.4, 45.4], backgroundColor: '#93b4f5' }
   ] },
   options: { ...barOpts(), scales: { x: { stacked: true, grid: { display:false } }, y: { stacked: true, beginAtZero: true, grid: { color: '#eef1f5' } } } }
 });
 
-// Production balance
+// Bilan production
 new Chart(document.getElementById('balanceChart'), {
   type: 'bar',
   data: { labels: months, datasets: [
-    { label: 'Self-consumed (kWh)', data: [406.3, 419.9, 161.9, 103.7, 171.7, 311.5, 419.9, 406.3, 419.9, 406.3, 419.9, 419.9, 373.3, 300.6, 200.1, 178.8, 179.5, 244.4, 385.8, 373.3, 385.8, 373.3, 385.8, 124.4], backgroundColor: '#f2c14e' },
-    { label: 'Surplus exported (kWh)', data: [33.5, 6.4, 0.0, 0.0, 0.0, 0.0, 292.6, 430.7, 403.4, 474.7, 428.5, 361.2, 202.3, 0.0, 0.0, 0.0, 0.0, 0.0, 263.6, 417.2, 383.7, 454.3, 546.4, 190.3], backgroundColor: '#2f9e8f' },
-    { label: 'Grid import (kWh)', data: [694.0, 820.0, 1505.0, 1818.0, 2093.0, 1467.0, 1260.0, 935.0, 663.0, 665.0, 601.0, 503.0, 771.0, 1052.0, 1662.0, 1973.0, 2335.0, 1669.0, 1155.0, 776.0, 693.0, 660.0, 530.0, 108.0], backgroundColor: '#b6c2cf' }
+    { label: 'Auto (kWh)', data: [406.3, 419.9, 161.9, 103.7, 171.7, 311.5, 419.9, 406.3, 419.9, 406.3, 419.9, 419.9, 373.3, 300.6, 200.1, 178.8, 179.5, 244.4, 385.8, 373.3, 385.8, 373.3, 385.8, 124.4], backgroundColor: '#f2c14e' },
+    { label: 'Surplus (kWh)', data: [33.5, 6.4, 0.0, 0.0, 0.0, 0.0, 292.6, 430.7, 403.4, 474.7, 428.5, 361.2, 202.3, 0.0, 0.0, 0.0, 0.0, 0.0, 263.6, 417.2, 383.7, 454.3, 546.4, 190.3], backgroundColor: '#2f9e8f' },
+    { label: 'Import (kWh)', data: [694.0, 820.0, 1505.0, 1818.0, 2093.0, 1467.0, 1260.0, 935.0, 663.0, 665.0, 601.0, 503.0, 771.0, 1052.0, 1662.0, 1973.0, 2335.0, 1669.0, 1155.0, 776.0, 693.0, 660.0, 530.0, 108.0], backgroundColor: '#b6c2cf' }
   ] },
   options: { ...barOpts(), scales: { x: { stacked: true, grid: { display:false } }, y: { stacked: true, beginAtZero: true, grid: { color: '#eef1f5' } } } }
 });
 
 // Gain
-const gainCum = [90.1, 179.53, 213.7, 235.58, 271.82, 337.54, 464.2, 605.97, 747.05, 894.54, 1038.89, 1174.47, 1279.57, 1343.0, 1385.23, 1422.95, 1460.83, 1512.39, 1628.09, 1761.14, 1892.46, 2030.34, 2182.82, 2233.84];
 new Chart(document.getElementById('gainChart'), {
   type: 'bar',
   data: { labels: months, datasets: [
-    { type: 'bar', label: 'Monthly gain (€)', data: [90.1, 89.43, 34.17, 21.88, 36.24, 65.72, 126.66, 141.77, 141.08, 147.49, 144.35, 135.58, 105.1, 63.43, 42.23, 37.72, 37.88, 51.56, 115.7, 133.05, 131.32, 137.88, 152.48, 51.02], backgroundColor: '#3da35a', order: 2 },
-    { type: 'line', label: 'Cumulative gain (€)', data: gainCum, borderColor: '#0f3d2e', backgroundColor: '#0f3d2e', pointRadius: 2, tension: .25, yAxisID: 'y1', order: 1 }
+    { type: 'bar', label: 'Gain mensuel (€)', data: [90.09, 89.43, 34.16, 21.88, 36.23, 65.73, 126.67, 141.76, 141.08, 147.49, 144.35, 135.59, 105.09, 63.43, 42.22, 37.73, 37.87, 51.57, 115.7, 133.04, 131.32, 137.87, 152.49, 51.01], backgroundColor: '#3da35a', order: 2 },
+    { type: 'line', label: 'Cumul (€)', data: [90.09, 179.52, 213.68, 235.56, 271.79, 337.52, 464.19, 605.95, 747.03, 894.52, 1038.87, 1174.46, 1279.55, 1342.98, 1385.2, 1422.93, 1460.8, 1512.37, 1628.07, 1761.11, 1892.43, 2030.3, 2182.79, 2233.8], borderColor: '#0f3d2e', backgroundColor: '#0f3d2e', pointRadius: 2, tension: .25, yAxisID: 'y1', order: 1 }
   ] },
   options: {
     responsive: true, maintainAspectRatio: false,
@@ -202,6 +232,33 @@ new Chart(document.getElementById('gainChart'), {
       x: { grid: { display:false } },
       y: { beginAtZero: true, grid: { color: '#eef1f5' } },
       y1: { position: 'right', beginAtZero: true, grid: { display:false } }
+    }
+  }
+});
+
+// EV mensuel : solaire vs réseau
+new Chart(document.getElementById('evMonthlyChart'), {
+  type: 'bar',
+  data: { labels: ["04/2025", "05/2025", "06/2025", "07/2025", "08/2025", "09/2025", "10/2025", "11/2025", "12/2025", "01/2026", "02/2026", "03/2026", "04/2026", "05/2026", "06/2026", "07/2026", "08/2026"], datasets: [
+    { label: 'VE solaire (kWh)', data: [115, 129, 69, 37, 20, 45, 14, 8, 1.0, 0.0, 1.0, 19, 25, 28, 60, 7, 1.0], backgroundColor: '#f2c14e' },
+    { label: 'VE réseau (kWh)', data: [255, 71, 157, 158, 118, 126, 150, 344, 252.0, 168.0, 165.0, 20, 120, 48, 93, 123, 28.0], backgroundColor: '#b6c2cf' }
+  ] },
+  options: { ...barOpts(), scales: { x: { stacked: true, grid: { display:false } }, y: { stacked: true, beginAtZero: true, grid: { color: '#eef1f5' } } } }
+});
+
+// EV par heure : barres = kWh, ligne = part solaire (%)
+new Chart(document.getElementById('evHourlyChart'), {
+  data: { labels: [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21], datasets: [
+    { type: 'bar', label: 'kWh rechargés', data: [36.2, 39.6, 9.8, 11.9, 12.5, 32.9, 59.9, 43.9, 41.8, 134.3, 146.2, 137.2, 71.3, 20.6, 1.3, 7.5], backgroundColor: '#1b7a4b', yAxisID: 'y', order: 2 },
+    { type: 'line', label: 'Part solaire (%)', data: [1.4, 2.8, 3.1, 5.0, 7.2, 89.1, 98.7, 78.1, 92.8, 87.5, 86.0, 80.8, 77.6, 55.8, 76.9, 8.0], borderColor: '#c07a12', backgroundColor: '#c07a12', pointRadius: 3, tension: .25, yAxisID: 'y1', order: 1 }
+  ] },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { labels: { boxWidth: 12, font: { size: 11 } } } },
+    scales: {
+      x: { grid: { display:false } },
+      y: { beginAtZero: true, grid: { color: '#eef1f5' }, title: { display: true, text: 'kWh' } },
+      y1: { position: 'right', beginAtZero: true, max: 100, grid: { display:false }, title: { display: true, text: '%' } }
     }
   }
 });
