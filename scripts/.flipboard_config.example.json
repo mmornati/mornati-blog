@@ -1,0 +1,11 @@
+{
+  "cookies": "k1=v1; k2=v2; ...",
+  "csrf_token": "....",
+  "userid": "272232685",
+  "magazines": {
+    "en": "Marco Mornati Blog (English)",
+    "it": "Marco Mornati Blog (Italiano)",
+    "fr": "Marco Mornati Blog (Français)"
+  },
+  "targets": {}
+}

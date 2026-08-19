@@ -3,7 +3,7 @@ SHELL := /bin/bash
 HUGO_IMAGE := hugomods/hugo:0.164.0
 COMPOSE := docker compose
 
-.PHONY: help migrate clean build build-native serve down cloudinary
+.PHONY: help migrate clean build build-native serve down cloudinary flipboard
 
 help:
 	@echo "Targets:"
@@ -12,6 +12,7 @@ help:
 	@echo "  make build      - build the site into public/ (Hugo in docker)"
 	@echo "  make serve      - build + serve at http://localhost:8080 (compose)"
 	@echo "  make cloudinary - upload local images to Cloudinary + rewrite HTML"
+	@echo "  make flipboard  - backfill blog posts into per-language Flipboard magazines"
 
 migrate:
 	python3 scripts/migrate.py --workers 24
@@ -35,3 +36,6 @@ down:
 
 cloudinary:
 	python3 scripts/cloudinary_sync.py
+
+flipboard:
+	python3 scripts/flipboard_sync.py --create-magazines

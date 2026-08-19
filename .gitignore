@@ -11,3 +11,4 @@ __pycache__/
 *.pyc
 .hugo_build.lock
 docs.md
+.flipboard_config.json
