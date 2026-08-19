@@ -126,8 +126,16 @@ def main() -> int:
                 if not alias:
                     continue
                 target = url if url.endswith("/") else url + "/"
-                stub = PUBLIC / alias / "index.html"
-                stub.parent.mkdir(parents=True, exist_ok=True)
+                # Old Hashnode-style URLs like `/fr/some-post.html` are file
+                # URLs: write a redirect FILE, not a `name.html/` directory
+                # (a directory named *.html breaks other tooling that globs
+                # public/**/*.html).
+                if Path(alias).suffix:
+                    stub = PUBLIC / alias
+                    stub.parent.mkdir(parents=True, exist_ok=True)
+                else:
+                    stub = PUBLIC / alias / "index.html"
+                    stub.parent.mkdir(parents=True, exist_ok=True)
                 stub.write_text(
                     TEMPLATE.format(target=target), encoding="utf-8")
                 written.append(str(stub.relative_to(PUBLIC)))

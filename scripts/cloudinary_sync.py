@@ -147,6 +147,10 @@ def rewrite_html(cloud: str, folder: str) -> int:
               f"f_auto,q_auto/{folder}/")
     count = 0
     for html in PUBLIC_ROOT.rglob("*.html"):
+        if not html.is_file():
+            # rglob also yields directories whose name ends in ".html";
+            # those are never HTML files, skip them.
+            continue
         text = html.read_text(encoding="utf-8")
         if "/images/" not in text:
             continue
