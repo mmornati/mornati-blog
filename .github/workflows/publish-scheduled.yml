@@ -1,0 +1,40 @@
+name: Publish scheduled posts
+
+on:
+  schedule:
+    - cron: '23 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fetch last deploy time
+        run: git fetch origin deploy --depth=1 || true
+
+      - name: Check for due posts
+        id: check
+        run: |
+          OUT=$(python3 scripts/next_scheduled_post.py)
+          echo "status=$OUT" >> "$GITHUB_OUTPUT"
+
+      - name: Nothing scheduled
+        if: steps.check.outputs.status == ''
+        run: echo "No future-dated posts; skipping."
+
+      - name: Not due yet
+        if: steps.check.outputs.status != '' && steps.check.outputs.status != 'DUE'
+        run: echo "Next scheduled post at ${{ steps.check.outputs.status }}; not due yet."
+
+      - name: Trigger deploy
+        if: steps.check.outputs.status == 'DUE'
+        run: gh workflow run deploy.yml --ref main
+        env:
+          GH_TOKEN: ${{ github.token }}
