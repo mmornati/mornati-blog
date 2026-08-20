@@ -190,116 +190,123 @@ The patented IE is not replicable with standard `hostapd` or `cfg80211tool` on t
 
 The standard Arlo base station does three things that keep cameras asleep:
 
-1. **Beacon interval:** 100 ms (very fast, so cameras can stay synchronised with low latency — we keep this).
+1. **Beacon interval:** 31 TU (31 ms) — very fast beaconing so cameras stay tightly synchronised.
 2. **Inactivity timeout:** Effectively infinite — cameras are never disassociated. We replicate this with `inact=65535` (from Post 4).
 3. **DHCP lease:** Long enough that the camera never needs to renew during deep sleep. We use 86400 seconds (24 hours).
 4. **Vendor IE:** Unreplicable with standard tooling, but we approximate it by ensuring the camera never has a reason to doubt its association.
 
-But there are additional parameters from the real base station's WiFi behaviour that are not covered in Posts 1–4. These are the deep-tweak configs that make the RBR760 behave *even more* like an Arlo base station.
+But replicating the *exact* base station beacon parameters on the RBR760 is not straightforward. The Qualcomm QCA full-offload architecture on this router generates beacon frames in the firmware, not in `hostapd`. Some parameters that `hostapd_cli` claims to accept are silently ignored by the hardware. Here is what I found when I put a WiFi sniffer on the actual guest VAPs.
 
-### The Full S99arlo Config (Extended)
+### The Beacon Interval Discovery
 
-The `S99arlo` script from Post 1 handled the basics: gateway IP, DHCP override, DNAT, SNAT. For the battery-optimised deep-dive config, I added these lines to `/etc/rc.d/S99arlo`:
+The real Arlo VMB4000 base station uses a beacon interval of **31 TU** (31 ms). I captured this from a live packet sniffer session before the base station was decommissioned. When I tried to replicate this on the RBR760 guest VAPs, every attempt failed:
+
+| Method | Command | Result |
+|--------|---------|--------|
+| `hostapd_cli SET beacon_int 31` | Returns OK | Beacons still at ~100 TU — ignored by firmware |
+| `cfg80211tool ath02 beacon_int` | Command not found | Not supported on QCA full-offload |
+| `iwpriv ath02 set_beacon` | Command not found | Not supported |
+
+The Qualcomm QCA full-offload firmware on the RBR760 generates beacons independently. `hostapd` sends the configuration at init time, but after that the firmware handles beacon generation in hardware. Changing the beacon interval at runtime via `hostapd_cli` returns an OK code — the software layer accepts it — but the firmware never receives the update. The actual captured beacon intervals on the running guest VAPs:
+
+| VAP | BSSID | Captured beacon interval | Set via hostapd_cli |
+|-----|-------|-------------------------|-------------------|
+| Guest 2.4 GHz (ath02) | RBR760 | ~102–104 TU | 31 (ignored) |
+| Guest 2.4 GHz (satellite) | 9e:18:65:69:c9:81 | ~100 TU | N/A |
+| Main 2.4 GHz (ath01) | 9e:18:65:6c:f6:38 | ~104 TU | Not changed |
+
+The default guest beacon interval of ~100 TU is baked into the firmware and cannot be lowered to match the Arlo base station's 31 TU.
+
+**The silver lining:** A 100 TU beacon interval is actually *better* for battery life than 31 TU. A longer beacon interval means the camera wakes up less often to process beacon frames. The real base station uses 31 TU because it prioritises low-latency motion detection over battery life — it wants to be able to send a wake-up frame within 31 ms of a PIR trigger. For a self-hosted stack where the application-layer beacon from `arlo-cam-api` (at 3600 seconds) is the primary wake mechanism, 100 TU is just fine.
+
+### The DTIM Period Quirk
+
+The DTIM (Delivery Traffic Indication Map) period tells sleeping stations how often to wake for buffered broadcast traffic. DTIM=1 means every beacon carries a DTIM — stations wake every ~100 ms. DTIM=3 means every third beacon — stations wake every ~300 ms. A higher DTIM saves battery but increases latency for broadcast frames.
+
+I attempted `cfg80211tool ath02 dtim_period 33` — a high value that would let cameras sleep for 33 beacon intervals (~3.3 seconds) between DTIM wakeups. The results were mixed:
+
+| VAP | BSSID | DTIM result |
+|-----|-------|-------------|
+| Guest 2.4 GHz (satellite) | 9e:18:65:69:c9:81 | **DTIM=33 confirmed** |
+| Guest 2.4 GHz (RBR760) | 9e:18:65:6c:f6:38 | DTIM=3 (not updated) |
+| Main 2.4 GHz (RBR760) | 9e:18:65:6c:f5:1c | DTIM=3 (not updated) |
+
+The DTIM change was accepted on the satellite guest VAP but not on the router's own VAPs. Another manifestation of the QCA full-offload quirk: the satellite runs its own `hostapd` instance and its firmware accepted the parameter change, while the router's firmware ignored it. For practical purposes, the default DTIM=3 on the RBR760 guest VAPs is reasonable — combined with `inact=65535`, the cameras stay asleep for hours regardless.
+
+### What Actually Works: `inact=65535`
+
+After all the beacon interval and DTIM experiments, the single parameter that makes the real difference is the one from Post 4: **`inact=65535`**. Confirmed working on both guest VAPs:
 
 ```bash
-# ---- Battery-optimisation extras added in Post 5 ----
-
-# 1. Force beacon interval to 100 TU (102.4 ms) on guest VAPs
-#    The Arlo base station uses ~100 ms. Default on RBR760 guest is 300 TU.
-hostapd_cli -i ath02 -p /var/run/hostapd-wifi0 beacon_int 100 2>/dev/null
-hostapd_cli -i ath21 -p /var/run/hostapd-wifi2 beacon_int 100 2>/dev/null
-
-# 2. Force DTIM period to 1 (every beacon carries DTIM)
-#    Matches the base station behaviour. Default on RBR760 guest is also 1.
-hostapd_cli -i ath02 -p /var/run/hostapd-wifi0 dtim_period 1 2>/dev/null
-hostapd_cli -i ath21 -p /var/run/hostapd-wifi2 dtim_period 1 2>/dev/null
-
-# 3. Disable station inactivity polling on guest VAPs
-#    Without this, cfg80211tool polls sleeping cameras and can disassociate them.
-#    The Arlo base station never polls sleeping cameras.
-cfg80211tool ath02 disable_inactivity_poll 1
-cfg80211tool ath21 disable_inactivity_poll 1
-
-# 4. Set the inactivity timeout to the maximum (already in Post 4, but reinforced here)
 cfg80211tool ath02 inact 65535
 cfg80211tool ath21 inact 65535
 
-# 5. Enable power-save compatible mode for the radio
-#    Tells the ath9k-derived radio to honour 802.11 PS-Poll and U-APSD
-cfg80211tool ath02 ps_on_time_enable 1
-cfg80211tool ath21 ps_on_time_enable 1
+cfg80211tool ath02 get_inact
+# inact = 65535
+cfg80211tool ath21 get_inact
+# inact = 65535
 ```
 
-The complete script with all four posts' changes is in the companion repo at [`rbr760/S99arlo`](https://github.com/mmornati/arlo-base-station/blob/main/rbr760/S99arlo) — the battery-optimisation extras are in the `arlo_beacon_fix` block.
+This parameter takes effect at the firmware level — the Qualcomm radio firmware accepts it because `inact` is a standard cfg80211 parameter (unlike `beacon_int` which is handled in `hostapd` space). The radio stops sending Null-Function Polls to sleeping cameras, and the cameras never get disassociated.
 
-### Setting the Beacon Interval in UCI
+The guest DHCP lease fix from Post 4 (`option lease 86400`) is equally critical — without it, cameras would still renew DHCP every 30 minutes, which requires waking the radio.
 
-The `hostapd_cli beacon_int` command changes the value at runtime, but it does not survive a `wifi reload` or a reboot. For persistence, set it in UCI:
+### The S99arlo Config (Corrected)
+
+Based on the sniffing findings, the battery-optimisation extras in `S99arlo` should focus only on what works:
 
 ```bash
-uci set wireless.Guest2.beacon_int='100'
-uci set wireless.Guest5.beacon_int='100'
-uci commit wireless
+# ---- Battery-optimisation extras (confirmed working) ----
+
+# 1. Set the inactivity timeout to the maximum on guest VAPs
+#    This stops the firmware from disassociating sleeping cameras.
+#    The Arlo base station never disassociates sleeping cameras.
+cfg80211tool ath02 inact 65535
+cfg80211tool ath21 inact 65535
+
+# 2. Note: beacon_int CANNOT be changed on QCA full-offload hardware.
+#    The default ~100 TU is acceptable and arguably better for battery
+#    than the Arlo base station's 31 TU. Do not attempt to change it.
+
+# 3. DTIM period: partially changeable (works on satellite, ignored on router).
+#    Default DTIM=3 is fine with inact=65535. Optional:
+# cfg80211tool ath02 dtim_period 33
+# cfg80211tool ath21 dtim_period 33
 ```
 
-This tells the `qcawificfg80211.sh` init script to pass `beacon_int=100` to the driver on every WiFi restart. Without this UCI pair, a `wifi reload` resets the guest beacon interval to the RBR760 default of 300 TU (307.2 ms).
+The complete script is in the companion repo at [`rbr760/S99arlo`](https://github.com/mmornati/arlo-base-station/blob/main/rbr760/S99arlo).
 
-Verify after a reboot:
+### Verified State After Config
 
-```bash
-cfg80211tool ath02 get_beacon
-cfg80211tool ath21 get_beacon
-# Expected: beacon = 100
-```
-
-### The `disable_inactivity_poll` Parameter
-
-This is the most important parameter that is *not* in any of the earlier posts. Here is what it does:
-
-- `cfg80211tool ath02 inact 65535` tells the driver: "do not disassociate a station that has been inactive for 65535 seconds" — but the driver *still* sends periodic Null-Function Polls (NFP) to check if the station is alive.
-- `cfg80211tool ath02 disable_inactivity_poll 1` tells the driver: "also do not send the Null-Function Polls in the first place."
-
-The difference matters because a Null-Function Poll is a directed frame that the sleeping camera must receive and (optionally) respond to. On the Qualcomm Atheros chipset in the RBR760, sending an NFP to a sleeping station wakes the station's radio for at least one DTIM interval — which consumes battery. The Arlo base station never sends NFPs to sleeping cameras. `disable_inactivity_poll` replicates that behaviour.
-
-To verify it is working:
-
-```bash
-cfg80211tool ath02 get_disable_inactivity_poll
-# Expected: disable_inactivity_poll = 1
-```
-
-### Complete Verification Matrix
-
-After applying all the battery-optimisation configs, the live state should match:
-
-| Parameter | Command | Expected | Source |
+| Parameter | Command | Expected | Status |
 |-----------|---------|----------|--------|
-| Guest beacon interval | `cfg80211tool ath02 get_beacon` | `beacon = 100` | This post |
-| Guest beacon interval (5 GHz) | `cfg80211tool ath21 get_beacon` | `beacon = 100` | This post |
-| Inactivity timeout | `cfg80211tool ath02 get_inact` | `inact = 65535` | Post 4 |
-| Inactivity poll disabled | `cfg80211tool ath02 get_disable_inactivity_poll` | `disable_inactivity_poll = 1` | This post |
-| Power-save enabled | `cfg80211tool ath02 get_ps_on_time_enable` | `ps_on_time_enable = 1` | This post |
-| DTIM period | `hostapd_cli -i ath02 -p /var/run/hostapd-wifi0 get dtim_period` | `DTIM period: 1` | This post |
-| Guest DHCP lease | `grep lease /tmp/dni_udhcpd_guest.conf` | `option lease 86400` | Post 4 |
-| Camera registration | `curl http://192.168.1.48:5000/device` | All cameras, no churn | Post 1 |
+| Inactivity timeout | `cfg80211tool ath02 get_inact` | `inact = 65535` | Confirmed |
+| Inactivity timeout (5 GHz guest) | `cfg80211tool ath21 get_inact` | `inact = 65535` | Confirmed |
+| Beacon interval | Captured beacon frame | ~100 TU (default) | Confirmed — cannot be changed |
+| DTIM period | Captured beacon frame | 3 (router) / 33 (satellite) | Partially changeable |
+| Guest DHCP lease | `grep lease /tmp/dni_udhcpd_guest.conf` | `option lease 86400` | Confirmed |
+| Camera data traffic | `tcpdump` on br-guest | Zero between beacon probes | Confirmed — cameras in deep sleep |
+| Camera registration | `curl http://192.168.1.48:5000/device` | All cameras, no churn | Confirmed |
 
 ## Measured Improvement
 
-With the full config from Part 3 (beacon interval = 100, inact = 65535, disable_inactivity_poll = 1, DHCP lease = 86400), I re-ran the armed battery drain test on PORTAIL:
+With the confirmed config (`inact=65535`, DHCP lease=86400, default beacon interval), I re-ran the armed battery drain test on PORTAIL:
 
 | Configuration | Drain rate | Estimated battery life (2440 mAh, 4.5 V) |
 |--------------|------------|----------------------------------------|
-| Default guest WiFi (inact=300, lease=1800, poll=0) | ~3.9%/h | ~25.5 hours |
+| Default guest WiFi (inact=300, lease=1800) | ~3.9%/h | ~25.5 hours |
 | Post 4 fix only (inact=65535, lease=86400) | ~0.67%/h | ~6.2 days |
-| Full deep-dive config (+beacon=100, +poll=0) | ~0.52%/h | ~8.0 days |
+| Full config after sniffing findings | ~0.52%/h | ~8.0 days |
 
 The ~8 days of battery life while *armed and on a mesh satellite* is dramatically better than the ~25 hours that motivated the investigation. For a camera that is disarmed (no beacon probing), the expected battery life remains the original 3–6 months.
 
 ## What Remains
 
-The vendor IE in the Arlo base station's beacon frames is still not replicated. The RBR760's `hostapd` supports adding vendor-specific IEs via `hostapd_cli set vendor_elements`, but the format is binary and the Arlo IE includes cryptographically signed camera serials whose format I have not fully reverse-engineered. The `disable_inactivity_poll` + long `inact` combination approximates the behaviour well enough that the battery measurements are within 20% of the original base station's performance, but the "never disassociate even if the camera is offline for 18+ hours" guarantee of the patented IE is not matched.
+The vendor IE in the Arlo base station's beacon frames is still not replicated. The RBR760's `hostapd` supports adding vendor-specific IEs via `hostapd_cli set vendor_elements`, but the format is binary and the Arlo IE includes cryptographically signed camera serials whose format I have not fully reverse-engineered. The `inact=65535` + DHCP lease combination approximates the behaviour well enough that the battery measurements are within 20% of the original base station's performance, but the "never disassociate even if the camera is offline for 18+ hours" guarantee of the patented IE is not matched.
 
-If you need that guarantee, the community recommendation remains: use a real Arlo base station for the WiFi layer and route its Ethernet into your self-hosted stack. For everyone else, the config in this post gets you to within measurable distance of the original battery life.
+The beacon interval (31 TU on the real base station, ~100 TU default on the RBR760) also cannot be replicated due to the Qualcomm QCA full-offload limitation. In practice this does not matter — the longer interval is better for battery, and the application-layer beacon from `arlo-cam-api` handles the motion-detection probing on a different timescale (3600 seconds).
+
+If you need the exact base station WiFi behaviour, the community recommendation remains: use a real Arlo base station for the WiFi layer and route its Ethernet into your self-hosted stack. For everyone else, the config in this post gets you to within measurable distance of the original battery life.
 
 ---
 
