@@ -72,3 +72,8 @@ jobs:
           force_orphan: true
           user_name: 'github-actions[bot]'
           user_email: '41898282+github-actions[bot]@users.noreply.github.com'
+
+      - name: Ping IndexNow
+        run: |
+          curl -s -o /dev/null -w "IndexNow: %{http_code}\n" \
+            "https://api.indexnow.org/indexnow?url=https%3A%2F%2Fblog.mornati.net%2Fsitemap.xml&key=4bf0e788f76f694c10bbf95ec4569a66&keyLocation=https%3A%2F%2Fblog.mornati.net%2F4bf0e788f76f694c10bbf95ec4569a66.txt"
