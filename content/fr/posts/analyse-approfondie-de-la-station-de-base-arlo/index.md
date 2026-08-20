@@ -44,7 +44,7 @@ Quatre caméras sur le même WiFi invité RBR760, toutes avec le firmware Arlo d
 
 L'outil de mesure était un script de scrutation qui interrogeait le point d'accès `/device/<serial>` d'`arlo-cam-api` toutes les 60 secondes et enregistrait le champ `BatPercent` — le même champ que celui affiché par le tableau de bord Home Assistant.
 
-> **Une note sur l'« intervalle de balise » dans cette partie.** Ici, il désigne la sonde *au niveau applicatif* qu'`arlo-cam-api` envoie à chaque caméra, mesurée en **secondes**. Cela se distingue de l'intervalle de balise *frame* 802.11 abordé dans les parties 2 et 3, mesuré en **TU** (1 TU = 1.024 ms, donc 31 TU ≈ 31 ms et 100 TU ≈ 102 ms). Ce sont deux réglages indépendants : l'un est la cadence de maintien en vie de la station de base émulée, l'autre la cadence de diffusion radio.
+> **Une note sur l'« intervalle de balise » dans cette partie.** Ici, il désigne la sonde *au niveau applicatif* qu'`arlo-cam-api` envoie à chaque caméra, mesurée en **secondes**. Cela se distingue de l'intervalle de la *trame* de balise 802.11 abordé dans les parties 2 et 3, mesuré en **TU** (1 TU = 1.024 ms, donc 31 TU ≈ 31 ms et 100 TU ≈ 102 ms). Ce sont deux réglages indépendants : l'un est la cadence de keepalive de la station de base émulée, l'autre la cadence de diffusion radio.
 
 ### Référence — Toutes les Caméras Désarmées
 
