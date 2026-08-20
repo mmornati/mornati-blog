@@ -21,12 +21,12 @@ categories:
 - DIY
 - Réseau
 - Matériel
-description: 'Une analyse bonus approfondie de la station de base Arlo : mesures réelles de consommation batterie avec caméras armées/désarmées, données de paquets sniffés montrant comment la station de base maintient les caméras en veille, et la configuration Netgear RBR760 pour la reproduire — intervalle de balise, délai d''inactivité, DTIM et le glacial timer.'
+description: 'Une analyse bonus approfondie de la station de base Arlo : mesures réelles de consommation batterie avec caméras armées/désarmées, données de paquets sniffés montrant comment la station de base maintient les caméras en veille, et la limitation de l''intervalle de balise du RBR760 qui empêche la reproduction DIY complète.'
 cover: cover.jpg
 showHero: true
 ---
 
-Ceci est un cinquième article non planifié dans la série Arlo — une analyse bonus approfondie des données que j'ai collectées avant et pendant la série de quatre articles. Si vous m'avez suivi jusqu'ici, vous savez déjà que la stack fonctionne. Ce que vous n'avez peut-être pas vu, c'est *à quel point* le comportement WiFi de la station de base affecte l'autonomie de la batterie, et ce que j'ai découvert quand j'ai placé un renifleur de paquets entre les caméras et la vraie station de base Arlo.
+Ceci est un cinquième article non planifié dans la série Arlo — une analyse bonus approfondie des données que j'ai collectées avant et pendant la série de quatre articles. Si vous m'avez suivi jusqu'ici, vous savez que la stack réseau fonctionne pour l'enregistrement et le streaming. Ce que la série n'avait pas anticipé, c'est *à quel point* le comportement WiFi de la station de base affecte l'autonomie de la batterie, et ce que j'ai découvert quand j'ai placé un renifleur de paquets entre les caméras et la vraie station de base Arlo.
 
 > Toutes les valeurs de cet article proviennent de mesures réelles sur deux caméras VMC4040P (JARDIN1, PORTAIL), une VMC4040P qui est restée hors ligne pendant plus de 24 heures (ENTREE), et un RBR760 en production sous le firmware V6.3.8.5. Les numéros de série des caméras sont masqués par `XXXXXXXXXXXX`. La passerelle `172.14.1.1` est la constante du protocole filaire Arlo et est laissée en clair.
 
@@ -189,12 +189,12 @@ L'IE breveté n'est pas reproductible avec `hostapd` ou `cfg80211tool` standard 
 
 ## Partie 3 — Nouvelle Configuration du Routeur Netgear pour Reproduire le Comportement de la Station de Base
 
-La station de base Arlo standard fait trois choses qui maintiennent les caméras en veille :
+La station de base Arlo standard fait plusieurs choses qui maintiennent les caméras en veille :
 
 1. **Intervalle de balise :** 31 TU (31 ms) — des balises très rapides pour que les caméras restent étroitement synchronisées.
 2. **Délai d'inactivité :** Effectivement infini — les caméras ne sont jamais désassociées. Nous le reproduisons avec `inact=65535` (du Post 4).
 3. **Bail DHCP :** Assez long pour que la caméra n'ait jamais à le renouveler pendant la veille profonde. Nous utilisons 86400 secondes (24 heures).
-4. **IE fournisseur :** Non reproductible avec les outils standard, mais nous l'approximons en nous assurant que la caméra n'a jamais de raison de douter de son association.
+4. **IE fournisseur :** Non reproductible avec les outils standard.
 
 Mais reproduire les paramètres *exacts* de la balise de la station de base sur le RBR760 n'est pas simple. L'architecture Qualcomm QCA full-offload sur ce routeur génère les trames de balise dans le firmware, pas dans `hostapd`. Certains paramètres que `hostapd_cli` prétend accepter sont silencieusement ignorés par le matériel. Voici ce que j'ai découvert quand j'ai placé un renifleur WiFi sur les VAP invitées réelles.
 
@@ -208,7 +208,7 @@ La vraie station de base Arlo VMB4000 utilise un intervalle de balise de **31 TU
 | `cfg80211tool ath02 beacon_int` | Commande introuvable | Non supporté sur QCA full-offload |
 | `iwpriv ath02 set_beacon` | Commande introuvable | Non supporté |
 
-Le firmware Qualcomm QCA full-offload sur le RBR760 génère les balises indépendamment. `hostapd` envoie la configuration au démarrage, mais ensuite le firmware gère la génération des balises dans le matériel. Changer l'intervalle de balise à l'exécution via `hostapd_cli` retourne un code OK — la couche logicielle l'accepte — mais le firmware ne reçoit jamais la mise à jour. Les intervalles de balise effectivement capturés sur les VAP invitées en cours d'exécution :
+Le firmware Qualcomm QCA full-offload sur le RBR760 génère les balises indépendamment. `hostapd` envoie la configuration au démarrage, mais ensuite le firmware gère la génération des balises dans le matériel. Changer l'intervalle de balise à l'exécution via `hostapd_cli` retourne un code OK — la couche logicielle l'accepte — mais le firmware ne reçoit jamais la mise à jour. La capture live Nexmon a confirmé les intervalles de balise transmis :
 
 | VAP | BSSID | Intervalle de balise capturé | Défini via hostapd_cli |
 |-----|-------|------------------------------|------------------------|
@@ -216,13 +216,11 @@ Le firmware Qualcomm QCA full-offload sur le RBR760 génère les balises indépe
 | Guest 2.4 GHz (satellite) | 9e:18:65:69:c9:81 | ~100 TU | N/A |
 | Main 2.4 GHz (ath01) | 9e:18:65:6c:f6:38 | ~104 TU | Non modifié |
 
-L'intervalle de balise invité par défaut de ~100 TU est intégré dans le firmware et ne peut pas être réduit pour correspondre aux 31 TU de la station de base Arlo.
-
-**Le côté positif :** Un intervalle de balise de 100 TU est en réalité *meilleur* pour l'autonomie de la batterie que 31 TU. Un intervalle plus long signifie que la caméra se réveille moins souvent pour traiter les trames de balise. La vraie station de base utilise 31 TU parce qu'elle privilégie la faible latence de la détection de mouvement par rapport à l'autonomie — elle veut pouvoir envoyer une trame de réveil dans les 31 ms suivant un déclenchement PIR. Pour une stack auto-hébergée où la balise applicative d'`arlo-cam-api` (à 3600 secondes) est le mécanisme de réveil principal, 100 TU est tout à fait acceptable.
+L'intervalle de balise invité par défaut de ~100 TU est intégré dans le firmware et ne peut pas être réduit pour correspondre aux 31 TU de la station de base Arlo. C'est une **limitation matérielle** du chipset Qualcomm QCA full-offload.
 
 ### L'Anomalie de la Période DTIM
 
-La période DTIM (Delivery Traffic Indication Map) indique aux stations en veille à quelle fréquence se réveiller pour le trafic broadcast mis en mémoire tampon. DTIM=1 signifie que chaque balise porte un DTIM — les stations se réveillent toutes les ~100 ms. DTIM=3 signifie toutes les trois balises — les stations se réveillent toutes les ~300 ms. Un DTIM plus élevé économise la batterie mais augmente la latence pour les trames broadcast.
+La période DTIM (Delivery Traffic Indication Map) indique aux stations en veille à quelle fréquence se réveiller pour le trafic broadcast mis en mémoire tampon. DTIM=1 signifie que chaque balise porte un DTIM — les stations se réveillent toutes les ~100 ms. DTIM=3 signifie toutes les trois balises — les stations se réveillent toutes les ~300 ms.
 
 J'ai essayé `cfg80211tool ath02 dtim_period 33` — une valeur élevée qui permettrait aux caméras de dormir pendant 33 intervalles de balise (~3.3 secondes) entre les réveils DTIM. Les résultats étaient mitigés :
 
@@ -232,11 +230,11 @@ J'ai essayé `cfg80211tool ath02 dtim_period 33` — une valeur élevée qui per
 | Guest 2.4 GHz (RBR760) | 9e:18:65:6c:f6:38 | DTIM=3 (non mis à jour) |
 | Main 2.4 GHz (RBR760) | 9e:18:65:6c:f5:1c | DTIM=3 (non mis à jour) |
 
-La modification DTIM a été acceptée sur la VAP invitée du satellite mais pas sur les VAP du routeur lui-même. Une autre manifestation de l'anomalie QCA full-offload : le satellite exécute sa propre instance de `hostapd` et son firmware a accepté la modification, tandis que le firmware du routeur l'a ignorée. À des fins pratiques, le DTIM=3 par défaut sur les VAP invitées du RBR760 est raisonnable — combiné avec `inact=65535`, les caméras restent en veille pendant des heures indépendamment.
+La modification DTIM a été acceptée sur la VAP invitée du satellite mais pas sur les VAP du routeur lui-même. Une autre manifestation de l'anomalie QCA full-offload.
 
-### Ce Qui Fonctionne Vraiment : `inact=65535`
+### Ce Qui Fonctionne Vraiment : `inact=65535` et Bail DHCP
 
-Après toutes les expériences avec l'intervalle de balise et le DTIM, le paramètre unique qui fait la différence réelle est celui du Post 4 : **`inact=65535`**. Confirmé fonctionnel sur les deux VAP invitées :
+Après toutes les expériences avec l'intervalle de balise et le DTIM, les paramètres qui fonctionnent sont ceux du Post 4 :
 
 ```bash
 cfg80211tool ath02 inact 65535
@@ -248,36 +246,23 @@ cfg80211tool ath21 get_inact
 # inact = 65535
 ```
 
-Ce paramètre agit au niveau du firmware — la radio Qualcomm l'accepte car `inact` est un paramètre cfg80211 standard (contrairement à `beacon_int` qui est géré dans l'espace de `hostapd`). La radio cesse d'envoyer des Null-Function Poll aux caméras en veille, et les caméras ne sont jamais désassociées.
+Ces paramètres agissent au niveau du firmware — la radio Qualcomm les accepte car ce sont des paramètres cfg80211 standard (contrairement à `beacon_int` qui est géré dans l'espace de `hostapd`).
 
-Le correctif du bail DHCP invité du Post 4 (`option lease 86400`) est tout aussi critique — sans lui, les caméras renouvelleraient toujours leur DHCP toutes les 30 minutes, ce qui nécessite le réveil de la radio.
+Le correctif du bail DHCP invité du Post 4 (`option lease 86400`) est tout aussi essentiel — sans lui, les caméras renouvellent leur DHCP toutes les 30 minutes.
 
-### La Configuration S99arlo (Corrigée)
+### La Vérification Nocturne : Les Caméras se Déconnectent à 100 TU
 
-Sur la base des découvertes du reniflage, les suppléments d'optimisation de la batterie dans `S99arlo` devraient se concentrer uniquement sur ce qui fonctionne :
+La configuration ci-dessus est nécessaire mais pas suffisante. Dans la nuit du 19 au 20 août 2026, j'ai effectué un test complet avec le RBR760 comme seul AP pour les caméras (station de base originale éteinte). Le résultat a été une déconnexion complète :
 
-```bash
-# ---- Optimisation batterie supplémentaire (confirmé fonctionnel) ----
+- **Comptage de stations VAP invitées :** `num_sta[0]=0` sur les deux VAP invitées — zéro caméra associée.
+- **Baux DHCP invités :** Zéro bail actif sur le réseau invité.
+- **Enregistrements caméra :** Zéro événement d'enregistrement dans les journaux d'`arlo-cam-api` pendant la nuit.
+- **Données batterie :** Stables/mises en cache depuis 22h22 — les caméras ont cessé de rapporter.
+- **Dernier BSSID connu :** L'API de la caméra rapportait `9E:18:65:6C:F6:38` (une VAP invitée satellite) — les caméras se sont connectées brièvement, puis déconnectées sans se réassocier.
 
-# 1. Régler le délai d'inactivité au maximum sur les VAP invitées
-#    Empêche le firmware de désassocier les caméras en veille.
-#    La station de base Arlo ne désassocie jamais les caméras en veille.
-cfg80211tool ath02 inact 65535
-cfg80211tool ath21 inact 65535
+La capture live Nexmon a confirmé la cause : le RBR760 transmet des balises à ~100 TU malgré `hostapd_cli SET beacon_int 31` retournant OK. Les caméras nécessitent un intervalle de balise de 31 TU pour maintenir leur synchronisation en veille profonde avec l'AP. À 100 TU, le décalage de l'intervalle de balise fait perdre la synchronisation aux caméras et abandonner l'association. La valeur de 31 TU n'est pas qu'une préférence de performance — c'est une **exigence matérielle du firmware de la caméra**.
 
-# 2. Note : beacon_int NE PEUT PAS être modifié sur le matériel QCA full-offload.
-#    La valeur par défaut ~100 TU est acceptable et probablement meilleure
-#    pour la batterie que les 31 TU de la station de base Arlo.
-#    Ne tentez pas de la changer.
-
-# 3. Période DTIM : partiellement modifiable (fonctionne sur le satellite,
-#    ignoré sur le routeur). Le DTIM=3 par défaut est correct avec inact=65535.
-#    Optionnel :
-# cfg80211tool ath02 dtim_period 33
-# cfg80211tool ath21 dtim_period 33
-```
-
-Le script complet se trouve dans le dépôt compagnon à [`rbr760/S99arlo`](https://github.com/mmornati/arlo-base-station/blob/main/rbr760/S99arlo).
+Les données de consommation batterie de la Partie 1 ont été collectées pendant que les caméras étaient connectées à une vraie station de base Arlo VMB4000. La mesure de ~8 jours / 0.52%/h provient de cette configuration. Sur le RBR760 avec des balises par défaut à 100 TU, les caméras ne restent tout simplement pas connectées assez longtemps pour mesurer une consommation en régime permanent.
 
 ### État Vérifié Après la Configuration
 
@@ -285,29 +270,41 @@ Le script complet se trouve dans le dépôt compagnon à [`rbr760/S99arlo`](http
 |-----------|----------|---------|--------|
 | Délai d'inactivité | `cfg80211tool ath02 get_inact` | `inact = 65535` | Confirmé |
 | Délai d'inactivité (5 GHz guest) | `cfg80211tool ath21 get_inact` | `inact = 65535` | Confirmé |
-| Intervalle de balise | Trame de balise capturée | ~100 TU (par défaut) | Confirmé — non modifiable |
+| Intervalle de balise | Capture live Nexmon | ~100 TU (par défaut) | Confirmé — non modifiable |
 | Période DTIM | Trame de balise capturée | 3 (routeur) / 33 (satellite) | Partiellement modifiable |
 | Bail DHCP invité | `grep lease /tmp/dni_udhcpd_guest.conf` | `option lease 86400` | Confirmé |
-| Trafic données caméras | `tcpdump` sur br-guest | Zéro entre sondes de balise | Confirmé — caméras en veille profonde |
-| Enregistrement caméras | `curl http://192.168.1.48:5000/device` | Toutes les caméras, pas de churn | Confirmé |
+| Association caméras | `num_sta[0]` sur les VAP invitées | Zéro | **Non connectées** |
+| Enregistrement caméras | `curl http://192.168.1.48:5000/device` | Aucune caméra enregistrée | **Non enregistrées** |
 
-## Amélioration Mesurée
+### Réalité Mesurée
 
-Avec la configuration confirmée (`inact=65535`, bail DHCP=86400, intervalle de balise par défaut), j'ai répété le test de consommation de batterie en mode armé sur PORTAIL :
+| Configuration | Comportement réel |
+|---------------|------------------|
+| Vraie station de base Arlo VMB4000 | Caméras connectées. Consommation ~0.52%/h quand armées. |
+| WiFi invité RBR760 (inact=65535, bail=86400) | Caméras s'associent brièvement, puis se déconnectent. Aucune connectivité stable. |
+| WiFi invité RBR760 (configuration par défaut) | Même comportement — l'intervalle de balise est toujours 100 TU. |
 
-| Configuration | Taux de consommation | Autonomie estimée (2440 mAh, 4.5 V) |
-|---------------|---------------------|--------------------------------------|
-| WiFi invité par défaut (inact=300, bail=1800) | ~3.9%/h | ~25.5 heures |
-| Correctif Post 4 uniquement (inact=65535, bail=86400) | ~0.67%/h | ~6.2 jours |
-| Configuration complète après découvertes reniflage | ~0.52%/h | ~8.0 jours |
-
-Les ~8 jours d'autonomie de la batterie en étant *armée et sur un satellite maillé* sont considérablement meilleurs que les ~25 heures qui ont motivé l'investigation. Pour une caméra désarmée (pas de sonde de balise), l'autonomie attendue reste les 3–6 mois d'origine.
+Les correctifs `inact` et bail DHCP du Post 4 sont toujours valides pour tout AP qui *peut* correspondre à l'intervalle de balise de 31 TU, mais sur le RBR760 spécifiquement, la limitation matérielle les rend inefficaces — les caméras ne restent jamais connectées assez longtemps pour en bénéficier.
 
 ## Ce Qui Reste
 
-L'IE du fournisseur dans les trames de balise de la station de base Arlo n'est toujours pas reproduit. Le `hostapd` du RBR760 supporte l'ajout d'IE spécifiques au fournisseur via `hostapd_cli set vendor_elements`, mais le format est binaire et l'IE Arlo inclut des numéros de série cryptés dont je n'ai pas complètement rétro-conçu le format. La combinaison de `inact=65535` + bail DHCP approxime le comportement assez bien pour que les mesures de batterie soient à moins de 20% des performances de la station de base originale, mais la garantie de "ne jamais désassocier même si la caméra est hors ligne pendant plus de 18 heures" de l'IE breveté n'est pas égalée.
+Le seul paramètre non reproductible est l'**intervalle de balise de 31 TU**. Tout le reste — délai d'inactivité, bail DHCP, période DTIM — est configurable ou non pertinent. Le chipset Qualcomm QCA full-offload du RBR760 ne peut pas être contraint à transmettre des balises à 31 TU. L'interface `hostapd_cli` accepte la commande mais le firmware l'ignore. Ce n'est pas un bug logiciel ; c'est une limitation architecturale du matériel.
 
-Si vous avez besoin de cette garantie, la recommandation de la communauté reste : utilisez une vraie station de base Arlo pour la couche WiFi et acheminez son Ethernet dans votre stack auto-hébergée. Pour tous les autres, la configuration de cet article vous amène à une distance mesurable de l'autonomie d'origine.
+De plus, l'**IE spécifique au fournisseur** (brevets US 11722963, 20240147057, 12413852) qui transporte les numéros de série des caméras dans la balise n'est toujours pas reproduit. Cet IE indique aux caméras en veille "votre association est toujours valide, restez en veille" — sans lui et sans l'intervalle de balise correspondant, les caméras n'ont aucune raison de faire confiance à l'AP DIY.
+
+## Options pour l'Avenir
+
+Avec la limitation matérielle confirmée, voici les options réalistes :
+
+1. **Utiliser la vraie station de base Arlo pour le WiFi, acheminer Ethernet vers le serveur.** La station de base Arlo gère la couche WiFi (balises 31 TU, IE fournisseur, ne désassocie jamais) tandis que le serveur `arlo-cam-api` gère la couche applicative. Branchez le port Ethernet de la station de base à votre commutateur LAN et votre serveur communique avec les caméras via le pont réseau de la station de base. L'autonomie de la batterie correspond aux spécifications d'origine.
+
+2. **Utiliser des caméras alimentées par USB.** Si vos caméras ont une source d'alimentation constante (câble USB, panneau solaire ou le câble de charge Arlo), la limitation de l'intervalle de balise n'a pas d'importance — la caméra se reconnecte chaque fois qu'elle se réveille et il n'y a pas de batterie à consommer. Le WiFi invité du RBR760 fonctionne parfaitement pour le streaming et l'enregistrement quand la caméra est alimentée.
+
+3. **Accepter la consommation de la batterie avec le WiFi de la station de base d'origine.** Si vous gardez les caméras sur le WiFi de la station de base Arlo mais utilisez `arlo-cam-api` sur un serveur pour la couche applicative (pas d'abonnement cloud), l'autonomie est celle d'origine : 3–6 mois désarmées / ~8 jours armées.
+
+4. **Accepter l'instabilité de connexion sur le RBR760.** Les caméras se réassocient périodiquement (toutes les ~30 minutes quand elles se réveillent pour le glacial timer), donc le streaming à la demande fonctionne. Le compromis est une latence de ~3–5 minutes pour les événements de mouvement et un rapport de batterie peu fiable.
+
+Pour mon installation de production, j'ai choisi l'option 1 : la station de base Arlo se trouve dans le placard réseau, son Ethernet est connecté au même commutateur que mon mini PC, et `arlo-cam-api` communique avec les caméras via le pont de la station de base. Le RBR760 gère le reste du WiFi de la maison. Cela donne la stack auto-hébergée sans la pénalité sur la batterie.
 
 ---
 
@@ -317,6 +314,6 @@ Si vous avez besoin de cette garantie, la recommandation de la communauté reste
 - *[Post 2](/fr/auto-heberger-arlo-cam-api-correctifs-et-ameliorations/) — couche applicative : auto-hébergement arlo-cam-api*
 - *[Post 3](/fr/integrer-arlo-auto-heberge-avec-home-assistant/) — couche d'automatisation : intégration Home Assistant*
 - *[Post 4](/fr/corriger-la-duree-de-vie-de-la-batterie-des-cameras-arlo-au-niveau-wifi/) — couche WiFi : délai d'inactivité et bail DHCP*
-- *Cet article — mesures de consommation batterie, données sniffées de la station de base et configuration routeur étendue*
+- *Cet article — mesures de consommation batterie, données sniffées de la station de base et limitation de l'intervalle de balise*
 
 *Le dépôt compagnon sur [github.com/mmornati/arlo-base-station](https://github.com/mmornati/arlo-base-station) contient tous les fichiers de configuration mentionnés dans la série.*

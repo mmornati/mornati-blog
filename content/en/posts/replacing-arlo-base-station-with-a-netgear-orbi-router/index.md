@@ -30,6 +30,8 @@ This post is the first in a three-part series documenting what I did about it. I
 
 > **A note on redaction.** Throughout this post, router admin passwords, real camera serial numbers, MAC addresses, and a few production LAN IPs have been redacted to placeholders like `<your_router_password>`, `XXXXXXXXXXXX`, `XX:XX:XX:XX:XX:XX`, and `192.168.1.x`. The only "magic" IP I deliberately leave in clear text is `172.14.1.1` — that value is part of the Arlo wire protocol itself and ships in every camera's firmware. If you were an Arlo engineer in 2014, you would recognise it on sight.
 
+> **Update (20 August 2026).** After the series was written, I ran a packet-capture comparison between the real Arlo base station and the RBR760 guest WiFi. The full findings are documented in the [bonus deep-dive post](/arlo-base-station-deep-dive-battery-sniffing-analysis/). In short: the RBR760's Qualcomm QCA full-offload chipset cannot match the Arlo base station's 31 TU beacon interval — a hard requirement for camera deep-sleep WiFi synchronisation. The cameras *do* connect and register with the RBR760 (this post's network-layer config is correct), but they disconnect repeatedly at the default 100 TU interval. For sustained battery-powered operation, keep the Arlo base station for the WiFi layer and route its Ethernet to your server.
+
 ## The Problem
 
 Arlo cameras connect exclusively to the Arlo base station's own WiFi network — they do **not** connect to your home WiFi. The base station creates a dedicated 2.4 GHz network (SSID like `NETGEAR99` or `ARLO_VMB_XXXXXXXXX`) that cameras use for all communication. This is by design: Arlo own the firmware on both ends and the base station is a thin protocol converter that pretends to be "the cloud" on your local network.
