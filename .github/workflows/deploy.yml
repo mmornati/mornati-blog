@@ -15,6 +15,7 @@ env:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   build-and-deploy:
@@ -25,6 +26,23 @@ jobs:
         with:
           submodules: recursive
           lfs: false
+
+      - name: Capture previously-deployed sitemap URLs
+        run: |
+          : > old-urls.txt
+          if git fetch --depth=1 origin deploy 2>/dev/null; then
+            for lang in en it fr; do
+              if git cat-file -e "origin/deploy:${lang}/sitemap.xml" 2>/dev/null; then
+                git show "origin/deploy:${lang}/sitemap.xml" \
+                  | grep -o '<loc>[^<]*</loc>' \
+                  | sed 's/<loc>//; s#</loc>##' >> old-urls.txt
+              fi
+            done
+          else
+            echo "WARN: could not fetch deploy branch; treating old set as empty" >&2
+          fi
+          sort -u -o old-urls.txt old-urls.txt
+          echo "Previously-deployed URLs: $(wc -l < old-urls.txt)"
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
@@ -72,3 +90,101 @@ jobs:
           force_orphan: true
           user_name: 'github-actions[bot]'
           user_email: '41898282+github-actions[bot]@users.noreply.github.com'
+
+      - name: Upload previously-deployed URLs artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: indexnow-state
+          path: old-urls.txt
+          if-no-files-found: error
+
+  ping-indexnow:
+    needs: build-and-deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download previously-deployed URLs
+        uses: actions/download-artifact@v4
+        with:
+          name: indexnow-state
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Extract deployed sitemap URLs
+        run: |
+          git fetch --depth=1 origin deploy
+          : > new-urls.txt
+          for lang in en it fr; do
+            if git cat-file -e "origin/deploy:${lang}/sitemap.xml" 2>/dev/null; then
+              git show "origin/deploy:${lang}/sitemap.xml" \
+                | grep -o '<loc>[^<]*</loc>' \
+                | sed 's/<loc>//; s#</loc>##' >> new-urls.txt
+            fi
+          done
+          sort -u -o new-urls.txt new-urls.txt
+          echo "Deployed URLs: $(wc -l < new-urls.txt)"
+
+      - name: Ping IndexNow with new articles only
+        run: |
+          python3 - <<'EOF'
+          import json, os, sys, time
+          import urllib.request, urllib.error
+
+          host = "blog.mornati.net"
+          key = "4bf0e788f76f694c10bbf95ec4569a66"
+          key_location = f"https://{host}/{key}.txt"
+
+          def read_urls(path):
+              if not os.path.exists(path):
+                  return set()
+              with open(path) as f:
+                  return {ln.strip() for ln in f if ln.strip()}
+
+          old = read_urls("old-urls.txt")
+          new = read_urls("new-urls.txt")
+          delta = sorted(new - old)
+          print(f"old={len(old)} new={len(new)} delta={len(delta)}")
+
+          if not delta:
+              print("No new articles in this deploy; skipping IndexNow ping")
+              sys.exit(0)
+
+          failed = False
+          for i in range(0, len(delta), 9000):
+              batch = delta[i:i + 9000]
+              payload = {
+                  "host": host,
+                  "key": key,
+                  "keyLocation": key_location,
+                  "urlList": batch,
+              }
+              req = urllib.request.Request(
+                  "https://api.indexnow.org/indexnow",
+                  data=json.dumps(payload).encode(),
+                  headers={"Content-Type": "application/json; charset=utf-8"},
+              )
+              for attempt in range(3):
+                  try:
+                      with urllib.request.urlopen(req, timeout=30) as resp:
+                          print(f"IndexNow batch {i // 9000 + 1}: HTTP {resp.status} ({len(batch)} URLs)")
+                          break
+                  except urllib.error.HTTPError as e:
+                      if e.code == 429:
+                          wait = 10 * (attempt + 1)
+                          print(f"Rate limited (429); retrying in {wait}s")
+                          time.sleep(wait)
+                          continue
+                      print(f"IndexNow HTTP {e.code}: {e.read().decode()}")
+                      failed = True
+                      break
+                  except Exception as e:
+                      print(f"IndexNow request error: {e}")
+                      failed = True
+                      break
+              else:
+                  print(f"IndexNow batch {i // 9000 + 1}: failed after retries")
+                  failed = True
+
+          if failed:
+              sys.exit(1)
+          EOF
