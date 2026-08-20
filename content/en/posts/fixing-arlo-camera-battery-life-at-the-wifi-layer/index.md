@@ -26,6 +26,8 @@ showHero: true
 
 After the three posts of this series were merged, I kept watching the battery numbers on the cameras. Post 1 told me the WiFi hardware was the second-most likely cause of drain. Post 2 and Post 3 told me how the beacon and the camera arming policy interact. But the cameras were still re-associating with the guest network roughly every thirty minutes, and the battery still kept dropping even on cameras that were armed in views with no motion. The remaining cause was not in the application layer at all — it was in the WiFi layer itself.
 
+> **Update (20 August 2026).** The `inact=65535` and DHCP lease=86400 fixes in this post are correct and take effect at the firmware level. However, subsequent testing in the bonus deep-dive post revealed that the RBR760's QCA full-offload chipset cannot match the Arlo base station's 31 TU beacon interval — a hard requirement for camera deep-sleep synchronisation. The cameras disconnect repeatedly at the default 100 TU beacon interval, making the inactivity timeout and DHCP lease fixes insufficient on their own. The full investigation is in the [bonus deep-dive post](/arlo-base-station-deep-dive-battery-sniffing-analysis/).
+
 This post is the fourth in the series and closes the loop. It is short, surgical, and entirely about the Netgear Orbi RBR760 and its proprietary guest WiFi stack. Two values, two config files, one reload — and one regression you have to know about before you run the reload.
 
 > All values in this post are taken from a live RBR760 running firmware V6.3.8.5 (Chaos Calmer, rtm-6.3.8.5+r49254). Real IP addresses, WiFi MACs, camera serial numbers, and the WPA passphrase have been removed; the published SSID is `ARLO_VMB_XXXXXXXXXX` and the published LAN is `192.168.1.x`.
