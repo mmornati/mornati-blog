@@ -43,6 +43,8 @@ Four cameras on the same RBR760 guest WiFi, all running stock Arlo firmware. The
 
 The measurement tool was a polling script that queried `arlo-cam-api`'s `/device/<serial>` endpoint every 60 seconds and recorded the `BatPercent` field — the same field the Home Assistant dashboard shows.
 
+> **A note on "beacon interval" in this part.** Here it means the *application-level* probe `arlo-cam-api` sends to each camera, measured in **seconds**. This is distinct from the 802.11 beacon *frame* interval discussed in Parts 2 and 3, which is measured in **TU** (1 TU = 1.024 ms, so 31 TU ≈ 31 ms and 100 TU ≈ 102 ms). The two are independent knobs: one is the emulated base station's keepalive cadence, the other is the radio's broadcast cadence.
+
 ### Baseline — All Cameras Disarmed
 
 With all four cameras disarmed, no beacon probing, no RTSP, no motion events:
@@ -111,8 +113,7 @@ When a VMC4040P camera boots and connects to the base station's WiFi, the comple
 ```
 WLAN Authenticated
 DHCP lease acquired (IP: 192.168.2.103, GW: 172.14.1.1)
-TCP SYN → 172.14.1.1:4000  (camera → base station)
-  source: 192.168.2.103:50122 → 172.14.1.1:4000  (hex: c3ea 02a2)
+TCP SYN → 172.14.1.1:4000  (camera → base station, registerSet control channel)
 JSON registration payload  (registerSet command)
 Ack from base station
 sm_enter_idle_state          → camera enters command-parse, then idle
@@ -125,18 +126,18 @@ enter sleep mode success     → camera is now asleep
 
 The entire boot-to-sleep cycle takes approximately 3–5 seconds. The JSON registration payload is a `registerSet` message that includes the camera serial number, firmware version, and the current battery SOC.
 
-Here is the raw TCP SYN packet from the capture, annotated:
+Here is a raw TCP SYN packet from the capture — the base station opening the RTSP session to the camera — annotated:
 
 ```
 0000: a4 11 62 85 c8 1e  |  dst MAC (camera WiFi)
-      94 18 65 69 c9 81  |  src MAC (camera, base station facing)
+      94 18 65 69 c9 81  |  src MAC (base station, camera-facing)
       08 00               |  EtherType IPv4
 0010: 45 00 00 3c         |  IPv4 header
       50 c5 40 00         |
       3e 06 7b d8         |
       ac 0e 01 01         |  src IP: 172.14.1.1 (base station)
       c0 a8 02 67         |  dst IP: 192.168.2.103 (camera)
-0020: c3 ea               |  src port: 50122
+0020: c3 ea               |  src port: 50154 (base station)
       02 2a               |  dst port: 554 (RTSP)
       fa b8 1a da         |  seq num
       00 00 00 00         |  ack num (SYN)
@@ -149,13 +150,13 @@ Here is the raw TCP SYN packet from the capture, annotated:
       01 03 03 07         |  TCP options
 ```
 
-Note that the camera opens a connection to port 554 (RTSP) in addition to the port 4000 control channel — the RTSP stream is offered on ports 554 and 555 (`/live` and `/live_sec`).
+Note the direction: this is the base station opening the RTSP session to the camera. The camera exposes its live stream on port 554 (`/live`) and a second RTSP endpoint on port 555 (`/live_sec`). The camera itself initiates only the port 4000 control channel (`registerSet`) shown in the boot sequence above.
 
 ### What the Base Station Sends (When It Sends Anything)
 
 Between registration events, the base station is effectively silent. The only periodic transmission is the 802.11 beacon frame. A standard beacon from the Arlo VMB4000:
 
-- **Beacon interval:** 100 ms (default, not configurable on the Arlo hardware)
+- **Beacon interval:** 31 TU (31 ms) — the tight interval the camera firmware requires to keep its deep-sleep synchronisation. Not configurable on the Arlo hardware.
 - **Vendor-specific IE:** The beacon includes a proprietary Information Element that lists the serial numbers of associated cameras. This is the mechanism by which the base station tells sleeping cameras "I am still here and I still have your association" without requiring the camera to send acknowledgements.
 - **DTIM period:** Advertised as DTIM 1 (every beacon carries a DTIM), which tells sleeping cameras when to wake for buffered broadcast traffic.
 

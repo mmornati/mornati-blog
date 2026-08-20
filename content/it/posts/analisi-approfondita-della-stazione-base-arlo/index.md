@@ -112,8 +112,7 @@ Quando una telecamera VMC4040P si avvia e si connette al WiFi della stazione bas
 ```
 WLAN Autenticata
 Lease DHCP acquisito (IP: 192.168.2.103, GW: 172.14.1.1)
-TCP SYN → 172.14.1.1:4000  (telecamera → stazione base)
-  source: 192.168.2.103:50122 → 172.14.1.1:4000  (hex: c3ea 02a2)
+TCP SYN → 172.14.1.1:4000  (telecamera → stazione base, canal de control registerSet)
 Payload JSON di registrazione (comando registerSet)
 Ack dalla stazione base
 sm_enter_idle_state          → la telecamera entra in command-parse, poi idle
@@ -130,14 +129,14 @@ Ecco il pacchetto TCP SYN grezzo dalla cattura, annotato:
 
 ```
 0000: a4 11 62 85 c8 1e  |  dst MAC (WiFi telecamera)
-      94 18 65 69 c9 81  |  src MAC (telecamera, lato stazione base)
+      94 18 65 69 c9 81  |  src MAC (stazione base, lato telecamera)
       08 00               |  EtherType IPv4
 0010: 45 00 00 3c         |  header IPv4
       50 c5 40 00         |
       3e 06 7b d8         |
       ac 0e 01 01         |  IP sorgente: 172.14.1.1 (stazione base)
       c0 a8 02 67         |  IP destinazione: 192.168.2.103 (telecamera)
-0020: c3 ea               |  porta sorgente: 50122
+0020: c3 ea               |  porta sorgente: 50154 (stazione base)
       02 2a               |  porta destinazione: 554 (RTSP)
       fa b8 1a da         |  seq num
       00 00 00 00         |  ack num (SYN)
@@ -150,13 +149,13 @@ Ecco il pacchetto TCP SYN grezzo dalla cattura, annotato:
       01 03 03 07         |  opzioni TCP
 ```
 
-Notate che la telecamera apre una connessione anche sulla porta 554 (RTSP) oltre al canale di controllo sulla porta 4000 — lo stream RTSP è offerto sulle porte 554 e 555 (`/live` e `/live_sec`).
+Notate la direzione: è la stazione base qui apre la sessione RTSP vers la telecamera. La telecamera expose son flux en direct sur la porta 554 (`/live`) et une seconde terminaison RTSP sur la porta 555 (`/live_sec`). La telecamera elle-même n'ouvre que le canale de contrôle sur la porta 4000 (`registerSet`) montré dans la séquence de démarrage ci-dessus.
 
 ### Cosa Invia la Stazione Base (Quando Invia Qualcosa)
 
 Tra gli eventi di registrazione, la stazione base è effettivamente silenziosa. L'unica trasmissione periodica è il beacon frame 802.11. Un beacon standard dalla Arlo VMB4000:
 
-- **Intervallo beacon:** 100 ms (predefinito, non configurabile sull'hardware Arlo)
+- **Intervallo beacon:** 31 TU (31 ms) — l'intervallo serrato que le firmware de la telecamera exige pour mantener la synchronisation de son sommeil profond. Non-configurable sur le matériel Arlo.
 - **IE specifico del fornitore:** Il beacon include un Information Element proprietario che elenca i numeri di serie delle telecamere associate. Questo è il meccanismo con cui la stazione base dice alle telecamere in sleep "sono ancora qui e ho ancora la vostra associazione" senza richiedere alla telecamera di inviare acknowledgement.
 - **Periodo DTIM:** Annunciato come DTIM 1 (ogni beacon porta un DTIM), che dice alle telecamere in sleep quando svegliarsi per il traffico broadcast bufferizzato.
 

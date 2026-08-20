@@ -44,6 +44,8 @@ Quatre caméras sur le même WiFi invité RBR760, toutes avec le firmware Arlo d
 
 L'outil de mesure était un script de scrutation qui interrogeait le point d'accès `/device/<serial>` d'`arlo-cam-api` toutes les 60 secondes et enregistrait le champ `BatPercent` — le même champ que celui affiché par le tableau de bord Home Assistant.
 
+> **Une note sur l'« intervalle de balise » dans cette partie.** Ici, il désigne la sonde *au niveau applicatif* qu'`arlo-cam-api` envoie à chaque caméra, mesurée en **secondes**. Cela se distingue de l'intervalle de balise *frame* 802.11 abordé dans les parties 2 et 3, mesuré en **TU** (1 TU = 1.024 ms, donc 31 TU ≈ 31 ms et 100 TU ≈ 102 ms). Ce sont deux réglages indépendants : l'un est la cadence de maintien en vie de la station de base émulée, l'autre la cadence de diffusion radio.
+
 ### Référence — Toutes les Caméras Désarmées
 
 Avec les quatre caméras désarmées, aucune sonde de balise, aucun RTSP, aucun événement de mouvement :
@@ -112,8 +114,7 @@ Quand une caméra VMC4040P démarre et se connecte au WiFi de la station de base
 ```
 WLAN Authentifié
 Bail DHCP acquis (IP : 192.168.2.103, GW : 172.14.1.1)
-TCP SYN → 172.14.1.1:4000  (caméra → station de base)
-  source : 192.168.2.103:50122 → 172.14.1.1:4000  (hex : c3ea 02a2)
+TCP SYN → 172.14.1.1:4000  (caméra → station de base, canal de contrôle registerSet)
 Charge utile JSON d'enregistrement (commande registerSet)
 Accusé de réception de la station de base
 sm_enter_idle_state          → la caméra entre en analyse de commande, puis inactif
@@ -126,18 +127,18 @@ enter sleep mode success     → la caméra est maintenant en veille
 
 Le cycle complet du démarrage à la veille prend environ 3 à 5 secondes. La charge utile JSON d'enregistrement est un message `registerSet` qui inclut le numéro de série de la caméra, la version du firmware et le SOC actuel de la batterie.
 
-Voici le paquet TCP SYN brut de la capture, annoté :
+Voici un paquet TCP SYN brut de la capture — la station de base ouvrant la session RTSP vers la caméra — annoté :
 
 ```
 0000: a4 11 62 85 c8 1e  |  dst MAC (WiFi caméra)
-      94 18 65 69 c9 81  |  src MAC (caméra, côté station de base)
+      94 18 65 69 c9 81  |  src MAC (station de base, côté caméra)
       08 00               |  EtherType IPv4
 0010: 45 00 00 3c         |  en-tête IPv4
       50 c5 40 00         |
       3e 06 7b d8         |
       ac 0e 01 01         |  IP source : 172.14.1.1 (station de base)
       c0 a8 02 67         |  IP destination : 192.168.2.103 (caméra)
-0020: c3 ea               |  port source : 50122
+0020: c3 ea               |  port source : 50154 (station de base)
       02 2a               |  port destination : 554 (RTSP)
       fa b8 1a da         |  seq num
       00 00 00 00         |  ack num (SYN)
@@ -150,13 +151,13 @@ Voici le paquet TCP SYN brut de la capture, annoté :
       01 03 03 07         |  options TCP
 ```
 
-Notez que la caméra ouvre également une connexion sur le port 554 (RTSP) en plus du canal de contrôle sur le port 4000 — le flux RTSP est offert sur les ports 554 et 555 (`/live` et `/live_sec`).
+Notons la direction : c'est la station de base qui ouvre la session RTSP vers la caméra. La caméra expose son flux en direct sur le port 554 (`/live`) et une seconde terminaison RTSP sur le port 555 (`/live_sec`). La caméra elle-même n'ouvre que le canal de contrôle sur le port 4000 (`registerSet`) présenté dans la séquence de démarrage ci-dessus.
 
 ### Ce Que la Station de Base Envoie (Quand Elle Envoie Quelque Chose)
 
 Entre les événements d'enregistrement, la station de base est effectivement silencieuse. La seule transmission périodique est la trame de balise 802.11. Une balise standard de l'Arlo VMB4000 :
 
-- **Intervalle de balise :** 100 ms (par défaut, non configurable sur le matériel Arlo)
+- **Intervalle de balise :** 31 TU (31 ms) — l'intervalle serré que le firmware de la caméra exige pour maintenir sa synchronisation de veille profonde. Non configurable sur le matériel Arlo.
 - **IE spécifique au fournisseur :** La balise inclut un Information Element propriétaire qui liste les numéros de série des caméras associées. C'est le mécanisme par lequel la station de base dit aux caméras en veille "je suis toujours là et j'ai toujours votre association" sans nécessiter que la caméra envoie des accusés de réception.
 - **Période DTIM :** Annoncée comme DTIM 1 (chaque balise porte un DTIM), qui indique aux caméras en veille quand se réveiller pour le trafic broadcast mis en mémoire tampon.
 
