@@ -75,5 +75,37 @@ jobs:
 
       - name: Ping IndexNow
         run: |
-          curl -s -o /dev/null -w "IndexNow: %{http_code}\n" \
-            "https://api.indexnow.org/indexnow?url=https%3A%2F%2Fblog.mornati.net%2Fsitemap.xml&key=4bf0e788f76f694c10bbf95ec4569a66&keyLocation=https%3A%2F%2Fblog.mornati.net%2F4bf0e788f76f694c10bbf95ec4569a66.txt"
+          python3 - <<'EOF'
+          import glob, json, re, urllib.request, urllib.error
+
+          host = "blog.mornati.net"
+          key = "4bf0e788f76f694c10bbf95ec4569a66"
+          key_location = f"https://{host}/{key}.txt"
+
+          urls = []
+          for path in sorted(glob.glob("public/**/sitemap.xml", recursive=True)):
+              with open(path) as f:
+                  urls.extend(re.findall(r"<loc>(.*?)</loc>", f.read()))
+          urls = list(dict.fromkeys(urls))
+          print(f"Submitting {len(urls)} URLs to IndexNow")
+
+          for i in range(0, len(urls), 9000):
+              batch = urls[i:i+9000]
+              payload = {
+                  "host": host,
+                  "key": key,
+                  "keyLocation": key_location,
+                  "urlList": batch,
+              }
+              req = urllib.request.Request(
+                  "https://api.indexnow.org/indexnow",
+                  data=json.dumps(payload).encode(),
+                  headers={"Content-Type": "application/json; charset=utf-8"},
+              )
+              try:
+                  with urllib.request.urlopen(req, timeout=30) as resp:
+                      print(f"IndexNow batch {i//9000 + 1}: HTTP {resp.status}")
+              except urllib.error.HTTPError as e:
+                  print(f"IndexNow HTTP {e.code}: {e.read().decode()}")
+                  raise SystemExit(1)
+          EOF
