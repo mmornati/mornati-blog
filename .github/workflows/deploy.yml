@@ -102,13 +102,13 @@ jobs:
     needs: build-and-deploy
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Download previously-deployed URLs
         uses: actions/download-artifact@v4
         with:
           name: indexnow-state
-
-      - name: Checkout
-        uses: actions/checkout@v4
 
       - name: Extract deployed sitemap URLs
         run: |
@@ -163,7 +163,7 @@ jobs:
                   data=json.dumps(payload).encode(),
                   headers={"Content-Type": "application/json; charset=utf-8"},
               )
-              for attempt in range(3):
+              for attempt in range(6):
                   try:
                       with urllib.request.urlopen(req, timeout=30) as resp:
                           print(f"IndexNow batch {i // 9000 + 1}: HTTP {resp.status} ({len(batch)} URLs)")
@@ -172,6 +172,11 @@ jobs:
                       if e.code == 429:
                           wait = 10 * (attempt + 1)
                           print(f"Rate limited (429); retrying in {wait}s")
+                          time.sleep(wait)
+                          continue
+                      if e.code == 403 and "SiteVerificationNotCompleted" in e.read().decode():
+                          wait = 30 * (attempt + 1)
+                          print(f"Site verification pending (403); retrying in {wait}s")
                           time.sleep(wait)
                           continue
                       print(f"IndexNow HTTP {e.code}: {e.read().decode()}")
