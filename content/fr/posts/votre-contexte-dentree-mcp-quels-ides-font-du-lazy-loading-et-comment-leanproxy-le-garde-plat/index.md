@@ -20,11 +20,11 @@ description: Chaque serveur MCP que vous gardez activé prélève un tribut sur 
 
 
 
-Chaque fois que je lis des articles sur les serveurs MCP, la conversation porte presque toujours sur les fonctionnalités : *« Connectez ceci, connectez cela, le modèle peut désormais faire X, Y et Z. »*
+Chaque fois que je lis quelque chose sur les serveurs MCP, la conversation porte presque toujours sur les fonctionnalités : *« Connectez ceci, connectez cela, le modèle peut désormais faire X, Y et Z. »*
 
 Ce que personne ne dit, c'est ce qui arrive réellement à votre **contexte d'entrée** au moment où vous activez un serveur.
 
-Chaque outil MCP que vous ajoutez transporte un schema — un nom, une description, un plan JSON de paramètres. Dans la plupart des IDE, ces schemas accompagnent **chaque requête** envoyée au modèle, que l'outil soit utilisé ou non. Ils logent dans une partie de votre entrée que vous ne voyez pas, ils consomment des tokens facturés par votre abonnement pay-per-token, et ils grignotent exactement le même budget que se partagent votre code, votre conversation et vos instructions.
+Chaque outil MCP que vous ajoutez transporte un schema — un nom, une description, un plan JSON de paramètres. Dans la plupart des IDE, ces schemas accompagnent **chaque requête** envoyée au modèle, que l'outil soit utilisé ou non. Ils logent dans une partie de votre entrée que vous ne voyez pas, ils consomment des tokens que votre facture au token vous fait payer, et ils grignotent exactement le même budget que se partagent votre code, votre conversation et vos instructions.
 
 Résultat ? Activez trois serveurs « sport » ou « dev », et une grosse partie de votre fenêtre de contexte ne fait rien d'utile. Le plus intéressant, c'est que **tous les IDE ne se comportent pas de la même façon**. Regardons ce qui se passe réellement en ce moment.
 
@@ -32,7 +32,7 @@ Résultat ? Activez trois serveurs « sport » ou « dev », et une grosse parti
 
 Un tool schema est un petit document JSON : le nom de l'outil, une description lisible, et le schema JSON de ses paramètres. Un serveur MCP comme celui de GitHub en expose des dizaines ; Garmin en expose une centaine.
 
-Quand un IDE fonctionne en mode *eager* — le mode par défaut pour la plupart des outils — la liste complète des outils de chaque serveur activé est injectée dans le system prompt ou dans la requête. Le modèle ne peut pas s'en débarrasser, puisque cela fait partie de l'entrée à chaque tour.
+Quand un IDE fonctionne en mode *eager* — le mode par défaut pour la plupart des outils — la liste complète des outils de chaque serveur activé est injectée dans le system prompt ou dans la requête. Le modèle ne peut pas les remplacer à la volée, puisque cela fait partie de l'entrée à chaque tour.
 
 La taille grimpe vite. J'ai déjà décrit cette même « taxe sur les schémas » dans un précédent [post](/the-hidden-tax-on-every-ai-request-how-mcp-servers-are-draining-your-token-budget/) : rien que pour avoir Garmin, GitHub et Intervals.icu à disposition, il faut compter environ 16,000 à 17,000 tokens par requête dans mon environnement.
 
@@ -60,9 +60,11 @@ J'ai passé au crible la documentation actuelle et les *issue trackers* des prin
 
 En résumé : **seul Claude Code fait du lazy loading par défaut**, VS Code / Copilot ne le fait que partiellement selon le modèle, et **tous les autres restent en eager** : les tool schemas atteignent donc le modèle à chaque tour.
 
+* * *
+
 ## Claude Code : le lazy par défaut
 
-Claude Code fait figure d'exception. Depuis le lancement de MCP Tool Search, les outils ne sont plus tous injectés en eager. Le client envoie plutôt un résumé de l'outil disponible, et un outil de recherche dédié — `ToolSearch` — récupère les schemas les plus pertinents à la demande : en pratique, il en extrait jusqu'à **quelques outils par requête**, selon ce que la tâche demande. Les outils récupérés au cours d'un tour restent disponibles pour les tours suivants. Dans la doc de Claude, `ENABLE_TOOL_SEARCH` peut être `true`, `auto:5` (aller chercher jusqu'à 5 outils) ou `false` ; et **`false` revient à l'ancien comportement : toutes les définitions d'outils partent dans le contexte à chaque tour**.
+Claude Code fait figure d'exception. Depuis le lancement de MCP Tool Search, les outils ne sont plus tous injectés en eager. Le client envoie plutôt un résumé de l'outil disponible, et un mécanisme de recherche dédié — `ToolSearch` — récupère les schemas les plus pertinents à la demande : en pratique, il en extrait jusqu'à **quelques outils par requête**, selon ce que la tâche demande. Les outils récupérés au cours d'un tour restent disponibles pour les tours suivants. Dans la doc de Claude, `ENABLE_TOOL_SEARCH` peut être `true`, `auto:5` (aller chercher jusqu'à 5 outils) ou `false` ; et **`false` revient à l'ancien comportement : toutes les définitions d'outils partent dans le contexte à chaque tour**.
 
 Le hic : ce mode « lazy par défaut » exige un modèle Claude récent (Sonnet 4.5+ / Haiku 4.5+ / Opus 4.5+). Si vous routez via `ANTHROPIC_BASE_URL` vers une passerelle ou tout fournisseur tiers non-first-party, Claude Code retombe sur du chargement eager. Même chose avec Microsoft Foundry sur Azure ou Google Cloud Agent Platform : tout part dans le contexte.
 
@@ -148,7 +150,7 @@ Maintenant, la même session via LeanProxy (3 router tools, ~158 tokens) :
 | Tours #2–20 — cache **read** | 19 x ~$0.00003 | 19 x ~$0.0040 |
 | **Total session** | **~$0.0014** | **~$0.126** |
 
-Même dans le meilleur des cas — tout le préfixe en cache, rien d'évincé — **transporter les schemas MCP vous coûte bien moins d'un centime par tour, pour toujours, session après session**. L'affirmation « je ne paie qu'une seule fois » n'est vraie que si une session dure moins que le TTL de 5 minutes, ne réécrit jamais, et si vous ignorez la lecture à 0,10x que vous payez à chaque tour depuis.
+Même dans le meilleur des cas — tout le préfixe en cache, rien d'évincé — **transporter les schemas MCP vous coûte bien moins d'un cent par tour, pour toujours, session après session**. L'affirmation « je ne paie qu'une seule fois » n'est vraie que si une session dure moins que le TTL de 5 minutes, ne réécrit jamais, et si vous ignorez la lecture à 0,10x que vous payez à chaque tour depuis.
 
 Le plus intéressant : le caching et LeanProxy sont *additifs*. Le prompt caching réduit le *coût en dollars* par token ; LeanProxy réduit le *nombre* de tokens. Ils répondent à des questions différentes — et LeanProxy aide, que le cache fasse hit ou miss :
 
@@ -178,7 +180,7 @@ Plus de jonglage. Fini les allers-retours *« lequel des 4 serveurs me faut-il p
 Si cela vous parle, le projet est sur GitHub : [mmornati/leanproxy-mcp](https://github.com/mmornati/leanproxy-mcp). Et avant de le brancher, vous pouvez avoir un aperçu des gains sans toucher à vos requêtes en production :
 
 ```
-# preview how many tokens LeanProxy would save you
+# aperçu du nombre de tokens que LeanProxy vous ferait économiser
 leanproxy-mcp report --dry-run
 ```
 

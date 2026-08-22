@@ -27,7 +27,7 @@ Ogni volta che leggo qualcosa sui server MCP, la conversazione ruota quasi sempr
 
 Quello che nessuno ti dice è ciò che succede davvero al tuo **contesto di input** nel momento esatto in cui abiliti un server.
 
-Ogni tool MCP che aggiungi porta con sé uno schema: nome, descrizione e un blueprint JSON dei parametri. Nella maggior parte degli IDE, questi schemi viaggiano con **ogni singola richiesta** verso il modello, che il tool venga usato o meno. Vivono nella parte del tuo input che non vedi, consumano token che il tuo provider ti addebita e tolgono spazio allo stesso budget condiviso fra il tuo codice, la tua conversazione e le tue istruzioni.
+Ogni tool MCP che aggiungi porta con sé uno schema: nome, descrizione e un blueprint JSON dei parametri. Nella maggior parte degli IDE, questi schemi viaggiano con **ogni singola richiesta** verso il modello, che il tool venga usato o meno. Vivono nella parte del tuo input che non vedi, consumano token che il tuo provider ti addebita e divorano lo stesso budget che si dividono il tuo codice, la tua conversazione e le tue istruzioni.
 
 Il risultato? Attiva tre server, per lo sport o per lo sviluppo, e una buona fetta della finestra di contesto sta lì senza fare nulla di utile. La parte interessante, però, è che **non tutti gli IDE si comportano allo stesso modo**. Vediamo cosa succede davvero, in questo momento.
 
@@ -35,7 +35,7 @@ Il risultato? Attiva tre server, per lo sport o per lo sviluppo, e una buona fet
 
 Uno schema di tool è un piccolo documento JSON: nome del tool, descrizione leggibile e lo schema JSON dei parametri. Un server MCP come quello di GitHub ne espone decine; Garmin arriva a un centinaio.
 
-Quando un IDE lavora in modalità *eager* — la modalità predefinita per la maggior parte degli strumenti — l'intero elenco dei tool di ogni server abilitato viene iniettato nel system prompt o nella richiesta. Il modello non può toglierli di mezzo: fanno parte dell'input, turno dopo turno.
+Quando un IDE lavora in modalità *eager* — la modalità predefinita per la maggior parte degli strumenti — l'intero elenco dei tool di ogni server abilitato viene iniettato nel system prompt o nella richiesta. Il modello non può scambiarli, perché fanno parte dell'input, turno dopo turno.
 
 Il totale sale in fretta. Della stessa "tassa sugli schemi" ho già parlato in un [post](/the-hidden-tax-on-every-ai-request-how-mcp-servers-are-draining-your-token-budget/) precedente: solo per avere disponibili Garmin, GitHub e Intervals.icu, nel mio ambiente il costo è di circa 16.000-17.000 token per richiesta.
 
@@ -71,7 +71,7 @@ Claude Code è l'eccezione alla regola. Da quando esiste la "MCP Tool Search", i
 
 Questa modalità "lazy di default", però, richiede modelli Claude recenti (Sonnet 4.5+ / Haiku 4.5+ / Opus 4.5+). Se lo si instrada tramite `ANTHROPIC_BASE_URL` verso un gateway, o verso qualunque altro provider non-first-party, Claude Code ripiega all'eager. La stessa cosa capita con Microsoft Foundry su Azure o con Google Cloud Agent Platform: tutto dentro.
 
-C'è poi l'altra funzione, meno conosciuta: la **cache di discovery MCP** (`MCP_DISCOVERY_CACHE`) — Claude Code ora salva in cache anche i server remoti HTTP/SSE. Un server che mostra `cached 2h ago · connects on first use · 5 tools`, se la cache è ancora fresca, nemmeno parte: la connessione arriva solo quando usi davvero il primo tool. Qui il lazy loading non riguarda solo lo schema: è davvero il server ad essere caricato.
+C'è poi l'altra funzione, meno conosciuta: la **cache di discovery MCP** (`MCP_DISCOVERY_CACHE`) — Claude Code ora salva in cache anche i server remoti HTTP/SSE. Un server che mostra `cached 2h ago · connects on first use · 5 tools`, se la cache è ancora fresca, nemmeno parte: la connessione arriva solo quando usi davvero il primo tool. Qui il lazy loading non si limita allo schema: è davvero il server a essere caricato, on demand.
 
 ## Cursor, Windsurf, Cline, Copilot, JetBrains, opencode — la folla eager
 
