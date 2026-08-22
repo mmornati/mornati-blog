@@ -92,7 +92,7 @@ J'ai mesuré la taille du « tool namespace » de mon propre environnement avec 
 | 1 serveur — Garmin (100 tools) | 11,130 tokens | 158 tokens | **98,6%** |
 | 3 serveurs — 151 tools | 16,830 tokens | 158 tokens | **99,1%** |
 
-Replays de session au taux réaliste de lecture du cache de 0,25× (les cache hits ne sont PAS gratuits) :
+Replays de session avec un escompte prudent sur la lecture du cache (les cache hits ne sont PAS gratuits ; les vrais escomptes actuels sont ~0,1× — voir ci-dessous) :
 
 | Scénario réel | MCP natif | LeanProxy | Gains |
 | --- | --- | --- | --- |
@@ -101,6 +101,59 @@ Replays de session au taux réaliste de lecture du cache de 0,25× (les cache hi
 | Journée complète (3 serveurs, 7 prompts) | ~29,450 | ~1,295 | **95,6%** |
 
 La méthodologie complète et les tableaux figurent dans le [benchmark de LeanProxy](https://github.com/mmornati/leanproxy-mcp/blob/main/docs/benchmark-results.md) (dossier `docs/` du dépôt).
+
+* * *
+
+## Mais attendez — le caching rend-il ça moins cher ?
+
+Voici l'argument que j'entends le plus souvent : *« Le contexte peut être énorme à cause de mes serveurs MCP, mais je ne paie le prix plein qu'une seule fois — ensuite, le fournisseur ressort le même préfixe depuis son prompt cache à chaque tour. »*
+
+C'est à moitié vrai, et la moitié qui est vraie est un piège. Vérifions les chiffres actuels.
+
+Tous les grands fournisseurs scindent désormais la tarification de l'entrée en trois compartiments :
+
+| Fournisseur | Modèle | Entrée fraîche | Cache **write** | Cache **read** |
+|:---|:---|:---|:---|:---|
+| Anthropic | [Sonnet 5](https://claude.com/pricing) | $2.00 | **$2.50 (1,25x)** | $0.20 (0,10x) |
+| Anthropic | [Sonnet 4.6](https://claude.com/pricing) | $3.00 | **$3.75 (1,25x)** | $0.30 (0,10x) |
+| Anthropic | [Opus 5](https://claude.com/pricing) | $5.00 | **$6.25 (1,25x)** | $0.50 (0,10x) |
+| OpenAI | [gpt-5.6-sol](https://platform.openai.com/docs/pricing) | $4.00 | **$5.00 (1,25x)** | $0.40 (0,10x) |
+| OpenAI | [gpt-5.5](https://platform.openai.com/docs/pricing) | $5.00 | —(facturé comme entrée) | $0.50 (0,10x) |
+| OpenAI | [gpt-5-mini](https://platform.openai.com/docs/pricing) | $0.25 | —(facturé comme entrée) | $0.025 (0,10x) |
+| Google | [Gemini 3.5 Flash](https://cloud.google.com/vertex-ai/generative-ai/pricing) | $1.50 | —(pas de surcoût d'écriture) | $0.15 (0,10x) |
+| Google | [Gemini 3.1 Pro](https://cloud.google.com/vertex-ai/generative-ai/pricing) | $2.00 | —(pas de surcoût d'écriture) | $0.20 (0,10x) |
+
+*USD par million de tokens, prix catalogue actuels (août 2026). « Cache write » : ce que vous payez quand un préfixe entre dans le cache ; « cache read » : chaque fois que le même préfixe est renvoyé par la suite. Google et certains modèles OpenAI facturent la première écriture comme de l'entrée classique, plutôt que d'appliquer un surcoût d'écriture.*
+
+Voilà donc la réalité tarifaire, exactement celle que vous décrivez :
+
+1. **L'écriture n'est pas « le prix plein qu'une seule fois » — c'est 1,25x.** La première fois que votre énorme system prompt chargé de MCP entre dans le cache, vous payez une *prime* par rapport à l'entrée normale.
+2. **La lecture est bon marché, mais jamais nulle.** 0,10x des 16,830 tokens complets, cela reste ~1,700 tokens-équivalents *par tour*, pour des tokens que vous n'utiliserez jamais.
+3. **Le TTL du cache remet le compteur à zéro.** Le caching standard d'Anthropic a un TTL de 5 minutes. Dans une longue session de codage — ou une session où vous vous éloignez — le cache expire, et la requête suivante déclenche une *nouvelle* écriture à 1,25x de tout l'ensemble. Les sessions multi-tours qui traînent le repaient sans cesse.
+4. **Le cache ne rétrécit jamais la fenêtre de contexte.** Les 16,830 tokens occupent toujours les mêmes emplacements dans le contexte du modèle, à chaque tour, en cache ou non. Le cache est une remise de *facturation*, pas une remise de *capacité* — il vous fait économiser de l'argent, mais il ne vous rend pas l'espace qui pourrait contenir votre code, vos fichiers ou vos instructions.
+
+Mettons des chiffres là-dessus. Une session de développement type de 20 tours, 3 serveurs MCP activés (16,830 tokens de schema) par-dessus ~20k tokens de payload réel (~36,830 tokens d'entrée), sur Claude Sonnet 5 (`$2.00` entrée / `$2.50` write / `$0.20` read) :
+
+| | Taxe de schema uniquement (16,830 tokens) | Prompt complet (36,830 tokens) |
+|:---|---:|---:|
+| Tour #1 — cache **write** | ~$0.042 (à 1,25x) | ~$0.092 |
+| Tours #2–20 — cache **read** (19 hits) | 19 x ~$0.0034 | 19 x ~$0.0074 |
+| **Total session, schema uniquement** | **~$0.106** | ~$0.232 |
+
+Maintenant, la même session via LeanProxy (3 router tools, ~158 tokens) :
+
+| | Routeur seul (158 tokens) | Prompt complet (20,158 tokens) |
+|:---|---:|---:|
+| Tour #1 — cache **write** | ~$0.0004 | ~$0.050 |
+| Tours #2–20 — cache **read** | 19 x ~$0.00003 | 19 x ~$0.0040 |
+| **Total session** | **~$0.0014** | **~$0.126** |
+
+Même dans le meilleur des cas — tout le préfixe en cache, rien d'évincé — **transporter les schemas MCP vous coûte bien moins d'un centime par tour, pour toujours, session après session**. L'affirmation « je ne paie qu'une seule fois » n'est vraie que si une session dure moins que le TTL de 5 minutes, ne réécrit jamais, et si vous ignorez la lecture à 0,10x que vous payez à chaque tour depuis.
+
+Le plus intéressant : le caching et LeanProxy sont *additifs*. Le prompt caching réduit le *coût en dollars* par token ; LeanProxy réduit le *nombre* de tokens. Ils répondent à des questions différentes — et LeanProxy aide, que le cache fasse hit ou miss :
+
+* Si le cache fait **hit** : vous payez 0,10x de 158 tokens au lieu de 0,10x de 16,830.
+* Si le cache fait **miss** ou expire (TTL de 5 min) : vous payez 1,25x de 158 tokens au lieu de 1,25x de 16,830 — le cas le plus coûteux est précisément celui que LeanProxy protège.
 
 * * *
 
