@@ -252,9 +252,9 @@ Tre trigger, una rete di sicurezza:
 
 Altrimenti (casi 1 o 2) prende la seconda alternativa: relè aperto, flag `solar_extend` cancellato — ma, punto cruciale, **`incomplete` resta su on**, così il ciclo notturno intelligente delle 02:00 sa che il lavoro non è finito.
 
-Il guardia `condition: water_heating_solar_extend_cave on` garantisce che la sentinella non intervenga mai in un ciclo HC normale o notturno - gestisce solo i cicli HP solari.
+Il guardiano `condition: water_heating_solar_extend_cave on` garantisce che la sentinella non intervenga mai in un ciclo HC normale o notturno - gestisce solo i cicli HP solari.
 
-![La sentinella che interrompe un ciclo HP solare quando la casa picca](/images/smart-water-heater-orchestration-solar-off-peak-v2/03-watch.jpg)
+![La sentinella che interrompe un ciclo HP solare quando la casa fa un picco](/images/smart-water-heater-orchestration-solar-off-peak-v2/03-watch.jpg)
 
 ---
 
@@ -366,41 +366,43 @@ E se ci sono ospiti (o si vuole semplicemente un pieno completo senza limiti), i
 
 ## I numeri veri (dalla mia istanza live)
 
-Ecco cosa ha fatto davvero il sistema, dall'API delle statistiche (raccolto una sera d'agosto 2026, produzione già a 0):
+Piuttosto che una tabella da marketing, ecco i valori reali di questa estate:
 
 | Metrica | Cantina | Garage |
 |---|---|---|
-| Tempo di riscaldamento quel giorno | ~2,0 h | ~1,15 h |
-| Energia quel giorno | ~5,9 kWh | ~2,3 kWh |
-| Durata tipica di un riscaldamento | 90 min | 60 min |
-| Tempo di riscaldamento 7 giorni (media) | ~1,28 h | ~0,59 h |
-| Tempo di riscaldamento 7 giorni (mediana) | ~1,15 h | ~0,58 h |
-| Massimo su 7 giorni | 4,0 h | 3,15 h |
+| Tempo ON ultimi 7 giorni (media) | 1,28 h/giorno | 0,59 h/giorno |
+| Tempo ON ultimi 7 giorni (mediana) | 1,15 h | 0,58 h |
+| Energia quel giorno | 5,93 kWh | 2,33 kWh |
+| Energia totale dall'installazione | 1181,74 kWh | 447,72 kWh |
+| `typical_heat_min` (input) | 90 min | 60 min |
 
-In una giornata soleggiata di piena estate gli scaldabagni seguono la finestra di mezzogiorno e finiscono prima che uno se ne accorga (la notifica "Cycle termine (thermostat)" arriva ~12:30). In una giornata grigia o fredda, invece, è il ciclo notturno con tetto delle 02:00 a finire il lavoro. Il tetto resta la rete di sicurezza.
+I massimi sui 7 giorni sono stati cantina 4,0 h e garage 3,15 h — i giorni in cui il mattino non era bastato e la sentinella della sera tirava a lungo.
 
-La variabilità su 7 giorni è evidente: la cantina oscilla tra 0 e 4 h al giorno (mediana ~1,15 h), il garage tra 0 e 3,15 h (mediana ~0,58 h). I giorni da quattro ore sono quelli in cui il sole è mancato e le due strategie (HC + HP solare + notte) si sono susseguite - il flag `incomplete` è rimasto su on quasi tutto il giorno.
+Ho estratto questi dati dall'API delle statistiche in serata, quando i pannelli erano già spenti (`solar_hi_production` off, `ecu_current_power` 0 W) — quindi i valori "quel giorno" descrivono la giornata completa, non uno stato in corso.
 
 ---
 
-## Cosa tengo senza dubbio
+## Cosa non è cambiato
 
-- **Il rilevamento della fine ciclo tramite carico**: leggere `energy_meter_cumulus_*_power` fino al collasso sposta la decisione da "quanto manca alla fine della tariffa" a "finché il termostato non dice stop". È il guadagno di affidabilità più importante.
-- **La regola del x1.1**: il surplus deve superare il consumo dello scaldabagno con un margine prima di lanciare l'HP. Assorbe il rumore di misura e mantiene la sentinella tollerante ma prudente.
-- **L'annullamento del tetto** con `force_cumulus_hc` per restare padrone quando gli invarianti cambiano (ospiti, inverno).
-
-## Avvertenze / cosa non c'è
-
-- **Le Heures Creuses / Heures Pleines sono specifiche della Francia.** Non copiare le costanti magiche `x1.1` e `1500 W` - sono mie, calibrate sulla mia casa.
-- **Non sono né elettricista né installatore.** L'impianto è stato cablato da un professionista (differenziale 30 mA, sezione dei cavi sovradimensionata, messa a terra); descrivo la logica di Home Assistant, non il cablaggio.
-- **Nessuna batteria.** Una batteria cambierebbe tutta l'equazione. Gli scaldabagni valgono proprio perché sono uno dei pochi carichi elastici di grande taglia.
-- **Nessuno scheduling VE/scaldabagni automatizzato** (il sensore di potenza di casa della V2C è nell'equazione, ma l'orchestrazione dei due è un progetto futuro).
-- Le tariffe e la produzione variano per anno e per regione; nulla di questo è un consiglio d'investimento.
-
-Se hai un setup equivalente (Shelly EM + scaldabagno + tariffa HC + surplus solare), le due coppie da rubare sono `*hp_solar_switch` + `*hp_solar_watch` e lo `smart_night` con tetto.
+- **Il relè Shelly Plus 1 + la misura Shelly EM** dell'[articolo del 2022](/smart-water-heater-with-home-assistant-and-shelly-device/) — ancora la base fisica.
+- **Il toggle vacanze** e la **pianificazione della finestra HC** — ancora la porta d'ingresso della casa.
+- **Il garage è il gemello della cantina**: ogni automazione descritta qui esiste anche in versione `cumulus_garage_*` (`cumulus_garage_thermostat_complete`, `cumulus_garage_hp_solar_switch`, `cumulus_garage_hp_solar_watch`, `cumulus_garage_smart_night`) con i propri entity_id, le proprie soglie (il garage usa `1100 * 1.1`) e un tetto notturno di 60 minuti.
+- **La configurazione interna dello scaldabagno** (setpoint di temperatura, modalità ECO del serbatoio) — intatta; lo strato di automazione fa solo da interruttore sul relè.
 
 ---
 
 ## Nota onesta sul rollout (promemoria)
 
 Come detto all'inizio: tutte le automazioni v2 di questo post sono **nella mia configurazione e in fase di attivazione**. Ho verificato via API prima di scrivere che la mia istanza live gira ancora sul sistema v1 - `automation.cumulus_cave_actives_en_hc` (scattata oggi alle 12:09), `automation.comulus_desactives_en_hp` (14:09), `automation.cumulus_garage_actives_en_hc` (13:00), più la vecchia `set_heating_incomplete_flag_cave` che tira ancora. Le voci `enabled: false` sopra descrivono lo stato della configurazione nel repository; il passaggio in produzione avverrà dopo aver validato la coppia v2 su alcuni giorni di sole e di cielo coperto. Config prima, live poi - è il rollout di una casa vera.
+
+---
+
+## Avvertenze
+
+- **È specifico della Francia (Heures Creuses / Heures Pleines).** Una tariffa con una sola finestra diurna + notturna non esiste ovunque; il margine 1,1× e la soglia 1500 W sono le mie costanti, non le vostre.
+- **Non sono un elettricista.** Il cablaggio dello scaldabagno (differenziale 30 mA, cavo sovradimensionato, terra) è fatto da un installatore certificato; descrivo la logica di Home Assistant, non il cablaggio.
+- **Nessuna batteria, per ora.** Se ci fosse, il calcolo sarebbe diverso.
+- **La colonnina di ricarica è un progetto separato** (il sensore `house_power` è il contatore lato casa della colonnina V2C, non il consumo proprio dell'auto).
+- **Uno scaldabagno grande è un carico elastico chiave** — trattate lo scaldabagno come un consumatore di primo piano.
+
+Se dovessi rifare tutto da zero, la coppia che manterrei identica è: rilevamento tramite termostato + la logica «interrompi o termina» della sentinella. È ciò che ha trasformato un'approssimazione oscillante in un sistema marginale affidabile.

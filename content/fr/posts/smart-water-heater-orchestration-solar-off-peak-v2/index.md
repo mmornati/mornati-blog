@@ -26,7 +26,7 @@ Depuis, le système a évolué silencieusement. Pas une réécriture - une orche
 
 > **Note de déploiement, honnêtement.** La logique v2 ci-dessous est dans ma config et en cours de déploiement. Mon instance live tourne encore sur les automatisations v1 à base de flags - je l'ai vérifié avant d'écrire, et je vous dirai précisément ce qui est branché maintenant et ce qui est en route.
 
-**Avertissement :** je ne suis ni installateur ni électricien. Un chauffe-eau et l'électricité peuvent être dangereux ; c'est le carnet de bord de ma maison, pas des instruction pour la vôtre.
+**Avertissement :** je ne suis ni installateur ni électricien. Un chauffe-eau et l'électricité peuvent être dangereux ; c'est le carnet de bord de ma maison, pas des instructions pour la vôtre.
 
 ## TL;DR - ce qui change vs. la version 2022
 
@@ -34,7 +34,7 @@ Depuis, le système a évolué silencieusement. Pas une réécriture - une orche
 |---|---|---|
 | Détection de fin de chauffe | Devinée à 14:09 (« toujours en train de tirer du courant ? ») | Détection thermostat : puissance à 0 -> cycle terminé |
 | Comportement en heures pleines (HP) | Toujours éteint en HP | Solaire d'abord : relance en HP seulement si le surplus couvre le cumulus |
-| Cycle de nuit | Autocontrôle fixe de 2 h | Nuit intelligente avec plafon (minutes plafondées) |
+| Cycle de nuit | Autocontrôle fixe de 2 h | Nuit intelligente avec plafond (minutes plafondées) |
 | Forcer une pleine nuit | Toggle vacances seul | Toggle `force_cumulus_hc` + automation `force_cumulus_nigh` |
 | Notifications | Basique | Fin de cycle, relance/arrêt HP solaire, rapports de nuit |
 
@@ -252,9 +252,9 @@ Trois triggers, un garde-fou :
 
 Sinon (cas 1 ou 2), elle prend la seconde branche : relais ouvert, flag `solar_extend` effacé — mais, point crucial, **`incomplete` reste à on**, pour que le cycle de nuit intelligent de 02:00 sache que le travail n'est pas fini.
 
-Le garde `condition: water_heating_solar_extend_cave on` garantit que cette vigie n'intervient jamais dans un cycle HC normal ou un cycle de nuit — elle ne gère que les cycles HP solaires.
+Le garde-fou `condition: water_heating_solar_extend_cave on` garantit que cette vigie n'intervient jamais dans un cycle HC normal ou un cycle de nuit — elle ne gère que les cycles HP solaires.
 
-![Le garde-fou qui interrompt un cycle HP solaire quand la maison pic](/images/smart-water-heater-orchestration-solar-off-peak-v2/03-watch.jpg)
+![Le garde-fou qui interrompt un cycle HP solaire quand la maison fait un pic](/images/smart-water-heater-orchestration-solar-off-peak-v2/03-watch.jpg)
 
 ---
 
@@ -364,43 +364,45 @@ Et si des invités sont là (ou si l'on veut simplement un plein complet non bri
 
 ---
 
-## Les vrais chiffres (avec mon instance live)
+## Les vrais chiffres (depuis mon instance live)
 
-Voici ce que le système a réellement fait, donné par l'API de statistiques (récolté un soir d'août 2026, production déjà à 0) :
+Plutôt qu'un tableau marketing, voici les vraies valeurs de cet été :
 
 | Métrique | Cave | Garage |
 |---|---|---|
-| Temps de chauffe ce jour-là | ~2,0 h | ~1,15 h |
-| Énergie ce jour-là | ~5,9 kWh | ~2,3 kWh |
-| Durée typique d'une chauffe | 90 min | 60 min |
-| Temps de chauffe 7 jours (moyenne) | ~1,28 h | ~0,59 h |
-| Temps de chauffe 7 jours (médiane) | ~1,15 h | ~0,58 h |
-| Max sur 7 jours | 4,0 h | 3,15 h |
+| Temps de chauffe sur 7 jours (moyenne) | 1,28 h/jour | 0,59 h/jour |
+| Temps de chauffe sur 7 jours (médiane) | 1,15 h | 0,58 h |
+| Énergie ce jour-là | 5,93 kWh | 2,33 kWh |
+| Énergie totale depuis l'installation | 1181,74 kWh | 447,72 kWh |
+| `typical_heat_min` (entrée) | 90 min | 60 min |
 
-Sur une journée ensoleillée de mi-été, les cumulus suivent la fenêtre de midi et ont fini avant qu'on les regarde (la notification « Cycle terminé (thermostat) » part ~12:30). Sur une journée grise ou froide, rien de tel : c'est le cycle de nuit plafonné de 02:00 qui termine le travail. Le plafond reste un filet de sécurité.
+Les max sur 7 jours étaient cave 4,0 h et garage 3,15 h — les jours où le matin n'avait pas suffi et où la vigie du soir tirait long.
 
-La variabilité sur 7 jours est visible : la cave oscille entre 0 et 4 h par jour (médiane ~1,15 h), le garage entre 0 et 3,15 h (médiane ~0,58 h). Les jours à quatre heures sont ceux où le soleil a manqué et où les deux stratégies (HC + HP solaire + nuit) se sont enchaînées — le flag `incomplete` est resté à on presque toute la journée.
+J'ai sorti ces chiffres de l'API des statistiques en soirée, une fois les panneaux déjà éteints (`solar_hi_production` off, `ecu_current_power` 0 W) — les valeurs « ce jour-là » décrivent donc la journée complète, pas un état en cours.
 
 ---
 
-## Ce que je garderais à coup sûr
+## Ce qui n'a pas changé
 
-- **La détection de fin de chauffe par la charge** : lire `energy_meter_cumulus_*_power` jusqu'à effondrement déplace la décision de « temps jusqu'à la fin du tarif » à « jusqu'à ce que le thermostat dise stop ». C'est le gain de fiabilité le plus important.
-- **La règle du x1.1** : le surplus doit dépasser la consommation du cumulus avec une marge avant de lancer le HP. Elle absorbe le bruit de mesure et garde la vigie tolérante mais prudente.
-- **L'annulation du plafond** avec `force_cumulus_hc` pour rester maître quand les invariants changent (invités, hiver).
-
-## Avertissements / ce qui n'y est pas
-
-- **Heures Creuses / Heures Pleures sont spécifiques à la France.** Ne copiez pas les constantes magiques `x1.1` et `1500 W` — elles sont à moi, calibrées pour ma maison.
-- **Je suis ni électricien ni moniteur.** L'installation est câblée par un professionnel (disjoncteur 30 mA, section de câble surdimensionnée, liaison à la terre) ; je décris la logique Home Assistant, pas le câblage.
-- **Pas de batterie.** Une batterie changerait toute l'équation. Les cumuls valent justement parce qu'ils sont un des rares charges élastiques de grande taille.
-- **Pas d'arbitrage VE/cumulus automatisé** (le capteur de puissance maison de la V2C est dans l'équation, mais l'ordonnancement des deux est un futur projet).
-- Les tarifs et la production varient selon l'année et la région ; rien ici n'est un conseil pour l'investissement.
-
-Si vous avez un montage équivalent (Shelly EM + cumulus + tarif HC + surplus solaire), les deux paires à voler sont `*hp_solar_switch` + `*hp_solar_watch` et le `smart_night` plafonné.
+- **Le relais Shelly Plus 1 + la mesure Shelly EM** de l'[article de 2022](/smart-water-heater-with-home-assistant-and-shelly-device/) — toujours la base physique.
+- **Le toggle vacances** et la **planification de la fenêtre HC** — toujours la porte d'entrée de la maison.
+- **Le garage est le jumeau de la cave** : chaque automatisation décrite ici existe aussi en version `cumulus_garage_*` (`cumulus_garage_thermostat_complete`, `cumulus_garage_hp_solar_switch`, `cumulus_garage_hp_solar_watch`, `cumulus_garage_smart_night`) avec ses propres entity_id, ses seuils (le garage utilise `1100 * 1.1`) et un plafond nocturne de 60 minutes.
+- **La configuration interne du chauffe-eau** (consigne de température, mode ECO du ballon) — intacte ; la couche d'automatisation ne fait que commuter le relais.
 
 ---
 
 ## Note honnête de mise en production (rappel)
 
 Comme dit en tête : toutes les automatisations v2 de ce post sont **dans ma config et en cours de déploiement**. J'ai vérifié par API avant d'écrire que mon instance live tourne encore sur le système v1 — `automation.cumulus_cave_actives_en_hc` (déclenché aujourd'hui à 12:09), `automation.comulus_desactives_en_hp` (14:09), `automation.cumulus_garage_actives_en_hc` (13:00), plus l'ancien `set_heating_incomplete_flag_cave` qui tire encore. Les entrées `enabled: false` ci-dessus décrivent l'état de la config dans le dépôt ; le passage en production se fera une fois la paire v2 validée sur quelques jours ensoleillés et couverts. Config d'abord, live ensuite — c'est le déploiement d'une vraie maison.
+
+---
+
+## Avertissements
+
+- **C'est spécifique à la France (Heures Creuses / Heures Pleines).** Une tarification avec une seule fenêtre midi + nuit n'existe pas partout ; la marge de 1,1× et le seuil 1500 W sont mes constantes, pas les vôtres.
+- **Je ne suis pas électricien.** Le câblage du chauffe-eau (différentiel 30 mA, câble surdimensionné, terre) est fait par un installateur certifié ; je décris la logique Home Assistant, pas le câblage.
+- **Pas encore de batterie.** S'il y en avait une, le calcul serait différent.
+- **La borne VE est un projet séparé** (le capteur `house_power` est le compteur côté maison de la borne V2C, pas la consommation propre de la voiture).
+- **Un gros chauffe-eau est une charge élastique clé** — traitez le chauffe-eau comme un consommateur de premier plan.
+
+Si je devais tout refaire de zéro, la paire que je garderais à l'identique est : détection par thermostat + la logique « avorter ou finir » de la vigie. C'est ce qui a transformé une approximation oscillante en un système marginal fiable.
