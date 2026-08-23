@@ -47,7 +47,7 @@ Le matériel est volontairement banal : **une prise Zigbee avec compteur d'éner
 
 Le motif de « l'appareil invisible » est partout : la pompe de relevage, la pompe de circulation de votre chauffage, le congélateur du garage, l'onduleur sous le bureau. On n'y pense que quand ils s'arrêtent, et à ce moment-là le mal est déjà fait.
 
-Pour une pompe de relevage, l'enjeu est concret. L'eau monte ; la pompe cycle ; si elle arrête de cycler, la cave est inondée en quelques heures. Une couche de surveillance ne répare pas la pompe — elle répare la *surprise*. On apprend à 14 h par une notification au lieu de 19 h les pieds dans l'eau.
+Pour une pompe de relevage, l'enjeu est concret. L'eau monte ; la pompe tourne ; si elle s'arrête de tourner, la cave est inondée en quelques heures. Une couche de surveillance ne répare pas la pompe — elle répare la *surprise*. On apprend à 14 h par une notification au lieu de 19 h les pieds dans l'eau.
 
 Il y a une raison plus subtile : **les pompes se dégradent lentement.** Un flotteur qui devient rigide, une roue qui se cale — les symptômes apparaissent comme des *changements de cycle* bien avant une panne franche. Surveiller le cycle, c'est les attraper tôt.
 
@@ -211,13 +211,13 @@ La pompe fonctionne par salves d'environ une minute. Si elle tourne **5 minutes 
           datetime: "{{ now() }}"
 ```
 
-La logique est une échelle de tentatives : alimenté 5 min → couper, alerter, compter un essai ; attendre 2 minutes ; réalimenter ; attendre 1 minute ; si ça **consomme encore et qu'on en est à 3 essais** → abandonner. La pompe est coupée de force, le verrouillage `pompe_cave_force_disable` est levé pour que rien ne la relance automatiquement, et l'heure de l'arrêt forcé est estampillée. Après trois essais et une marche continue de 5 minutes, la laisser tourner est plus risqué que la laisser éteinte.
+La logique est une échelle de tentatives : alimenté 5 min → couper, alerter, compter un essai ; attendre 2 minutes ; réalimenter ; attendre 1 minute ; si ça **consomme encore et qu'on en est à 3 essais** → abandonner. La pompe est coupée de force, le verrouillage `pompe_cave_force_disable` est activé pour que rien ne la relance automatiquement, et l'heure de l'arrêt forcé est estampillée. Après trois essais et une marche continue de 5 minutes, la laisser tourner est plus risqué que la laisser éteinte.
 
 C'est le moment « les moniteurs échouent différemment des humains » : une personne finirait par remarquer que la pompe ne s'arrête plus. Home Assistant s'en aperçoit au bout de 5 minutes, réagit, et nous le signale — sans qu'on soit à proximité de la cave.
 
 ### C. Réactivation forcée après 24 h
 
-Une pompe coupée de force est protégée du surchauffe — mais une pompe désactivée, c'est aussi une *cave inondée* en préparation. Le verrouillage s'auto-expire donc après 24 heures :
+Une pompe coupée de force est protégée de la surchauffe — mais une pompe désactivée, c'est aussi une *cave inondée* en préparation. Le verrouillage s'auto-expire donc après 24 heures :
 
 ```yaml
 - id: pompe_cave_restart_once_a_day

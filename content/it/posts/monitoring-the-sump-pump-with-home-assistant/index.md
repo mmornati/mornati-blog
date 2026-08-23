@@ -20,7 +20,7 @@ cover: cover.jpg
 showHero: true
 ---
 
-La mia cantina ha una pompa che salva la casa, e fino a qualche mese fa l'unico modo per sapere che funzionava ancora era tendere l'orecchio. Una pompa di scarico (pompe de relevage) sta in un pozzetto in cantina, raccoglie le acque sotterranee che filtrano e le spinge verso lo scarico. Quando funziona, nessuno la nota. Quando si guasta — galleggiante bloccato, motore bruciato, magnetotermico scattato — l'acqua sale piano finché la cantina non si allaga.
+La mia cantina ha una pompa che salva la casa, e fino a qualche mese fa l'unico modo per sapere che funzionava ancora era tendere l'orecchio. Una pompa di scarico (chiamata anche pompa di sollevamento) sta in un pozzetto in cantina, raccoglie le acque sotterranee che filtrano e le spinge verso lo scarico. Quando funziona, nessuno la nota. Quando si guasta — galleggiante bloccato, motore bruciato, magnetotermico scattato — l'acqua sale piano finché la cantina non si allaga.
 
 Questa è la definizione di infrastruttura invisibile: invisibile, critica e silenziosa finché non diventa costosa. Questo articolo racconta come l'ho messa sotto i riflettori con Home Assistant — cosa monitoro, lo YAML reale e i numeri reali della mia istanza live.
 
@@ -47,7 +47,7 @@ L'hardware è volutamente banale: **una presa Zigbee con misuratore di energia**
 
 Il modello dell'«apparecchio invisibile» è ovunque: la pompa di scarico, la pompa di circolazione del riscaldamento, il congelatore in garage, il gruppo di continuità sotto la scrivania. Ci pensiamo solo quando si fermano, e a quel punto il danno è già fatto.
 
-Per una pompa di scarico la posta in gioco è concreta. L'acqua sale; la pompa cicla; se smette di ciclare, la cantina si allaga in poche ore. Un livello di monitoraggio non aggiusta la pompa — aggiusta la *sorpresa*. Si viene a sapere alle 14:00 tramite una notifica invece che alle 19:00 con l'acqua alle caviglie.
+Per una pompa di scarico la posta in gioco è concreta. L'acqua sale; la pompa gira; se smette di girare, la cantina si allaga in poche ore. Un livello di monitoraggio non aggiusta la pompa — aggiusta la *sorpresa*. Si viene a sapere alle 14:00 tramite una notifica invece che alle 19:00 con l'acqua alle caviglie.
 
 C'è una ragione più sottile: **le pompe si degradano lentamente.** Un galleggiante che si irrigidisce, una girante che si ostruisce — i sintomi compaiono come *cambiamenti del ciclo* molto prima di un guasto franco. Tracciare il ciclo è il modo per coglierli in anticipo.
 
@@ -211,7 +211,7 @@ La pompa lavora a raffiche di circa un minuto. Se gira **5 minuti di fila**, qua
           datetime: "{{ now() }}"
 ```
 
-La logica è una scala di tentativi: alimentato per 5 min → spegni, avvisa, conta un tentativo; attendi 2 minuti; riaccendi; attendi 1 minuto; se **consuma ancora e siamo al 3° tentativo** → molla. La pompa viene spenta forzatamente, il blocco `pompe_cave_force_disable` viene alzato perché nulla la riaccenda automaticamente, e l'ora dello spegnimento forzato viene timbrata. Dopo tre tentativi e una marcia continua di 5 minuti, lasciarla accesa è più rischioso che lasciarla spenta.
+La logica è una scala di tentativi: alimentato per 5 min → spegni, avvisa, conta un tentativo; attendi 2 minuti; riaccendi; attendi 1 minuto; se **consuma ancora e siamo al 3° tentativo** → molla. La pompa viene spenta forzatamente, il blocco `pompe_cave_force_disable` viene attivato perché nulla la riaccenda automaticamente, e l'ora dello spegnimento forzato viene timbrata. Dopo tre tentativi e una marcia continua di 5 minuti, lasciarla accesa è più rischioso che lasciarla spenta.
 
 Questo è il momento «i monitor falliscono in modo diverso dagli umani»: una persona prima o poi noterebbe che la pompa non si ferma più. Home Assistant se ne accorge dopo 5 minuti, reagisce e ce lo segnala — senza che nessuno debba essere vicino alla cantina.
 
@@ -280,7 +280,7 @@ Due avvisi coprono il guasto opposto: la pompa che *avrebbe dovuto* girare e non
         Heures depuis: {{ states('sensor.pompe_cave_hours_since_last_start') }}h
 ```
 
-Ogni 6 ore, se la pompa non è partita da più di 48 h, una notifica ce lo ricorda. In stagione secca può scattare legittimamente (la mia pompa è appena girata durante l'estate), quindi il messaggio porta il valore reale «ore trascorse» — è un promemoria, non un allarme.
+Ogni 6 ore, se la pompa non è partita da più di 48 h, una notifica ce lo ricorda. In stagione secca può scattare legittimamente (la mia pompa ha girato pochissimo durante l'estate), quindi il messaggio porta il valore reale «ore trascorse» — è un promemoria, non un allarme.
 
 L'avviso gemello scatta quando un ciclo *c'è* stato ma si rifiuta di finire:
 
@@ -423,4 +423,4 @@ La ricetta riutilizzabile: *deriva un binary sensor «sta facendo il suo lavoro�
 - **Monitorare non è fare manutenzione.** Nessuna automazione sostituisce il controllo annuale, il test del galleggiante o la pulizia del pozzetto. Ciò che HA vi compra è *tempo*: rilevamento precoce invece della sorpresa.
 - **Zigbee è una rete mesh, e le mesh perdono nodi.** Il mio logbook mostra un passaggio `unavailable` sulla presa il 2026-08-16 (un singhiozzo Zigbee, non un guasto della pompa). Gli avvisi vanno progettati attorno a un sensore temporaneamente cieco, non solo attorno ai guasti della pompa.
 
-Se dovessi ricostruire tutto da zero, terrei lo stesso nucleo: una presa con misuratore di energia, un binary sensor derivato e la scala di tentativi con blocco. Quel trio ha trasformato una pompa invisibile in un dispositivo con un battito — e una cantina a cui non devo pensare finché qualcosa non merita davvero di esserci pensato.
+Se dovessi ricostruire tutto da zero, terrei lo stesso nucleo: una presa con misuratore di energia, un binary sensor derivato e la scala di tentativi con blocco. Quel trio ha trasformato una pompa invisibile in un dispositivo con un battito — e una cantina a cui non devo pensare finché qualcosa non merita davvero di pensarci.
