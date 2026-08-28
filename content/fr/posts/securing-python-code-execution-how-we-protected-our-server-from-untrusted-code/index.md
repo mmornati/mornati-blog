@@ -1,12 +1,14 @@
 ---
 title: 'Sécuriser l''exécution de code Python : Comment nous avons protégé notre serveur contre le code non fiable'
+categories:
+- programming
+- devops
 tags:
 - docker
 - python
 - security
 - pentesting
 date: '2026-01-01T09:00:08.213000+00:00'
-categories: [Sécurité, Développement, DevOps]
 slug: securing-python-code-execution-how-we-protected-our-server-from-untrusted-code
 description: Apprenez à sécuriser l'exécution de code Python avec des conteneurs Docker, des espaces de noms restreints et des stratégies de défense en profondeur
 ---

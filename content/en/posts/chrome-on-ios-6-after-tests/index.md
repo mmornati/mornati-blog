@@ -1,11 +1,9 @@
 ---
 title: 'Chrome on iOS 6: After Tests'
+categories:
+- mobile-gadgets
 date: '2012-10-22T22:00:00+00:00'
 slug: chrome-on-ios-6-after-tests
-categories:
-  - Chrome
-  - iOS
-  - Browsers
 tags:
   - chrome
   - ios6

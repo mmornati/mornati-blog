@@ -1,15 +1,13 @@
 ---
 title: 'Home Assistant: motion sensor coupled with a switch'
+categories:
+- smart-home
 tags:
 - automation
 - home-assistant
 - motion-sensor
 date: '2023-01-02T07:00:42.411000+00:00'
 slug: home-assistant-motion-sensor-coupled-with-a-switch
-categories:
-- Smart Home
-- DIY
-- Home Assistant
 description: Use a motion sensor and an input boolean to prevent outdoor lights from turning off when manually switched on.
 ---
 

@@ -1,5 +1,7 @@
 ---
 title: Symbolic - Scripts Runner
+categories:
+- programming
 date: '2008-07-21T22:00:00+00:00'
 slug: symbolic-scripts-runner
 tags:
@@ -11,7 +13,6 @@ tags:
   - perl
   - xml-rpc
   - quartz
-categories: [Development, Symbolic, Automation]
 description: Learn how Symbolic executes pre-configured user scripts asynchronously using a runner-process, XML-RPC communication, and external system processes.
 ---
 

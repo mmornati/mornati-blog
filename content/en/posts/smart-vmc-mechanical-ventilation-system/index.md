@@ -1,14 +1,12 @@
 ---
 title: Smart VMC (Mechanical Ventilation System)
+categories:
+- smart-home
 tags:
 - smart-home
 - vmc
 - fibaro
 - shelly
-categories:
-- Smart Home
-- DIY
-- IoT
 description: "Making a dual-speed mechanical ventilation system smart with Fibaro FGS-224 or Shelly, Home Assistant automation based on room humidity, and safe relay switching logic."
 date: '2022-08-23T11:56:33.562000+00:00'
 slug: smart-vmc-mechanical-ventilation-system

@@ -1,5 +1,7 @@
 ---
 title: 'Résoudre l''explosion d''outils MCP : Une approche par passerelle pour les agents de codage IA'
+categories:
+- ai-coding-agents
 tags:
 - ai
 - coding
@@ -8,7 +10,6 @@ tags:
 - mcp-client
 - ai-coding-agent
 date: '2026-01-11T21:42:27.378000+00:00'
-categories: [IA, Développement, Architecture]
 slug: solving-the-mcp-tool-explosion-a-gateway-approach-for-ai-coding-agents
 description: Réduisez la surcharge d'outils IA et augmentez l'efficacité des agents de codage avec l'architecture gateway de Nexus-Dev, limitant le nombre d'outils et maintenant la performance
 ---

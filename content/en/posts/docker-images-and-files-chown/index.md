@@ -1,8 +1,9 @@
 ---
 title: Docker images and files chown
+categories:
+- devops
 date: '2017-11-05T23:00:00+00:00'
 slug: docker-images-and-files-chown
-categories: [DevOps, Docker]
 tags: [docker, chown, images, optimization, devops]
 description: How the chown command affects Docker image size, and how to avoid wasting disk space by understanding image layers and copy-on-write.
 ---

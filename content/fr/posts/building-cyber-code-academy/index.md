@@ -1,12 +1,13 @@
 ---
 title: 'Créer Cyber Code Academy : Une expérience de "Vibe Coding Pur"'
+categories:
+- ai-coding-agents
 tags:
 - ai
 - python
 - learning
 - vibe-coding
 date: '2025-12-28T15:14:36.216000+00:00'
-categories: [Development, AI, Education]
 slug: building-cyber-code-academy-a-pure-vibe-coding-experiment
 description: "Découvrez Cyber Code Academy : une plateforme gamifiée pour apprendre Python, pilotée par l'IA et développée avec du \"vibe coding pur\" pour s'amuser de manière interactive"
 ---

@@ -1,5 +1,7 @@
 ---
 title: 'Lifting the Lid on Copilot''s Black Box: Observability for LLM Code Generation'
+categories:
+- ai-coding-agents
 tags:
 - ai
 - debugging
@@ -7,7 +9,6 @@ tags:
 - llm
 - copilot
 - open-telemetry
-categories: [AI, Development, Observability]
 date: '2026-06-15T20:18:59.728000+00:00'
 slug: lifting-the-lid-on-copilot-s-black-box-observability-for-llm-code-generation
 ---

@@ -1,11 +1,10 @@
 ---
 title: Install Hubot as IRC channel bot
+categories:
+- programming
+- devops
 date: '2011-12-20T23:00:00+00:00'
 slug: install-hubot-as-irc-channel-bot
-categories:
-  - Development
-  - DevOps
-  - ChatOps
 tags:
   - hubot
   - github

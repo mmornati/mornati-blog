@@ -1,8 +1,10 @@
 ---
 title: Speed up your Wordpress site with a cache system
+categories:
+- web-dev-blogging
+- devops
 date: '2013-11-12T23:00:00+00:00'
 slug: speed-up-your-wordpress-site-with-a-cache-system
-categories: [WordPress, Performance, DevOps]
 tags: [wordpress, cache, w3-total-cache, nginx, performance, optimization]
 description: "A performance comparison of WordPress with and without W3 Total Cache, including Nginx configuration tips."
 ---

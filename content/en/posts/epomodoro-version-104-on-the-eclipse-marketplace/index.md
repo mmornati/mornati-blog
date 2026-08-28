@@ -1,12 +1,9 @@
 ---
 title: 'ePomodoro: version 1.0.4 on the Eclipse Marketplace'
+categories:
+- programming
 date: '2012-03-07T23:00:00+00:00'
 slug: epomodoro-version-104-on-the-eclipse-marketplace
-categories:
-  - Eclipse
-  - Java
-  - Productivity
-  - Tools
 tags:
   - epomodoro
   - pomodoro

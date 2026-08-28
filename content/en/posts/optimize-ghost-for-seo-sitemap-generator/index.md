@@ -1,11 +1,9 @@
 ---
 title: Optimize Ghost for SEO - SiteMap generator
+categories:
+- web-dev-blogging
 date: '2014-02-10T23:00:00+00:00'
 slug: optimize-ghost-for-seo-sitemap-generator
-categories:
-  - Blogging
-  - Web Development
-  - SEO
 tags:
   - ghost
   - seo

@@ -1,10 +1,9 @@
 ---
 title: 'KermIT: Assign Puppet Classes to a Server Within the WebUI'
+categories:
+- devops
 date: '2012-07-19T22:00:00+00:00'
 slug: kermit-assign-puppet-classes-to-a-server-within-the-webui
-categories:
-  - devops
-  - configuration-management
 tags:
   - kermit
   - puppet

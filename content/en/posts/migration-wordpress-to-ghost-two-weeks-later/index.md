@@ -1,10 +1,9 @@
 ---
 title: 'Migration Wordpress to Ghost: two weeks later'
+categories:
+- web-dev-blogging
 date: '2014-02-18T23:00:00+00:00'
 slug: migration-wordpress-to-ghost-two-weeks-later
-categories:
-  - Blogging
-  - Web Development
 tags:
   - ghost
   - wordpress

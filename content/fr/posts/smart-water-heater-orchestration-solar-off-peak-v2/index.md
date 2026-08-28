@@ -1,12 +1,11 @@
 ---
 title: 'Le chauffe-eau, 4 ans plus tard : orchestration solaire + heures creuses (v2)'
+categories:
+- smart-home
+- solar-energy
 date: '2026-08-24T09:00:00.000000+00:00'
 slug: smart-water-heater-orchestration-solar-off-peak-v2
 translationKey: smart-water-heater-orchestration-solar-off-peak-v2
-categories:
-- Home Assistant
-- Maison Connectée
-- DIY
 tags:
 - home-assistant
 - domotique

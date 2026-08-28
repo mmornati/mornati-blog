@@ -1,5 +1,7 @@
 ---
 title: 'Velocità medie accesso a internet: Italia vs Resto del mondo'
+categories:
+- programming
 date: '2012-09-12T22:00:00+00:00'
 slug: velocita-medie-accesso-a-internet-italia-vs-resto-del-mondo
 url: /it/velocita-medie-accesso-a-internet-italia-vs-resto-del-mondo/

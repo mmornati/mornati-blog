@@ -1,5 +1,8 @@
 ---
 title: 'Auto-ospitare Arlo sul proprio server: Stack, Patch e Lezioni Apprese'
+categories:
+- smart-home
+- devops
 tags:
 - arlo
 - cam-api
@@ -16,11 +19,6 @@ translationKey: arlo-self-hosting-cam-api
 url: /it/auto-ospitare-arlo-cam-api-correzioni-e-miglioramenti/
 aliases:
 - /auto-ospitare-arlo-cam-api-correzioni-e-miglioramenti
-categories:
-- Casa Intelligente
-- DIY
-- Open Source
-- Home Assistant
 description: 'Come auto-ospitare l''emulatore di stazione base Arlo arlo-cam-api: stack Docker con RTSP on-demand tramite MediaMTX, sidecar Flask arlo-snapshot personalizzato, e le tre patch che ho inviato upstream per correggere un bug di avvio Flask, aggiungere un beacon keepalive, e abilitare snapshot-on-motion.'
 cover: cover.jpg
 showHero: true

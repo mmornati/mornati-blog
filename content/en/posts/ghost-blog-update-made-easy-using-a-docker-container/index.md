@@ -1,8 +1,10 @@
 ---
 title: 'Ghost Blog: update made easy using a docker container'
+categories:
+- web-dev-blogging
+- devops
 date: '2016-08-30T22:00:00+00:00'
 slug: ghost-blog-update-made-easy-using-a-docker-container
-categories: [Blogging, DevOps, Docker]
 tags: [ghost, docker, nodejs, blog, devops]
 description: "Automate Ghost blog updates with Docker: immutable containers make upgrades safer, rollbacks instant, and downtime under a minute."
 ---

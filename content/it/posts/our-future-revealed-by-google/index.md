@@ -1,5 +1,7 @@
 ---
 title: Our future revealed by Google
+categories:
+- programming
 date: '2011-09-13T22:00:00+00:00'
 slug: our-future-revealed-by-google
 url: /it/our-future-revealed-by-google/

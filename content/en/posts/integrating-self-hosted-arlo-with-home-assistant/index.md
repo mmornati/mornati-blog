@@ -1,5 +1,7 @@
 ---
 title: 'Integrating Your Self-Hosted Arlo Stack with Home Assistant: Sensors, Automations and the Lovelace Dashboard'
+categories:
+- smart-home
 tags:
 - home-assistant
 - arlo
@@ -13,10 +15,6 @@ tags:
 date: '2026-08-18T12:00:00.000000+00:00'
 slug: integrating-self-hosted-arlo-with-home-assistant
 translationKey: arlo-home-assistant-integration
-categories:
-- Smart Home
-- DIY
-- Home Assistant
 description: 'How to wire your self-hosted Arlo basestation emulator (arlo-cam-api + arlo-snapshot + mediamtx) into Home Assistant using REST sensors, template sensors, binary_sensors, automations, input_booleans and a Lovelace Cameras dashboard — all without relying on the deprecated pyaarlo/aarlo integrations.'
 cover: cover.jpg
 showHero: true

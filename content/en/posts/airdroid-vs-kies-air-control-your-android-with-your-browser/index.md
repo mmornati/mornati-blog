@@ -1,11 +1,9 @@
 ---
 title: 'AirDroid vs Kies Air: control your Android with your browser'
+categories:
+- mobile-gadgets
 date: '2013-01-15T23:00:00+00:00'
 slug: airdroid-vs-kies-air-control-your-android-with-your-browser
-categories:
-  - Android
-  - Apps
-  - Comparison
 tags:
   - airdroid
   - kies-air

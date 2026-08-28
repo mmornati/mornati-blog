@@ -1,5 +1,7 @@
 ---
 title: Symbolic – Il futuro della Net-Administration
+categories:
+- programming
 date: '2008-07-30T22:00:00+00:00'
 slug: symbolic-il-futuro-della-net-administration
 url: /it/symbolic-il-futuro-della-net-administration/

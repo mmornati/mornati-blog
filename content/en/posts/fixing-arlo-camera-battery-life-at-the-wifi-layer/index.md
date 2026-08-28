@@ -1,5 +1,7 @@
 ---
 title: 'Fixing Arlo Camera Battery Life at the WiFi Layer'
+categories:
+- smart-home
 tags:
 - netgear
 - arlo
@@ -14,11 +16,6 @@ tags:
 date: '2026-08-19T13:00:00.000000+00:00'
 slug: fixing-arlo-camera-battery-life-at-the-wifi-layer
 translationKey: arlo-wifi-layer-battery-fix
-categories:
-- Smart Home
-- DIY
-- Networking
-- Hardware
 description: 'The missing WiFi-layer fix: raising the guest WiFi inactivity timeout and DHCP lease on a Netgear Orbi RBR760 so VMC4040P cameras stop re-associating every 30 minutes and drain their batteries overnight.'
 cover: cover.jpg
 showHero: true

@@ -1,5 +1,7 @@
 ---
 title: 'iOS5: migliorare l''autonomia della batteria'
+categories:
+- mobile-gadgets
 date: '2011-10-13T22:00:00+00:00'
 slug: ios5-migliorare-lautonomia-della-batteria
 url: /it/ios5-migliorare-lautonomia-della-batteria/

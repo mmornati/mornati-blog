@@ -1,5 +1,7 @@
 ---
 title: 'Home Assistant : Contrôle des Volets selon la Température - 3 Ans Après'
+categories:
+- smart-home
 tags:
 - automatisation
 - météo
@@ -8,10 +10,6 @@ tags:
 - maison-intelligente
 date: '2026-08-16T09:00:00.000000+00:00'
 slug: homeassistant-close-cover-to-control-the-home-temperature-v2
-categories:
-- Maison Intelligente
-- DIY
-- Home Assistant
 description: Comment j'ai fait évoluer mon automatisation de volets basée sur la température en un système multi-zones avec capteurs moyennés et réouverture automatique.
 cover: cover.jpg
 ---

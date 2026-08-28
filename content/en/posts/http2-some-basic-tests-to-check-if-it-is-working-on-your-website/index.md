@@ -1,10 +1,10 @@
 ---
 title: HTTP2 Some Basic tests to check if it is working on your website
+categories:
+- web-dev-blogging
+- devops
 date: '2016-10-09T22:00:00+00:00'
 slug: http2-some-basic-tests-to-check-if-it-is-working-on-your-website
-categories:
-  - Web Development
-  - DevOps
 tags:
   - http2
   - curl

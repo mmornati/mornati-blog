@@ -1,13 +1,11 @@
 ---
 title: InkPlate 10 Home Assistant Board
+categories:
+- smart-home
 tags:
 - dashboard
 - smart-home
 - home-assistant
-categories:
-- Smart Home
-- DIY
-- Home Assistant
 description: 'Build a physical Home Assistant dashboard using the InkPlate 10" e-ink screen with ESP32 — a battery-powered, low-profile display for your smart home.'
 date: '2022-10-30T19:28:34.037000+00:00'
 slug: inkplate-10-home-assistant-board

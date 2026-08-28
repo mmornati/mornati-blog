@@ -1,11 +1,12 @@
 ---
 title: "L'orchestrateur IA : Pourquoi la délégation intelligente est la pièce manquante dans votre chaîne d'outils IA"
+categories:
+- ai-coding-agents
 tags:
 - ia
 - model-context-protocol
 - mcp
 - ai-routing
-categories: [IA, Développement]
 date: '2026-06-28T08:56:01.627000+00:00'
 slug: the-ai-orchestrator-why-intelligent-delegation-is-the-missing-piece-in-your-ai-toolchain
 ---

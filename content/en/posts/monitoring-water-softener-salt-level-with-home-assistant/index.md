@@ -1,5 +1,7 @@
 ---
 title: 'Monitoring Your Water Softener Salt Level with Home Assistant'
+categories:
+- smart-home
 tags:
 - smart-home
 - home-assistant
@@ -10,10 +12,6 @@ tags:
 date: '2026-08-16T10:00:00.000000+00:00'
 slug: monitoring-water-softener-salt-level-with-home-assistant
 translationKey: monitoring-water-softener-salt-level-with-home-assistant
-categories:
-- Smart Home
-- DIY
-- Home Assistant
 description: How to monitor your water softener salt level using a waterproof Zigbee water leak sensor and Home Assistant automation.
 cover: cover.png
 showHero: true

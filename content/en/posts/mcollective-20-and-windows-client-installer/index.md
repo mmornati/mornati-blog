@@ -1,8 +1,9 @@
 ---
 title: MCollective 2.0 and Windows Client Installer
+categories:
+- devops
 date: '2012-05-18T22:00:00+00:00'
 slug: mcollective-20-and-windows-client-installer
-categories: [DevOps, System Administration, Windows]
 tags: [mcollective, puppet, windows, kermit, devops, automation]
 description: How MCollective 2.0 unlocks Windows server control and the custom installer built with Rake and Inno Setup for offline environments.
 ---

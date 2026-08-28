@@ -1,10 +1,9 @@
 ---
 title: 'Java Applet used to print over Serial Port'
+categories:
+- programming
 date: '2009-02-09T23:00:00+00:00'
 slug: javaapplet-used-to-print-over-serial-port
-categories:
-  - development
-  - java
 tags:
   - java
   - applet

@@ -1,13 +1,12 @@
 ---
 title: Build RPMs for a Git (Github) project with Jenkins
+categories:
+- devops
 tags:
 - jenkins
 - rpm
 - github
 - git
-categories:
-- DevOps
-- CI/CD
 description: Build RPMs directly inside a Jenkins Free Style job using a shell build step, without a Makefile — with automatic git-based release detection.
 date: '2021-09-13T22:00:00+00:00'
 slug: build-rpms-for-a-git-github-project-with-jenkins

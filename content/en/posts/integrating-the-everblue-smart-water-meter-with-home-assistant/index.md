@@ -1,5 +1,7 @@
 ---
 title: Integrating the Everblue Smart Water Meter with Home Assistant
+categories:
+- smart-home
 canonical: https://github.com/hallard/everblu-meters-pi
 tags:
 - smart-home
@@ -9,11 +11,6 @@ date: '2024-04-30T09:23:58.877000+00:00'
 slug: integrating-the-everblue-smart-water-meter-with-home-assistant
 description: Track water usage efficiently by integrating Everblue Smart Water Meter
   with Home Assistant. Step-by-step guide for meticulous monitoring and control
-categories:
-- Smart Home
-- DIY
-- Home Assistant
-- Water
 ---
 
 

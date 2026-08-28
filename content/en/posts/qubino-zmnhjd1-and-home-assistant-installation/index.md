@@ -1,11 +1,9 @@
 ---
 title: Qubino ZMNHJD1 and Home Assistant installation
+categories:
+- smart-home
 date: '2018-11-03T23:00:00+00:00'
 slug: qubino-zmnhjd1-and-home-assistant-installation
-categories:
-  - Smart Home
-  - DIY
-  - IoT
 tags:
   - qubino
   - home-assistant

@@ -1,10 +1,9 @@
 ---
 title: 'Docker: how to manage a multi site webserver'
+categories:
+- devops
 date: '2016-08-30T22:00:00+00:00'
 slug: docker-how-to-manage-a-multi-site-webserver
-categories:
-  - DevOps
-  - Docker
 tags:
   - docker
   - nginx

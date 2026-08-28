@@ -3,9 +3,7 @@ date: '2022-10-08T20:12:35+00:00'
 slug: lg-watch-r-review
 title: LG Watch R Review
 categories:
-  - Wearables
-  - Reviews
-  - Android
+- mobile-gadgets
 tags:
   - lg
   - watch-r

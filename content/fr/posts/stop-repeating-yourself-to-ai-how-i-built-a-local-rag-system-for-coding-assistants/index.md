@@ -1,11 +1,12 @@
 ---
 title: 'Arrêtez de vous répéter avec l''IA : Comment j''ai construit un système RAG local pour les assistants de codage'
+categories:
+- ai-coding-agents
 tags:
 - ai
 - coding
 - rag
 date: '2026-01-11T21:40:36.640000+00:00'
-categories: [IA, Développement, DevOps]
 slug: stop-repeating-yourself-to-ai-how-i-built-a-local-rag-system-for-coding-assistants
 description: Construisez un système RAG local pour donner aux assistants de codage IA une mémoire persistante et améliorer l'efficacité. Présentation de Nexus-Dev, une solution open source
 ---

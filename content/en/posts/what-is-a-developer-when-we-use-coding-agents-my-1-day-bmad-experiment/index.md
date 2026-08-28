@@ -1,5 +1,7 @@
 ---
 title: What is a Developer When We Use Coding Agents? My 1-Day BMAD Experiment
+categories:
+- ai-coding-agents
 tags:
 - ai
 - development

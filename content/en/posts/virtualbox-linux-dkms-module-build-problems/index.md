@@ -1,11 +1,9 @@
 ---
 title: 'VirtualBox Linux: DKMS module build problems'
+categories:
+- linux-sysadmin
 date: '2011-11-28T23:00:00+00:00'
 slug: virtualbox-linux-dkms-module-build-problems
-categories:
-  - Virtualization
-  - Linux
-  - System Administration
 tags:
   - virtualbox
   - linux

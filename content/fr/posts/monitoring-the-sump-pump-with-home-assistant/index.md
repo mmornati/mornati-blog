@@ -1,12 +1,10 @@
 ---
 title: 'La pompe de relevage sous les projecteurs : surveiller une infrastructure invisible avec Home Assistant'
+categories:
+- smart-home
 date: '2026-08-25T09:00:00.000000+00:00'
 slug: monitoring-the-sump-pump-with-home-assistant
 translationKey: monitoring-the-sump-pump-with-home-assistant
-categories:
-- Home Assistant
-- Maison Connectée
-- DIY
 tags:
 - home-assistant
 - domotique

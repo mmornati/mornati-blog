@@ -1,5 +1,7 @@
 ---
 title: 'WordPress: Block Automatic User Creation in OneAll Social Plugin'
+categories:
+- web-dev-blogging
 date: '2012-07-10T22:00:00+00:00'
 slug: wordpress-block-automatically-user-creation-in-oneall-social-plugin
 tags:
@@ -8,7 +10,6 @@ tags:
 - social-login
 - plugin
 - security
-categories: [WordPress, Plugins, Security]
 description: 'How to disable automatic user registration in the OneAll social plugin for WordPress by adding a check for the users_can_register option.'
 ---
 

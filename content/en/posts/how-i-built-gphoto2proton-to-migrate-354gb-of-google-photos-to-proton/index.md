@@ -1,12 +1,14 @@
 ---
 title: 'How I built gphoto2proton to migrate 354GB of Google Photos to Proton '
+categories:
+- programming
+- devops
 tags:
 - migration
 - self-hosted
 - open-source
 - google-photos
 - proton
-categories: [Development, Open Source, Migration]
 date: '2026-08-01T18:04:49.167000+00:00'
 slug: how-i-built-gphoto2proton-to-migrate-354gb-of-google-photos-to-proton
 description: How I built a script to migrate 354GB from Google Photos to Proton. Why

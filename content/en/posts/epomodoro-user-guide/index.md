@@ -1,12 +1,9 @@
 ---
 title: 'ePomodoro: user guide'
+categories:
+- programming
 date: '2012-03-08T23:00:00+00:00'
 slug: epomodoro-user-guide
-categories:
-  - Eclipse
-  - Java
-  - Productivity
-  - Tools
 tags:
   - epomodoro
   - pomodoro

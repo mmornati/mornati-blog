@@ -1,10 +1,9 @@
 ---
 title: Execute a dynamic MOTD scripts on Centos6
+categories:
+- linux-sysadmin
 date: '2013-11-11T23:00:00+00:00'
 slug: execute-a-dynamic-motd-scripts-on-centos6
-categories:
-  - System Administration
-  - DevOps
 tags:
   - centos
   - motd

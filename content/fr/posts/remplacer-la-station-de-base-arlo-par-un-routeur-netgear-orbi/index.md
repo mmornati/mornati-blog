@@ -1,5 +1,7 @@
 ---
 title: 'Remplacer la station de base Arlo par un routeur Netgear Orbi'
+categories:
+- smart-home
 tags:
 - netgear
 - arlo
@@ -17,11 +19,6 @@ translationKey: arlo-base-station-replacement
 url: /fr/remplacer-la-station-de-base-arlo-par-un-routeur-netgear-orbi/
 aliases:
 - /remplacer-la-station-de-base-arlo-par-un-routeur-netgear-orbi
-categories:
-- Maison Intelligente
-- DIY
-- Réseau
-- Matériel
 description: 'Comment j''ai remplacé la station de base Arlo propriétaire par un routeur mesh Netgear Orbi RBR760 rooté en telnet, pour que mes caméras utilisent le WiFi mesh existant.'
 cover: cover.jpg
 showHero: true

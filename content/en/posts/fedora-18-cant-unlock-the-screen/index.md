@@ -1,11 +1,9 @@
 ---
 title: 'Fedora 18: Can''t Unlock the Screen'
+categories:
+- linux-sysadmin
 date: '2013-03-24T23:00:00+00:00'
 slug: fedora-18-cant-unlock-the-screen
-categories:
-  - Linux
-  - Fedora
-  - Troubleshooting
 tags:
   - fedora
   - gnome

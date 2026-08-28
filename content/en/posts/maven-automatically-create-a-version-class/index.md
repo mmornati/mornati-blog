@@ -1,11 +1,9 @@
 ---
 title: 'Maven: automatically create a version Class'
+categories:
+- programming
 date: '2013-06-20T22:00:00+00:00'
 slug: maven-automatically-create-a-version-class
-categories:
-  - Java
-  - Maven
-  - Development
 tags:
   - maven
   - java

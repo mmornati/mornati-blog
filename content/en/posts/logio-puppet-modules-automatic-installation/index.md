@@ -1,10 +1,9 @@
 ---
 title: 'Logio Puppet Modules: automatic installation'
+categories:
+- devops
 date: '2014-03-30T22:00:00+00:00'
 slug: logio-puppet-modules-automatic-installation
-categories:
-  - DevOps
-  - Configuration Management
 tags:
   - puppet
   - logio

@@ -1,11 +1,10 @@
 ---
 title: 'Spring MVC: Database MessageSource fall back to properties file'
+categories:
+- programming
+- web-dev-blogging
 date: '2013-06-13T22:00:00+00:00'
 slug: spring-mvc-database-messagesource-fall-back-to-properties-file
-categories:
-  - Java
-  - Spring
-  - Web Development
 tags:
   - spring
   - spring-mvc

@@ -1,5 +1,7 @@
 ---
 title: De la fuite de données à la campagne de phishing
+categories:
+- programming
 tags:
 - securite
 - phishing
@@ -7,7 +9,6 @@ tags:
 - simplelogin
 - proton
 - gestion-alias-email
-categories: [Sécurité, IA, Développement]
 date: '2026-07-26T21:12:10.371000+00:00'
 slug: from-data-leak-to-phishing-campaign
 description: Comment les fuites de données de Cultura et FFT ont alimenté un phishing ciblé via SendGrid — et pourquoi un alias par site web est votre meilleure défense.

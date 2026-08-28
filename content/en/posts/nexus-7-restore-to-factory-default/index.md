@@ -3,9 +3,7 @@ date: '2022-10-08T16:10:24+00:00'
 slug: nexus-7-restore-to-factory-default
 title: 'Nexus 7: restore to factory default'
 categories:
-  - Android
-  - Mobile
-  - Troubleshooting
+- mobile-gadgets
 tags:
   - nexus
   - android

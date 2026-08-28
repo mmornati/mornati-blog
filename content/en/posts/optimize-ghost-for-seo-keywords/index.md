@@ -1,11 +1,9 @@
 ---
 title: Optimize Ghost for SEO - Keywords
+categories:
+- web-dev-blogging
 date: '2014-02-08T23:00:00+00:00'
 slug: optimize-ghost-for-seo-keywords
-categories:
-  - Blogging
-  - Web Development
-  - SEO
 tags:
   - ghost
   - seo

@@ -1,5 +1,7 @@
 ---
 title: 'Durata batteria iPhone 4: meglio dopo ripristino'
+categories:
+- mobile-gadgets
 date: '2012-01-21T23:00:00+00:00'
 slug: durata-batteria-iphone-4-meglio-dopo-ripristino
 url: /it/durata-batteria-iphone-4-meglio-dopo-ripristino/

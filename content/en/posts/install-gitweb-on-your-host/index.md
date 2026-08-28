@@ -1,11 +1,10 @@
 ---
 title: Install Gitweb on your host
+categories:
+- linux-sysadmin
+- programming
 date: '2011-09-15T22:00:00+00:00'
 slug: install-gitweb-on-your-host
-categories:
-  - Development
-  - Git
-  - DevOps
 tags:
   - git
   - gitweb

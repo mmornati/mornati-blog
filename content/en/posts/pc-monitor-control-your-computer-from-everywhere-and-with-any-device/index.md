@@ -1,10 +1,9 @@
 ---
 title: 'PC Monitor: control your computer from everywhere and with any device'
+categories:
+- devops
 date: '2012-02-17T23:00:00+00:00'
 slug: pc-monitor-control-your-computer-from-everywhere-and-with-any-device
-categories:
-  - Tools
-  - System Administration
 tags:
   - pc-monitor
   - remote-control

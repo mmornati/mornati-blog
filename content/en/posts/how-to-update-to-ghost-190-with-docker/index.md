@@ -1,11 +1,10 @@
 ---
 title: How to update to Ghost 1.9.0 with Docker
+categories:
+- web-dev-blogging
+- devops
 date: '2017-09-22T22:00:00+00:00'
 slug: how-to-update-to-ghost-190-with-docker
-categories:
-  - DevOps
-  - Docker
-  - Blogging
 tags:
   - docker
   - ghost

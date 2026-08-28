@@ -1,5 +1,8 @@
 ---
 title: 'Auto-héberger Arlo sur votre propre serveur : Stack, correctifs et leçons apprises'
+categories:
+- smart-home
+- devops
 tags:
 - arlo
 - cam-api
@@ -16,11 +19,6 @@ translationKey: arlo-self-hosting-cam-api
 url: /fr/auto-heberger-arlo-cam-api-correctifs-et-ameliorations/
 aliases:
 - /auto-heberger-arlo-cam-api-correctifs-et-ameliorations
-categories:
-- Maison Intelligente
-- DIY
-- Open Source
-- Home Assistant
 description: 'Comment auto-héberger l''émulateur de station de base Arlo arlo-cam-api : stack Docker avec RTSP à la demande via MediaMTX, sidecar Flask arlo-snapshot personnalisé, et les trois correctifs que j''ai soumis en amont pour corriger un bug de démarrage Flask, ajouter un beacon de maintien en vie, et activer snapshot-on-motion.'
 cover: cover.jpg
 showHero: true

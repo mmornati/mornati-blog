@@ -1,11 +1,9 @@
 ---
 title: 'Shairport: Turn Your Linux into an AirPlay Speaker'
+categories:
+- linux-sysadmin
 date: '2012-03-21T23:00:00+00:00'
 slug: shairport-turn-your-linux-in-an-airplay-speaker
-categories:
-  - Linux
-  - System Administration
-  - Audio
 tags:
   - shairport
   - airplay

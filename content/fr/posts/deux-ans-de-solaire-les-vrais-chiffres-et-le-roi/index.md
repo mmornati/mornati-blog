@@ -1,5 +1,8 @@
 ---
 title: "Deux ans de solaire : les vrais chiffres, le vrai ROI"
+categories:
+- solar-energy
+- smart-home
 tags:
 - solar-panels
 - energy

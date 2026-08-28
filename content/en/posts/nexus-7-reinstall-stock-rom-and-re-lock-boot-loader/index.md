@@ -1,11 +1,9 @@
 ---
 title: 'Nexus 7: reinstall stock rom and re-lock boot loader'
+categories:
+- mobile-gadgets
 date: '2013-10-25T22:00:00+00:00'
 slug: nexus-7-reinstall-stock-rom-and-re-lock-boot-loader
-categories:
-  - Android
-  - Nexus
-  - Troubleshooting
 tags:
   - nexus-7
   - android

@@ -1,10 +1,10 @@
 ---
 title: Install Trac 0.12 on Shared Hosting
+categories:
+- linux-sysadmin
+- devops
 date: '2011-09-05T22:00:00+00:00'
 slug: install-trac-012-in-shared-host
-categories:
-  - Development
-  - DevOps
 tags:
   - trac
   - python

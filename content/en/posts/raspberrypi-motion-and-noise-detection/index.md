@@ -1,11 +1,9 @@
 ---
 title: 'RaspberryPI: Motion and Noise detection'
+categories:
+- smart-home
 date: '2013-07-05T22:00:00+00:00'
 slug: raspberrypi-motion-and-noise-detection
-categories:
-  - Raspberry Pi
-  - Security
-  - DIY
 tags:
   - raspberrypi
   - motion

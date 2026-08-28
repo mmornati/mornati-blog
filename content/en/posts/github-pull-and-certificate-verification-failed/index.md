@@ -1,10 +1,9 @@
 ---
 title: GitHub pull and certificate verification failed
+categories:
+- programming
 date: '2011-08-31T22:00:00+00:00'
 slug: github-pull-and-certificate-verification-failed
-categories:
-  - Development
-  - Git
 tags:
   - github
   - git

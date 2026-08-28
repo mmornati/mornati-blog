@@ -1,12 +1,11 @@
 ---
 title: What Docker is for?
+categories:
+- devops
 tags:
 - docker
 - software-engineering
 - docker-images
-categories:
-- DevOps
-- Docker
 description: "What Docker really does for developers and production: solving environment setup, eliminating 'it works on my laptop', and the mindset shift from VMs to immutable containers."
 date: '2021-12-30T20:16:02.358000+00:00'
 slug: what-docker-is-for

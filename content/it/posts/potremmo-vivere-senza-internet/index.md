@@ -1,5 +1,7 @@
 ---
 title: Potremmo vivere senza internet?
+categories:
+- programming
 date: '2008-06-24T22:00:00+00:00'
 slug: potremmo-vivere-senza-internet
 url: /it/potremmo-vivere-senza-internet/

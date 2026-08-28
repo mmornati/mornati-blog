@@ -1,5 +1,7 @@
 ---
 title: 'Integrare il proprio stack Arlo auto-ospitato con Home Assistant: Sensori, Automazioni e Dashboard Lovelace'
+categories:
+- smart-home
 tags:
 - home-assistant
 - arlo
@@ -16,10 +18,6 @@ translationKey: arlo-home-assistant-integration
 url: /it/integrare-arlo-auto-ospitato-con-home-assistant/
 aliases:
 - /integrare-arlo-auto-ospitato-con-home-assistant
-categories:
-- Casa Intelligente
-- DIY
-- Home Assistant
 description: 'Come collegare il proprio emulatore di stazione base Arlo auto-ospitato (arlo-cam-api + arlo-snapshot + mediamtx) a Home Assistant usando sensori REST, sensori template, binary_sensor, automazioni, input_boolean e una dashboard Lovelace per telecamere — senza dipendere dalle integrazioni deprecate pyaarlo/aarlo.'
 cover: cover.jpg
 showHero: true

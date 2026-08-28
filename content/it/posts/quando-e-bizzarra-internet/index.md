@@ -2,6 +2,8 @@
 date: '2022-10-08T13:47:48+00:00'
 slug: quando-e-bizzarra-internet
 title: Quando é bizzarra internet?
+categories:
+- programming
 url: /it/quando-e-bizzarra-internet/
 aliases:
 - /quando-e-bizzarra-internet

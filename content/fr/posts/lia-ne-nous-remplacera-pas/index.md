@@ -1,5 +1,7 @@
 ---
 title: L'IA ne nous remplacera pas…
+categories:
+- ai-coding-agents
 tags:
 - ai
 - software-development

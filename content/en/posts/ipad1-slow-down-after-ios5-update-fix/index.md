@@ -1,11 +1,9 @@
 ---
 title: 'iPad1 slow down after iOS5 update: FIX'
+categories:
+- mobile-gadgets
 date: '2012-11-30T23:00:00+00:00'
 slug: ipad1-slow-down-after-ios5-update-fix
-categories:
-  - iOS
-  - Apple
-  - Troubleshooting
 tags:
   - ipad
   - ios5

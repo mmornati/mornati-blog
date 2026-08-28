@@ -1,11 +1,10 @@
 ---
 title: CentOS 6 as Apple TimeMachine Backup
+categories:
+- linux-sysadmin
+- macos
 date: '2014-02-08T23:00:00+00:00'
 slug: centos-6-as-apple-timemachine-backup
-categories:
-  - System Administration
-  - macOS
-  - Backup
 tags:
   - centos
   - timemachine

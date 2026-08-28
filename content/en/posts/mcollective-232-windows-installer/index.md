@@ -1,11 +1,9 @@
 ---
 title: Mcollective 2.3.2 Windows Installer
+categories:
+- devops
 date: '2013-10-24T22:00:00+00:00'
 slug: mcollective-232-windows-installer
-categories:
-  - DevOps
-  - Windows
-  - Tools
 tags:
   - mcollective
   - windows

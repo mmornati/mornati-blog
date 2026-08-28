@@ -1,8 +1,10 @@
 ---
 title: Wordpress + Nginx + php-fpm on OVH VPS
+categories:
+- web-dev-blogging
+- linux-sysadmin
 date: '2013-11-02T23:00:00+00:00'
 slug: wordpress-nginx-php-fpm-on-ovh-vps
-categories: [WordPress, Server, DevOps]
 tags: [wordpress, nginx, php-fpm, ovh, vps, centos, performance]
 description: A step-by-step guide to installing and tuning WordPress with Nginx and PHP-FPM on an OVH VPS running CentOS, including performance optimization for low-memory environments.
 ---

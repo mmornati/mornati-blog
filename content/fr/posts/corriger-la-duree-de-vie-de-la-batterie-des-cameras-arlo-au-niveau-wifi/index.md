@@ -1,5 +1,7 @@
 ---
 title: 'Corriger la durée de vie de la batterie des caméras Arlo au niveau WiFi'
+categories:
+- smart-home
 tags:
 - netgear
 - arlo
@@ -17,11 +19,6 @@ translationKey: arlo-wifi-layer-battery-fix
 url: /fr/corriger-la-duree-de-vie-de-la-batterie-des-cameras-arlo-au-niveau-wifi/
 aliases:
 - /fr/corriger-la-duree-de-vie-de-la-batterie-des-cameras-arlo-au-niveau-wifi.html
-categories:
-- Maison intelligente
-- DIY
-- Réseau
-- Matériel
 description: 'Le correctif WiFi qui manquait : augmenter le délai d''inactivité du WiFi invité et la durée du bail DHCP sur un Netgear Orbi RBR760 pour que les caméras VMC4040P cessent de se ré-associer toutes les 30 minutes et vident leur batterie pendant la nuit.'
 cover: cover.jpg
 showHero: true

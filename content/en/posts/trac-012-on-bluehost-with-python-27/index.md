@@ -1,11 +1,10 @@
 ---
 title: Trac 0.12 on BlueHost with Python 2.7
+categories:
+- linux-sysadmin
+- devops
 date: '2012-01-12T23:00:00+00:00'
 slug: trac-012-on-bluehost-with-python-27
-categories:
-  - Development
-  - DevOps
-  - Python
 tags:
   - trac
   - bluehost

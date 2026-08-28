@@ -1,5 +1,7 @@
 ---
 title: 'iOS: Contatti persi dopo update alla 5'
+categories:
+- mobile-gadgets
 date: '2011-10-18T22:00:00+00:00'
 slug: ios-contatti-persi-dopo-update-alla-5
 url: /it/ios-contatti-persi-dopo-update-alla-5/

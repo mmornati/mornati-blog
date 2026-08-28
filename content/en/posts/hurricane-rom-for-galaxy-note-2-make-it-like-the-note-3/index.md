@@ -1,10 +1,9 @@
 ---
 title: 'Hurricane ROM for Galaxy Note 2: Make it like the Note 3'
+categories:
+- mobile-gadgets
 date: '2013-12-10T23:00:00+00:00'
 slug: hurricane-rom-for-galaxy-note-2-make-it-like-the-note-3
-categories:
-  - Android
-  - Mobile
 tags:
   - galaxy-note-2
   - galaxy-note-3

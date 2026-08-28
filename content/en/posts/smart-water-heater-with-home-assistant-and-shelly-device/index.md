@@ -1,14 +1,13 @@
 ---
 title: Smart Water Heater with Home Assistant and Shelly device
+categories:
+- smart-home
+- solar-energy
 tags:
 - automation
 - smart-home
 - home-assistant
 - shelly
-categories:
-- Smart Home
-- DIY
-- IoT
 description: "Replacing a dumb timer with a Shelly Plus 1 smart switch to control a water heater via Home Assistant, with vacation detection to avoid heating when nobody's home."
 date: '2022-08-24T10:00:00.627000+00:00'
 slug: smart-water-heater-with-home-assistant-and-shelly-device

@@ -1,15 +1,13 @@
 ---
 title: Why we should use Property testing?
+categories:
+- programming
 tags:
 - programming
 - java
 - development
 - developer
 - software-engineering
-categories:
-- Software Engineering
-- Testing
-- Java
 description: "Property-Based Testing (PBT) explained through a real Java example — how jqwik runs 1000 tests automatically, improves coverage, and makes your test suite more maintainable."
 date: '2022-01-04T21:03:54.062000+00:00'
 slug: why-we-should-use-property-testing

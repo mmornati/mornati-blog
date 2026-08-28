@@ -2,6 +2,8 @@
 date: '2022-10-08T13:43:46+00:00'
 slug: flash-e-iphone
 title: Flash e iPhone
+categories:
+- mobile-gadgets
 url: /it/flash-e-iphone/
 aliases:
 - /flash-e-iphone

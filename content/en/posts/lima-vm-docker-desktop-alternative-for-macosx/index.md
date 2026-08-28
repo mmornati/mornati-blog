@@ -1,11 +1,10 @@
 ---
 title: 'Lima-VM: docker-desktop alternative for MacOSX'
+categories:
+- devops
+- macos
 tags:
 - docker
-categories:
-- DevOps
-- Docker
-- macOS
 description: A practical guide to replacing Docker Desktop with Lima VM on macOS, including Docker API support, private registries, and full VM provisioning with a reusable config file.
 date: '2021-09-05T21:26:49.091000+00:00'
 slug: lima-vm-docker-desktop-alternative-for-macosx

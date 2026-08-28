@@ -1,10 +1,10 @@
 ---
 title: 'GateOne, an HTML5 SSH shell on your browser'
+categories:
+- linux-sysadmin
+- devops
 date: '2013-11-12T23:00:00+00:00'
 slug: gateone-an-html5-ssh-shell-on-your-browser
-categories:
-  - Development
-  - DevOps
 tags:
   - gateone
   - ssh

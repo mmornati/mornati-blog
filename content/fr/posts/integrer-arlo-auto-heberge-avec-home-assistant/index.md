@@ -1,5 +1,7 @@
 ---
 title: 'Intégrer votre stack Arlo auto-hébergé avec Home Assistant : Capteurs, automatisations et tableau de bord Lovelace'
+categories:
+- smart-home
 tags:
 - home-assistant
 - arlo
@@ -16,10 +18,6 @@ translationKey: arlo-home-assistant-integration
 url: /fr/integrer-arlo-auto-heberge-avec-home-assistant/
 aliases:
 - /integrer-arlo-auto-heberge-avec-home-assistant
-categories:
-- Maison Intelligente
-- DIY
-- Home Assistant
 description: 'Comment connecter votre émulateur de station de base Arlo auto-hébergé (arlo-cam-api + arlo-snapshot + mediamtx) à Home Assistant en utilisant des capteurs REST, des capteurs template, des binary_sensors, des automatisations, des input_booleans et un tableau de bord Lovelace pour caméras — sans dépendre des intégrations dépréciées pyaarlo/aarlo.'
 cover: cover.jpg
 showHero: true

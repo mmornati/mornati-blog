@@ -1,10 +1,9 @@
 ---
 title: 'Migrate from Wordpress to Ghost: How-To'
+categories:
+- web-dev-blogging
 date: '2014-02-07T23:00:00+00:00'
 slug: migrate-from-wordpress-to-ghost-how-to
-categories:
-  - Blogging
-  - Web Development
 tags:
   - wordpress
   - ghost

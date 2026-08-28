@@ -1,10 +1,9 @@
 ---
 title: Symbolic v1.2.1
+categories:
+- programming
 date: 2009-01-08T23:00:00+00:00
 slug: symbolic-v121
-categories:
-  - releases
-  - software
 tags:
   - symbolic
   - release

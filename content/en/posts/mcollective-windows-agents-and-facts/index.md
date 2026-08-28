@@ -1,8 +1,9 @@
 ---
 title: 'MCollective: Windows agents and facts'
+categories:
+- devops
 date: '2013-10-27T23:00:00+00:00'
 slug: mcollective-windows-agents-and-facts
-categories: [DevOps, Windows, Development]
 tags: [mcollective, windows, agents, facts, puppet, ruby]
 description: Custom MCollective agents and facts for Windows Server, including DNS facts, Service control, and EventLog retrieval.
 ---

@@ -1,11 +1,9 @@
 ---
 title: 'KermIT WebUI: new version and the road to 2.0'
+categories:
+- devops
 date: '2012-10-26T22:00:00+00:00'
 slug: kermit-webui-new-version-and-the-road-to-20
-categories:
-  - DevOps
-  - System Administration
-  - Tools
 tags:
   - kermit
   - mcollective

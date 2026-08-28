@@ -1,5 +1,7 @@
 ---
 title: 'OpenSource: Italia come sempre fanalino di coda'
+categories:
+- programming
 date: '2008-07-31T22:00:00+00:00'
 slug: opensource-italia-come-sempre-fanalino-di-coda
 url: /it/opensource-italia-come-sempre-fanalino-di-coda/

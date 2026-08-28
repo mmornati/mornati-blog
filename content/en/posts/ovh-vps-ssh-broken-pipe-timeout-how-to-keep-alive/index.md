@@ -1,10 +1,9 @@
 ---
 title: 'OVH VPS SSH Broken Pipe (Timeout): How to keep alive'
+categories:
+- linux-sysadmin
 date: '2014-01-11T23:00:00+00:00'
 slug: ovh-vps-ssh-broken-pipe-timeout-how-to-keep-alive
-categories:
-  - System Administration
-  - DevOps
 tags:
   - ssh
   - ovh

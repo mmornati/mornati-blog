@@ -1,5 +1,7 @@
 ---
 title: 'Analyse approfondie de la station de base Arlo : consommation batterie, paquets sniffés et configuration routeur'
+categories:
+- smart-home
 tags:
 - netgear
 - arlo
@@ -16,11 +18,6 @@ date: '2026-08-20T10:00:00.000000+00:00'
 slug: analyse-approfondie-de-la-station-de-base-arlo
 translationKey: arlo-base-station-deep-dive
 url: /fr/analyse-approfondie-de-la-station-de-base-arlo/
-categories:
-- Maison Intelligente
-- DIY
-- Réseau
-- Matériel
 description: 'Une analyse bonus approfondie de la station de base Arlo : mesures réelles de consommation batterie avec caméras armées/désarmées, données de paquets sniffés montrant comment la station de base maintient les caméras en veille, et la limitation de l''intervalle de balise du RBR760 qui empêche la reproduction DIY complète.'
 cover: cover.jpg
 showHero: true

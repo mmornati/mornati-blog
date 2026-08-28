@@ -1,5 +1,7 @@
 ---
 title: 'HomeAssistant: Close cover to control the home temperature'
+categories:
+- smart-home
 tags:
 - automation
 - weather
@@ -7,10 +9,6 @@ tags:
 - cover
 date: '2023-01-01T09:00:42.310000+00:00'
 slug: homeassistant-close-cover-to-control-the-home-temperature
-categories:
-- Smart Home
-- DIY
-- Home Assistant
 description: Improve energy efficiency by automatically closing covers based on internal and external temperature readings.
 ---
 

@@ -1,5 +1,8 @@
 ---
 title: Configurare un PPTP Server per iPhone
+categories:
+- linux-sysadmin
+- mobile-gadgets
 date: '2009-12-20T23:00:00+00:00'
 slug: configurare-un-pptp-server-per-iphone
 url: /it/configurare-un-pptp-server-per-iphone/

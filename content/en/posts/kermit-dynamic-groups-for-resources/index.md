@@ -1,11 +1,9 @@
 ---
 title: 'KermIT: Dynamic Groups for Resources'
+categories:
+- devops
 date: '2012-07-24T22:00:00+00:00'
 slug: kermit-dynamic-groups-for-resources
-categories:
-  - KermIT
-  - DevOps
-  - Infrastructure
 tags:
   - kermit
   - mcollective

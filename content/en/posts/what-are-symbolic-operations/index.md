@@ -1,10 +1,9 @@
 ---
 title: What are symbolic operations?
+categories:
+- programming
 date: '2008-07-23T22:00:00+00:00'
 slug: what-are-symbolic-operations
-categories:
-  - Symbolic
-  - System Administration
 tags:
   - symbolic
   - operations

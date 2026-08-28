@@ -1,10 +1,9 @@
 ---
 title: 'Cannot shutdown MacOSX: try changing TimeMachine settings'
+categories:
+- macos
 date: '2013-01-14T23:00:00+00:00'
 slug: cannot-shutdown-macosx-try-changing-timemachine-settings
-categories:
-  - macOS
-  - Troubleshooting
 tags:
   - mac
   - timemachine

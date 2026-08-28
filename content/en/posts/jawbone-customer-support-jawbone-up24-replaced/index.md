@@ -1,10 +1,9 @@
 ---
 title: 'Jawbone Customer Support: Jawbone UP24 replaced'
+categories:
+- mobile-gadgets
 date: '2014-10-08T22:00:00+00:00'
 slug: jawbone-customer-support-jawbone-up24-replaced
-categories:
-  - Hardware
-  - Customer Experience
 tags:
   - jawbone
   - up24

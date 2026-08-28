@@ -1,8 +1,9 @@
 ---
 title: 'WordPress Online Backup'
+categories:
+- web-dev-blogging
 date: '2012-07-10T22:00:00+00:00'
 slug: wordpress-online-backup
-categories: [WordPress, Backup]
 tags:
   - wordpress
   - backup

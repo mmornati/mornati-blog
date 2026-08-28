@@ -1,11 +1,10 @@
 ---
 title: 'Fiki: the file based Wiki'
+categories:
+- devops
+- programming
 date: '2013-09-09T22:00:00+00:00'
 slug: fiki-the-file-based-wiki
-categories:
-  - Documentation
-  - DevOps
-  - Tools
 tags:
   - wiki
   - asciidoc

@@ -1,10 +1,10 @@
 ---
 title: Create Git repository on shared host
+categories:
+- programming
+- linux-sysadmin
 date: '2011-09-14T22:00:00+00:00'
 slug: create-git-repository-on-shared-host
-categories:
-  - Development
-  - Git
 tags:
   - git
   - repository

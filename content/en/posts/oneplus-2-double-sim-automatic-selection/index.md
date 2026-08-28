@@ -3,8 +3,7 @@ date: '2022-10-08T20:20:36+00:00'
 slug: oneplus-2-double-sim-automatic-selection
 title: OnePlus 2 - Double SIM automatic selection
 categories:
-  - Android
-  - Mobile
+- mobile-gadgets
 tags:
   - oneplus
   - dual-sim

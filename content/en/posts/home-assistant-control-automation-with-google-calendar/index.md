@@ -1,12 +1,11 @@
 ---
 title: 'Home Assistant: control automation with Google Calendar'
+categories:
+- smart-home
 tags:
 - automation
 - google-calendar
 - home-assistant
-categories:
-- Smart Home
-- Home Assistant
 description: 'Use Google Calendar events to control Home Assistant automations — set holiday flags, trigger input_booleans, and let your home respond to your schedule.'
 date: '2022-12-29T09:52:46.706000+00:00'
 slug: home-assistant-control-automation-with-google-calendar

@@ -1,5 +1,8 @@
 ---
 title: Une batterie solaire est-elle rentable en 2026 ?
+categories:
+- solar-energy
+- smart-home
 tags:
 - home-assistant
 - solar-panels

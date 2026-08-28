@@ -1,14 +1,13 @@
 ---
 title: Professional Debugger
+categories:
+- programming
 ogImage: https://cdn.hashnode.com/res/hashnode/image/upload/v1633193778397/hOTDCqeJK.jpeg
 tags:
 - developer
 - debugging
 - coding
 - software-engineering
-categories:
-- Career
-- Software Engineering
 description: A personal reflection on growing from a developer to a "debugger" — how short consulting missions, teaching, and deep troubleshooting shaped my career.
 date: '2021-10-02T16:56:28.445000+00:00'
 slug: professional-debugger

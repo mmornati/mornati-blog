@@ -1,5 +1,8 @@
 ---
 title: 'Reverse-Engineering Hitachi''s Cloud API with AI: From Browser DevTools to
+categories:
+- smart-home
+- ai-coding-agents
   a Full Home Assistant Integration'
 tags:
 - ai

@@ -1,11 +1,9 @@
 ---
 title: OnePlus 2 - Double SIM and "Ask every time" bug - Workaround
+categories:
+- mobile-gadgets
 date: '2015-11-21T23:00:00+00:00'
 slug: oneplus-2-double-sim-and-ask-every-time-bug-workaround
-categories:
-  - Android
-  - Mobile
-  - Tips
 tags:
   - oneplus-2
   - oxygenos

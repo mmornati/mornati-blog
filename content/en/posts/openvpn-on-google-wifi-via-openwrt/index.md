@@ -1,12 +1,11 @@
 ---
 title: OpenVPN on Google WiFi via OpenWRT
+categories:
+- smart-home
 tags:
 - openvpn
 - openwrt
 - google-wifi
-categories:
-- Networking
-- System Administration
 description: 'Configure OpenVPN on Google WiFi routers running OpenWRT with policy-based routing to selectively route devices through the VPN.'
 date: '2022-11-28T20:44:52.631000+00:00'
 slug: openvpn-on-google-wifi-via-openwrt

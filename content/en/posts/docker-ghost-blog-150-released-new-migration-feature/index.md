@@ -1,12 +1,11 @@
 ---
 title: Docker Ghost Blog 1.5.0 released - New Migration feature
+categories:
+- devops
+- web-dev-blogging
 date: '2017-08-06T22:00:00+00:00'
 slug: docker-ghost-blog-150-released-new-migration-feature
 description: Docker Ghost Blog 1.5.0 adds a database migration command to simplify upgrading external databases alongside the container.
-categories:
-  - DevOps
-  - Docker
-  - Blogging
 tags:
   - docker
   - ghost

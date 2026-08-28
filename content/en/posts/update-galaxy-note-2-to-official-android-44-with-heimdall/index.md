@@ -1,11 +1,9 @@
 ---
 title: Update Galaxy Note 2 to Official Android 4.4 with Heimdall
+categories:
+- mobile-gadgets
 date: '2014-05-13T22:00:00+00:00'
 slug: update-galaxy-note-2-to-official-android-44-with-heimdall
-categories:
-  - Android
-  - Mobile
-  - ROMs
 tags:
   - samsung
   - galaxy-note-2

@@ -1,5 +1,7 @@
 ---
 title: 'La taxe cachée sur chaque requête IA : Comment les serveurs MCP vident votre budget de tokens'
+categories:
+- ai-coding-agents
 tags:
 - ai
 - openai

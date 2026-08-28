@@ -1,10 +1,9 @@
 ---
 title: Disqus and Content Security Policy
+categories:
+- web-dev-blogging
 date: '2017-07-27T22:00:00+00:00'
 slug: disqus-and-content-security-policy
-categories:
-  - Web Development
-  - Security
 tags:
   - disqus
   - csp

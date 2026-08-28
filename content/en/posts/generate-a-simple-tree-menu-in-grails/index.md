@@ -1,9 +1,11 @@
 ---
 title: Generate a simple tree-menu in Grails
+categories:
+- programming
+- web-dev-blogging
 date: 2008-07-21T22:00:00+00:00
 slug: generate-a-simple-tree-menu-in-grails
 draft: false
-categories: [Grails, Web Development]
 tags: [grails, groovy, tree-menu, recursion, gsp]
 ---
 

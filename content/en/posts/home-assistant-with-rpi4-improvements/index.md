@@ -1,12 +1,10 @@
 ---
 title: Home Assistant with RPi4 - Improvements
+categories:
+- smart-home
 tags:
 - raspberry-pi
 - smart-home
-categories:
-- Smart Home
-- DIY
-- IoT
 description: Upgrading my Raspberry Pi 4 Home Assistant setup with an SSD, UPS module, and ConBee II — moving off the SD card for reliability and performance.
 date: '2021-04-24T20:07:12.622000+00:00'
 slug: home-assistant-with-rpi4-improvements

@@ -1,5 +1,7 @@
 ---
 title: 'L''avenir de l''outillage agentique : MCP Servers vs CLI — Une comparaison basée sur les données'
+categories:
+- ai-coding-agents
 tags:
 - ai
 - github

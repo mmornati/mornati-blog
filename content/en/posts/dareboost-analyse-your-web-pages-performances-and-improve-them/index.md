@@ -1,10 +1,9 @@
 ---
 title: 'DareBoost: Analyse your web pages performances and improve them'
+categories:
+- web-dev-blogging
 date: '2017-07-27T22:00:00+00:00'
 slug: dareboost-analyse-your-web-pages-performances-and-improve-them
-categories:
-  - Web Development
-  - Performance
 tags:
   - dareboost
   - performance

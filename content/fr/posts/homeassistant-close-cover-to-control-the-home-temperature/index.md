@@ -1,5 +1,7 @@
 ---
 title: 'HomeAssistant : Fermer les volets pour contrôler la température intérieure'
+categories:
+- smart-home
 tags:
 - automation
 - weather
@@ -7,10 +9,6 @@ tags:
 - cover
 date: '2023-01-01T09:00:42.310000+00:00'
 slug: homeassistant-close-cover-to-control-the-home-temperature
-categories:
-- Smart Home
-- DIY
-- Home Assistant
 description: Améliorez l'efficacité énergétique en fermant automatiquement les volets en fonction des températures intérieures et extérieures.
 ---
 

@@ -1,5 +1,7 @@
 ---
 title: 'Votre contexte d''entrée MCP : quels IDE font du lazy loading et comment LeanProxy le garde plat'
+categories:
+- ai-coding-agents
 tags:
 - ai
 - mcp

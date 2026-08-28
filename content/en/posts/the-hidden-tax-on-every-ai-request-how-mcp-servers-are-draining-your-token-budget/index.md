@@ -1,5 +1,7 @@
 ---
 title: 'The Hidden Tax on Every AI Request: How MCP Servers Are Draining Your Token
+categories:
+- ai-coding-agents
   Budget'
 tags:
 - ai

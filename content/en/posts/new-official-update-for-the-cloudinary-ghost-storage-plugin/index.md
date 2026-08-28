@@ -1,10 +1,9 @@
 ---
 title: New Official update for the Cloudinary Ghost Storage plugin
+categories:
+- web-dev-blogging
 date: '2017-09-16T22:00:00+00:00'
 slug: new-official-update-for-the-cloudinary-ghost-storage-plugin
-categories:
-  - Blogging
-  - Web Development
 tags:
   - ghost
   - cloudinary

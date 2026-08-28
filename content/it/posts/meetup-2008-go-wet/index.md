@@ -1,5 +1,7 @@
 ---
 title: MeetUp 2008 - Go Wet!
+categories:
+- programming
 date: '2008-06-23T22:00:00+00:00'
 slug: meetup-2008-go-wet
 url: /it/meetup-2008-go-wet/

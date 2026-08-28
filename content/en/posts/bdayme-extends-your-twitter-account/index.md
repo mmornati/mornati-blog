@@ -1,11 +1,9 @@
 ---
 title: BDayMe, extends your twitter account...
+categories:
+- mobile-gadgets
 date: '2012-05-31T22:00:00+00:00'
 slug: bdayme-extends-your-twitter-account
-categories:
-  - Social Media
-  - iOS
-  - Apps
 tags:
   - bdayme
   - twitter

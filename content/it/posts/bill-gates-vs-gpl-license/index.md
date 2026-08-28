@@ -1,5 +1,7 @@
 ---
 title: Bill Gates vs GPL License
+categories:
+- programming
 date: '2008-06-24T22:00:00+00:00'
 slug: bill-gates-vs-gpl-license
 url: /it/bill-gates-vs-gpl-license/

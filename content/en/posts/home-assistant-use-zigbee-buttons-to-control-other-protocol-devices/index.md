@@ -1,5 +1,7 @@
 ---
 title: 'Home Assistant: use ZigBee buttons to control other protocol devices'
+categories:
+- smart-home
 tags:
 - automation
 - home-assistant
@@ -8,10 +10,6 @@ tags:
 - mosquitto
 date: '2022-12-31T07:40:41.972000+00:00'
 slug: home-assistant-use-zigbee-buttons-to-control-other-protocol-devices
-categories:
-- Smart Home
-- DIY
-- Home Assistant
 description: Use ZigBee buttons to control devices on different protocols via Home Assistant automation and Zigbee2MQTT events.
 ---
 

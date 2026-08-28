@@ -1,11 +1,9 @@
 ---
 title: Linux Airplay server using XBMC 11
+categories:
+- linux-sysadmin
 date: '2012-04-05T22:00:00+00:00'
 slug: linux-airplay-server-using-xbmc-11
-categories:
-  - Linux
-  - Media
-  - System Administration
 tags:
   - xbmc
   - kodi

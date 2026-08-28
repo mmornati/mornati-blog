@@ -1,8 +1,9 @@
 ---
 title: 'Blog Annual Report: 76000 visits in 2012'
+categories:
+- web-dev-blogging
 date: '2013-01-14T23:00:00+00:00'
 slug: blog-annual-report-76000-visits-in-2012
-categories: [Blogging]
 tags: [blog, annual-report, 2012, statistics, wordpress]
 description: "My blog reached 76,000 visits in 2012. A look back at the statistics, top posts, and busiest days from the year."
 ---

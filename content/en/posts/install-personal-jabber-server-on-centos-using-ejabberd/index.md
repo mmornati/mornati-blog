@@ -1,10 +1,9 @@
 ---
 title: Install personal Jabber Server on CentOS using ejabberd
+categories:
+- linux-sysadmin
 date: '2014-03-30T22:00:00+00:00'
 slug: install-personal-jabber-server-on-centos-using-ejabberd
-categories:
-  - System Administration
-  - Messaging
 tags:
   - ejabberd
   - jabber

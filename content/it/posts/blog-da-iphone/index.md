@@ -2,6 +2,8 @@
 date: '2022-10-08T12:38:31+00:00'
 slug: blog-da-iphone
 title: Blog da iPhone
+categories:
+- mobile-gadgets
 url: /it/blog-da-iphone/
 aliases:
 - /blog-da-iphone

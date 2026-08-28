@@ -1,11 +1,10 @@
 ---
 title: Install Python 2.7 on BlueHost
+categories:
+- linux-sysadmin
+- programming
 date: '2011-11-29T23:00:00+00:00'
 slug: install-python-27-on-bluehost
-categories:
-  - Development
-  - Python
-  - Hosting
 tags:
   - python
   - bluehost

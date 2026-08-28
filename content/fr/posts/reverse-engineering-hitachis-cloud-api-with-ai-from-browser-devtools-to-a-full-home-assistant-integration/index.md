@@ -1,12 +1,14 @@
 ---
 title: 'Reverse-Engineering de l''API Cloud Hitachi avec l''IA : Des DevTools du navigateur à une intégration Home Assistant complète'
+categories:
+- smart-home
+- ai-coding-agents
 tags:
 - ai
 - python
 - reverse-engineering
 - home-assistant
 - hitachi
-categories: [Smart Home, IA, Home Assistant, IoT, home-automation, reverse-engineering]
 date: '2026-02-25T12:30:56+00:00'
 slug: reverse-engineering-hitachis-cloud-api-with-ai-from-browser-devtools-to-a-full-home-assistant-integration
 ---

@@ -1,14 +1,13 @@
 ---
 title: Build RPMs using Jenkins/Hudson
+categories:
+- devops
 tags:
 - jenkins
 - rpm
 - makefile
 - ci
 - hudson
-categories:
-- DevOps
-- CI/CD
 description: How to build RPM packages using Jenkins/Hudson CI with a Makefile, including source tarball creation, spec-file configuration, and automated upload to a yum repository.
 date: '2021-09-13T22:00:00+00:00'
 slug: build-rpms-using-jenkinshudson

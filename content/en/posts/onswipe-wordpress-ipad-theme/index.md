@@ -1,11 +1,10 @@
 ---
 title: 'Onswipe: Wordpress iPad theme'
+categories:
+- web-dev-blogging
+- mobile-gadgets
 date: '2012-01-02T23:00:00+00:00'
 slug: onswipe-wordpress-ipad-theme
-categories:
-  - WordPress
-  - Web Development
-  - Mobile
 tags:
   - onswipe
   - wordpress

@@ -1,5 +1,7 @@
 ---
 title: Aggiornamento Firmware Dell da Linux
+categories:
+- linux-sysadmin
 date: '2009-12-07T23:00:00+00:00'
 slug: aggiornamento-firmware-dell-da-linux
 url: /it/aggiornamento-firmware-dell-da-linux/

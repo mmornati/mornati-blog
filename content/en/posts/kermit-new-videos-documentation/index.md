@@ -1,11 +1,9 @@
 ---
 title: 'Kermit: new videos documentation'
+categories:
+- devops
 date: '2012-05-15T22:00:00+00:00'
 slug: kermit-new-videos-documentation
-categories:
-  - DevOps
-  - System Administration
-  - Tools
 tags:
   - kermit
   - mcollective

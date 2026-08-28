@@ -1,11 +1,9 @@
 ---
 title: Personalize your bash with GIT/SVN and colors
+categories:
+- linux-sysadmin
 date: '2013-11-10T23:00:00+00:00'
 slug: personalize-your-bash-with-gitsvn-and-colors
-categories:
-  - Linux
-  - Productivity
-  - Tools
 tags:
   - bash
   - git

@@ -1,10 +1,9 @@
 ---
 title: Fedora 16 boot problem after install
+categories:
+- linux-sysadmin
 date: '2011-11-29T23:00:00+00:00'
 slug: fedora-16-boot-problem-after-install
-categories:
-  - Linux
-  - System Administration
 tags:
   - fedora
   - fedora16

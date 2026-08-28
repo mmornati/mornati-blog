@@ -1,10 +1,10 @@
 ---
 title: Install Django in a Shared Hosting Environment
+categories:
+- web-dev-blogging
+- linux-sysadmin
 date: '2011-09-01T22:00:00+00:00'
 slug: install-django-in-shared-host
-categories:
-  - Web Development
-  - Django
 tags:
   - django
   - python

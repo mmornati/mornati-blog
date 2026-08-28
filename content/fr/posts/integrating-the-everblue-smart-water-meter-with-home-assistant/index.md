@@ -1,5 +1,7 @@
 ---
 title: Intégration du compteur d'eau intelligent Everblue avec Home Assistant
+categories:
+- smart-home
 canonical: https://github.com/hallard/everblu-meters-pi
 tags:
 - smart-home
@@ -8,11 +10,6 @@ tags:
 date: '2024-04-30T09:23:58.877000+00:00'
 slug: integrating-the-everblue-smart-water-meter-with-home-assistant
 description: Suivez votre consommation d'eau efficacement en intégrant le compteur intelligent Everblue avec Home Assistant. Guide étape par étape pour une surveillance et un contrôle minutieux.
-categories:
-- Smart Home
-- DIY
-- Home Assistant
-- Water
 ---
 
 Bienvenue dans ce guide détaillé où je partage mon expérience avec l'un des projets les plus difficiles que j'ai réalisé avec Home Assistant : l'intégration du compteur d'eau intelligent Everblue. Ce guide vous guidera à travers tout le processus, étape par étape.

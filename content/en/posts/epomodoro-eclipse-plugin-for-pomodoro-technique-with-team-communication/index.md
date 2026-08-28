@@ -1,12 +1,9 @@
 ---
 title: 'ePomodoro: Eclipse Plugin for Pomodoro Technique with Team Communication'
+categories:
+- programming
 date: '2012-02-25T23:00:00+00:00'
 slug: epomodoro-eclipse-plugin-for-pomodoro-technique-with-team-communication
-categories:
-  - Eclipse
-  - Java
-  - Productivity
-  - Tools
 tags:
   - epomodoro
   - pomodoro

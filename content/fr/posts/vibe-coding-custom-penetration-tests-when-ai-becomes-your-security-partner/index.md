@@ -1,5 +1,7 @@
 ---
 title: 'Tests de pénétration personnalisés en Vibe Coding : Quand l''IA devient votre partenaire sécurité'
+categories:
+- ai-coding-agents
 tags:
 - ai
 - security
@@ -7,7 +9,6 @@ tags:
 - pentesting
 - vibecoding
 date: '2026-01-10T09:30:33.669000+00:00'
-categories: [Sécurité, IA, Développement]
 slug: vibe-coding-custom-penetration-tests-when-ai-becomes-your-security-partner
 description: Découvrez comment l'IA peut vous aider à créer des tests de pénétration personnalisés adaptés aux besoins uniques de votre application et améliorer vos tests de sécurité
 ---

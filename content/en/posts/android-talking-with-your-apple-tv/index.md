@@ -1,11 +1,9 @@
 ---
 title: Android talking with your Apple TV
+categories:
+- mobile-gadgets
 date: '2013-01-14T23:00:00+00:00'
 slug: android-talking-with-your-apple-tv
-categories:
-  - Android
-  - iOS
-  - Multimedia
 tags:
   - android
   - apple-tv

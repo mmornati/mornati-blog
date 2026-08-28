@@ -1,11 +1,9 @@
 ---
 title: Mount Hubic cloud disk on your local Linux
+categories:
+- linux-sysadmin
 date: '2013-11-03T23:00:00+00:00'
 slug: mount-hubic-cloud-disk-on-your-local-linux
-categories:
-  - Linux
-  - Cloud
-  - Storage
 tags:
   - hubic
   - ovh

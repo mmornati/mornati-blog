@@ -1,12 +1,10 @@
 ---
 title: Linux as AirPrint server
+categories:
+- linux-sysadmin
 date: '2011-09-27T22:00:00+00:00'
 slug: linux-as-airprint-server
 description: Turn any Linux server with CUPS into an AirPrint server using avahi, so you can print from iOS devices without buying a new AirPrint-enabled printer.
-categories:
-  - Linux
-  - iOS
-  - System Administration
 tags:
   - airprint
   - linux

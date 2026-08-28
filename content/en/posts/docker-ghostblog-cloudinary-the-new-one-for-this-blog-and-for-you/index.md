@@ -1,11 +1,10 @@
 ---
 title: "Docker GhostBlog Cloudinary: The New One for This Blog, and for You"
+categories:
+- devops
+- web-dev-blogging
 date: '2017-09-16T22:00:00+00:00'
 slug: docker-ghostblog-cloudinary-the-new-one-for-this-blog-and-for-you
-categories:
-  - DevOps
-  - Docker
-  - Blogging
 tags:
   - docker
   - ghost

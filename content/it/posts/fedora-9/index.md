@@ -1,5 +1,7 @@
 ---
 title: Fedora 9
+categories:
+- linux-sysadmin
 tags:
 - linux
 - fedora

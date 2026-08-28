@@ -1,11 +1,9 @@
 ---
 title: Apache and mod_auth_openid on F16/Centos
+categories:
+- linux-sysadmin
 date: '2012-05-22T22:00:00+00:00'
 slug: apache-and-modauthopenid-on-f16centos
-categories:
-  - System Administration
-  - Security
-  - Web Development
 tags:
   - apache
   - openid

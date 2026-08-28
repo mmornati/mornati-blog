@@ -1,12 +1,10 @@
 ---
 title: Grails - Dynamic Plugins - Isolated Classloader
+categories:
+- programming
+- web-dev-blogging
 date: '2008-07-29T22:00:00+00:00'
 slug: grails-dynamic-plugins-isolated-classloader
-categories:
-  - Grails
-  - Groovy
-  - Web Development
-  - Java
 tags:
   - grails
   - groovy

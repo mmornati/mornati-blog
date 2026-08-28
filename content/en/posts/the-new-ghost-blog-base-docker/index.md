@@ -1,11 +1,10 @@
 ---
 title: The new Ghost Blog base Docker
+categories:
+- web-dev-blogging
+- devops
 date: '2017-09-16T22:00:00+00:00'
 slug: the-new-ghost-blog-base-docker
-categories:
-  - DevOps
-  - Docker
-  - Blogging
 tags:
   - docker
   - ghost

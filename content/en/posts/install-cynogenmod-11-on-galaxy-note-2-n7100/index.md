@@ -1,11 +1,9 @@
 ---
 title: Install CynogenMod 11 on Galaxy Note 2 N7100
+categories:
+- mobile-gadgets
 date: '2014-09-26T22:00:00+00:00'
 slug: install-cynogenmod-11-on-galaxy-note-2-n7100
-categories:
-  - Android
-  - Mobile
-  - ROMs
 tags:
   - cyanogenmod
   - galaxy-note-2

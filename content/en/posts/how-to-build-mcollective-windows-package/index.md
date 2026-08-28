@@ -1,9 +1,10 @@
 ---
 title: How to build MCollective Windows package
+categories:
+- devops
 date: '2013-10-26T22:00:00+00:00'
 slug: how-to-build-mcollective-windows-package
 description: A step-by-step guide to building a Windows installer package for MCollective using InnoSetup, with automated gem dependency installation and optional MSI conversion.
-categories: [DevOps, Windows, Tools]
 tags:
   - mcollective
   - windows

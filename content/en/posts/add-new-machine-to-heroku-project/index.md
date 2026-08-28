@@ -1,10 +1,9 @@
 ---
 title: Add new machine to Heroku project
+categories:
+- devops
 date: '2012-05-10T22:00:00+00:00'
 slug: add-new-machine-to-heroku-project
-categories:
-  - Development
-  - DevOps
 tags:
   - heroku
   - git

@@ -1,11 +1,9 @@
 ---
 title: Google Developer Day 2008 - Milan
+categories:
+- programming
 date: '2008-10-22T22:00:00+00:00'
 slug: google-developer-day-2008-milan
-categories:
-  - Development
-  - Events
-  - Google
 tags:
   - google
   - developer-day

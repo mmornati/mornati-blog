@@ -1,11 +1,10 @@
 ---
 title: 'Script: How to backup Bluehost databases on your PCs'
+categories:
+- linux-sysadmin
+- devops
 date: '2013-06-30T22:00:00+00:00'
 slug: script-how-to-backup-bluehost-databases-on-your-pcs
-categories:
-  - DevOps
-  - Backup
-  - Database
 tags:
   - bluehost
   - mysql

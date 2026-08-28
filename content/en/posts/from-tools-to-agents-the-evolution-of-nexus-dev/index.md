@@ -1,5 +1,7 @@
 ---
 title: 'From Tools to Agents: The Evolution of Nexus-Dev'
+categories:
+- ai-coding-agents
 tags:
 - ai
 - coding
@@ -7,7 +9,6 @@ tags:
 - mcp
 - mcp-server
 date: '2026-01-17T13:01:03.593000+00:00'
-categories: [Development, AI, Tools]
 slug: from-tools-to-agents-the-evolution-of-nexus-dev
 description: Discover how Nexus-Dev transforms from tools to AI agents, enhancing
   your IDE with customizable, collaborative coding assistants powered by MCP

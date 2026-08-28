@@ -1,5 +1,7 @@
 ---
 title: 'Soulevant le couvercle de la boîte noire de Copilot : Observabilité pour la génération de code par LLM'
+categories:
+- ai-coding-agents
 tags:
 - ia
 - debogage
@@ -7,7 +9,6 @@ tags:
 - llm
 - copilot
 - open-telemetry
-categories: [IA, Développement, Observabilité]
 date: '2026-06-15T20:18:59.728000+00:00'
 slug: lifting-the-lid-on-copilot-s-black-box-observability-for-llm-code-generation
 ---

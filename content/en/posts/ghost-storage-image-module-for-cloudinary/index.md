@@ -1,10 +1,9 @@
 ---
 title: 'Ghost: storage image module for Cloudinary'
+categories:
+- web-dev-blogging
 date: '2016-08-31T22:00:00+00:00'
 slug: ghost-storage-image-module-for-cloudinary
-categories:
-  - Blogging
-  - Web Development
 tags:
   - ghost
   - cloudinary

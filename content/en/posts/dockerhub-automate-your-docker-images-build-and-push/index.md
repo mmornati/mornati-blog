@@ -1,10 +1,9 @@
 ---
 title: 'DockerHub: automate your docker images build and push'
+categories:
+- devops
 date: '2016-09-03T22:00:00+00:00'
 slug: dockerhub-automate-your-docker-images-build-and-push
-categories:
-  - DevOps
-  - Docker
 tags:
   - docker
   - dockerhub

@@ -1,11 +1,10 @@
 ---
 title: Grails - Dynamic Plugins for your applications
+categories:
+- programming
+- web-dev-blogging
 date: '2008-07-25T22:00:00+00:00'
 slug: grails-dynamic-plugins-for-your-applications
-categories:
-  - Grails
-  - Groovy
-  - Web Development
 tags:
   - grails
   - groovy

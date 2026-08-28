@@ -1,10 +1,9 @@
 ---
 title: Symbolic - Operations Runner
+categories:
+- programming
 date: '2008-07-23T22:00:00+00:00'
 slug: symbolic-operations-runner
-categories:
-  - Symbolic
-  - Development
 tags:
   - architecture
   - async

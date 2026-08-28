@@ -1,12 +1,9 @@
 ---
 title: 'ePomodoro: completed version 1.0'
+categories:
+- programming
 date: '2012-02-25T23:00:00+00:00'
 slug: epomodoro-completed-version-10
-categories:
-  - Eclipse
-  - Java
-  - Productivity
-  - Tools
 tags:
   - epomodoro
   - pomodoro

@@ -1,12 +1,10 @@
 ---
 title: Upgrade ConBee2 Firmware in HassOS
+categories:
+- smart-home
 tags:
 - raspberry-pi
 - smart-home
-categories:
-- Smart Home
-- DIY
-- IoT
 description: Step-by-step guide to manually upgrade the ConBee II firmware in HassOS when Phoscon falsely reports your firmware is up to date.
 date: '2021-05-02T07:50:09.178000+00:00'
 slug: upgrade-conbee2-firmware-in-hassos

@@ -1,5 +1,7 @@
 ---
 title: 'Votre agent IA mérite un harnais, pas un Far West'
+categories:
+- ai-coding-agents
 tags:
 - ai
 - machine-learning

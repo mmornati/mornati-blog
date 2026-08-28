@@ -1,12 +1,13 @@
 ---
 title: 'The AI Orchestrator: Why Intelligent Delegation is the Missing Piece in Your
+categories:
+- ai-coding-agents
   AI Toolchain'
 tags:
 - ai
 - model-context-protocol
 - mcp
 - ai-routing
-categories: [AI, Development]
 date: '2026-06-28T08:56:01.627000+00:00'
 slug: the-ai-orchestrator-why-intelligent-delegation-is-the-missing-piece-in-your-ai-toolchain
 ---

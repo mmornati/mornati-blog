@@ -1,5 +1,7 @@
 ---
 title: WiMax - Ma funziona davvero?
+categories:
+- programming
 date: '2008-06-23T22:00:00+00:00'
 slug: wimax-ma-funziona-davvero
 url: /it/wimax-ma-funziona-davvero/

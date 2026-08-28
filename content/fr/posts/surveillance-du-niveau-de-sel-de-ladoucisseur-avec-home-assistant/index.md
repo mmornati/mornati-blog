@@ -1,5 +1,7 @@
 ---
 title: 'Surveiller le Niveau de Sel de Votre Adoucisseur avec Home Assistant'
+categories:
+- smart-home
 tags:
 - maison-intelligente
 - home-assistant
@@ -10,10 +12,6 @@ tags:
 date: '2026-08-16T10:00:00.000000+00:00'
 slug: monitoring-water-softener-salt-level-with-home-assistant
 translationKey: monitoring-water-softener-salt-level-with-home-assistant
-categories:
-- Maison Intelligente
-- DIY
-- Home Assistant
 description: Comment surveiller le niveau de sel de votre adoucisseur d'eau en utilisant un capteur de fuite d'eau Zigbee waterproof et une automatisation Home Assistant.
 cover: cover.png
 showHero: true

@@ -1,5 +1,7 @@
 ---
 title: 'Dans les coulisses : La section Admin de Cyber Code Academy'
+categories:
+- ai-coding-agents
 tags:
 - ai
 - code
@@ -7,7 +9,6 @@ tags:
 - developer
 - learning
 date: '2025-12-31T17:51:16.624000+00:00'
-categories: [Development, AI, Education]
 slug: behind-the-scenes-the-admin-section-of-cyber-code-academy
 description: Explorez les puissants outils d'admin de Cyber Code Academy pour la création de défis, la surveillance, la validation sémantique et la gestion de plateforme pilotée par l'IA
 ---

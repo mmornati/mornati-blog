@@ -1,10 +1,9 @@
 ---
 title: Samsung CloudAgent disk usage
+categories:
+- mobile-gadgets
 date: '2013-12-10T23:00:00+00:00'
 slug: samsung-cloudagent-disk-usage
-categories:
-  - Android
-  - Mobile
 tags:
   - samsung
   - cloudagent

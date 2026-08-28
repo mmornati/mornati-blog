@@ -1,5 +1,7 @@
 ---
 title: 'The Future of Agentic Tooling: MCP Servers vs. CLI  A Data-Driven Comparison'
+categories:
+- ai-coding-agents
 tags:
 - ai
 - github

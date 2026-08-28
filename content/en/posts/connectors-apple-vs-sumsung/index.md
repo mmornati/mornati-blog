@@ -3,8 +3,7 @@ date: '2022-10-08T15:48:19+00:00'
 slug: connectors-apple-vs-sumsung
 title: 'Connectors: Apple vs Samsung'
 categories:
-  - Technology
-  - Mobile
+- mobile-gadgets
 tags:
   - apple
   - samsung

@@ -1,11 +1,9 @@
 ---
 title: 'KermIT: New Filters and Dashboard'
+categories:
+- devops
 date: '2012-07-25T22:00:00+00:00'
 slug: kermit-new-filters-and-dashboard
-categories:
-  - DevOps
-  - System Administration
-  - Tools
 tags:
   - kermit
   - mcollective

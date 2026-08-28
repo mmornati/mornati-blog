@@ -1,11 +1,9 @@
 ---
 title: Update OpenELEC on RaspberryPI
+categories:
+- linux-sysadmin
 date: '2013-02-27T23:00:00+00:00'
 slug: update-openelec-on-raspberrypi
-categories:
-  - Linux
-  - Raspberry Pi
-  - Media Center
 tags:
   - openelec
   - raspberrypi

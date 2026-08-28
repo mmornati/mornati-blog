@@ -1,5 +1,7 @@
 ---
 title: From Data Leak to Phishing Campaign
+categories:
+- programming
 tags:
 - security
 - phishing
@@ -7,7 +9,6 @@ tags:
 - simplelogin
 - proton
 - email-alias-management
-categories: [Security, AI, Development]
 date: '2026-07-26T21:12:10.371000+00:00'
 slug: from-data-leak-to-phishing-campaign
 description: How Cultura & FFT data breaches fed targeted phishing via SendGrid —

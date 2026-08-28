@@ -1,5 +1,7 @@
 ---
 title: 'Symbolic: Synchronous Operation Pool'
+categories:
+- programming
 date: '2008-07-22T22:00:00+00:00'
 slug: symbolic-synch-operation-pool
 tags:

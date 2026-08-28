@@ -1,11 +1,9 @@
 ---
 title: 'Fedora Utils: tweaks for your preferred distro'
+categories:
+- linux-sysadmin
 date: '2011-12-18T23:00:00+00:00'
 slug: fedora-utils-tweaks-for-your-preferred-distro
-categories:
-  - Linux
-  - System Administration
-  - Tools
 tags:
   - fedora
   - fedora-utils

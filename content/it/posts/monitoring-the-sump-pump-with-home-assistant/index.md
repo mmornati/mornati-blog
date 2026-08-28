@@ -1,12 +1,10 @@
 ---
 title: 'La pompa di sentina sotto i riflettori: monitorare infrastrutture invisibili con Home Assistant'
+categories:
+- smart-home
 date: '2026-08-25T09:00:00.000000+00:00'
 slug: monitoring-the-sump-pump-with-home-assistant
 translationKey: monitoring-the-sump-pump-with-home-assistant
-categories:
-- Home Assistant
-- Casa Intelligente
-- DIY
 tags:
 - home-assistant
 - domotica

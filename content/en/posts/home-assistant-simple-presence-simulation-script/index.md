@@ -1,14 +1,12 @@
 ---
 title: 'Home Assistant: simple "presence simulation" script'
+categories:
+- smart-home
 tags:
 - automation
 - script
 - light
 - home-assistant
-categories:
-- Smart Home
-- DIY
-- Home Assistant
 description: "Simulate presence at home with random lights using a Home Assistant script — perfect for deterring burglars while you're away."
 date: '2022-12-30T09:00:42.305000+00:00'
 slug: home-assistant-simple-presence-simulation-script

@@ -1,12 +1,9 @@
 ---
 title: 'ePomodoro: update site'
+categories:
+- programming
 date: '2012-03-05T23:00:00+00:00'
 slug: epomodoro-update-site
-categories:
-  - Eclipse
-  - Java
-  - Productivity
-  - Tools
 tags:
   - epomodoro
   - pomodoro

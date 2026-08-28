@@ -1,5 +1,8 @@
 ---
 title: Fedora 12 and iPhone
+categories:
+- linux-sysadmin
+- mobile-gadgets
 date: '2009-11-21T23:00:00+00:00'
 slug: fedora-12-and-iphone
 url: /it/fedora-12-and-iphone/

@@ -1,13 +1,11 @@
 ---
 title: SRE or why IT practices changed?
+categories:
+- devops
 tags:
 - software-development
 - devops
 - software-engineering
-categories:
-- DevOps
-- SRE
-- Career
 description: "From siloed Dev and SysAdmin teams to DevOps and SRE — a personal journey through IT's evolving practices, explaining why we keep reinventing how we build and run software."
 date: '2021-12-30T14:54:04.225000+00:00'
 slug: sre-or-why-it-practices-changed

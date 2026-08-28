@@ -3,8 +3,7 @@ date: '2022-10-08T16:40:44+00:00'
 slug: jawbone-up-24-review
 title: 'Jawbone UP 24: Review'
 categories:
-  - Wearables
-  - Reviews
+- mobile-gadgets
 tags:
   - jawbone
   - up24

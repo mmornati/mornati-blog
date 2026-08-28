@@ -1,5 +1,7 @@
 ---
 title: 'Arlo Base Station Deep Dive: Battery Drain, Sniffed Data, and Router Config'
+categories:
+- smart-home
 tags:
 - netgear
 - arlo
@@ -15,11 +17,6 @@ tags:
 date: '2026-08-20T10:00:00.000000+00:00'
 slug: arlo-base-station-deep-dive-battery-sniffing-analysis
 translationKey: arlo-base-station-deep-dive
-categories:
-- Smart Home
-- DIY
-- Networking
-- Hardware
 description: 'A bonus deep-dive into the Arlo base station: raw battery drain measurements across armed/disarmed cameras, sniffed wire data showing how the base station keeps cameras asleep, and the RBR760 beacon interval limitation that prevents full DIY replication.'
 cover: cover.jpg
 showHero: true

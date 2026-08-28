@@ -1,5 +1,7 @@
 ---
 title: Configuration Cell/Modem Bluetooth
+categories:
+- mobile-gadgets
 date: '2008-05-22T22:00:00+00:00'
 slug: configuration-cellmodem-bluetooth
 url: /it/configuration-cellmodem-bluetooth/

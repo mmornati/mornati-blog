@@ -1,10 +1,10 @@
 ---
 title: Bluehost.com and Python 2.6
+categories:
+- linux-sysadmin
+- programming
 date: 2011-08-30T22:00:00+00:00
 slug: bluehostcom-and-python-26
-categories:
-  - Hosting
-  - Python
 tags:
   - bluehost
   - python

@@ -1,12 +1,10 @@
 ---
 title: Linux AirPrint Server for iOS6 Devices
+categories:
+- linux-sysadmin
 date: '2012-09-21T22:00:00+00:00'
 slug: linux-airprint-server-for-ios6-devices
 description: Fix your Linux AirPrint server after the iOS6 update by adding image/urf support to CUPS and Avahi configuration.
-categories:
-  - Linux
-  - iOS
-  - System Administration
 tags:
   - airprint
   - linux

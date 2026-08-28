@@ -1,10 +1,9 @@
 ---
 title: 'Google Chrome 38: Wrong Display Scaling and blurred'
+categories:
+- programming
 date: '2014-10-09T22:00:00+00:00'
 slug: google-chrome-38-wrong-display-scaling-and-blurred
-categories:
-  - Browsers
-  - Troubleshooting
 tags:
   - chrome
   - google-chrome

@@ -1,12 +1,10 @@
 ---
 title: 'The Sump Pump in the Spotlight: Monitoring Hidden Infrastructure with Home Assistant'
+categories:
+- smart-home
 date: '2026-08-25T09:00:00.000000+00:00'
 slug: monitoring-the-sump-pump-with-home-assistant
 translationKey: monitoring-the-sump-pump-with-home-assistant
-categories:
-- Home Assistant
-- Smart Home
-- DIY
 tags:
 - home-assistant
 - smart-home

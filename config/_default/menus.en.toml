@@ -19,6 +19,74 @@
   weight = 30
 
 [[main]]
+  identifier = "categories"
+  name = "Categories"
+  weight = 25
+
+[[main]]
+  identifier = "cat-smart-home"
+  name = "Smart Home & Home Assistant"
+  url = "/categories/smart-home/"
+  parent = "categories"
+  weight = 10
+
+[[main]]
+  identifier = "cat-ai-coding-agents"
+  name = "AI & AI Coding Agents"
+  url = "/categories/ai-coding-agents/"
+  parent = "categories"
+  weight = 20
+
+[[main]]
+  identifier = "cat-devops"
+  name = "DevOps & Infrastructure"
+  url = "/categories/devops/"
+  parent = "categories"
+  weight = 30
+
+[[main]]
+  identifier = "cat-web-dev-blogging"
+  name = "Web Development & Blogging"
+  url = "/categories/web-dev-blogging/"
+  parent = "categories"
+  weight = 40
+
+[[main]]
+  identifier = "cat-mobile-gadgets"
+  name = "Mobile & Gadgets"
+  url = "/categories/mobile-gadgets/"
+  parent = "categories"
+  weight = 50
+
+[[main]]
+  identifier = "cat-macos"
+  name = "macOS"
+  url = "/categories/macos/"
+  parent = "categories"
+  weight = 60
+
+[[main]]
+  identifier = "cat-linux-sysadmin"
+  name = "Linux & Sysadmin"
+  url = "/categories/linux-sysadmin/"
+  parent = "categories"
+  weight = 70
+
+[[main]]
+  identifier = "cat-programming"
+  name = "Programming & Software Engineering"
+  url = "/categories/programming/"
+  parent = "categories"
+  weight = 80
+
+[[main]]
+  identifier = "cat-solar-energy"
+  name = "Solar & Home Energy"
+  url = "/categories/solar-energy/"
+  parent = "categories"
+  weight = 90
+
+[[main]]
   identifier = "github"
   name = "GitHub"
   url = "https://github.com/mmornati"

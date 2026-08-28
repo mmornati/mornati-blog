@@ -1,12 +1,9 @@
 ---
 title: 'MCollective oVirt Agent'
+categories:
+- devops
 date: '2012-10-08T22:00:00+00:00'
 slug: mcollective-ovirt-agent
-categories:
-  - DevOps
-  - System Administration
-  - Tools
-  - Virtualization
 tags:
   - mcollective
   - ovirt

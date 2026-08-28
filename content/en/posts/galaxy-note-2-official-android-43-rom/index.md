@@ -1,8 +1,9 @@
 ---
 title: Galaxy Note 2 Official Android 4.3 ROM
+categories:
+- mobile-gadgets
 date: '2013-12-23T23:00:00+00:00'
 slug: galaxy-note-2-official-android-43-rom
-categories: [Android, Mobile, ROMs]
 tags: [samsung, galaxy-note-2, android, samsung-rom, odin, heimdall, firmware]
 description: How to install the official Android 4.3 ROM on a Samsung Galaxy Note 2 using Mobile ODIN or Heimdall, with step-by-step instructions for Windows, Mac, and Linux.
 ---

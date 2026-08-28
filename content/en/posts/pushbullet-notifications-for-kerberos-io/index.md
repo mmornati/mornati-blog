@@ -1,11 +1,9 @@
 ---
 title: PushBullet notifications for Kerberos.io
+categories:
+- smart-home
 date: '2017-09-26T22:00:00+00:00'
 slug: pushbullet-notifications-for-kerberos-io
-categories:
-  - Security
-  - DIY
-  - IoT
 tags:
   - kerberos
   - pushbullet

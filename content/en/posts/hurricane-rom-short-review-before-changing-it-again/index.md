@@ -1,11 +1,9 @@
 ---
 title: Hurricane ROM - short review before changing it (again)
+categories:
+- mobile-gadgets
 date: '2013-12-22T23:00:00+00:00'
 slug: hurricane-rom-short-review-before-changing-it-again
-categories:
-  - Android
-  - Mobile
-  - ROMs
 tags:
   - samsung
   - galaxy-note-2

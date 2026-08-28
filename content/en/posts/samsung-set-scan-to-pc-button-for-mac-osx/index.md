@@ -1,5 +1,7 @@
 ---
 title: Samsung Set "Scan to PC" Button for Mac OSX
+categories:
+- macos
 date: '2012-10-11T22:00:00+00:00'
 slug: samsung-set-scan-to-pc-button-for-mac-osx
 tags:
@@ -8,7 +10,6 @@ tags:
   - mac
   - osx
   - samba
-categories: [Hardware, macOS, Samsung]
 description: Step-by-step guide to configure the "Scan to PC" button on Samsung SCX-3405W multifunction printer for Mac OSX using Samba sharing.
 ---
 

@@ -1,13 +1,11 @@
 ---
 title: 'HomeAssistant: detect washing machine cycle completion'
+categories:
+- smart-home
 tags:
 - automation
 - home-assistant
 - power
-categories:
-- Smart Home
-- DIY
-- Home Assistant
 description: 'Detect when your washing machine cycle completes using Home Assistant and a smart plug with power monitoring — compare WiFi, ZigBee, and Z-Wave options.'
 date: '2022-10-11T19:35:08.908000+00:00'
 slug: homeassistant-detect-washing-machine-cycle-completion

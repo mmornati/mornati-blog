@@ -1,15 +1,13 @@
 ---
 title: 'Home Assistant : Capteur de mouvement couplé à un interrupteur'
+categories:
+- smart-home
 tags:
 - automation
 - home-assistant
 - motion-sensor
 date: '2023-01-02T07:00:42.411000+00:00'
 slug: home-assistant-motion-sensor-coupled-with-a-switch
-categories:
-- Smart Home
-- DIY
-- Home Assistant
 description: Utilisez un capteur de mouvement et un input boolean pour empêcher les lumières extérieures de s'éteindre lorsqu'elles sont allumées manuellement.
 ---
 

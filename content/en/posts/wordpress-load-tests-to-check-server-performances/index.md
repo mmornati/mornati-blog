@@ -1,11 +1,10 @@
 ---
 title: 'Wordpress: load tests to check server performances'
+categories:
+- web-dev-blogging
+- devops
 date: '2013-11-02T23:00:00+00:00'
 slug: wordpress-load-tests-to-check-server-performances
-categories:
-  - WordPress
-  - Performance
-  - DevOps
 tags:
   - wordpress
   - load-test

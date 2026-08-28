@@ -1,12 +1,11 @@
 ---
 title: 'The Smart Water Heater, 4 Years Later: Solar + Off-Peak Orchestration (v2)'
+categories:
+- smart-home
+- solar-energy
 date: '2026-08-24T09:00:00.000000+00:00'
 slug: smart-water-heater-orchestration-solar-off-peak-v2
 translationKey: smart-water-heater-orchestration-solar-off-peak-v2
-categories:
-- Home Assistant
-- Smart Home
-- DIY
 tags:
 - home-assistant
 - smart-home

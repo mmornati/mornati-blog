@@ -1,11 +1,9 @@
 ---
 title: MacBook Pro and SSD Disk Tips
+categories:
+- macos
 date: '2013-06-03T22:00:00+00:00'
 slug: macbook-pro-and-ssd-disk-tips
-categories:
-  - macOS
-  - Hardware
-  - Tips
 tags:
   - ssd
   - macbook

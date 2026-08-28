@@ -1,5 +1,7 @@
 ---
 title: 'Home Assistant: Smart Cover Control Based on Temperature - 3 Years Later'
+categories:
+- smart-home
 tags:
 - automation
 - weather
@@ -8,10 +10,6 @@ tags:
 - smart-home
 date: '2026-08-16T09:00:00.000000+00:00'
 slug: homeassistant-close-cover-to-control-the-home-temperature-v2
-categories:
-- Smart Home
-- DIY
-- Home Assistant
 description: How I evolved my original temperature-based cover automation into a multi-zone system with averaged sensors and automatic reopening logic.
 cover: cover.jpg
 ---

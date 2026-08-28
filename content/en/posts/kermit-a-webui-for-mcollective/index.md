@@ -1,11 +1,9 @@
 ---
 title: 'KermIT: a WebUI for MCollective'
+categories:
+- devops
 date: '2012-01-28T23:00:00+00:00'
 slug: kermit-a-webui-for-mcollective
-categories:
-  - DevOps
-  - System Administration
-  - Tools
 tags:
   - kermit
   - mcollective

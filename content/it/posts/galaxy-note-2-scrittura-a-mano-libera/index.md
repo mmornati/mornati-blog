@@ -2,6 +2,8 @@
 date: '2022-10-08T16:00:33+00:00'
 slug: galaxy-note-2-scrittura-a-mano-libera
 title: 'Galaxy Note 2: scrittura a mano libera'
+categories:
+- mobile-gadgets
 url: /it/galaxy-note-2-scrittura-a-mano-libera/
 aliases:
 - /galaxy-note-2-scrittura-a-mano-libera

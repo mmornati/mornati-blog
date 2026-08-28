@@ -1,5 +1,8 @@
 ---
 title: 'Self-Hosting Arlo on Your Own Server: Stack, Patches and Lessons Learned'
+categories:
+- smart-home
+- devops
 tags:
 - arlo
 - cam-api
@@ -13,11 +16,6 @@ tags:
 date: '2026-08-18T11:00:00.000000+00:00'
 slug: self-hosting-arlo-cam-api-patches-and-improvements
 translationKey: arlo-self-hosting-cam-api
-categories:
-- Smart Home
-- DIY
-- Open Source
-- Home Assistant
 description: 'How to self-host the arlo-cam-api Arlo basestation emulator: Docker stack with on-demand RTSP via MediaMTX, a custom arlo-snapshot Flask sidecar, and the three patches I contributed upstream to fix a Flask startup bug, add a keepalive beacon, and enable snapshot-on-motion.'
 cover: cover.jpg
 showHero: true

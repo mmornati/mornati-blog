@@ -1,5 +1,7 @@
 ---
 title: Well-Formed Symbolic Script
+categories:
+- programming
 date: '2008-07-21T22:00:00+00:00'
 slug: well-formed-symbolic-script
 tags:
@@ -11,7 +13,6 @@ tags:
   - bash
   - perl
   - xml-rpc
-categories: [Development, Symbolic, Scripting]
 description: Learn how to create well-formed scripts for Symbolic with proper metadata tags, supported languages, XML-RPC communication, and parameter handling.
 ---
 

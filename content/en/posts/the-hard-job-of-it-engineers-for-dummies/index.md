@@ -1,12 +1,11 @@
 ---
 title: The (hard) job of IT engineers for dummies
+categories:
+- programming
 tags:
 - engineering
 - software-engineering
 - it
-categories:
-- Career
-- Software Engineering
 date: '2020-11-11T14:37:20.004000+00:00'
 description: A look at the daily challenges IT engineers face, from slow computers to cloud infrastructure, and why their job is harder than it looks.
 slug: the-hard-job-of-it-engineers-for-dummies

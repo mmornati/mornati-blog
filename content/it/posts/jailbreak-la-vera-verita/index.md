@@ -2,6 +2,8 @@
 date: '2022-10-08T13:47:02+00:00'
 slug: jailbreak-la-vera-verita
 title: JailBreak - La vera verità
+categories:
+- mobile-gadgets
 url: /it/jailbreak-la-vera-verita/
 aliases:
 - /jailbreak-la-vera-verita

@@ -1,12 +1,9 @@
 ---
 title: 'ePomodoro: updates. Version 1.0.3'
+categories:
+- programming
 date: '2012-03-01T23:00:00+00:00'
 slug: epomodoro-updates-version-103
-categories:
-  - Eclipse
-  - Java
-  - Productivity
-  - Tools
 tags:
   - epomodoro
   - pomodoro

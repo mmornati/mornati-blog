@@ -1,5 +1,8 @@
 ---
 title: 'Migrer mon blog de Hashnode vers Hugo auto-hébergé sur Coolify'
+categories:
+- web-dev-blogging
+- devops
 tags:
 - hashnode
 - hugo
@@ -14,10 +17,6 @@ tags:
 - umami
 - docker
 - github-actions
-categories:
-- Auto-hébergement
-- DevOps
-- Migration
 date: '2026-08-16T12:00:00.000000+00:00'
 slug: migrer-de-hashnode-vers-hugo-avec-coolify
 translationKey: migrating-from-hashnode-to-hugo-with-coolify

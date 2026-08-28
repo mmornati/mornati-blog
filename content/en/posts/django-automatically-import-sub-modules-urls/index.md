@@ -1,11 +1,10 @@
 ---
 title: 'Django: automatically import sub-modules urls'
+categories:
+- programming
+- web-dev-blogging
 date: '2012-11-06T23:00:00+00:00'
 slug: django-automatically-import-sub-modules-urls
-categories:
-  - Python
-  - Django
-  - Development
 tags:
   - django
   - python

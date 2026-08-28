@@ -1,5 +1,7 @@
 ---
 title: 'Qu''est-ce qu''un développeur quand on utilise des agents de codage ? Mon expérience BMAD d''une journée'
+categories:
+- ai-coding-agents
 tags:
 - ai
 - development

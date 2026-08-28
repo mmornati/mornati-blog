@@ -1,11 +1,9 @@
 ---
 title: Sync Others Google Calendar to Your iOS Device
+categories:
+- mobile-gadgets
 date: '2012-05-09T22:00:00+00:00'
 slug: sync-others-google-calendar-to-your-ios-device
-categories:
-  - iOS
-  - Productivity
-  - Google
 tags:
   - google
   - calendar

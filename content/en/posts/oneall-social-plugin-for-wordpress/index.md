@@ -1,5 +1,7 @@
 ---
 title: "OneAll Social Plugin for WordPress"
+categories:
+- web-dev-blogging
 date: '2012-07-10T22:00:00+00:00'
 slug: oneall-social-plugin-for-wordpress
 tags:
@@ -8,7 +10,6 @@ tags:
   - social-login
   - oneall
   - plugin
-categories: [WordPress, Plugins, Social Media]
 description: "Review of the OneAll Social Login plugin for WordPress — installation, configuration, and social network integration for single sign-on."
 ---
 

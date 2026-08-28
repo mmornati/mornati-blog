@@ -1,11 +1,9 @@
 ---
 title: Improve your Android battery life
+categories:
+- mobile-gadgets
 date: '2013-09-12T22:00:00+00:00'
 slug: improve-your-android-battery-life
-categories:
-  - Android
-  - Apps
-  - Tips
 tags:
   - android
   - battery

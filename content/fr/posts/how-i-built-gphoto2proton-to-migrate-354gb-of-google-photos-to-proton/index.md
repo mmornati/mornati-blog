@@ -1,12 +1,14 @@
 ---
 title: 'Comment j''ai construit gphoto2proton pour migrer 354 Go de Google Photos vers Proton'
+categories:
+- programming
+- devops
 tags:
 - migration
 - auto-heberge
 - open-source
 - google-photos
 - proton
-categories: [Développement, Open Source, Migration]
 date: '2026-08-01T18:04:49.167000+00:00'
 slug: how-i-built-gphoto2proton-to-migrate-354gb-of-google-photos-to-proton
 description: Comment j'ai construit un script pour migrer 354 Go de Google Photos vers Proton. Pourquoi Drive et Photos sont des API différentes, et les deux outils dont j'avais besoin pour les relier.

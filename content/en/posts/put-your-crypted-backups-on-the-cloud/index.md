@@ -1,11 +1,10 @@
 ---
 title: Put your crypted backups on the cloud
+categories:
+- linux-sysadmin
+- devops
 date: '2013-11-04T23:00:00+00:00'
 slug: put-your-crypted-backups-on-the-cloud
-categories:
-  - Backup
-  - Security
-  - DevOps
 tags:
   - backup
   - encryption

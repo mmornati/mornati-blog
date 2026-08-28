@@ -1,11 +1,10 @@
 ---
 title: SSH command line store for OSx and Linux like mRemote
+categories:
+- devops
+- linux-sysadmin
 date: '2016-10-08T22:00:00+00:00'
 slug: ssh-command-line-store-for-osx-and-linux-like-mremote
-categories:
-  - DevOps
-  - Tools
-  - System Administration
 tags:
   - ssh
   - cli

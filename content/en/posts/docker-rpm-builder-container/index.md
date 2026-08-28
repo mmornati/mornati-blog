@@ -1,8 +1,10 @@
 ---
 title: 'Docker: RPM Builder Container'
+categories:
+- devops
+- linux-sysadmin
 date: '2015-02-20T23:00:00+00:00'
 slug: docker-rpm-builder-container
-categories: [DevOps, Docker, System Administration]
 tags: [docker, rpm, mock, centos, git, devops]
 description: "Building custom RPM packages for CentOS7 using Docker and Mock"
 ---

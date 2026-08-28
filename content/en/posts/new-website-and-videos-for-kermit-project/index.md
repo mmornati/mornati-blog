@@ -1,11 +1,9 @@
 ---
 title: New website and videos for KermIT project
+categories:
+- devops
 date: '2012-05-31T22:00:00+00:00'
 slug: new-website-and-videos-for-kermit-project
-categories:
-  - DevOps
-  - System Administration
-  - Tools
 tags:
   - kermit
   - mcollective

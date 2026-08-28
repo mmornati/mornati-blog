@@ -1,11 +1,10 @@
 ---
 title: Docker Ghost Blog Slim down
+categories:
+- devops
+- web-dev-blogging
 date: '2017-09-14T22:00:00+00:00'
 slug: docker-ghost-blog-slim-down
-categories:
-  - DevOps
-  - Docker
-  - Blogging
 tags:
   - docker
   - ghost

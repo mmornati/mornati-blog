@@ -1,8 +1,9 @@
 ---
 title: Install Z-Wave Plus Z-Stick GEN5 — Aeon Labs in Home Assistant (RPi version)
+categories:
+- smart-home
 date: '2018-09-10T22:00:00+00:00'
 slug: install-z-wave-plus-z-stick-gen5-aeon-labs-in-home-assistant-rpi-version
-categories: [Smart Home, DIY, IoT]
 tags: [home-assistant, zwave, raspberry-pi, aeon-labs, smart-home]
 description: "How to configure a Z-Wave USB stick with Home Assistant on a Raspberry Pi and build your Z-Wave network."
 ---

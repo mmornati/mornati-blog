@@ -1,8 +1,10 @@
 ---
 title: 'Ghost blog images to Cloudinary: Manual Script'
+categories:
+- web-dev-blogging
+- devops
 date: '2014-10-10T22:00:00+00:00'
 slug: ghost-blog-images-to-cloudinary-manual-script
-categories: [Blogging, Web Development, DevOps]
 ---
 
 

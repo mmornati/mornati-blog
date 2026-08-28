@@ -1,14 +1,13 @@
 ---
 title: Comment RAG peut réduire vos coûts de codage IA de 80%
+categories:
+- ai-coding-agents
 tags:
 - ai
 - coding
 - tokenization
 - llm
 - rag
-categories:
-- ai
-- development
 date: '2026-01-17T16:30:08.207000+00:00'
 slug: how-rag-can-cut-your-ai-coding-costs-by-80
 description: Apprenez comment la génération augmentée de récupération (RAG) réduit drastiquement les coûts de codage IA en gestionant efficacement l'utilisation des tokens dans les grandes bases de code

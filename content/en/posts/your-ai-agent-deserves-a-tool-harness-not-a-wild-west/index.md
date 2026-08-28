@@ -1,5 +1,7 @@
 ---
 title: Your AI Agent Deserves a Tool Harness, Not a Wild West
+categories:
+- ai-coding-agents
 tags:
 - ai
 - machine-learning

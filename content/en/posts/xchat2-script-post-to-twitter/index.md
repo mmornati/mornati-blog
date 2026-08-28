@@ -1,11 +1,9 @@
 ---
 title: 'XChat2 script: post to Twitter'
+categories:
+- programming
 date: '2011-10-04T22:00:00+00:00'
 slug: xchat2-script-post-to-twitter
-categories:
-  - Development
-  - IRC
-  - Scripting
 tags:
   - xchat
   - irc

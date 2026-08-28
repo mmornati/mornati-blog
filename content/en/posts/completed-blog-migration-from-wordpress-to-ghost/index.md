@@ -1,10 +1,9 @@
 ---
 title: 'Completed blog migration: from WordPress to Ghost'
+categories:
+- web-dev-blogging
 date: '2014-02-07T23:00:00+00:00'
 slug: completed-blog-migration-from-wordpress-to-ghost
-categories:
-  - Blogging
-  - Web Development
 tags:
   - wordpress
   - ghost
