@@ -247,6 +247,12 @@ One honest caveat: photos added directly to Proton after the migration (no Takeo
 
 A second honest caveat from my live run: the gps loop sleeps `GPS_INTERVAL` seconds (default **6 hours**) before its first run, and the inline geocode only fires for photos that already have `gps_lat/gps_lng`. Until that first loop completes, the Places tab is empty even if your Takeout is mounted — patience.
 
+Once the geocoder has done its work, the Places tab paints everything onto a map. The web UI uses **Leaflet** (1.9.4) plus **leaflet.markercluster** (1.5.3) for the markers, and **OpenStreetMap** for the tiles — *not* Google Maps. A dark tile theme matches the rest of the UI, and overlapping markers **auto-cluster** when you zoom out. Markers come from a single SQL `GROUP BY place` over `done` photos with GPS+place (`AVG(lat/lng)` for the position, photo count, and the most-recent photo's cached thumbnail as the cluster cover); each popup shows the **512px cached thumbnail**, the city, the count, and a "View photos" button that drills into the place-filtered grid.
+
+![The Places tab: every enriched location pinned and clustered on an OpenStreetMap map](/images/proton-faces-search-proton-photos/04-places.jpg)
+
+One transparency note on that map: opening the Places tab makes your **browser** fetch Leaflet from the jsDelivr CDN and map tiles from `tile.openstreetmap.org`. **No photo data is sent** — only map tiles come in, the same as any website with an embedded map — but it does mean the server-side promise of "the only network calls go to Proton" applies to the containers, not to the Places tab itself.
+
 ## Disk, RAM, and CPU: real numbers from my install
 
 I run proton-faces on a small N100 mini-PC with an 11 TB disk, 16 GB RAM and 4 cores. Here's what a roughly 79k-photo library looks like in steady state and during indexing. Numbers below come from the live installation on this machine — `du`, `docker stats`, and the `sqlite3` index.
@@ -290,7 +296,7 @@ Prebuilt images are published to GitHub Container Registry (`ghcr.io/mmornati/pr
 
 The privacy story is the whole point, so let me be explicit:
 
-*   **No telemetry, no cloud APIs.** The only network calls go to Proton's servers — and the only component that talks to Proton is the bridge, which is strictly read-only. Proton's own SDK metrics are disabled (`enableMetrics: false`) on top of that.
+*   **No telemetry, no cloud APIs.** The **server containers** only talk to Proton — and the only component that talks to Proton is the bridge, which is strictly read-only. Proton's own SDK metrics are disabled (`enableMetrics: false`) on top of that. The Places tab is the one exception: opening it makes your browser fetch Leaflet from a CDN (jsDelivr) and map tiles from **OpenStreetMap**, which is how any embedded web map works — no photo data is sent.
 *   **Nothing is ever written back.** No uploads, no writes, no deletions. Proton sees a couple of reads per photo, once.
 *   **All ML runs locally.** CPU, ONNX + InsightFace, models baked into the image.
 *   **The only files kept** are the tiny thumbnails and the SQLite index in `DATA_DIR`. The originals stay encrypted on Proton.

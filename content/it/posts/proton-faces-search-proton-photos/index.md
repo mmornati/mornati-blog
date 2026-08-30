@@ -247,6 +247,12 @@ Una riserva onesta: le foto aggiunte direttamente a Proton dopo la migrazione (s
 
 Una seconda riserva onesta, dalla mia installazione live: il loop GPS dorme `GPS_INTERVAL` secondi (predefinito **6 ore**) prima della prima esecuzione, e il geocode inline si attiva solo per le foto che hanno già `gps_lat/gps_lng`. Finché quel primo loop non è completato, la scheda Luoghi è vuota anche se il tuo Takeout è montato — pazienza.
 
+Una volta che il geocoder ha fatto il suo lavoro, la scheda Luoghi dipinge tutto su una mappa. L'interfaccia web usa **Leaflet** (1.9.4) più **leaflet.markercluster** (1.5.3) per i marcatori, e **OpenStreetMap** per le tile — *non* Google Maps. Un tema di tile scuro si abbina al resto dell'interfaccia, e i marcatori che si sovrappongono **si raggruppano automaticamente** quando si fa zoom out. I marcatori vengono da una singola query SQL `GROUP BY place` sulle foto `done` con GPS+place (`AVG(lat/lng)` per la posizione, conteggio foto, e la miniatura in cache della foto più recente come copertura del gruppo); ogni popup mostra la **miniatura cachata da 512px**, la città, il conteggio, e un pulsante "View photos" che apre la griglia filtrata per luogo.
+
+![La scheda Luoghi: ogni luogo arricchito appuntato e raggruppato su una mappa OpenStreetMap](/images/proton-faces-search-proton-photos/04-places.jpg)
+
+Una nota di trasparenza su quella mappa: aprire la scheda Luoghi fa sì che il tuo **browser** recuperi Leaflet dal CDN jsDelivr e le tile cartografiche da `tile.openstreetmap.org`. **Nessun dato foto viene inviato** — entrano solo le tile, come per qualsiasi sito web con una mappa integrata — ma significa che la promessa lato server "le uniche chiamate di rete vanno a Proton" si applica ai container, non alla scheda Luoghi stessa.
+
 ## Disco, RAM e CPU: numeri reali dalla mia installazione
 
 Faccio girare proton-faces su un mini-PC N100 con un disco da 11 TB, 16 GB di RAM e 4 core. Ecco come appare una libreria di circa 79.000 foto in stato stazionario e durante l'indicizzazione. I numeri sotto vengono dall'installazione live su questa macchina — `du`, `docker stats` e l'indice `sqlite3`.
@@ -290,7 +296,7 @@ Immagini precompilate sono pubblicate su GitHub Container Registry (`ghcr.io/mmo
 
 La storia della privacy è tutto il senso, quindi sii esplicito:
 
-*   **Niente telemetria, niente API cloud.** Le uniche chiamate di rete vanno ai server di Proton — e l'unico componente che parla con Proton è il bridge, rigorosamente in sola lettura. Le metriche dell'SDK di Proton stesso sono disattivate (`enableMetrics: false`) per giunta.
+*   **Niente telemetria, niente API cloud.** I **container server** parlano solo con Proton — e l'unico componente che parla con Proton è il bridge, rigorosamente in sola lettura. Le metriche dell'SDK di Proton stesso sono disattivate (`enableMetrics: false`) per giunta. La scheda Luoghi è l'unica eccezione: aprirla fa sì che il tuo browser recuperi Leaflet da un CDN (jsDelivr) e le tile cartografiche da **OpenStreetMap**, come qualsiasi mappa web integrata — nessun dato foto viene inviato.
 *   **Nulla viene mai riscritto.** Niente upload, niente scritture, niente cancellazioni. Proton vede un paio di letture per foto, una volta.
 *   **Tutto il ML gira in locale.** CPU, ONNX + InsightFace, modelli integrati nell'immagine.
 *   **Gli unici file conservati** sono le miniature e l'indice SQLite in `DATA_DIR`. Gli originali restano cifrati su Proton.

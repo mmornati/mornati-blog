@@ -247,6 +247,12 @@ Une réserve honnête : les photos ajoutées directement à Proton après la mig
 
 Une seconde réserve honnête, issue de mon installation en cours : la boucle GPS dort `GPS_INTERVAL` secondes (par défaut **6 heures**) avant son premier passage, et le geocode inline ne se déclenche que pour les photos qui ont déjà `gps_lat/gps_lng`. Tant que cette première boucle n'a pas terminé, l'onglet Lieux est vide même si votre Takeout est monté — patience.
 
+Une fois le géocodeur passé, l'onglet Lieux peint tout sur une carte. L'interface web utilise **Leaflet** (1.9.4) plus **leaflet.markercluster** (1.5.3) pour les marqueurs, et **OpenStreetMap** pour les tuiles — *pas* Google Maps. Un thème de tuiles sombres s'accorde au reste de l'interface, et les marqueurs qui se chevauchent **se regroupent automatiquement** quand on dézoome. Les marqueurs viennent d'une seule requête SQL `GROUP BY place` sur les photos `done` qui ont GPS+place (`AVG(lat/lng)` pour la position, nombre de photos, et la vignette en cache de la photo la plus récente comme couverture du groupe) ; chaque popup affiche la **vignette cachée de 512px**, la ville, le compte, et un bouton « Voir les photos » qui plonge dans la grille filtrée par lieu.
+
+![L'onglet Lieux : chaque lieu enrichi épinglé et regroupé sur une carte OpenStreetMap](/images/proton-faces-search-proton-photos/04-places.jpg)
+
+Une note de transparence sur cette carte : ouvrir l'onglet Lieux fait que votre **navigateur** récupère Leaflet depuis le CDN jsDelivr et les tuiles cartographiques depuis `tile.openstreetmap.org`. **Aucune donnée photo n'est envoyée** — seules les tuiles entrent, exactement comme n'importe quel site web avec une carte intégrée — mais cela signifie que la promesse côté serveur « les seuls appels réseau vont à Proton » s'applique aux conteneurs, pas à l'onglet Lieux lui-même.
+
 ## Disque, RAM et CPU : chiffres réels de mon installation
 
 Je fais tourner proton-faces sur un mini-PC N100 avec un disque de 11 To, 16 Go de RAM et 4 cœurs. Voici à quoi ressemble une bibliothèque d'environ 79 000 photos en régime établi et pendant l'indexation. Les chiffres ci-dessous viennent de l'installation live sur cette machine — `du`, `docker stats` et l'index `sqlite3`.
@@ -290,7 +296,7 @@ Des images pré-construites sont publiées sur GitHub Container Registry (`ghcr.
 
 L'histoire de confidentialité est tout l'intérêt, donc soyons explicites :
 
-*   **Pas de télémétrie, pas d'API cloud.** Les seuls appels réseau vont vers les serveurs de Proton — et le seul composant qui parle à Proton est le bridge, strictement en lecture seule. Les métriques du SDK de Proton lui-même sont désactivées (`enableMetrics: false`) par-dessus le marché.
+*   **Pas de télémétrie, pas d'API cloud.** Les **conteneurs serveur** ne parlent qu'à Proton — et le seul composant qui parle à Proton est le bridge, strictement en lecture seule. Les métriques du SDK de Proton lui-même sont désactivées (`enableMetrics: false`) par-dessus le marché. L'onglet Lieux est la seule exception : l'ouvrir fait que votre navigateur récupère Leaflet depuis un CDN (jsDelivr) et les tuiles cartographiques depuis **OpenStreetMap**, comme toute carte web intégrée — aucune donnée photo n'est envoyée.
 *   **Rien n'est jamais réécrit.** Pas d'uploads, pas d'écritures, pas de suppressions. Proton voit quelques lectures par photo, une fois.
 *   **Tout le ML tourne en local.** CPU, ONNX + InsightFace, modèles intégrés dans l'image.
 *   **Les seuls fichiers conservés** sont les petites vignettes et l'index SQLite dans `DATA_DIR`. Les originaux restent chiffrés sur Proton.
