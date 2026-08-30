@@ -206,9 +206,13 @@ The interesting decision was how to run it. I started with PyTorch, then **dropp
 
 For faces I use **InsightFace** `buffalo_l`: RetinaFace for detection, ArcFace for recognition, producing a 512-dimension L2-normalized embedding per face. InsightFace 0.7.3 has a fun constraint that pinned my whole stack: it relies on `np.bool` / `np.float` aliases that were removed in numpy 1.24+, so the app runs on **Python 3.11 with `numpy<1.24`** — not the newest versions, but a perfectly stable combination.
 
+![RetinaFace boxes drawn over a photo in the lightbox; click a box to name the person](/images/proton-faces-search-proton-photos/02-face-detection.png)
+
 Search is plain **brute-force cosine similarity over numpy arrays**: stack every CLIP embedding into a matrix `X`, compute `X @ query_vec` (a single matmul — embeddings are L2-normalized so dot product equals cosine), `np.argsort(-sims)[:limit]`. No vector database. For tens of thousands of photos, that's a few hundred milliseconds — a vector DB would be pure ceremony at this scale, and one less service to run.
 
 For people, **HDBSCAN** (cosine metric, `min_cluster_size=2`) clusters the unassigned face embeddings incrementally into people. Once a person is named, a similarity-propagation pass scans all unassigned faces whose cosine similarity to any face of that person is `>= FACE_SIM_THRESHOLD` (default `0.45`) and auto-tags them — capped at 500 look-alikes per manual assignment so a click can't quietly re-assign your entire library.
+
+![The Unassigned tab: every detected face still waiting for a name](/images/proton-faces-search-proton-photos/03-unassigned-faces.jpg)
 
 ## Search capabilities
 
@@ -220,6 +224,8 @@ For people, **HDBSCAN** (cosine metric, `min_cluster_size=2`) clusters the unass
 | Person name (People tab)  | HDBSCAN clusters + your labels     | Clusters built incrementally                   |
 
 The web UI is a vanilla-JS dark-themed single page: a search bar, tabs for **Photos / People / Places / Unassigned**, an upload box for face search, a lightbox for viewing, and face-box overlays on the detail view. Click any result and the full-resolution photo is streamed from Proton **at that moment only** — it is never stored locally.
+
+![The proton-faces home: search bar, tabs and the streamed thumbnail grid](/images/proton-faces-search-proton-photos/01-home.jpg)
 
 ## The GPS problem: Proton doesn't expose location
 

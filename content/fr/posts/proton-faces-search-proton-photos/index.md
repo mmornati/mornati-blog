@@ -206,9 +206,13 @@ La décision intéressante était de savoir comment l'exécuter. J'ai commencé 
 
 Pour les visages, j'utilise **InsightFace** `buffalo_l` : RetinaFace pour la détection, ArcFace pour la reconnaissance, produisant un embedding normalisé L2 de 512 dimensions par visage. InsightFace 0.7.3 a une contrainte amusante qui a épinglé toute ma pile : il repose sur les alias `np.bool` / `np.float` supprimés dans numpy 1.24+, donc l'application tourne sur **Python 3.11 avec `numpy<1.24`** — pas les versions les plus récentes, mais une combinaison parfaitement stable.
 
+![Cadres RetinaFace dessinés sur une photo dans la visionneuse ; cliquez sur un cadre pour nommer la personne](/images/proton-faces-search-proton-photos/02-face-detection.png)
+
 La recherche est une simple **similarité cosinus par force brute sur des tableaux numpy** : on empile tous les embeddings CLIP dans une matrice `X`, on calcule `X @ query_vec` (un seul matmul — les embeddings sont normalisés L2 donc produit scalaire = cosinus), `np.argsort(-sims)[:limit]`. Pas de base de données vectorielle. Pour quelques dizaines de milliers de photos, c'est quelques centaines de millisecondes — une base vectorielle serait purement cérémonielle à cette échelle, et un service de moins à opérer.
 
 Pour les personnes, **HDBSCAN** (métrique cosinus, `min_cluster_size=2`) regroupe de manière incrémentale les embeddings de visages non assignés en personnes. Une fois une personne nommée, une passe de propagation de similarité balaie tous les visages non assignés dont la similarité cosinus à un visage de cette personne est `>= FACE_SIM_THRESHOLD` (par défaut `0.45`) et les étiquette automatiquement — plafonnée à 500 sosies par assignation manuelle pour qu'un clic ne puisse pas silencieusement ré-attribuer toute votre bibliothèque.
+
+![L'onglet Non assignés : chaque visage détecté attendant un nom](/images/proton-faces-search-proton-photos/03-unassigned-faces.jpg)
 
 ## Capacités de recherche
 
@@ -220,6 +224,8 @@ Pour les personnes, **HDBSCAN** (métrique cosinus, `min_cluster_size=2`) regrou
 | Un nom de personne (onglet) | Clusters HDBSCAN + vos étiquettes| Clusters construits de manière incrémentale        |
 
 L'interface web est une page unique vanilla-JS en thème sombre : une barre de recherche, des onglets **Photos / Personnes / Lieux / Non assignés**, un champ d'upload pour la recherche par visage, une visionneuse, et des cadres superposés sur les visages dans la vue détaillée. Cliquez sur un résultat et la photo en pleine résolution est diffusée depuis Proton **uniquement à ce moment-là** — elle n'est jamais stockée localement.
+
+![L'accueil de proton-faces : barre de recherche, onglets et grille de vignettes diffusées](/images/proton-faces-search-proton-photos/01-home.jpg)
 
 ## Le problème GPS : Proton n'expose pas la localisation
 
