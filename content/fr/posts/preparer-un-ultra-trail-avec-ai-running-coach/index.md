@@ -74,7 +74,7 @@ Les 5 dernières semaines illustrent bien la logique :
 |:------|:--------|:--------|:-------|
 | **S1** | 10-16/08 | Sortie longue 48 km (Vicere-Mara-Sanprimo) | ~55 km |
 | **S2** | 17-23/08 | Volume maximal, sorties dunes | ~72 km |
-| **S3** | 24-30/08 | Vacances Majorque + **PIC 30-40 km** (test nutrition) | ~58 km |
+| **S3** | 24-30/08 | Vacances d'été + **PIC 30-40 km** (test nutrition) | ~58 km |
 | **S4** | 31/08-06/09 | Taper -40 % | ~42 km |
 | **S5** | 07-13/09 | Taper -60/-70 % + course | ~30 km |
 
@@ -85,7 +85,7 @@ Les 5 dernières semaines illustrent bien la logique :
 Ce qui fait la différence, c'est la capacité à **ajuster**. Quelques exemples concrets :
 
 - **Maladie mi-juin** : 14 jours sans entraînement. Le plan a été rééquilibré, sans panique, en décalant les pics.
-- **Vacances à Majorque (S3)** : le coach a intégré la chaleur comme contrainte, avec des sorties plus courtes le matin et de la marche l'après-midi.
+- **Vacances d'été (S3)** : le coach a intégré la chaleur comme contrainte, avec des sorties plus courtes le matin et de la marche l'après-midi.
 - **Météo** : chaque sortie longue était précédée d'une analyse météo (via le skill dédié), avec des fenêtres de départ ajustées.
 - **La sortie 48 km coupée à 38 km** : le 10/08, la sortie longue prévue à 48 km a été réduite à 38,5 km. Pourquoi ? L'analyse de la récupération (readiness, HRV) montrait que le corps n'était pas prêt. Résultat : une sortie de 38,5 km / +1849 m en 6h09 à FC 133 — **9 bpm de moins que la même sortie en 2024**. La preuve que l'écoute des données paie.
 
@@ -95,7 +95,7 @@ Le plan n'était pas uniquement du running. Les données Garmin montrent une vra
 
 - **Trail** : les sorties longues (38,5 km Albavilla, 30,9 km Tournai, 30,5 km Tournai PIC)
 - **Randonnée** : les Cinque Terre en vacances (10,4 km, 3h30) — du volume en douceur
-- **Marche** : Majorque, récupération active
+- **Marche** : en vacances, récupération active
 - **Vélo d'intérieur** : 2 séances en juin-juillet
 - **Renforcement** : circuit force phase 3, force allégée en taper
 

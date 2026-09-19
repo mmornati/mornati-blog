@@ -71,7 +71,7 @@ The last 5 weeks illustrate the logic well:
 |:------|:-------|:--------|:-------|
 | **S1** | Aug 10-16 | 48 km long run (Vicere-Mara-Sanprimo) | ~55 km |
 | **S2** | Aug 17-23 | Maximum volume, dune runs | ~72 km |
-| **S3** | Aug 24-30 | Mallorca vacation + **30-40 km PEAK** (nutrition test) | ~58 km |
+| **S3** | Aug 24-30 | Summer vacation + **30-40 km PEAK** (nutrition test) | ~58 km |
 | **S4** | Aug 31-Sep 6 | Taper -40% | ~42 km |
 | **S5** | Sep 7-13 | Taper -60/-70% + race | ~30 km |
 
@@ -82,7 +82,7 @@ The last 5 weeks illustrate the logic well:
 What makes the difference is the ability to **adjust**. A few concrete examples:
 
 - **Illness mid-June**: 14 days without training. The plan was rebalanced, without panic, by shifting the peaks.
-- **Mallorca vacation (S3)**: the coach integrated the heat as a constraint, with shorter morning runs and afternoon walks.
+- **Summer vacation (S3)**: the coach integrated the heat as a constraint, with shorter morning runs and afternoon walks.
 - **Weather**: every long run was preceded by a weather analysis (via the dedicated skill), with adjusted start windows.
 - **The 48 km run cut to 38 km**: on Aug 10, the planned 48 km long run was reduced to 38.5 km. Why? The recovery analysis (readiness, HRV) showed the body wasn't ready. Result: a 38.5 km / +1849 m run in 6h09 at 133 bpm — **9 bpm less than the same run in 2024**. Proof that listening to the data pays off.
 
@@ -92,7 +92,7 @@ The plan wasn't only running. The Garmin data shows real variety:
 
 - **Trail**: the long runs (38.5 km Albavilla, 30.9 km Tournai, 30.5 km Tournai PEAK)
 - **Hiking**: the Cinque Terre on vacation (10.4 km, 3h30) — easy volume
-- **Walking**: Mallorca, active recovery
+- **Walking**: on vacation, active recovery
 - **Indoor cycling**: 2 sessions in June-July
 - **Strength training**: phase 3 strength circuit, light strength during taper
 
