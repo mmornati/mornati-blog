@@ -110,7 +110,7 @@ Il 30/08, durante l'uscita picco di 30,5 km, ho testato il protocollo nutriziona
 
 ![Riepilogo Garmin dell'uscita del 30/08](/images/preparer-un-ultra-trail-avec-ai-running-coach/08-garmin-sortie-30-08.png)
 
-*Riepilogo Garmin dell'uscita picco: 30,53 km, 3h46, 1150 m di dislivello, FC media 129 bpm, 2340 kcal — il test completo del protocollo nutrizionale in condizioni reali.*
+*Riepilogo Garmin dell'uscita picco: 30,53 km, 3h46, 1150 m di dislivello, FC media 129 bpm, 2340 kcal — il protocollo nutrizionale completo testato in condizioni reali.*
 
 ### Il piano del giorno X
 
@@ -155,7 +155,7 @@ Un punto interessante: le zone usate per guidare l'allenamento **non erano quell
 | **Z4** | 159-172 | 150-163 |
 | **Z5** | >173 | 163-177 |
 
-La differenza è sottile ma importante per un ultra: il metodo Karvonen integra la FC a riposo, quindi le zone sono **più personalizzate** del semplice percentuale di FCmax. Concretamente, il limite alto della Z2 passava da 143 bpm (Garmin) a **133-136 bpm** — ed è questo valore più severo che ha guidato i miei footing lunghi e la regola «mai sopra i 140 bpm» il giorno X. Il risultato parla da solo: 74,8% del tempo in Z1+Z2 durante la gara.
+La differenza è sottile ma importante per un ultra: il metodo Karvonen integra la FC a riposo, quindi le zone sono **più personalizzate** della semplice percentuale di FCmax. Concretamente, il limite alto della Z2 passava da 143 bpm (Garmin) a **133-136 bpm** — ed è questo valore più severo che ha guidato i miei footing lunghi e la regola «mai sopra i 140 bpm» il giorno X. Il risultato parla da solo: 74,8% del tempo in Z1+Z2 durante la gara.
 
 > 💡 **Perché è diverso, e quale è meglio?** Il metodo % FCmax è semplice e universale, ma ignora la FC a riposo: due runner con la stessa FCmax ma FC a riposo molto diverse avranno le stesse zone, anche se la loro fisiologia differisce. Il metodo Karvonen (FC riserva = FCmax − FC a riposo) è più preciso per gli atleti allenati, la cui FC a riposo è bassa (40-45 qui) — è per questo che le zone Karvonen sono più basse e più severe. L'interesse di rifare questo calcolo: è **gratuito, basato sui tuoi dati**, ed evita di allenarsi troppo duramente in Z2 «apparente» quando si è già in Z3 fisiologica. Il limite: resta una stima — un test di soglia lattica (o un test sul campo tipo 30 min) affinerebbe ancora i valori.
 

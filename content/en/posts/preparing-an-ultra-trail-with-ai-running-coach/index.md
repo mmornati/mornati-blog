@@ -110,7 +110,7 @@ On Aug 30, during the 30.5 km peak run, I tested the full nutrition protocol: pr
 
 ![Garmin summary of the Aug 30 session](/images/preparer-un-ultra-trail-avec-ai-running-coach/08-garmin-sortie-30-08.png)
 
-*Garmin summary of the peak run: 30.53 km, 3h46, 1150 m elevation gain, avg HR 129 bpm, 2340 kcal — the full nutrition protocol test in real conditions.*
+*Garmin summary of the peak run: 30.53 km, 3h46, 1150 m elevation gain, avg HR 129 bpm, 2340 kcal — the full nutrition protocol, tested in real conditions.*
 
 ### The race-day plan
 
@@ -155,7 +155,7 @@ One interesting point: the zones used to drive training were **not Garmin/Strava
 | **Z4** | 159-172 | 150-163 |
 | **Z5** | >173 | 163-177 |
 
-The difference is subtle but important for an ultra: the Karvonen method factors in resting HR, so the zones are **more personalized** than a simple percentage of max HR. Concretely, the top of Z2 dropped from 143 bpm (Garmin) to **133-136 bpm** — and it's this stricter value that guided my long runs and the "never above 140 bpm" rule on race day. The result speaks for itself: 74.8% of the time in Z1+Z2 during the race.
+The difference is subtle but important for an ultra: the Karvonen method factors in resting HR, so the zones are **more personalized** than a simple percentage of max HR. Concretely, the top of Z2 went from 143 bpm (Garmin) to **133-136 bpm** — and it's this stricter value that guided my long runs and the "never above 140 bpm" rule on race day. The result speaks for itself: 74.8% of the time in Z1+Z2 during the race.
 
 > 💡 **Why is it different, and which is better?** The % max HR method is simple and universal, but ignores resting HR: two runners with the same max HR but very different resting HR get the same zones, even though their physiology differs. The Karvonen method (HR reserve = max HR − resting HR) is more accurate for trained athletes, whose resting HR is low (40-45 here) — that's why the Karvonen zones are lower and stricter. The point of redoing this calculation: it's **free, based on your own data**, and it prevents training too hard in "apparent" Z2 when you're already physiologically in Z3. The limit: it remains an estimate — a lactate threshold test (or a field test like a 30-minute effort) would refine the values further.
 
