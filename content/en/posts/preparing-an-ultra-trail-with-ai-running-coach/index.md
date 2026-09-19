@@ -12,6 +12,8 @@ tags:
 - ultra-trail
 date: '2026-09-19T07:41:00.000000+00:00'
 slug: preparing-an-ultra-trail-with-ai-running-coach
+cover: cover.jpg
+showHero: true
 description: How I prepared the Ultra 110 km Trail Côte d'Opale with ai-running-coach, an open-source project of AI agents connected to Garmin — periodized training, nutrition, data analysis and race strategy.
 ---
 
