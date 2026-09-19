@@ -206,7 +206,9 @@ The gear plan included a **drop bag at Hervelinghen** (km 77.6) with the second-
 
 The outcome is told by the forecast vs reality comparison:
 
-> 📸 **Screenshot to add**: Garmin Connect screenshot of the Sep 13 activity (summary: 109.7 km, 15h26, +1992 m) to illustrate race day.
+![Garmin summary of the Sep 13 race: 109.71 km, 15:26:51, 8:27/km, +1992 m](/images/preparer-un-ultra-trail-avec-ai-running-coach/11-resume-course-13-09.png)
+
+*The official race summary: 109.71 km, 15h26:51, average pace 8:27/km, +1992 m elevation gain, 7,955 calories — with the route across the Opal Coast, from Wimereux south past Boulogne-sur-Mer and back, coloured from slowest (blue) to fastest (red).*
 
 ![Passage times: plan vs real](/images/preparer-un-ultra-trail-avec-ai-running-coach/06-prevision-vs-reel.png)
 

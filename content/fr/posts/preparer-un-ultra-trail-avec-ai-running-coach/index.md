@@ -209,7 +209,9 @@ Le plan matériel prévoyait un **drop bag à Hervelinghen** (km 77,6) avec le r
 
 Le bilan est raconté par la comparaison prévision vs réel :
 
-> 📸 **Capture à ajouter** : capture d'écran Garmin Connect de l'activité du 13/09 (résumé : 109,7 km, 15h26, D+ 1992 m) pour illustrer le jour J.
+![Résumé Garmin de la course du 13/09 : 109,71 km, 15:26:51, 8:27/km, D+ 1 992 m](/images/preparer-un-ultra-trail-avec-ai-running-coach/11-resume-course-13-09.png)
+
+*Le résumé officiel de la course : 109,71 km, 15h26:51, allure moyenne 8:27/km, D+ 1 992 m, 7 955 calories — avec le tracé du parcours sur la Côte d'Opale, de Wimereux jusqu'au sud de Boulogne-sur-Mer et retour, coloré du plus lent (bleu) au plus rapide (rouge).*
 
 ![Temps de passage : plan vs réel](/images/preparer-un-ultra-trail-avec-ai-running-coach/06-prevision-vs-reel.png)
 
