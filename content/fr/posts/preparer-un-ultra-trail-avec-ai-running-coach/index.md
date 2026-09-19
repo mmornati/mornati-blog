@@ -111,7 +111,9 @@ La nutrition a été un axe majeur. L'approche : **tester pendant l'entraînemen
 
 Le 30/08, lors de la sortie pic de 30,5 km, j'ai testé le protocole nutrition complet : produits, rotations, timing. C'est ce qui a permis de valider le plan pour la course.
 
-> 📸 **Capture à ajouter** : capture d'écran de la sortie du 30/08 dans Garmin Connect (résumé de l'activité : distance, D+, FC, calories) pour illustrer le test nutrition en conditions réelles.
+![Résumé Garmin de la sortie du 30/08](/images/preparer-un-ultra-trail-avec-ai-running-coach/08-garmin-sortie-30-08.png)
+
+*Résumé Garmin de la sortie pic : 30,53 km, 3h46, 1150 m D+, FC moyenne 129 bpm, 2340 kcal — le test complet du protocole nutrition en conditions réelles.*
 
 ### Le plan jour J
 

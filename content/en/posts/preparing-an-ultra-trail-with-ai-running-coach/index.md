@@ -108,7 +108,9 @@ Nutrition was a major focus. The approach: **test during training, then plan pre
 
 On Aug 30, during the 30.5 km peak run, I tested the full nutrition protocol: products, rotations, timing. That's what validated the plan for the race.
 
-> 📸 **Screenshot to add**: Garmin Connect screenshot of the Aug 30 activity (summary: distance, elevation, HR, calories) to illustrate the nutrition test in real conditions.
+![Garmin summary of the Aug 30 session](/images/preparer-un-ultra-trail-avec-ai-running-coach/08-garmin-sortie-30-08.png)
+
+*Garmin summary of the peak run: 30.53 km, 3h46, 1150 m elevation gain, avg HR 129 bpm, 2340 kcal — the full nutrition protocol test in real conditions.*
 
 ### The race-day plan
 
