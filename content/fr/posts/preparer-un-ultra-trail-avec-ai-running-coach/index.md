@@ -20,6 +20,8 @@ aliases:
 
 Le 13 septembre 2026, à 02h00 du matin, je me suis élancé sur la ligne de départ de l'**Ultra 110 km Trail Côte d'Opale** à Wimereux. 15h26 plus tard, je franchissais la ligne d'arrivée. Entre ces deux moments, il n'y a pas eu que de l'entraînement : il y a eu des mois de **planification, d'analyse et d'ajustements** — et une bonne partie de ce travail a été faite avec l'aide d'agents IA.
 
+Je ne veux pas vous raconter ma course ni mes entraînements : je veux utiliser toutes ces données pour vous montrer comment une **planification appuyée sur des données analysées par l'IA** peut aider à bien préparer une course, quelle qu'elle soit.
+
 Dans cet article, je vous raconte comment j'ai utilisé [ai-running-coach](https://github.com/mmornati/ai-running-coach), un projet open-source que j'ai créé, pour préparer cet objectif : le plan d'entraînement par périodes, la nutrition, l'analyse de mes données Garmin, et la stratégie de course jusqu'au jour J.
 
 ## Le projet : des agents IA spécialisés, connectés à Garmin

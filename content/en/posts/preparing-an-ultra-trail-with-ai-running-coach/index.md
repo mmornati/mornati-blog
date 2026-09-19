@@ -17,6 +17,8 @@ description: How I prepared the Ultra 110 km Trail Côte d'Opale with ai-running
 
 On September 13, 2026, at 2:00 AM, I lined up at the start of the **Ultra 110 km Trail Côte d'Opale** in Wimereux, France. 15h26 later, I crossed the finish line. Between those two moments, there was more than just training: there were months of **planning, analysis and adjustments** — and a good part of that work was done with the help of AI agents.
 
+I don't want to tell you about my race or my training sessions: I want to use all this data to show you how **planning backed by AI-analyzed data** can help you prepare a race properly, whatever it is.
+
 In this article, I'll tell you how I used [ai-running-coach](https://github.com/mmornati/ai-running-coach), an open-source project I created, to prepare for this goal: the periodized training plan, nutrition, analysis of my Garmin data, and race strategy all the way to race day.
 
 ## The project: specialized AI agents, connected to Garmin
