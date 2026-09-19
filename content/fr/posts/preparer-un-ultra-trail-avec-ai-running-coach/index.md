@@ -132,7 +132,9 @@ Les produits étaient choisis avec précision : **gels Baouw** (fructose), **pâ
 
 Un point important : le protocole a été adapté pour **minimiser l'apport en potassium** pendant la course (protocole bas-K), avec des choix précis : électrolytes Aptonia citron, compotes poire-pomme-menthe, bananes et dattes bannies des ravitos, remplacées par des oranges. Ce genre de détail, c'est exactement ce qu'un agent nutritionniste peut suivre et vérifier.
 
-> 📸 **Capture à ajouter** : capture du document de plan nutrition jour J (tableau produits/quantités/timing) généré par l'agent nutritionniste.
+![Plan nutrition jour J](/images/preparer-un-ultra-trail-avec-ai-running-coach/09-plan-nutrition-jour-j.png)
+
+*Le plan nutrition heure par heure : produit, glucides, cumul et action à chaque ravito — avec les rappels de remplissage des flasques et le protocole bas-K (orange au lieu de banane/datte).*
 
 ## L'analyse de mon état via la sync Garmin
 
