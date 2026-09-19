@@ -166,7 +166,9 @@ La différence est subtile mais importante pour un ultra : la méthode Karvonen 
 
 Le jour de la course, l'analyse des données a confirmé une **gestion cardiaque impeccable** :
 
-> 📸 **Capture à ajouter** : capture d'écran Garmin Connect de l'écran « Fréquence cardiaque » de l'activité du 13/09 (répartition par zones) pour illustrer l'analyse.
+![Fréquence cardiaque sur la course du 13/09](/images/preparer-un-ultra-trail-avec-ai-running-coach/10-fc-course-13-09.png)
+
+*La trace cardiaque des 15h26 de course : un plateau globalement stable entre 115 et 135 bpm, quelques pics isolés au-dessus de 140 bpm (montées raides, relances), et surtout aucune dérive à la hausse sur la durée — le signe que l'allure était tenable.*
 
 ![Répartition par zones cardiaques](/images/preparer-un-ultra-trail-avec-ai-running-coach/04-zones-cardiaques.png)
 

@@ -163,7 +163,9 @@ The difference is subtle but important for an ultra: the Karvonen method factors
 
 On race day, the data analysis confirmed **impeccable heart rate management**:
 
-> 📸 **Screenshot to add**: Garmin Connect screenshot of the "Heart Rate" screen of the Sep 13 activity (zone distribution) to illustrate the analysis.
+![Heart rate during the Sep 13 race](/images/preparer-un-ultra-trail-avec-ai-running-coach/10-fc-course-13-09.png)
+
+*The heart rate trace across the 15h26 of racing: a broadly stable plateau between 115 and 135 bpm, a few isolated spikes above 140 bpm (steep climbs, surges), and above all no upward drift over time — the sign that the pace was sustainable.*
 
 ![Heart rate zones distribution](/images/preparer-un-ultra-trail-avec-ai-running-coach/04-zones-cardiaques.png)
 
