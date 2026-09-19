@@ -140,6 +140,22 @@ Chaque matin, l'agent **medical** analysait mes données Garmin : HRV, FC repos,
 
 Le VO2max est passé de 51 à 53 ml/kg/min en août, puis s'est stabilisé à 52 — une belle progression sur la période.
 
+### Des zones cardiaques recalculées, pas celles de Garmin
+
+Un point intéressant : les zones utilisées pour piloter l'entraînement n'étaient **pas celles de Garmin/Strava**. En avril, l'agent coach a recalculé mes zones à partir de mes données (FCmax 177, FC repos 40-45) avec la **méthode de Karvonen** (basée sur la réserve cardiaque), différente de la méthode par pourcentage de FCmax utilisée par défaut.
+
+| Zone | Garmin/Strava (% FCmax) | Karvonen (% réserve) |
+|:-----|:------------------------|:---------------------|
+| **Z1** | <115 | 109-122 |
+| **Z2** | 116-143 | **122-136** |
+| **Z3** | 144-158 | 136-150 |
+| **Z4** | 159-172 | 150-163 |
+| **Z5** | >173 | 163-177 |
+
+La différence est subtile mais importante pour un ultra : la méthode Karvonen intègre la FC repos, donc les zones sont **plus personnalisées** que le simple pourcentage de FCmax. Concrètement, la limite haute de Z2 passait de 143 bpm (Garmin) à **133-136 bpm** — et c'est cette valeur plus stricte qui a guidé mes footings longs et la règle « jamais au-dessus de 140 bpm » le jour J. Le résultat parle de lui-même : 74,8 % du temps en Z1+Z2 sur la course.
+
+> 💡 **Pourquoi c'est différent, et lequel est mieux ?** La méthode % FCmax est simple et universelle, mais ignore la FC repos : deux coureurs avec la même FCmax mais des FC repos très différentes auront les mêmes zones, alors que leur physiologie diffère. La méthode Karvonen (FC réserve = FCmax − FC repos) est plus précise pour les athlètes entraînés, dont la FC repos est basse (40-45 ici) — c'est pour ça que les zones Karvonen sont plus basses et plus strictes. L'intérêt de refaire ce calcul : il est **gratuit, basé sur tes propres données**, et il évite de s'entraîner trop dur en Z2 « apparente » alors qu'on est déjà en Z3 physiologique. La limite : il reste une estimation — un test de seuil lactique (ou un test de terrain type 30 min) affinerait encore les valeurs.
+
 ### Le jour J : un cardio maîtrisé
 
 Le jour de la course, l'analyse des données a confirmé une **gestion cardiaque impeccable** :

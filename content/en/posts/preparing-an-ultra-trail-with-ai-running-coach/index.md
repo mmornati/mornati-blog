@@ -137,6 +137,22 @@ Every morning, the **medical** agent analyzed my Garmin data: HRV, resting HR, s
 
 VO2max went from 51 to 53 ml/kg/min in August, then stabilized at 52 — a nice progression over the period.
 
+### Heart rate zones recalculated, not Garmin's
+
+One interesting point: the zones used to drive training were **not Garmin/Strava's**. In April, the coach agent recalculated my zones from my own data (max HR 177, resting HR 40-45) using the **Karvonen method** (based on heart rate reserve), which differs from the default percentage-of-max-HR method.
+
+| Zone | Garmin/Strava (% max HR) | Karvonen (% reserve) |
+|:-----|:-------------------------|:---------------------|
+| **Z1** | <115 | 109-122 |
+| **Z2** | 116-143 | **122-136** |
+| **Z3** | 144-158 | 136-150 |
+| **Z4** | 159-172 | 150-163 |
+| **Z5** | >173 | 163-177 |
+
+The difference is subtle but important for an ultra: the Karvonen method factors in resting HR, so the zones are **more personalized** than a simple percentage of max HR. Concretely, the top of Z2 dropped from 143 bpm (Garmin) to **133-136 bpm** — and it's this stricter value that guided my long runs and the "never above 140 bpm" rule on race day. The result speaks for itself: 74.8% of the time in Z1+Z2 during the race.
+
+> 💡 **Why is it different, and which is better?** The % max HR method is simple and universal, but ignores resting HR: two runners with the same max HR but very different resting HR get the same zones, even though their physiology differs. The Karvonen method (HR reserve = max HR − resting HR) is more accurate for trained athletes, whose resting HR is low (40-45 here) — that's why the Karvonen zones are lower and stricter. The point of redoing this calculation: it's **free, based on your own data**, and it prevents training too hard in "apparent" Z2 when you're already physiologically in Z3. The limit: it remains an estimate — a lactate threshold test (or a field test like a 30-minute effort) would refine the values further.
+
 ### Race day: controlled cardio
 
 On race day, the data analysis confirmed **impeccable heart rate management**:
