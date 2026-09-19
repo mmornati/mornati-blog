@@ -47,7 +47,7 @@ cd ai-running-coach
 
 Le script configure automatiquement l'accès Garmin, les dossiers de travail (`activities/`, `medical/`, `nutrition/`, `planning/`, `rapports/`, `resources/`) et l'intégration à votre IDE.
 
-Tout le travail se fait en **markdown, en français**, dans un espace de travail structuré. Chaque séance, chaque rapport, chaque plan est un fichier que l'on peut relire, versionner et partager. C'est exactement ce que j'ai fait pendant 4 mois.
+Tout le travail se fait en **markdown, en français**, dans un espace de travail structuré. Chaque séance, chaque rapport, chaque plan est un fichier que l'on peut relire, versionner et partager. C'est exactement ce que j'ai fait pendant 8 mois.
 
 ## L'objectif : l'Ultra 110 km Trail Côte d'Opale
 
@@ -64,7 +64,7 @@ Avec le coach, nous avons défini un **objectif réaliste de 15h00** (allure moy
 
 ## Le plan d'entraînement par périodes
 
-Le plan a été construit **par périodes**, du mois de juin jusqu'au jour J, avec des ajustements permanents basés sur mes contraintes personnelles, la météo et mon état de santé.
+Le plan a été construit **par périodes**, du début de l'année jusqu'au jour J, avec des ajustements permanents basés sur mes contraintes personnelles, la météo et mon état de santé.
 
 ### Les phases finales (S1 → S5)
 

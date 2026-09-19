@@ -44,7 +44,7 @@ cd ai-running-coach
 
 The script automatically configures Garmin access, the working folders (`activities/`, `medical/`, `nutrition/`, `planning/`, `rapports/`, `resources/`) and the integration with your IDE.
 
-All the work is done in **markdown, in French**, in a structured workspace. Every session, every report, every plan is a file you can re-read, version and share. That's exactly what I did for 4 months.
+All the work is done in **markdown, in French**, in a structured workspace. Every session, every report, every plan is a file you can re-read, version and share. That's exactly what I did for 8 months.
 
 ## The goal: the Ultra 110 km Trail Côte d'Opale
 
@@ -61,7 +61,7 @@ With the coach, we defined a **realistic target of 15h00** (average pace 8:12/km
 
 ## The periodized training plan
 
-The plan was built **period by period**, from June until race day, with constant adjustments based on my personal constraints, the weather and my health.
+The plan was built **period by period**, from the start of the year until race day, with constant adjustments based on my personal constraints, the weather and my health.
 
 ### The final phases (S1 → S5)
 
