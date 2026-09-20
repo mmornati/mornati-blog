@@ -1,6 +1,53 @@
 /* Custom styles. This file is concatenated with the theme CSS as-is (no Tailwind processing),
    so only plain CSS is allowed here. Use classes that already exist in the theme where possible. */
 
+/* ============================================================
+   "Infrastructure Schematic" design system
+   Dark mode = night terminal/schematic. Light mode = blueprint paper.
+   Same blueprint-blue neutral ramp drives both (assets/css/schemes/schematic.css);
+   this file adds typography, motion, and the schematic component language
+   on top of the theme's existing (already-compiled) utility classes.
+   ============================================================ */
+
+:root {
+  --font-sans: "Archivo", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+}
+
+/* Long-form article body reads as serif; headings/labels/UI stay on the sans (Archivo). */
+.prose :where(p, li, blockquote, dd):not(:where([class~="not-prose"] *)) {
+  font-family: var(--font-serif);
+}
+
+/* Small "node marker" before article section headings -- a junction dot, not a rule. */
+.prose :where(h2, h3):not(:where([class~="not-prose"] *))::before {
+  content: "";
+  display: inline-block;
+  width: 0.45em;
+  height: 0.45em;
+  margin-right: 0.5em;
+  margin-bottom: 0.1em;
+  background: rgb(var(--color-primary-500));
+  border-radius: 1px;
+  vertical-align: middle;
+}
+.dark .prose :where(h2, h3):not(:where([class~="not-prose"] *))::before {
+  background: rgb(var(--color-primary-400));
+}
+
+/* Selection + focus: signal-amber, not the browser default blue. */
+::selection {
+  background: rgba(var(--color-primary-400), 0.35);
+}
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+input:focus-visible {
+  outline: 2px solid rgb(var(--color-primary-500));
+  outline-offset: 2px;
+}
+
 /* Keep images from overflowing narrow screens. */
 article img,
 .article-content img {
@@ -11,4 +58,175 @@ article img,
 /* HTML anchors pasted from the old Medium-era posts. */
 a[name] {
   display: block;
+}
+
+/* ---- Post cards: rendered as labeled schematic nodes, not generic drop-shadow cards ---- */
+.article-link--card {
+  border-radius: 0;
+  border-top-width: 2px;
+  border-top-color: rgb(var(--color-primary-500));
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.article-link--card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px -12px rgba(var(--color-primary-900), 0.35);
+}
+.dark .article-link--card {
+  border-top-color: rgb(var(--color-primary-400));
+}
+.dark .article-link--card:hover {
+  box-shadow: 0 8px 24px -12px rgba(0, 0, 0, 0.6);
+}
+/* Solder-pad corner mark: a node has a pin. */
+.article-link--card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 14px;
+  width: 6px;
+  height: 6px;
+  background: rgb(var(--color-primary-500));
+  border-radius: 999px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.dark .article-link--card::after {
+  background: rgb(var(--color-primary-400));
+}
+
+/* ---- Category/tag chips: port labels, not generic pill badges ---- */
+.schematic-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  line-height: 1;
+  padding: 0.3em 0.55em 0.3em 0.45em;
+  border-radius: 3px;
+  border: 1px solid rgba(var(--color-primary-400), 0.55);
+  color: rgb(var(--color-primary-700));
+  background: rgba(var(--color-primary-100), 0.4);
+}
+.schematic-badge::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: rgb(var(--color-primary-500));
+  flex: none;
+}
+.dark .schematic-badge {
+  border-color: rgba(var(--color-primary-600), 0.6);
+  color: rgb(var(--color-primary-300));
+  background: rgba(var(--color-primary-900), 0.3);
+}
+.dark .schematic-badge::before {
+  background: rgb(var(--color-primary-400));
+}
+.schematic-badge--secondary {
+  border-color: rgba(var(--color-secondary-400), 0.55);
+  color: rgb(var(--color-secondary-700));
+  background: rgba(var(--color-secondary-100), 0.4);
+}
+.schematic-badge--secondary::before {
+  background: rgb(var(--color-secondary-500));
+}
+.dark .schematic-badge--secondary {
+  border-color: rgba(var(--color-secondary-600), 0.6);
+  color: rgb(var(--color-secondary-300));
+  background: rgba(var(--color-secondary-900), 0.3);
+}
+.dark .schematic-badge--secondary::before {
+  background: rgb(var(--color-secondary-400));
+}
+
+/* ---- Code blocks: a hairline frame instead of the theme's plain gray box ---- */
+.highlight-wrapper {
+  border: 1px solid rgb(var(--color-neutral-300));
+  border-radius: 0;
+  overflow: hidden;
+}
+.dark .highlight-wrapper {
+  border-color: rgb(var(--color-neutral-700));
+}
+
+/* ---- Table of contents: current section reads as a locked signal ---- */
+#TOCView .active > a,
+.toc-inside .active > a {
+  color: rgb(var(--color-primary-600));
+  font-weight: 600;
+}
+.dark #TOCView .active > a,
+.dark .toc-inside .active > a {
+  color: rgb(var(--color-primary-400));
+}
+#TOCView .active > a::before,
+.toc-inside .active > a::before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-right: 0.4em;
+  margin-bottom: 0.1em;
+  background: rgb(var(--color-primary-500));
+  border-radius: 999px;
+  vertical-align: middle;
+}
+
+/* ---- Homepage divider: a measured schematic rule instead of a plain <hr> ---- */
+.schematic-rule {
+  position: relative;
+  height: 1px;
+  background: rgb(var(--color-neutral-300));
+}
+.dark .schematic-rule {
+  background: rgb(var(--color-neutral-600));
+}
+.schematic-rule::before,
+.schematic-rule::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  width: 5px;
+  height: 5px;
+  background: rgb(var(--color-primary-500));
+  border-radius: 999px;
+}
+.dark .schematic-rule::before,
+.dark .schematic-rule::after {
+  background: rgb(var(--color-primary-400));
+}
+.schematic-rule::before {
+  left: 0;
+}
+.schematic-rule::after {
+  right: 0;
+}
+
+/* ---- Author avatar: rendered as a live status node ---- */
+.schematic-avatar {
+  position: relative;
+  flex: none;
+}
+.schematic-avatar img {
+  display: block;
+}
+.schematic-avatar::after {
+  content: "";
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: rgb(var(--color-primary-500));
+  border: 2px solid rgb(var(--color-neutral));
+}
+.dark .schematic-avatar::after {
+  background: rgb(var(--color-primary-400));
+  border-color: rgb(var(--color-neutral-800));
 }

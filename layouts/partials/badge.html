@@ -1,0 +1,15 @@
+<span class="flex cursor-pointer">
+  {{ $linkTitle := . }}
+  {{ $useSecondaryColor := false }}
+  {{ if (reflect.IsMap . ) }}
+    {{ $linkTitle = .linkTitle }}
+    {{ $useSecondaryColor = cond (not .useSecondaryColor) false .useSecondaryColor }}
+  {{ end }}
+  {{ if $useSecondaryColor }}
+    <span class="schematic-badge schematic-badge--secondary">
+  {{ else }}
+    <span class="schematic-badge schematic-badge--primary">
+  {{ end }}
+    {{ $linkTitle }}
+  </span>
+</span>
