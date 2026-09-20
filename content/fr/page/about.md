@@ -1,6 +1,7 @@
 ---
 title: "À propos"
 description: "Ingénieur logiciel, adepte du self-hosting et passionné d'open source. Construire, héberger, écrire."
+date: 2026-08-16
 showTableOfContents: false
 url: "/fr/page/about/"
 ---

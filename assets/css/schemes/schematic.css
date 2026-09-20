@@ -1,0 +1,43 @@
+/* "Infrastructure Schematic" scheme.
+   One blueprint-blue neutral ramp spans both worlds: the light end (50-200) is
+   blueprint paper, the dark end (800-900) is a near-black night schematic/terminal.
+   Primary = copper/amber signal accent (links, active state, node weight).
+   Secondary = cyan circuit-trace accent (used sparingly: badges, hover states). */
+:root {
+  /* Blueprint-blue neutral ramp: paper (50) -> ink (700) -> night (900) */
+  --color-neutral: 238, 242, 246;
+  --color-neutral-50: 238, 243, 248;
+  --color-neutral-100: 227, 234, 242;
+  --color-neutral-200: 204, 216, 230;
+  --color-neutral-300: 172, 189, 209;
+  --color-neutral-400: 127, 148, 172;
+  --color-neutral-500: 92, 112, 138;
+  --color-neutral-600: 66, 84, 107;
+  --color-neutral-700: 45, 59, 79;
+  --color-neutral-800: 26, 34, 47;
+  --color-neutral-900: 11, 14, 20;
+
+  /* Copper/amber signal accent */
+  --color-primary-50: 253, 237, 220;
+  --color-primary-100: 250, 222, 189;
+  --color-primary-200: 244, 195, 138;
+  --color-primary-300: 236, 165, 86;
+  --color-primary-400: 224, 133, 45;
+  --color-primary-500: 196, 108, 26;
+  --color-primary-600: 163, 87, 18;
+  --color-primary-700: 128, 68, 15;
+  --color-primary-800: 94, 51, 14;
+  --color-primary-900: 61, 34, 11;
+
+  /* Cyan circuit-trace accent */
+  --color-secondary-50: 224, 247, 250;
+  --color-secondary-100: 191, 237, 244;
+  --color-secondary-200: 145, 222, 235;
+  --color-secondary-300: 94, 203, 222;
+  --color-secondary-400: 51, 184, 206;
+  --color-secondary-500: 27, 156, 179;
+  --color-secondary-600: 18, 128, 150;
+  --color-secondary-700: 13, 101, 120;
+  --color-secondary-800: 10, 75, 90;
+  --color-secondary-900: 7, 51, 63;
+}

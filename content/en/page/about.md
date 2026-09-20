@@ -1,6 +1,7 @@
 ---
 title: "About Me"
 description: "Software engineer, self-hoster and open source enthusiast. Build, self-host, write."
+date: 2026-08-16
 showTableOfContents: false
 url: "/page/about/"
 ---

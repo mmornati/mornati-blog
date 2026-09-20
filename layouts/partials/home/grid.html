@@ -19,12 +19,14 @@
         {{ if not (or $disableImageOptimization (eq $authorImage.MediaType.SubType "svg")) }}
           {{ $final = $authorImage.Fill (print "160x160 q" ( $.Site.Params.Author.imagequality | default "96" )) }}
         {{ end }}
-        <img
-          class="h-16 w-16 rounded-full"
-          width="64"
-          height="64"
-          alt="{{ $.Site.Params.Author.name | default `Author` }}"
-          src="{{ $final.RelPermalink }}">
+        <span class="schematic-avatar">
+          <img
+            class="h-16 w-16 rounded-full"
+            width="64"
+            height="64"
+            alt="{{ $.Site.Params.Author.name | default `Author` }}"
+            src="{{ $final.RelPermalink }}">
+        </span>
       {{ end }}
     {{ end }}
     <div>
@@ -39,7 +41,7 @@
     </div>
   </header>
 
-  <hr class="border-neutral-300 dark:border-neutral-600">
+  <div class="schematic-rule" role="separator"></div>
 
   <h2 class="text-2xl font-extrabold">{{ i18n "shortcode.recent_articles" | emojify }}</h2>
 

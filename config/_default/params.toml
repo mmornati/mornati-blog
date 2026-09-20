@@ -1,8 +1,9 @@
 # -- Site Parameters --
 # https://blowfish.page/docs/configuration/
 
-# Colour scheme. 'blowfish' is the default; others: ocean, fire, etc.
-colorScheme = "blowfish"
+# Colour scheme. Custom scheme defined at assets/css/schemes/schematic.css
+# ("Infrastructure Schematic": blueprint paper in light mode, night terminal in dark mode).
+colorScheme = "schematic"
 
 # Appearance / dark mode
 defaultAppearance = "light"
@@ -10,6 +11,9 @@ autoSwitchAppearance = true
 
 # Icon/emoji used as a call-to-action on the profile homepage hero
 cta = ""
+
+# Highlight the current section while scrolling a long article's table of contents.
+smartTOC = true
 
 # Enable native Fuse.js search (Ctrl+K / Cmd+K)
 enableSearch = true
@@ -48,6 +52,7 @@ mainSections = ["posts"]
   showTableOfContents = true
   showTaxonomies = true
   showTags = false
+  showCategoriesInSecondaryColor = true
   showWordCount = true
   showViews = true
   showLikes = true

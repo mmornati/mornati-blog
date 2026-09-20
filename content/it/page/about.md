@@ -1,6 +1,7 @@
 ---
 title: "Chi sono"
 description: "Ingegnere software, self-hoster e appassionato di open source. Costruisci, self-hosta, scrivi."
+date: 2026-08-16
 showTableOfContents: false
 url: "/it/page/about/"
 ---
