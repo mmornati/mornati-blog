@@ -1,9 +1,8 @@
 ---
-title: 'Achieving Zero-Downtime Deployments on Coolify: A Journey from Monolith to
+title: 'Achieving Zero-Downtime Deployments on Coolify: A Journey from Monolith to Decoupled Architecture'
 categories:
 - devops
 - web-dev-blogging
-  Decoupled Architecture'
 tags:
 - docker
 - downtime
