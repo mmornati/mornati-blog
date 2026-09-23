@@ -13,7 +13,7 @@ tags:
 - benchmark
 - claude-code
 date: '2026-09-23T09:00:00.000000+00:00'
-draft: true
+draft: false
 slug: system-one-router-picking-the-right-llm-for-every-prompt
 translationKey: system-one-router
 cover: cover.jpg
