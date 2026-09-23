@@ -250,9 +250,14 @@ Importante: **si misurano solo le decisioni, nessun prompt viene mandato a un mo
 
 |  | **Jev 1.13** | Laya inglese | Laya multilingue | Laya auto |
 | --- | --- | --- | --- | --- |
-| Accuratezza sull'argomento | **89%** | 59% | 45% | 58% |
+| Accuratezza sull'argomento | **89%** | 59% | 45% | 57% |
+| · comuni (57) | **95%** | 63% | 53% | 63% |
+| · multilingue (8) | **88%** | 75% | 50% | 62% |
+| · lunghi (4) | **75%** | 50% | 25% | 50% |
+| · trabocchetto (7) | **43%** | 29% | 0% | 29% |
+| · privati (4) | **100%** | 25% | 25% | 25% |
 | Stesso modello del riferimento | **70%** | 20% | 24% | 21% |
-| Risposte sicure (≥ 0,8) | 82% (96% giuste) | 12% | 34% (52% giuste) | 19% |
+| Risposte sicure (≥ 0,8) | 82% (95% giuste) | 12% | 34% (52% giuste) | 19% |
 | Errore di calibrazione (ECE, più basso è meglio) | **0,080** | 0,171 | 0,264 | 0,137 |
 | Modello più economico / più caro del riferimento | 5 / 19 | 3 / 61 | 10 / 51 | 4 / 59 |
 | Costo modelli stimato (riferimento 1,18 $, sempre Opus 2,35 $) | 1,35 $ | 1,74 $ | 1,12 $ | 1,64 $ |
@@ -260,11 +265,17 @@ Importante: **si misurano solo le decisioni, nessun prompt viene mandato a un mo
 
 "Laya auto" sceglie il checkpoint inglese o quello multilingue in base alla lingua rilevata. Il [report interattivo](https://mmornati.github.io/system-one-router/) ha una riga per prompt con la decisione di ogni provider, i badge di confidenza, i filtri per gruppo e una vista "solo disaccordi". È molto più divertente da sfogliare di questa tabella.
 
+![Dove andrebbero le richieste: numero di prompt instradati verso ogni modello da ciascun provider decisionale](bench-routes.png "Dove andrebbero gli 80 prompt, per provider decisionale. Jev li distribuisce su tutta la fascia di prezzo; Laya inglese ne manda 70 su 80 a Sonnet o Opus. Fonte: il [report del benchmark](https://mmornati.github.io/system-one-router/).")
+
 ### Jev: usabile così com'è
 
-89% di accuratezza sull'argomento, 70% di route identiche al riferimento, e una confidenza di cui ci si può fidare: l'82% delle risposte è sicuro, e il 96% di queste è giusto. Quando Jev si discosta dal riferimento, sceglie soprattutto un modello **più caro** (19 casi) invece che più economico (5). È la direzione giusta in cui sbagliare: si paga un po' di più, ma non si ottiene una risposta scadente. Su questi 80 prompt il costo con il routing è di 1,35 $, contro 2,35 $ con "sempre Opus".
+89% di accuratezza sull'argomento, 70% di route identiche al riferimento, e una confidenza di cui ci si può fidare: l'82% delle risposte è sicuro, e il 95% di queste è giusto. Quando Jev si discosta dal riferimento, sceglie soprattutto un modello **più caro** (19 casi) invece che più economico (5). È la direzione giusta in cui sbagliare: si paga un po' di più, ma non si ottiene una risposta scadente. Su questi 80 prompt il costo con il routing è di 1,35 $, contro 2,35 $ con "sempre Opus".
 
-Il suo punto debole è il gruppo "trabocchetto": 43% di accuratezza su cose come "fix it" o "can you make it faster?". Sinceramente, non sono sicuro che *io* saprei dire di che argomento parla "fix it".
+Il suo punto debole è il gruppo "trabocchetto": 43% di accuratezza. Curiosamente, con "fix it" se la cava benissimo (debugging, sicuro al 100%, mandato su DeepSeek flash). È "can you make it faster?" a metterlo in difficoltà: lo classifica come chat con appena il 25% di confidenza, e la bassa confidenza lo manda su Sonnet invece che sul modello economico. Sinceramente, senza nessun contesto, anch'io avrei qualche dubbio su quello.
+
+Ecco un estratto della vista per singolo prompt, con i casi di cui parlo subito dopo:
+
+![Sei righe del benchmark con le etichette di riferimento e, per ogni provider, argomento, confidenza, complessità, rischio e modello scelto](bench-cases.png "Sei righe del report. Ogni cella mostra l'argomento con la confidenza, la complessità, il rischio, la probabilità di dati privati e il modello scelto (≠ gold quando è diverso dalla route di riferimento).")
 
 Alcune decisioni che mi piacciono molto:
 
@@ -299,7 +310,7 @@ Il routing in sé non costa quasi nulla: circa 0,03–0,06 $ ogni 1.000 decision
 | **system-one-router**: 50% compiti semplici su DeepSeek flash (12% con escalation), 35% medi su Sonnet 5, 15% difficili su Opus 5.5 | **~25,8 $** |
 | di cui routing + verifica con Jev | ~0,06 $ |
 
-Sono ipotesi, non misure. Il benchmark però racconta la stessa storia: su 80 prompt realistici, le route di Jev costano 1,35 $ contro 2,35 $ con "sempre Opus", circa il 43% in meno, mentre il routing "perfetto" di riferimento sarebbe a 1,18 $.
+Sono ipotesi, non misure. Il benchmark però racconta la stessa storia: su 80 prompt realistici, le route di Jev costano 1,35 $ contro 2,35 $ con "sempre Opus", circa il 42% in meno, mentre il routing "perfetto" di riferimento sarebbe a 1,18 $.
 
 Significa anche che **Laya non conviene dal punto di vista dei costi**: Jev è già così economico che un modello locale non fa risparmiare niente di misurabile. Laya si sceglie per la privacy, per lavorare offline e per la velocità.
 

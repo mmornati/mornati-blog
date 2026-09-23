@@ -247,9 +247,14 @@ Important: **only decisions are measured, no prompt is sent to a chat model.** F
 
 |  | **Jev 1.13** | Laya English | Laya multilingual | Laya auto |
 | --- | --- | --- | --- | --- |
-| Topic accuracy | **89%** | 59% | 45% | 58% |
+| Topic accuracy | **89%** | 59% | 45% | 57% |
+| · core (57) | **95%** | 63% | 53% | 63% |
+| · multilingual (8) | **88%** | 75% | 50% | 62% |
+| · long (4) | **75%** | 50% | 25% | 50% |
+| · tricky (7) | **43%** | 29% | 0% | 29% |
+| · private (4) | **100%** | 25% | 25% | 25% |
 | Same model as gold route | **70%** | 20% | 24% | 21% |
-| Confident answers (≥ 0.8) | 82% (96% of them right) | 12% | 34% (52% right) | 19% |
+| Confident answers (≥ 0.8) | 82% (95% of them right) | 12% | 34% (52% right) | 19% |
 | Calibration error (ECE, lower is better) | **0.080** | 0.171 | 0.264 | 0.137 |
 | Cheaper / pricier model than gold | 5 / 19 | 3 / 61 | 10 / 51 | 4 / 59 |
 | Est. model cost (gold $1.18, always Opus $2.35) | $1.35 | $1.74 | $1.12 | $1.64 |
@@ -257,11 +262,17 @@ Important: **only decisions are measured, no prompt is sent to a chat model.** F
 
 "Laya auto" picks the English or the multilingual checkpoint from the detected language. The [interactive report](https://mmornati.github.io/system-one-router/) has one row per prompt with each provider's decision, confidence chips, filters by group and a "disagreements only" view. It's much more fun to browse than this table.
 
+![Where requests would go: number of prompts routed to each model by each decision provider](bench-routes.png "Where the 80 prompts would go, per decision provider. Jev spreads them across the whole price range; Laya English sends 70 of 80 to Sonnet or Opus. Source: the [benchmark report](https://mmornati.github.io/system-one-router/).")
+
 ### Jev: usable as-is
 
-89% topic accuracy, 70% of the routes identical to the gold route, and a confidence you can trust: 82% of the answers are confident, and 96% of those are right. When Jev differs from the gold route, it mostly picks a **more expensive** model (19 cases) rather than a cheaper one (5). That's the right direction to be wrong in: you pay a bit more, you don't get a bad answer. On these 80 prompts the routed cost is $1.35, against $2.35 for "always Opus".
+89% topic accuracy, 70% of the routes identical to the gold route, and a confidence you can trust: 82% of the answers are confident, and 95% of those are right. When Jev differs from the gold route, it mostly picks a **more expensive** model (19 cases) rather than a cheaper one (5). That's the right direction to be wrong in: you pay a bit more, you don't get a bad answer. On these 80 prompts the routed cost is $1.35, against $2.35 for "always Opus".
 
-Its weak spot is the "tricky" group: 43% topic accuracy on things like "fix it" or "can you make it faster?". Honestly, I'm not sure *I* would know which topic "fix it" is about.
+Its weak spot is the "tricky" group: 43% topic accuracy. Funnily enough, it handles "fix it" fine (debugging, 100% sure, sent to DeepSeek flash). It's "can you make it faster?" that trips it: it files it under chat with only 25% confidence, and the low confidence sends it to Sonnet instead of the cheap model. Honestly, without any context, I would hesitate on that one too.
+
+Here is an excerpt of the per-prompt view, with the cases discussed below:
+
+![Six benchmark rows with the gold labels and each provider's topic, confidence, complexity, risk and chosen model](bench-cases.png "Six rows from the report. Each cell shows the topic with its confidence, complexity, risk, private-data probability and the chosen model (≠ gold when it differs from the gold route).")
 
 A few decisions I really like:
 
@@ -296,7 +307,7 @@ Routing itself costs almost nothing: about $0.03–0.06 per 1,000 decisions with
 | **system-one-router**: 50% simple on DeepSeek flash (12% escalated), 35% medium on Sonnet 5, 15% hard on Opus 5.5 | **~$25.8** |
 | of which Jev routing + checking | ~$0.06 |
 
-These are assumptions, not measurements. The benchmark tells a consistent story, though: on 80 real-looking prompts, Jev's routes cost $1.35 against $2.35 for always-Opus, about 43% less, while the "perfect" gold routing would be at $1.18.
+These are assumptions, not measurements. The benchmark tells a consistent story, though: on 80 real-looking prompts, Jev's routes cost $1.35 against $2.35 for always-Opus, about 42% less, while the "perfect" gold routing would be at $1.18.
 
 It also means that **Laya does not pay off on cost**: Jev is already so cheap that a local model saves you nothing measurable. You choose Laya for privacy, for working offline, and for speed.
 
