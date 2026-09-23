@@ -13,7 +13,7 @@ tags:
 - benchmark
 - claude-code
 date: '2026-09-23T09:00:00.000000+00:00'
-draft: true
+draft: false
 slug: system-one-router-scegliere-llm-giusto-per-ogni-prompt
 translationKey: system-one-router
 url: /it/system-one-router-scegliere-llm-giusto-per-ogni-prompt/
