@@ -21,13 +21,13 @@ aliases:
 - /system-one-router-choisir-le-bon-llm-pour-chaque-prompt
 cover: cover.jpg
 showHero: true
-description: La suite d'ai-dispatch. Une passerelle en Go qui pose quatre questions typées sur chaque prompt à un modèle de décision rapide (Jev sur OpenRouter, ou Laya en local), puis choisit le LLM le moins cher capable d'y répondre. Avec un benchmark de 80 prompts qui compare Jev à trois checkpoints de Laya.
+description: La suite d'ai-dispatch. Une passerelle en Go qui pose quatre questions typées sur chaque prompt à un modèle de décision rapide (Jev de TypeSafe, appelé via OpenRouter, ou Laya en local), puis choisit le LLM le moins cher capable d'y répondre. Avec un benchmark de 80 prompts qui compare Jev à trois checkpoints de Laya.
 summary: Mon premier routeur de modèles laissait un LLM lire un fichier de prompt pour choisir un agent. Celui-ci pose quatre questions typées à un modèle de décision « System One », calcule le score des modèles avec de la simple arithmétique, et publie un benchmark pour prouver que ça marche (et montrer où ça ne marche pas).
 ---
 
 En juin, j'ai écrit sur [la délégation intelligente, pièce manquante de votre chaîne d'outils IA](/fr/the-ai-orchestrator-why-intelligent-delegation-is-the-missing-piece-in-your-ai-toolchain/), et j'ai construit [ai-dispatch](https://github.com/mmornati/ai-dispatch) pour tester l'idée : un orchestrateur MCP qui confiait le travail à des agents spécialisés, chacun avec son propre modèle. Ça marchait assez bien pour me convaincre que le principe tenait la route. Mais au fond, je savais que la partie « routage » était le maillon faible de l'ensemble.
 
-Puis, en septembre, deux nouveaux jouets sont arrivés presque en même temps : **Jev**, un modèle de décision disponible sur OpenRouter, et **Laya**, une alternative open source qui tourne sur un simple portable. Les deux sont faits pour une seule chose : répondre à des questions typées (choisis parmi ces options, donne un score, oui ou non) avec des probabilités calibrées, vite, sans écrire de texte. Exactement ce dont un routeur de modèles a besoin.
+Puis, en septembre, deux nouveaux jouets sont arrivés presque en même temps : [**Jev**](https://openrouter.ai/docs/guides/community/jev), un modèle de décision de **TypeSafe** que j'appelle via OpenRouter, et [**Laya**](https://huggingface.co/convaiinnovations/laya), une alternative open weights de **Convai Innovations** qui tourne sur un simple portable. Les deux sont faits pour une seule chose : répondre à des questions typées (choisis parmi ces options, donne un score, oui ou non) avec des probabilités calibrées, vite, sans écrire de texte. Exactement ce dont un routeur de modèles a besoin.
 
 Alors j'ai tout reconstruit. Voici [system-one-router](https://github.com/mmornati/system-one-router) : une passerelle compatible OpenAI à laquelle on envoie `model: "auto"`, et où un modèle « System One » décide quel LLM « System Two » doit répondre. Le projet est livré avec un benchmark de 80 prompts, et le [rapport complet est publié sur GitHub Pages](https://mmornati.github.io/system-one-router/).
 
@@ -44,7 +44,7 @@ La seule décision était donc *« quel agent ? »*, et elle était prise par un
 *   **aucun choix de modèle par prompt** : corriger une docstring d'une ligne et faire la revue de sécurité complète du module d'authentification partaient sur le même modèle, du moment qu'ils tombaient dans le même agent ;
 *   **aucune prise en compte du coût** : le prix ne faisait tout simplement pas partie de la décision ;
 *   **aucune confiance** : un LLM vous dira avec aplomb qu'il est sûr de tout ;
-*   **aucune vérification** de la réponse d'un modèle bon marché, à part l'audit Mirror toujours actif ;
+*   **aucune vérification** de la réponse d'un modèle bon marché, à part l'audit Mirror toujours actif (un second agent qui relisait la sortie du premier) ;
 *   **aucune boucle d'apprentissage** : les résultats n'étaient jamais enregistrés, le routage ne pouvait donc jamais s'améliorer.
 
 Et avec trois mois de recul, l'essentiel de ce qu'ai-dispatch faisait à côté du routage (sous-agents, workflows en DAG, base de connaissances) est désormais intégré directement dans OpenCode et Claude Code. Ce qui manque encore, c'est le cœur du routage.
@@ -55,9 +55,9 @@ Le nom vient de Kahneman : le Système 1, c'est la pensée rapide et intuitive, 
 
 |  | **Jev 1.13** | **Laya** |
 | --- | --- | --- |
-| Qui | TypeSafe, servi via OpenRouter | Convai Innovations, open source (Apache-2.0) |
-| Où il tourne | Hébergé, via l'API Decisions d'OpenRouter | En local, `pip install laya` |
-| Modèle | Hébergé par TypeSafe | ModernBERT-large, 421M de paramètres (anglais) ; mmBERT-base, 322M (multilingue) |
+| Qui | TypeSafe | Convai Innovations, open source (Apache-2.0) |
+| Où il tourne | Hébergé par TypeSafe, appelé via OpenRouter (API Decisions) | En local, `pip install laya` |
+| Modèle | Propriétaire, poids non publiés | ModernBERT-large, 421M de paramètres (anglais) ; mmBERT-base, 322M (multilingue) |
 | Contexte | 32k tokens | 512 tokens (anglais), 1 024 tokens (multilingue) |
 | Prix | 0,042 $ par million de tokens en entrée, sortie gratuite | 0 $ (votre électricité) |
 
@@ -102,7 +102,7 @@ Chiffres en main, la question est devenue : *faut-il rapiécer ai-dispatch ou re
 
 Au lieu d'un orchestrateur MCP avec agents, DAG et base de connaissances, le nouveau projet est un **routeur transparent** : une passerelle HTTP compatible OpenAI. N'importe quel client qui parle l'API OpenAI (OpenCode, scripts, SDK) pointe son URL de base dessus et demande le modèle `auto`. Tout autre nom de modèle passe tel quel, on peut donc tout faire passer par la passerelle sans se poser de questions.
 
-Pourquoi **Go** ? Parce qu'une passerelle se trouve sur le chemin critique de chaque requête : je voulais un binaire statique unique, de la concurrence peu coûteuse, un vrai streaming et une bonne latence de queue. La seule dépendance hors bibliothèque standard est `yaml.v3`. Pour Laya, qui vit dans l'écosystème Python (PyTorch, MPS d'Apple, notebooks de fine-tuning), il y a un petit **sidecar Python** qui expose *le même format de requête/réponse que l'API Decisions de Jev*. Choisir entre Jev et Laya revient alors à choisir une URL.
+Pourquoi **Go** ? Parce qu'une passerelle se trouve sur le chemin critique de chaque requête : je voulais un binaire statique unique, de la concurrence peu coûteuse, un vrai streaming et une bonne latence de queue (p99). La seule dépendance hors bibliothèque standard est `yaml.v3`. Pour Laya, qui vit dans l'écosystème Python (PyTorch, MPS d'Apple, notebooks de fine-tuning), il y a un petit **sidecar Python** qui expose *le même format de requête/réponse que l'API Decisions de Jev*. Choisir entre Jev et Laya revient alors à choisir une URL.
 
 ## L'architecture
 
@@ -116,12 +116,12 @@ flowchart LR
         D["2 · Un seul appel de décision<br/>sujet · complexité · risque · privé"]
         S["3 · Score déterministe<br/>config.yaml, sans LLM"]
         K["4 · Modèle fixé<br/>pour la conversation"]
-        F["5 · Transfert + nouvel essai<br/>429/5xx → candidat suivant"]
+        F["5 · Transfert + retry<br/>429/5xx → candidat suivant"]
         L[("6 · data/decisions.jsonl")]
         P --> D --> S --> K --> F --> L
     end
 
-    D <-->|"API Decisions"| J["Jev 1.13<br/>(OpenRouter)"]
+    D <-->|"API Decisions"| J["Jev 1.13 · TypeSafe<br/>(via OpenRouter)"]
     D <-.->|"même format d'API"| LY["Sidecar Laya<br/>(Python · MPS)"]
     F --> M["Modèles OpenRouter<br/>Qwen · DeepSeek · GPT · Sonnet · Opus"]
 ```
@@ -195,7 +195,7 @@ Notez bien le commentaire au-dessus de `models` : les valeurs de compétence son
 
 ### Une décision, étape par étape
 
-La passerelle expose aussi un point d'accès « à blanc », `POST /route`, qui renvoie la décision sans appeler aucun modèle de chat. Voici ce que ça donne pour un prompt du benchmark (*« My Java service throws NullPointerException at OrderService.java:88 only in production, stack trace attached… »*). Je l'ai reconstruit à partir du résultat du benchmark pour ce prompt, et raccourci : les champs bruts `answers` et `eff_cost` sont omis.
+La passerelle expose aussi un endpoint de simulation (dry-run), `POST /route`, qui renvoie la décision sans appeler aucun modèle de chat. Voici ce que ça donne pour un prompt du benchmark (*« My Java service throws NullPointerException at OrderService.java:88 only in production, stack trace attached… »*). Je l'ai reconstruit à partir du résultat du benchmark pour ce prompt, et raccourci : les champs bruts `answers` et `eff_cost` sont omis.
 
 ```json
 {
@@ -226,7 +226,7 @@ La passerelle expose aussi un point d'accès « à blanc », `POST /route`, qui 
 
 En clair : Jev est sûr à 100 % qu'il s'agit de débogage, complexité 2, risque 1. Le plancher vaut `0,72 + 0,04 = 0,76`. Seuls Sonnet et Opus le dépassent, et Sonnet coûte moitié moins cher. Affaire réglée, pour trois millièmes de centime et 308 ms.
 
-Sur le vrai point d'accès, les mêmes informations reviennent aussi en en-têtes (`X-Router-Model`, `X-Router-Reason`, `X-Router-Topic`, `X-Router-Complexity`, `X-Router-Risk`) : on voit ce qui s'est passé sans rien avoir à parser.
+Sur le vrai endpoint, les mêmes informations reviennent aussi en en-têtes (`X-Router-Model`, `X-Router-Reason`, `X-Router-Topic`, `X-Router-Complexity`, `X-Router-Risk`) : on voit ce qui s'est passé sans rien avoir à parser.
 
 ## Ce que le test en conditions réelles a révélé
 
@@ -250,7 +250,7 @@ Point important : **seules les décisions sont mesurées, aucun prompt n'est env
 
 |  | **Jev 1.13** | Laya anglais | Laya multilingue | Laya auto |
 | --- | --- | --- | --- | --- |
-| Précision sur le sujet | **89 %** | 59 % | 45 % | 58 % |
+| Sujet correct (accuracy) | **89 %** | 59 % | 45 % | 58 % |
 | Même modèle que la référence | **70 %** | 20 % | 24 % | 21 % |
 | Réponses confiantes (≥ 0,8) | 82 % (dont 96 % justes) | 12 % | 34 % (52 % justes) | 19 % |
 | Erreur de calibration (ECE, plus bas = mieux) | **0,080** | 0,171 | 0,264 | 0,137 |
@@ -262,9 +262,9 @@ Point important : **seules les décisions sont mesurées, aucun prompt n'est env
 
 ### Jev : utilisable tel quel
 
-89 % de précision sur le sujet, 70 % de routes identiques à la référence, et une confiance digne de ce nom : 82 % des réponses sont confiantes, et 96 % d'entre elles sont justes. Quand Jev s'écarte de la référence, il choisit surtout un modèle **plus cher** (19 cas) plutôt que moins cher (5). C'est le bon sens pour se tromper : on paie un peu plus, mais on n'obtient pas une mauvaise réponse. Sur ces 80 prompts, le coût routé est de 1,35 $, contre 2,35 $ pour « toujours Opus ».
+89 % de sujets corrects, 70 % de routes identiques à la référence, et une confiance digne de ce nom : 82 % des réponses sont confiantes, et 96 % d'entre elles sont justes. Quand Jev s'écarte de la référence, il choisit surtout un modèle **plus cher** (19 cas) plutôt que moins cher (5). C'est le bon sens pour se tromper : on paie un peu plus, mais on n'obtient pas une mauvaise réponse. Sur ces 80 prompts, le coût routé est de 1,35 $, contre 2,35 $ pour « toujours Opus ».
 
-Son point faible, c'est le groupe « piégeux » : 43 % de précision sur des choses comme « fix it » ou « can you make it faster? ». Honnêtement, je ne suis pas sûr que *moi* je saurais dire de quel sujet parle « fix it ».
+Son point faible, c'est le groupe « piégeux » : 43 % de sujets corrects sur des choses comme « fix it » ou « can you make it faster? ». Honnêtement, je ne suis pas sûr que *moi* je saurais dire de quel sujet parle « fix it ».
 
 Quelques décisions que j'aime beaucoup :
 
@@ -272,17 +272,17 @@ Quelques décisions que j'aime beaucoup :
 *   *« URGENT: checkout API returning 502 for all users since the 14:05 deploy… »* → Jev hésite entre débogage (0,52) et infra (0,48), confiance 0,47. La faible confiance fait monter la complexité, le plancher passe à 0,94, personne ne le dépasse, et le routeur escalade vers **Opus**. La référence était Sonnet, il a donc payé trop cher, mais pour une panne en production, ça me va très bien.
 *   *« Here is our employee list with salaries and SSNs… »* : données privées, probabilité 0,99. La pré-vérification locale repère le format de numéro de sécurité sociale américain avant même que Jev ne le voie : avec `provider: auto`, la décision est prise en local, et avec `private: local_only`, le prompt ne quitte jamais la machine.
 
-### Laya sans entraînement : pas encore
+### Laya en zero-shot : pas encore
 
-Laya tel qu'il sort de la boîte, c'est une autre histoire. Le chiffre clé n'est pas la précision, c'est la confiance : Laya anglais n'est confiant que sur **12 %** des prompts. Et le routeur fait exactement ce qu'on lui a demandé face à une décision incertaine : il joue la sécurité et monte d'un cran. Résultat : 61 des 80 prompts partent vers un modèle *plus cher* que nécessaire, et **les routes de Laya coûtent plus cher que celles de Jev** (1,74 $ contre 1,35 $), alors que chaque décision est gratuite. Un routeur gratuit qui surdimensionne n'est pas gratuit.
+Laya tel qu'il sort de la boîte, c'est une autre histoire. Le chiffre clé n'est pas le taux de bonnes réponses, c'est la confiance : Laya anglais n'est confiant que sur **12 %** des prompts. Et le routeur fait exactement ce qu'on lui a demandé face à une décision incertaine : il joue la sécurité et monte d'un cran. Résultat : 61 des 80 prompts partent vers un modèle *plus cher* que nécessaire, et **les routes de Laya coûtent plus cher que celles de Jev** (1,74 $ contre 1,35 $), alors que chaque décision est gratuite. Un routeur gratuit qui surdimensionne n'est pas gratuit.
 
 Laya multilingue a l'air moins cher (1,12 $), mais seulement parce qu'il se trompe dans les deux sens : 10 prompts routés vers un modèle trop faible, et ses réponses confiantes ne sont justes qu'une fois sur deux. La pire façon de se tromper.
 
-Il y a cependant un détail très encourageant : **quand Laya anglais est confiant, il a raison** (10 sur 10 sur ce run). Le modèle sait quand il sait. C'est précisément la propriété qu'on veut avant un fine-tuning : avec le mode shadow (`shadow: laya`), la passerelle interroge déjà Laya en arrière-plan et enregistre s'il est d'accord avec Jev. Ce journal, c'est un jeu d'entraînement en devenir. Une chose à vérifier avant de se lancer : les conditions d'utilisation de Jev, avant d'entraîner un modèle sur ses sorties.
+Il y a cependant un détail très encourageant : **quand Laya anglais est confiant, il a raison** (10 sur 10 sur ce run). Le modèle sait quand il sait. C'est précisément la propriété qu'on veut avant un fine-tuning : avec le mode shadow (`shadow: laya`), la passerelle interroge déjà Laya en arrière-plan et enregistre s'il est d'accord avec Jev. Ce journal, c'est un jeu d'entraînement en devenir. Une chose à vérifier avant de se lancer : les conditions d'utilisation de TypeSafe, puisqu'il s'agit d'entraîner un modèle sur les sorties de Jev.
 
 ### Laya sur Apple Silicon
 
-Sur le M4, Laya tourne sur le GPU via MPS. Pour une forme d'entrée répétée, un appel prend **30 à 70 ms**. Quand la longueur de séquence change, on monte à **200–350 ms**, ce qui ressemble fort à une recompilation du GPU pour chaque nouvelle taille d'entrée. Compléter les entrées jusqu'à quelques longueurs fixes devrait régler ça (c'est dans la roadmap). Le CPU est encore plus lent : 517 ms en p50 sur le checkpoint anglais, donc MPS reste la valeur par défaut.
+Sur le M4, Laya tourne sur le GPU via MPS. Pour une forme d'entrée répétée, un appel prend **30 à 70 ms**. Quand la longueur de séquence change, on monte à **200–350 ms**, ce qui ressemble fort à une recompilation du GPU pour chaque nouvelle taille d'entrée. Faire du padding des entrées sur quelques longueurs fixes devrait régler ça (c'est dans la roadmap). Le CPU est encore plus lent : 517 ms en p50 sur le checkpoint anglais, donc MPS reste la valeur par défaut.
 
 Un détail pratique de plus : le paquet de Laya n'avait que quelques jours quand je l'ai essayé. L'agent a donc lu le code source du paquet avant d'installer quoi que ce soit (poids en safetensors, pas de `trust_remote_code`, pas de pickle, pas d'appel à subprocess) et l'a isolé dans son propre virtualenv. Avec un paquet PyPI tout neuf, c'est le strict minimum.
 
@@ -313,7 +313,7 @@ Ce qui, à mon avis, rend ce projet différent :
 *   les **budgets et la charge en temps réel** font partie de la décision ;
 *   **la confidentialité d'abord** : une pré-vérification locale, et les prompts privés peuvent être décidés (et traités) en local ;
 *   **le modèle reste fixe pendant la conversation**, pour garder le cache de prompt ;
-*   un **benchmark avec calibration**, pas seulement de la précision ;
+*   un **benchmark avec calibration**, pas seulement un taux de bonnes réponses ;
 *   et l'idée d'**apprendre de ses propres résultats**, pas du classement de quelqu'un d'autre.
 
 ## Comment il a été construit
@@ -336,18 +336,18 @@ Mon rôle a été celui que je décrivais dans mon [article sur BMAD](/fr/what-i
 
 La roadmap du README :
 
-*   [ ] **Réajuster les compétences des modèles à partir des résultats enregistrés** (nouveaux essais, vérifications échouées, retours utilisateur). C'est l'étape la plus importante : les estimations de départ doivent disparaître.
+*   [ ] **Réajuster les compétences des modèles à partir des résultats enregistrés** (retries, vérifications échouées, retours utilisateur). C'est l'étape la plus importante : les estimations de départ doivent disparaître.
 *   [ ] **Vérification et escalade** pour les requêtes sans streaming ou en arrière-plan : un oui/non de Jev sur la réponse, puis un modèle plus fort si nécessaire.
 *   [x] Sidecar Laya (Python, MPS).
-*   [ ] **Fine-tuner Laya** sur les décisions de Jev enregistrées (après vérification des conditions de Jev), et compléter les entrées à des longueurs fixes pour éviter les recompilations MPS.
-*   [ ] Un point d'accès **API Messages d'Anthropic**, pour que les clients de type Claude Code puissent utiliser la passerelle.
+*   [ ] **Fine-tuner Laya** sur les décisions de Jev enregistrées (après vérification des conditions de TypeSafe), et faire du padding des entrées sur des longueurs fixes pour éviter les recompilations MPS.
+*   [ ] Un endpoint compatible **API Messages d'Anthropic**, pour que les clients de type Claude Code puissent utiliser la passerelle.
 *   [ ] Un **serveur MCP** qui expose `route` / `delegate` aux agents qui veulent choisir explicitement.
 *   [ ] Un **tableau de bord** sur `decisions.jsonl` (coût par modèle, accord, escalades).
 
 ## Leçons apprises
 
-1.  **Utilisez un modèle qui décide pour décider, pas un modèle qui écrit.** Un modèle de décision vous donne des probabilités et une confiance sur lesquelles bâtir des règles. Un routeur LLM vous donne de la prose et une confiance en lui inébranlable.
-2.  **La calibration compte plus que la précision.** Jev et un LLM bon marché sont proches en précision ; ce qui fait la différence, c'est de savoir *quand* on peut faire confiance à la réponse.
+1.  **Pour décider, prenez un modèle conçu pour décider, pas un modèle conçu pour écrire.** Un modèle de décision vous donne des probabilités et une confiance sur lesquelles bâtir des règles. Un routeur LLM vous donne de la prose et une confiance en lui inébranlable.
+2.  **La calibration compte plus que l'exactitude.** Jev et un LLM bon marché font presque jeu égal en exactitude ; ce qui fait la différence, c'est de savoir *quand* on peut faire confiance à la réponse.
 3.  **Un routeur indécis est un routeur coûteux.** Laya est gratuit par décision, mais sa faible confiance pousse le routeur à surdimensionner. Le coût d'une décision n'est pas le prix du modèle de décision.
 4.  **Gardez le LLM en dehors du calcul du score.** De l'arithmétique sur un fichier YAML, c'est ennuyeux, testable, et explicable dans un en-tête HTTP.
 5.  **Bon marché au token ne veut pas dire bon marché à la réponse.** Surveillez les tokens de raisonnement, et fixez l'effort vous-même.

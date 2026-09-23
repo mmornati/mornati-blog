@@ -18,13 +18,13 @@ slug: system-one-router-picking-the-right-llm-for-every-prompt
 translationKey: system-one-router
 cover: cover.jpg
 showHero: true
-description: The follow-up to ai-dispatch. A Go gateway that asks a fast decision model (Jev on OpenRouter, or Laya running locally) four typed questions about each prompt, then picks the cheapest LLM good enough to answer it. With an 80-prompt benchmark of Jev against three Laya checkpoints.
+description: The follow-up to ai-dispatch. A Go gateway that asks a fast decision model (TypeSafe's Jev, called through OpenRouter, or Laya running locally) four typed questions about each prompt, then picks the cheapest LLM good enough to answer it. With an 80-prompt benchmark of Jev against three Laya checkpoints.
 summary: My first model router let an LLM read a prompt file and pick an agent. This one asks a "System One" decision model four typed questions, scores the models with plain arithmetic, and publishes a benchmark to prove it works (and to show where it doesn't).
 ---
 
 Back in June I wrote about [why intelligent delegation is the missing piece in your AI toolchain](/the-ai-orchestrator-why-intelligent-delegation-is-the-missing-piece-in-your-ai-toolchain/), and I built [ai-dispatch](https://github.com/mmornati/ai-dispatch) to test the idea: an MCP orchestrator that dispatched work to specialised agents, each with its own model. It worked well enough to convince me the pattern was sound. But deep down I knew the "routing" part was the weakest bit of the whole thing.
 
-Then, in September, two new toys showed up almost at the same time: **Jev**, a decision model on OpenRouter, and **Laya**, an open-source alternative you can run on your laptop. Both are built for one job: answering typed questions (pick one of these, give a score, yes or no) with calibrated probabilities, fast, without writing prose. Which is exactly what a model router needs.
+Then, in September, two new toys showed up almost at the same time: [**Jev**](https://openrouter.ai/docs/guides/community/jev), a decision model from **TypeSafe** that I call through OpenRouter, and [**Laya**](https://huggingface.co/convaiinnovations/laya), an open-weights alternative from **Convai Innovations** that runs on a laptop. Both are built for one job: answering typed questions (pick one of these, give a score, yes or no) with calibrated probabilities, fast, without writing prose. Which is exactly what a model router needs.
 
 So I rebuilt the whole thing. Meet [system-one-router](https://github.com/mmornati/system-one-router): an OpenAI-compatible gateway where you send `model: "auto"` and a "System One" model decides which "System Two" LLM should answer. It comes with an 80-prompt benchmark, and the [full report is published on GitHub Pages](https://mmornati.github.io/system-one-router/).
 
@@ -41,7 +41,7 @@ So the only decision was *"which agent?"*, and it was made by a model that write
 *   **no per-prompt model choice**: a one-line docstring fix and a full security review of the auth module went to the same model, as long as they landed in the same agent;
 *   **no cost awareness**: price was not part of the decision at all;
 *   **no confidence**: an LLM will happily tell you it's sure about everything;
-*   **no verification** of a cheap model's answer, apart from the always-on Mirror audit;
+*   **no verification** of a cheap model's answer, apart from the always-on Mirror audit (a second agent reviewing the first one's output);
 *   **no learning loop**: outcomes were never recorded, so the routing could never improve.
 
 Also, looking at it three months later, most of what ai-dispatch did besides routing (sub-agents, DAG workflows, a knowledge base) is now built into OpenCode and Claude Code themselves. The part that is still missing is the routing core.
@@ -52,9 +52,9 @@ The name comes from Kahneman: System One is the fast, intuitive thinking, System
 
 |  | **Jev 1.13** | **Laya** |
 | --- | --- | --- |
-| Who | TypeSafe, served through OpenRouter | Convai Innovations, open source (Apache-2.0) |
-| Where it runs | Hosted, via the OpenRouter Decisions API | Locally, `pip install laya` |
-| Model | Hosted by TypeSafe | ModernBERT-large, 421M parameters (English); mmBERT-base, 322M (multilingual) |
+| Who | TypeSafe | Convai Innovations, open source (Apache-2.0) |
+| Where it runs | Hosted by TypeSafe, called through OpenRouter (Decisions API) | Locally, `pip install laya` |
+| Model | Proprietary, weights not published | ModernBERT-large, 421M parameters (English); mmBERT-base, 322M (multilingual) |
 | Context | 32k tokens | 512 tokens (English), 1,024 tokens (multilingual) |
 | Price | $0.042 per million input tokens, output free | $0 (your electricity) |
 
@@ -118,7 +118,7 @@ flowchart LR
         P --> D --> S --> K --> F --> L
     end
 
-    D <-->|"Decisions API"| J["Jev 1.13<br/>(OpenRouter)"]
+    D <-->|"Decisions API"| J["Jev 1.13 · TypeSafe<br/>(via OpenRouter)"]
     D <-.->|"same API shape"| LY["Laya sidecar<br/>(Python · MPS)"]
     F --> M["OpenRouter models<br/>Qwen · DeepSeek · GPT · Sonnet · Opus"]
 ```
@@ -275,7 +275,7 @@ Laya out of the box is a different story. The key number is not the accuracy, it
 
 Laya multilingual looks cheaper ($1.12), but only because it gets things wrong in both directions: 10 prompts routed too cheaply, and its confident answers are right only half the time. That's the worst kind of wrong.
 
-But there is one very encouraging detail: **when Laya English is confident, it's right** (10 out of 10 in this run). The model knows when it knows. That's precisely the property you want before fine-tuning: with shadow mode (`shadow: laya`), the gateway already asks Laya in the background and logs whether it agrees with Jev. That log is a training set in the making. One thing to check before going there: Jev's terms of use, before training a model on its outputs.
+But there is one very encouraging detail: **when Laya English is confident, it's right** (10 out of 10 in this run). The model knows when it knows. That's precisely the property you want before fine-tuning: with shadow mode (`shadow: laya`), the gateway already asks Laya in the background and logs whether it agrees with Jev. That log is a training set in the making. One thing to check before going there: TypeSafe's terms of use, since that means training a model on Jev's outputs.
 
 ### Laya on Apple silicon
 
@@ -336,14 +336,14 @@ The roadmap in the README:
 *   [ ] **Re-fit model skills from logged outcomes** (retries, failed checks, user feedback). This is the step that matters most: the seed guesses have to go.
 *   [ ] **Check-and-escalate** for non-streaming or background requests: a Jev yes/no on the answer, then a stronger model if needed.
 *   [x] Laya sidecar (Python, MPS).
-*   [ ] **Fine-tune Laya** on logged Jev decisions (after checking Jev's terms), and pad inputs to fixed lengths to avoid MPS recompiles.
+*   [ ] **Fine-tune Laya** on logged Jev decisions (after checking TypeSafe's terms), and pad inputs to fixed lengths to avoid MPS recompiles.
 *   [ ] An **Anthropic Messages API** endpoint, so Claude Code-style clients can use the gateway.
 *   [ ] An **MCP server** exposing `route` / `delegate` to agents that want to choose explicitly.
 *   [ ] A **dashboard** over `decisions.jsonl` (cost per model, agreement, escalations).
 
 ## Lessons learned
 
-1.  **Use a model that decides to decide, not a model that writes.** A decision model gives you probabilities and a confidence you can build rules on. An LLM router gives you prose and unshakable self-confidence.
+1.  **To decide, use a model built to decide, not one built to write.** A decision model gives you probabilities and a confidence you can build rules on. An LLM router gives you prose and unshakable self-confidence.
 2.  **Calibration matters more than accuracy.** Jev and a cheap LLM are close on accuracy; what makes the difference is knowing *when* the answer can be trusted.
 3.  **An unsure router is an expensive router.** Laya is free per decision, but its low confidence makes the router over-provision. The cost of a decision is not the price of the decision model.
 4.  **Keep the LLM out of the scoring.** Arithmetic over a YAML file is boring, testable, and explainable in an HTTP header.
