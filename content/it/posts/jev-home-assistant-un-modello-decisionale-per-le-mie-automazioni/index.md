@@ -11,7 +11,7 @@ tags:
 - jev
 - laya
 - openrouter
-date: '2026-09-30T09:00:00.000000+00:00'
+date: '2026-09-25T18:00:00.000000+00:00'
 draft: false
 slug: jev-home-assistant-un-modello-decisionale-per-le-mie-automazioni
 translationKey: jev-home-assistant
