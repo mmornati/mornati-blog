@@ -45,7 +45,7 @@ Jev is only a few weeks old and the ecosystem moves every day, so I looked at ev
 
 | Project | What you get | Notes |
 | --- | --- | --- |
-| [**AboveColin/HA-Jev**](https://github.com/AboveColin/HA-Jev) | Actions `jev.noul`, `jev.choice`, `jev.score`, `jev.ask`, `jev.calibrate`; question sensors from the UI; an `ai_task` and a conversation agent; token, cost and daily-budget sensors | **The one I use.** The most complete, very active (1.18 at the time of writing). Domain `jev`. |
+| [**AboveColin/HA-Jev**](https://github.com/AboveColin/HA-Jev) | Actions `jev.noul`, `jev.choice`, `jev.score`, `jev.ask`, `jev.calibrate`; question sensors from the UI; an `ai_task` and a conversation agent; token, cost and daily-budget sensors | **The one I use** (1.16 on my server). The most complete and very active: new releases come out almost every week. Domain `jev`. |
 | [AtHeartEngineer/HA-SystemOne](https://github.com/AtHeartEngineer/HA-SystemOne) | Same actions, YAML sensors, an Assist router, usage sensors; documents self-hosted `/v1/systemone` servers | **Also uses the `jev` domain**: install one or the other, never both. |
 | [JanOstrowka/typesafe-assist](https://github.com/JanOstrowka/typesafe-assist) | A conversation agent only, with a fallback agent | English only. |
 | [minuteman3](https://github.com/minuteman3/home-assistant-typesafe) / [allenporter](https://github.com/allenporter/home-assistant-typesafe) home-assistant-typesafe | A conversation agent with confidence thresholds, can point to a local server | Early (0.1). |
@@ -142,6 +142,43 @@ Two small details that matter:
 
 On top of the two generic scripts, there is one small script per *kind* of decision (pump, water, temperature drop, covers, laundry). Each one holds the prompt and gathers the facts, so the automations only say *what just happened*.
 
+### What Jev actually receives
+
+The "state" is plain text. Here is what the VMC decision sent on a Friday evening, rendered from my live sensors (I removed the two lines about who's home and who's sleeping):
+
+```text
+Now: Friday 19:38
+Current speed: Vitesse 1 (changed 33 minutes ago)
+Upstairs bathroom humidity: 63.47 %
+Parents' bathroom humidity: 65.16 %
+Kitchen humidity: 75.49 %
+Highest living-room humidity: 0.0 %
+House average humidity: 69.5 %
+Wet-room humidity trend: Falling Fast
+Usual shower time: yes
+Outdoor: unavailable °C, humidity 81 %
+```
+
+Along with it go the question, the three options with their descriptions, and the background. The `jev.choice` action answers with the pick, its confidence, the whole distribution, and some bookkeeping:
+
+```yaml
+choice: Vitesse 1          # one of the options, never free text
+confidence: …              # 0 to 1
+probabilities:             # the whole distribution
+  "Off": …
+  Vitesse 1: …
+  Vitesse 2: …
+model: …                   # the version that answered
+latency_ms: …
+usage: {input_tokens: …, output_tokens: …}
+```
+
+`jev.noul` is even simpler: `noul` (the probability of "yes"), `is_true` (that probability compared with *your* threshold) and the threshold itself. The integration's authors are explicit that a value around 0.5 means *"I can't tell"*, not *"half true"*. That's why the threshold belongs to the automation, not to the model.
+
+Now look at that state again. **The living-room humidity at 0 % and the outdoor temperature `unavailable` are real.** When I pulled these values for this post, the two template sensors that compute the highest humidity per zone were stuck at 0, although every room reads between 55 and 75 %. The Netatmo outdoor module was offline too. The old VMC rule reads the same sensors, so it had quietly fallen back to *"keep the current speed"*. Jev at least also gets the raw per-room values and can see that the kitchen is at 75 %.
+
+That's the second reason I like shadow mode. **Writing the facts down for Jev made me read them, and some were wrong.** A model can't be better than its inputs, and neither can a threshold. You just never look at a threshold's inputs until something goes wrong. Next on my list: log the facts next to each decision, not only the two answers.
+
 ## Six automations that got smarter
 
 All of them already existed and most have their own post on this blog. What follows is what Jev adds. (Entity names are simplified, and I left out anything about who lives here or when the house is empty.)
@@ -170,9 +207,9 @@ That last hint about the rain gauge is the kind of thing you can't put in a thre
 
 ### 2. Water: a long shower is not a leak
 
-The water monitor on the main supply reports the flow in L/min, and feeds five alerts: high flow (above 10 L/min for 2 minutes), possible leak (continuous flow for 2 hours), excessive daily consumption, and two for water flowing while we're on holiday. Each one now asks *"Is this water use explained by normal household activity rather than a leak or a tap left open?"* with the flow, today's consumption against a usual day, the washing machine state, the **bathroom humidity** (a shower shows up there within minutes!), the weather and the rain (garden watering) and whether the house is in holiday mode.
+The water monitor on the main supply reports the flow in L/min, and feeds five alerts: high flow (above 10 L/min for 2 minutes), possible leak (continuous flow for 2 hours), excessive daily consumption, and two for water flowing while we're on holiday. Each one now asks *"Is this water use explained by normal household activity rather than a leak or a tap left open?"* with the flow, today's consumption against a usual day, the washing machine state, the **highest humidity in the bathrooms and the kitchen** (a shower shows up there within minutes!), the weather and the rain (garden watering) and whether the house is in holiday mode.
 
-The humidity trick is my favourite: the water meter doesn't know *where* the water goes, but the humidity sensor in the bathroom does.
+The humidity trick is my favourite: the water meter doesn't know *where* the water goes, but the humidity sensors in the wet rooms do. (As you saw above, it only works if that humidity sensor is not lying.)
 
 ### 3. Temperature drops: window or heat pump cycle?
 
@@ -231,6 +268,14 @@ Every row is the VMC `choice`, one every 5 minutes: **565 input tokens, 50 outpu
 | Pump, water, temperature, laundry (only on events) | a few / day | noise |
 | **Total** | | **< $0.01 / day, about $3 / year** |
 
+HA-Jev keeps its own count, so I don't have to trust my math. On the first full day in production, at 19:40, the integration's sensors read:
+
+*   `sensor.jev_calls_today`: **133**
+*   `sensor.jev_input_tokens_today`: **75,201** (exactly 565 per call)
+*   `sensor.jev_estimated_cost_today`: **$0.0032**
+
+That's on track for about half a cent for the day, which matches the table.
+
 And the month view, all models together on my account:
 
 ![OpenRouter monthly cost per model: Jev 1.13 at $0.02 for the whole month](openrouter-month.webp "The whole month on my OpenRouter account. Jev totals $0.02, and that includes the router benchmark from the previous post.")
@@ -266,13 +311,13 @@ In the router post, I compared Jev with [**Laya**](https://huggingface.co/convai
 | Confident answers (≥ 0.8) | 82%, 95% of them right | **12%**, but 10 out of 10 right |
 | Calibration error (lower is better) | 0.080 | 0.171 |
 | Context window | 32k tokens | 512 tokens (1,024 multilingual) |
-| Latency | ~300 ms (network) | 30–70 ms on an M4 GPU, ~0.5 s on CPU |
+| Latency | ~300–500 ms (network; 0.46 s for the first call from my house) | 30–70 ms on an M4 GPU, ~0.5 s on CPU |
 | Cost | ~$3 / year here | $0 |
 
 What this means with *my* scripts:
 
 *   **Laya would be safe, but not very useful out of the box.** Its low confidence falls into my fallbacks: below 0.8 no alert is suppressed, and below 0.6 the VMC keeps the rule's speed. So Laya zero-shot would give you… roughly your old rules, plus a few confident corrections. No harm, not much gain. It's the same lesson as in the router: *an unsure decision model is a fallback machine.*
-*   **When it's confident, it's right.** That's the property that matters before fine-tuning, and the shadow logbook is already a dataset: every line has the facts, Jev's answer and the rule's answer.
+*   **When it's confident, it's right.** That's the property that matters before fine-tuning, and the shadow logbook is the start of a dataset: every line has Jev's answer and the rule's answer, and with the facts logged next to them, it becomes training data for the house.
 *   **Watch the window.** My requests are around 300 tokens of real text, which fits in 512, but the pump and cover prompts are the longest. I'd use the multilingual checkpoint (1,024 tokens), which also reads the French names of my entities better.
 *   **Watch the hardware.** On an Apple GPU, Laya answers faster than Jev. On a Raspberry-class CPU, expect seconds (the home-assistant-laya README estimates 1.5–3 s per command). For alerts that already wait 2 minutes, that's fine. For the VMC every 5 minutes, also fine. It just shouldn't run on the same small box as Home Assistant.
 
@@ -282,7 +327,21 @@ The plan I'd follow: run Laya **in shadow next to Jev** (a third column in the l
 
 As in my recent posts: this was one Claude Code session on my Home Assistant configuration repository. I asked which automations were "judgement calls" rather than rules, the agent proposed the shadow/active pattern and the shared scripts, wrote the domain prompts, and wired them in. My job was to decide which decisions deserve Jev (not everything does: a light following a motion sensor doesn't need a model), check the prompts against what I know of the house, and review the diff. The two bugs it found on the way were a nice bonus.
 
-Before anything reached the house, the agent booted Home Assistant 2026.9.3 in Docker with a stub `jev` integration and ran the scripts through every path: shadow, active and off modes, budget exceeded, Jev raising an error, low confidence, an invalid choice, and for the laundry a pause, a resume and a real end. The work came as two pull requests on my config repository (the decision layer, then the laundry), both deployed in shadow mode.
+Before anything reached the house, the agent booted Home Assistant 2026.9.3 in Docker with a stub `jev` integration and ran the scripts through every path: shadow, active and off modes, budget exceeded, Jev raising an error, low confidence, an invalid choice, and for the laundry a pause, a resume and a real end. The work came as two pull requests on my config repository (the decision layer, then the laundry), both merged in shadow mode.
+
+### "Merged" is not "deployed"
+
+Then came the part no test had covered. My configuration reaches the server through a GitOps add-on that pulls `main` every few hours. After the merge, I asked the agent to check that Jev was running, and it found… nothing: no `input_select.jev_mode`, zero Jev calls that day.
+
+It turned out the add-on hadn't pulled anything **since 18 August**. That day, a change made on the server and a merged PR had both touched `automations.yaml`, the `git pull --rebase` stopped on a conflict, and every run since then had failed without a word. Home Assistant kept running happily on the old files, so nothing looked broken. Five weeks of merged PRs had simply never reached the house.
+
+Fixing it took more care than the Jev work itself. Over SSH, read-only at first, the agent compared the server with `main` file by file. Some changes existed only on the server and would have been lost by a plain `git reset --hard`: a few sensors I had rewired for the car, the live Zigbee2MQTT configuration with four re-paired devices, and weeks of HACS updates. It also found a copy of `secrets.yaml` with a name that `.gitignore` didn't cover, which the add-on would have happily pushed to GitHub on its next backup. So, in order:
+
+1.  a full Supervisor backup (5.2 GB, checked by opening it);
+2.  one PR bringing everything that existed only on the server back into `main`, plus a `.gitignore` rule for any `secrets.yaml*` file;
+3.  once that was merged, a reset of the server to `main`, a config check with the production container, a restart, and the add-on restarted.
+
+A few minutes later, the first VMC decision went out and came back in **0.46 s**. Jev agreed with the rule, so nothing was written to the logbook. The shadow period really started that day, 25 September. If you use a GitOps add-on, go and check when it last pulled. Mine had been quietly failing for five weeks.
 
 ## Lessons learned
 
@@ -292,5 +351,7 @@ Before anything reached the house, the agent booted Home Assistant 2026.9.3 in D
 4.  **Write the background like you'd brief a house-sitter.** "The rain gauge is sometimes unavailable, then rely on the weather" is worth more than any threshold tuning.
 5.  **Your trigger decides your bill.** A decision every 5 minutes costs $3 a year; it's still the only line worth optimising.
 6.  **Think about what leaves the house.** Occupancy is personal data. Local models like Laya are the way to keep it home, once they are confident enough.
+7.  **Read the facts you send.** A living-room humidity of 0 % fools a threshold as easily as a model. Writing the prompt is a free audit of your sensors.
+8.  **Check that "merged" means "running".** Look for the new entity in production, not the green checkmark on the PR.
 
 If you've wired Jev (or Laya) into your own house, I'd love to hear which decisions you gave it, and which ones you took back. Tell me in the comments!
