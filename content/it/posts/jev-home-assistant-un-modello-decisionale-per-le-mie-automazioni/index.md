@@ -86,7 +86,7 @@ flowchart TD
     V --> L
 ```
 
-Tutto passa da due script condivisi, `script.jev_yes_no` e `script.jev_choice`, in un file `packages/jev.yaml`. Ogni decisione scrive una riga nel logbook come `jev=True (p=0.93) rule=False -> False [rule, shadow]`. È quel logbook che leggo prima di passare una decisione in `active`: le righe in cui Jev e la regola non sono d'accordo sono esattamente i casi che vale la pena guardare.
+Tutto passa da due script condivisi, `script.jev_yes_no` e `script.jev_choice`, in un file `packages/jev.yaml`. Ogni decisione scrive una riga nel logbook come `jev=True (p=0.93) rule=False -> False [rule, shadow]`. È quel logbook che leggo prima di passare `jev_mode` in `active` (è un unico interruttore per tutta la casa): le righe in cui Jev e la regola non sono d'accordo sono esattamente i casi che vale la pena guardare. Tutto è andato in produzione in modalità `shadow`, ed è lì che si trova ancora mentre scrivo. Il piano: una o due settimane in shadow, una revisione dei disaccordi, e solo dopo `active`.
 
 Ecco il cuore dello script sì/no (accorciato):
 
@@ -166,7 +166,7 @@ Ora ogni allarme prima chiede a Jev:
 
 Lo script invia il tempo di funzionamento attuale, quello di oggi e della settimana, l'ultimo avvio e l'ultimo arresto, i tentativi di riavvio, il pluviometro, il meteo, la temperatura esterna e l'umidità della cantina. Il background spiega a Jev come si comporta questa pompa ("un ciclo normale dura meno di 2 minuti; dopo una pioggia forte può partire molte volte al giorno; nei periodi secchi può restare ferma per giorni; il pluviometro a volte non è disponibile, in quel caso basati sul meteo"). La domanda: *"Questo comportamento della pompa si spiega con un funzionamento normale piuttosto che con un guasto?"*, soglia 0,8.
 
-Quell'ultima indicazione sul pluviometro è il tipo di cosa che non si può mettere in una soglia, ed è esattamente quello che direi a una persona che tiene d'occhio la casa per me.
+Quell'ultima indicazione sul pluviometro è il tipo di cosa che non si può mettere in una soglia, ed è esattamente quello che direi a una persona che tiene d'occhio la casa per me. E non è teoria: il giorno del deploy la batteria del pluviometro era al 6% e il sensore non era disponibile.
 
 ### 2. Acqua: una doccia lunga non è una perdita
 
@@ -178,7 +178,7 @@ Il trucco dell'umidità è il mio preferito: il contatore non sa *dove* va l'acq
 
 Un allarme di "calo rapido di temperatura" per ogni camera (−3,6 °C in 30 minuti quando fuori ci sono meno di 15 °C) è il classico rilevatore di *qualcuno ha lasciato la finestra aperta*. Jev riceve la temperatura della stanza, il calo, la temperatura esterna, lo stato e il setpoint dei termostati della stanza, i sensori delle finestre *quando la stanza ne ha uno*, e la velocità della ventilazione.
 
-Collegare questa mi ha dato un bonus inaspettato. Per passare i sensori di tendenza a Jev, l'agente ha dovuto leggerli, e ha scoperto che **quattro su cinque puntavano a entità inesistenti** (mancava un suffisso `_2`). Quattro dei miei cinque allarmi di calo di temperatura non potevano semplicemente mai scattare. Stessa storia per la pompa: la riattivazione dopo 24 ore in seguito a uno spegnimento forzato sottraeva un numero da una data, andava in errore ogni volta, e non veniva mai eseguita. Chiedere a un agente di collegare un nuovo modello a vecchie automazioni è anche un ottimo modo per fargliele rileggere.
+Collegare questa mi ha dato un bonus inaspettato. Per passare i sensori di tendenza a Jev, l'agente ha dovuto leggerli, e ha scoperto che **quattro su cinque puntavano a entità inesistenti** (mancava un suffisso `_2`). Quattro dei miei cinque allarmi di calo di temperatura erano bloccati su `unknown` e non potevano semplicemente mai scattare. Ora che sono corretti torneranno a scattare, ed è Jev che dovrebbe impedire che diventino rumore. Stessa storia per la pompa: la riattivazione dopo 24 ore in seguito a uno spegnimento forzato sottraeva un numero da una data, andava in errore ogni volta, e non veniva mai eseguita. Chiedere a un agente di collegare un nuovo modello a vecchie automazioni è anche un ottimo modo per fargliele rileggere.
 
 ### 4. Tapparelle contro il caldo
 
@@ -281,6 +281,8 @@ Il piano che seguirei: far girare Laya **in shadow accanto a Jev** (una terza co
 ## Come è stato costruito
 
 Come nei miei ultimi articoli: è stata un'unica sessione di Claude Code sul repository della mia configurazione di Home Assistant. Ho chiesto quali automazioni fossero "decisioni di giudizio" piuttosto che regole, l'agente ha proposto lo schema shadow/active e gli script condivisi, ha scritto i prompt per ogni ambito e li ha collegati. Il mio lavoro è stato decidere quali decisioni meritano Jev (non tutte: una luce che segue un sensore di movimento non ha bisogno di un modello), verificare i prompt con quello che so della casa, e rivedere il diff. I due bug trovati lungo la strada sono stati un bel bonus.
+
+Prima che qualcosa arrivasse in casa, l'agente ha avviato Home Assistant 2026.9.3 in Docker con un'integrazione `jev` finta, e ha fatto passare gli script per tutti i percorsi: modalità shadow, active e off, budget superato, errore di Jev, bassa confidenza, scelta non valida, e per il bucato una pausa, una ripresa e una vera fine. Il lavoro è arrivato come due pull request sul repository della mia configurazione (lo strato decisionale, poi il bucato), entrambe rilasciate in modalità shadow.
 
 ## Lezioni imparate
 

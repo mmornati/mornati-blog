@@ -86,7 +86,7 @@ flowchart TD
     V --> L
 ```
 
-Everything goes through two shared scripts, `script.jev_yes_no` and `script.jev_choice`, in a `packages/jev.yaml` file. Each decision writes a line in the logbook like `jev=True (p=0.93) rule=False -> False [rule, shadow]`. That logbook is what I read before flipping a decision to `active`: the lines where Jev and the rule disagree are exactly the cases worth looking at.
+Everything goes through two shared scripts, `script.jev_yes_no` and `script.jev_choice`, in a `packages/jev.yaml` file. Each decision writes a line in the logbook like `jev=True (p=0.93) rule=False -> False [rule, shadow]`. That logbook is what I read before switching `jev_mode` to `active` (it's one switch for the whole house): the lines where Jev and the rule disagree are exactly the cases worth looking at. Everything went live in `shadow` mode, and that's where it still is as I write this. The plan: one or two weeks of shadow, a review of the disagreements, and only then `active`.
 
 Here is the heart of the yes/no script (trimmed):
 
@@ -166,7 +166,7 @@ Now each alert first asks Jev:
 
 The script sends the current run time, today's and this week's running time, the last start and stop, the restart attempts, the rain gauge, the weather, the outdoor temperature and the cellar humidity. The background tells Jev how this pump behaves ("a normal cycle lasts less than 2 minutes; after heavy rain it can start many times a day; in dry periods it can stay off for days; the rain gauge is sometimes unavailable, then rely on the weather"). The question: *"Is this sump pump behaviour explained by normal operation rather than a fault?"*, threshold 0.8.
 
-That last hint about the rain gauge is the kind of thing you can't put in a threshold, and it's exactly what I would tell a person watching the house for me.
+That last hint about the rain gauge is the kind of thing you can't put in a threshold, and it's exactly what I would tell a person watching the house for me. And it's not theoretical: the day I deployed this, the rain gauge battery was at 6% and the sensor was unavailable.
 
 ### 2. Water: a long shower is not a leak
 
@@ -178,7 +178,7 @@ The humidity trick is my favourite: the water meter doesn't know *where* the wat
 
 A "fast temperature drop" alert per bedroom (−3.6 °C in 30 minutes while it's below 15 °C outside) is the classic *someone left the window open* detector. Jev gets the room temperature, the drop, the outdoor temperature, the state and target of the room's thermostats, the window sensors *when the room has one*, and the ventilation speed.
 
-Wiring this one gave me an unexpected bonus. To pass the trend sensors to Jev, the agent had to read them, and found that **four of the five pointed to entities that don't exist** (a missing `_2` suffix). Four of my five temperature-drop alerts could simply never fire. Same story for the pump: the 24 h re-enable after a forced shutdown subtracted a number from a date, errored every time, and never ran. Asking an agent to wire a new model into old automations is also a great way to have them re-read.
+Wiring this one gave me an unexpected bonus. To pass the trend sensors to Jev, the agent had to read them, and found that **four of the five pointed to entities that don't exist** (a missing `_2` suffix). Four of my five temperature-drop alerts were stuck on `unknown` and could simply never fire. Now that they're fixed they will fire again, and Jev is what should keep them from turning into noise. Same story for the pump: the 24 h re-enable after a forced shutdown subtracted a number from a date, errored every time, and never ran. Asking an agent to wire a new model into old automations is also a great way to have them re-read.
 
 ### 4. Covers against the heat
 
@@ -281,6 +281,8 @@ The plan I'd follow: run Laya **in shadow next to Jev** (a third column in the l
 ## How it was built
 
 As in my recent posts: this was one Claude Code session on my Home Assistant configuration repository. I asked which automations were "judgement calls" rather than rules, the agent proposed the shadow/active pattern and the shared scripts, wrote the domain prompts, and wired them in. My job was to decide which decisions deserve Jev (not everything does: a light following a motion sensor doesn't need a model), check the prompts against what I know of the house, and review the diff. The two bugs it found on the way were a nice bonus.
+
+Before anything reached the house, the agent booted Home Assistant 2026.9.3 in Docker with a stub `jev` integration and ran the scripts through every path: shadow, active and off modes, budget exceeded, Jev raising an error, low confidence, an invalid choice, and for the laundry a pause, a resume and a real end. The work came as two pull requests on my config repository (the decision layer, then the laundry), both deployed in shadow mode.
 
 ## Lessons learned
 
