@@ -100,6 +100,26 @@ Le tableau de bord n'a que quelques heures (je l'ai remis à zéro à la mise en
 
 En regardant directement le logbook du mode shadow sur les dernières 24 heures, ce n'est pas un hasard : sur environ 115 appels VMC, absolument tous étaient en désaccord avec la règle, toujours avec une confiance trop basse pour compter même en mode active, alors que tous les appels sur les volets étaient d'accord avec elle. Deux décisions, câblées de la même façon, qui se comportent de façon complètement différente. C'est exactement pour ça que l'interrupteur par décision existe : **les volets pourraient passer en active dès aujourd'hui**, il ne reste rien à vérifier ; **la VMC ne le peut clairement pas encore**, et maintenant j'ai un tableau de bord au lieu d'une simple intuition pour me le dire. Mon hypothèse, à vérifier la semaine prochaine : la règle de la VMC applique déjà de l'hystérésis sur les pics d'humidité courts, donc une bonne partie de ce qui ressemble à un « désaccord » est en fait Jev et la règle qui choisissent des vitesses différentes pendant le même transitoire, plutôt qu'une vraie erreur de l'un ou de l'autre - exactement le genre de chose que le process de revue hebdomadaire est fait pour creuser, une fois qu'une semaine complète de retours aura été lue.
 
+## « Ce n'est pas justement fait pour ça, le capteur bayésien ? »
+
+Un autre commentaire, sur le même fil que celui sur le modèle local, cette fois de **Niall O'Callaghan** :
+
+> @mmornati is this not what the Bayesian sensor is for?
+
+Le [capteur bayésien](https://www.home-assistant.io/integrations/bayesian/) de Home Assistant fait « combiner plusieurs indices en une seule probabilité » depuis des années, entièrement en local, gratuitement. La question se pose légitimement, et la réponse honnête est : presque, mais pas tout à fait - et l'écart, c'est exactement les deux choses dont parle cet article.
+
+Un capteur bayésien part d'un **prior** (à quelle fréquence la chose est vraie en général) et d'une liste d'**observations** - chacune une condition `state`, `numeric_state` ou `template`, avec deux chiffres que **vous** fournissez vous-même : `prob_given_true` et `prob_given_false`, la probabilité de voir cette observation si la chose est vraie ou fausse. Il les multiplie entre elles (naïf bayésien) et bascule sur `on` dès que le résultat dépasse `probability_threshold`. Entièrement local, instantané, gratuit, déterministe, et chaque chiffre est à vous, réglable sur votre propre historique.
+
+Là où il retombe sur le même mur qu'un simple seuil :
+
+- **Il faut connaître les probabilités.** « Quelle est la probabilité de 14 mm de pluie, sachant que la pompe se comporte normalement ? » est une estimation déguisée en chiffre, et une mauvaise estimation reste un chiffre qui a l'air sûr de lui.
+- **C'est binaire, un point c'est tout.** Un capteur bayésien, c'est un seul `on`/`off`. La décision VMC a besoin de choisir parmi trois vitesses, chacune avec sa confiance - c'est `jev.choice`, qui renvoie toute une distribution qui somme à 1. Pour arriver au même résultat avec des capteurs bayésiens, il en faudrait trois qui votent, sans aucune garantie que leurs probabilités s'additionnent à quelque chose de sensé.
+- **Les chiffres deviennent des tranches, et les indices sont supposés indépendants.** Une observation `numeric_state` ne se déclenche qu'au-dessus ou en dessous d'une ligne, donc 11 L/min et 25 L/min tombent dans la même tranche. Et l'humidité de la salle de bain qui grimpe *parce que* l'eau coule, c'est deux morceaux du même fait, comptés deux fois, sauf à penser soi-même à modéliser ce lien.
+- **Il ne sait pas quand ses propres entrées mentent.** Donnez-lui le capteur d'humidité resté bloqué à 0 % on ne sait combien de temps, et il multiplie ce mensonge dans la probabilité finale avec exactement la confiance que vous avez configurée - comme le faisait l'ancienne règle de la VMC. Le filet de sécurité `sensor_health.jinja`, plus haut dans cet article, existe précisément parce que rien dans le capteur bayésien lui-même n'aurait détecté ça.
+- **Pas de mémoire non plus.** Un capteur bayésien raisonne sur l'état actuel de ses observations, pas sur « l'humidité a grimpé de 6 points en 15 minutes puis s'est maintenue » - exactement la forme que `script.jev_history` existe pour décrire.
+
+Rien de tout ça n'en fait un mauvais outil. Pour un signal qu'on comprend déjà bien et qu'on veut garder entièrement hors-ligne et déterministe - la présence détectée par des capteurs de mouvement et d'ouverture est l'exemple classique - un capteur bayésien réglé à la main reste vraiment le meilleur choix : pas d'appel réseau, pas de coût par appel, la même réponse à chaque fois. Les deux se combinent d'ailleurs très bien : la probabilité d'un capteur bayésien peut devenir une ligne de plus dans les faits envoyés à Jev, et l'action `jev.calibrate` de HA-Jev - qui compare l'historique d'un capteur de probabilité avec ce qui s'est réellement passé - peut suggérer un seuil, récupérant un peu de cet avantage « réglé sur ma propre maison » qu'a un capteur bayésien fait main et qu'un modèle généraliste n'a pas au départ.
+
 ## À essayer ensuite
 
 Deux choses que je n'ai pas encore faites, et qui découlent naturellement de ce qui existe déjà :

@@ -100,6 +100,26 @@ Lo scoreboard ha solo poche ore (l'ho azzerato quando è entrato in produzione),
 
 Tirato fuori direttamente dal registro shadow delle ultime 24 ore, non è un caso isolato - ognuna delle circa 115 chiamate della VMC non era d'accordo con la regola, sempre con una confidenza troppo bassa per contare anche in modalità active, mentre ogni chiamata delle tapparelle era d'accordo. Due decisioni, cablate allo stesso modo, che si comportano in modo completamente diverso. Ed è esattamente per questo che esiste l'interruttore per decisione: **le tapparelle potrebbero passare in active oggi stesso**, non c'è più niente da controllare; **la VMC chiaramente non può ancora**, e adesso ho uno scoreboard al posto di una sensazione di pancia a dirmelo. La mia ipotesi, da verificare: la regola della VMC reagisce già ai picchi brevi di umidità con isteresi, quindi buona parte di quello che sembra "disaccordo" è Jev e la regola che scelgono velocità diverse durante lo stesso transitorio, non uno dei due che sbaglia - ed è esattamente il genere di cosa per cui esiste il processo di revisione settimanale, una volta che ci sarà una settimana intera di risposte di feedback da leggere.
 
+## "Non è esattamente quello che fa il sensore bayesiano?"
+
+Un altro commento, sullo stesso thread di quello sul modello locale, stavolta di **Niall O'Callaghan**:
+
+> @mmornati is this not what the Bayesian sensor is for?
+
+Il [sensore bayesiano](https://www.home-assistant.io/integrations/bayesian/) di Home Assistant fa "combina più indizi in una sola probabilità" da anni, del tutto in locale, gratis. La domanda è legittima, e la risposta onesta è: quasi, ma non proprio - e il divario è esattamente quello di cui parla questo articolo.
+
+Un sensore bayesiano parte da un **prior** (quanto è probabile la cosa in generale) e da una lista di **osservazioni** - ciascuna una condizione `state`, `numeric_state` o `template`, con due numeri che fornite **voi**: `prob_given_true` e `prob_given_false`, quanto è probabile vedere quell'osservazione se la cosa è vera o falsa. Li moltiplica tra loro (bayesiano ingenuo) e passa a `on` non appena il risultato supera `probability_threshold`. Tutto locale, istantaneo, gratis, deterministico, e ogni numero è vostro, regolabile sulla vostra storia.
+
+Dove finisce contro lo stesso muro di una semplice soglia:
+
+- **Bisogna conoscere le probabilità.** "Quant'è probabile 14 mm di pioggia, sapendo che la pompa si comporta normalmente?" è una stima travestita da numero, e una stima sbagliata resta comunque un numero che sembra sicuro di sé.
+- **È binario, punto.** Un sensore bayesiano è un solo `on`/`off`. La decisione della VMC deve scegliere tra tre velocità, ciascuna con la sua confidenza - questo è `jev.choice`, che restituisce un'intera distribuzione che somma a 1. Per arrivarci con dei sensori bayesiani ne servirebbero tre che votano, senza nessuna garanzia che le loro probabilità si sommino a qualcosa di sensato.
+- **I numeri diventano fasce, e gli indizi si considerano indipendenti.** Un'osservazione `numeric_state` scatta solo sopra o sotto una linea, quindi 11 L/min e 25 L/min finiscono nella stessa fascia. E l'umidità del bagno che sale *perché* l'acqua sta scorrendo è lo stesso fatto contato due volte, a meno di ricordarsi di modellare da soli quel legame.
+- **Non sa quando le sue stesse letture mentono.** Dategli il sensore di umidità rimasto bloccato a 0% chissà da quanto, e moltiplica quella bugia nella probabilità finale con esattamente la confidenza che avete configurato - proprio come faceva la vecchia regola della VMC. La rete di sicurezza `sensor_health.jinja`, descritta più sopra in questo articolo, esiste proprio perché niente nel sensore bayesiano in sé avrebbe intercettato la cosa.
+- **Niente memoria, neanche lì.** Un sensore bayesiano ragiona sullo stato attuale delle sue osservazioni, non su "l'umidità è salita di 6 punti in 15 minuti e poi si è stabilizzata" - esattamente la forma che `script.jev_history` esiste per descrivere.
+
+Niente di tutto questo lo rende uno strumento cattivo. Per un segnale che già si conosce bene e che si vuole tenere del tutto offline e deterministico - la presenza rilevata da sensori di movimento e apertura è l'esempio classico - un sensore bayesiano tarato a mano resta davvero la scelta migliore: nessuna chiamata di rete, nessun costo per chiamata, sempre la stessa risposta. I due, tra l'altro, si combinano bene: la probabilità di un sensore bayesiano può diventare una riga in più tra i dati che riceve Jev, e l'azione `jev.calibrate` di HA-Jev - che confronta lo storico di un sensore di probabilità con quello che è successo davvero - può suggerire una soglia, recuperando un po' di quel vantaggio "tarato sulla mia casa" che un sensore bayesiano fatto a mano ha di partenza e un modello generalista no.
+
 ## Cosa proverei ancora
 
 Due cose che non ho ancora fatto, entrambe passi naturali da quello che c'è già:

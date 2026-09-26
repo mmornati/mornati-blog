@@ -100,6 +100,26 @@ The scoreboard is only hours old (I reset it when this shipped), and it's alread
 
 Pulled straight from the shadow logbook over the last 24 hours, that's not a fluke - every one of about 115 VMC calls disagreed with the rule, always at a confidence too low to matter even in active mode, while every one of the shutter calls agreed with it. Two decisions, wired the same way, behaving completely differently. That's exactly why the per-decision switch exists: **the shutters could go active today** with nothing left to check; **the VMC clearly can't yet**, and now I have a scoreboard instead of a gut feeling telling me so. My guess, to verify next: the VMC's own rule already reacts to short humidity spikes with hysteresis, so a lot of what looks like "disagreement" is Jev and the rule picking different speeds during the same transient rather than either one being wrong - which is precisely the kind of thing the weekly review process exists to dig into once there's a full week of feedback answers to read.
 
+## "Isn't this what the Bayesian sensor is for?"
+
+Another comment, from **Niall O'Callaghan**, on the same thread as the local-model one:
+
+> @mmornati is this not what the Bayesian sensor is for?
+
+Home Assistant's own [Bayesian sensor](https://www.home-assistant.io/integrations/bayesian/) has been doing "combine several clues into one probability" for years, entirely locally, for free. It's a fair question, and the honest answer is: close, but not quite - and the gap is exactly the two things this post is about.
+
+A Bayesian sensor takes a **prior** (how often the thing is true in general) and a list of **observations** - each one a `state`, `numeric_state` or `template` condition, with two numbers *you* supply: `prob_given_true` and `prob_given_false`, how likely that observation is if the thing is true or false. It multiplies them together (naive Bayes) and flips to `on` once the result clears `probability_threshold`. Entirely local, instant, free, deterministic, and every number is yours to tune from your own history.
+
+Where it runs into the same wall as a plain threshold:
+
+- **You have to know the probabilities.** "How likely is 14 mm of rain, given that the pump is behaving normally?" is a guess dressed up as a number, and a wrong guess is still a confident-looking one.
+- **It's binary, full stop.** One Bayesian sensor is one `on`/`off`. The VMC decision needs a pick among three speeds with a confidence on each - that's `jev.choice`, returning a whole distribution that sums to 1. To get there with Bayesian sensors you'd need three of them, voting, with no guarantee their probabilities add up to anything sensible.
+- **Numbers become buckets, and clues are assumed independent.** A `numeric_state` observation only fires above or below a line, so 11 L/min and 25 L/min land in the same bucket. And bathroom humidity climbing *because* the water is flowing is two pieces of the same fact, counted twice, unless you remember to model that yourself.
+- **It has no idea when its own inputs are lying.** Feed it the humidity sensor that was stuck at 0% for who knows how long, and it multiplies that lie into the posterior with exactly the confidence you configured, same as the old VMC rule did. The `sensor_health.jinja` safety net earlier in this post exists precisely because nothing in the Bayesian sensor itself would have caught that.
+- **No memory, either.** A Bayesian sensor reasons over the current state of its observations, not "humidity rose 6 points in 15 minutes then held" - the exact shape `script.jev_history` exists to describe.
+
+None of that makes it a bad tool. For a signal you already understand well and want to keep entirely offline and deterministic - occupancy from motion and door sensors is the classic example - a hand-tuned Bayesian sensor is genuinely the better choice: no network call, no per-call cost, the same answer every time. The two combine nicely, in fact: a Bayesian sensor's probability can be one more line in the facts Jev gets, and HA-Jev's own `jev.calibrate` action - comparing a probability sensor's past values against what actually happened - can suggest a threshold, borrowing back a bit of the "tuned on my own house" advantage a hand-rolled Bayesian sensor has and a general-purpose model doesn't start with.
+
 ## Worth trying next
 
 Two things I haven't done yet, both natural next steps from what's already in place:
