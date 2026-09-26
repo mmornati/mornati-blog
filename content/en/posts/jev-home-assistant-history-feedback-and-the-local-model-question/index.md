@@ -15,6 +15,7 @@ date: '2026-09-26T15:50:00.000000+00:00'
 draft: false
 slug: jev-home-assistant-history-feedback-and-the-local-model-question
 translationKey: jev-home-assistant-history-feedback
+cover: cover.jpg
 showHero: true
 description: A Mastodon comment asked why not feed Jev's context to a small local model instead. Here is why an N100 mini PC with 16 GB of RAM can't carry that, why swapping models wouldn't have fixed the real problem anyway, and what I built instead - compact history, a broken-sensor safety net, per-decision shadow/active modes, and a feedback loop that scores Jev against my own rules. With the real numbers from the first days in production.
 summary: The fix for "Jev has no memory" was never a different model. It was giving Jev a memory. Here is the history script, the feedback loop, and what the live scoreboard already disagrees about.
@@ -22,7 +23,7 @@ summary: The fix for "Jev has no memory" was never a different model. It was giv
 
 My [previous post](/jev-home-assistant-letting-a-decision-model-judge-my-automations/) covered how I plugged **Jev**, TypeSafe's decision model, into Home Assistant to answer the "is this normal?" question my threshold-based automations can't: is the sump pump running long because it rained, or because the float is stuck; is the water flowing because of a shower, or a leak. The rule always computes its own answer, Jev only advises, and everything started in shadow mode so I could read the disagreements before trusting it.
 
-That post got a comment on Mastodon that deserved more than a reply:
+That post got a comment on Mastodon that deserved more than a reply. Thanks to **OneClickClaw** for it:
 
 > @mmornati Feed the last few hours of readings to a small local model, it gets the context.
 
