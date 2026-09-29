@@ -11,6 +11,8 @@ tags:
 date: '2025-12-31T17:51:16.624000+00:00'
 slug: behind-the-scenes-the-admin-section-of-cyber-code-academy
 description: Explorez les puissants outils d'admin de Cyber Code Academy pour la création de défis, la surveillance, la validation sémantique et la gestion de plateforme pilotée par l'IA
+projects:
+- cyber-code-academy
 ---
 
 ## Introduction

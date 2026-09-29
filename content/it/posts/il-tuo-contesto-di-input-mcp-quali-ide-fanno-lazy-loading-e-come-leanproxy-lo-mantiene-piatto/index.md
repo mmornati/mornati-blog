@@ -21,6 +21,8 @@ description: Ogni server MCP che tieni abilitato paga un pedaggio sul contesto d
   a ogni richiesta. Ma non tutti gli IDE caricano i tool allo stesso modo. Ecco chi fa
   lazy loading, chi no, e come LeanProxy mantiene piatte le dimensioni del tuo contesto
   qualunque cosa tu tenga configurato e attivo.
+projects:
+- leanproxy-mcp
 ---
 
 

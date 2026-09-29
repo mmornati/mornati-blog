@@ -19,6 +19,8 @@ translationKey: arlo-base-station-replacement
 description: 'How I replaced the proprietary Arlo base station with a telnet-rooted Netgear Orbi RBR760 mesh router so my cameras could use the existing mesh WiFi, eliminating dead spots and Arlo subscription fees.'
 cover: cover.jpg
 showHero: true
+projects:
+- arlo-self-hosted
 ---
 
 Back in 2020, when I moved into my current house, I bought an Arlo security system: a single base station and three Pro 4 cameras scattered around the garden. The house is quite big, and with a single base station it is not easy to keep every camera working perfectly. Every now and then a random camera would drop its connection, and the farthest one seemed to drain its battery much faster than the others — it spent too much energy fighting the weak WiFi signal from the base station in the office upstairs. So I decided to test the Netgear Orbi mesh I already owned, one router and two satellites, to improve the WiFi coverage for the cameras. Sound familiar?

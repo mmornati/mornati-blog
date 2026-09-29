@@ -20,6 +20,8 @@ cover: cover.jpg
 showHero: true
 description: The follow-up to ai-dispatch. A Go gateway that asks a fast decision model (TypeSafe's Jev, called through OpenRouter, or Laya running locally) four typed questions about each prompt, then picks the cheapest LLM good enough to answer it. With an 80-prompt benchmark of Jev against three Laya checkpoints.
 summary: My first model router let an LLM read a prompt file and pick an agent. This one asks a "System One" decision model four typed questions, scores the models with plain arithmetic, and publishes a benchmark to prove it works (and to show where it doesn't).
+projects:
+- ha-decision-models
 ---
 
 Back in June I wrote about [why intelligent delegation is the missing piece in your AI toolchain](/the-ai-orchestrator-why-intelligent-delegation-is-the-missing-piece-in-your-ai-toolchain/), and I built [ai-dispatch](https://github.com/mmornati/ai-dispatch) to test the idea: an MCP orchestrator that dispatched work to specialised agents, each with its own model. It worked well enough to convince me the pattern was sound. But deep down I knew the "routing" part was the weakest bit of the whole thing.

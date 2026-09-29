@@ -1,0 +1,76 @@
+# Rack units on the homepage and the /projects/<key>/ hub pages.
+# Posts join a unit through the `projects` taxonomy in their front matter
+# (scripts/tag_projects.py fills it from repo links). Status is not stored here:
+# the LED is computed at build time from the date of the unit's newest post.
+- key: ai-running-coach
+  name: ai-running-coach
+  repo: https://github.com/mmornati/ai-running-coach
+  pillar: ai-coding-agents
+  summary:
+    en: AI agents that plan and review my trail-running training from Garmin data.
+    fr: Des agents IA qui planifient et analysent mon entraînement de trail à partir des données Garmin.
+    it: Agenti IA che pianificano e analizzano il mio allenamento di trail a partire dai dati Garmin.
+- key: ha-decision-models
+  name: Jev & System One
+  repo: https://github.com/mmornati/system-one-router
+  pillar: smart-home
+  summary:
+    en: Decision models that judge my Home Assistant automations and route each prompt to the right LLM.
+    fr: Des modèles de décision qui jugent mes automatisations Home Assistant et routent chaque prompt vers le bon LLM.
+    it: Modelli decisionali che giudicano le mie automazioni Home Assistant e instradano ogni prompt verso l'LLM giusto.
+- key: leanproxy-mcp
+  name: leanproxy-mcp
+  repo: https://github.com/mmornati/leanproxy-mcp
+  pillar: ai-coding-agents
+  summary:
+    en: A token firewall for MCP that keeps the input context flat and secrets out of prompts.
+    fr: Un pare-feu à tokens pour MCP qui garde le contexte d'entrée léger et les secrets hors des prompts.
+    it: Un firewall di token per MCP che mantiene leggero il contesto di input e i segreti fuori dai prompt.
+- key: arlo-self-hosted
+  name: Self-hosted Arlo
+  repo: https://github.com/mmornati/arlo-base-station
+  pillar: smart-home
+  summary:
+    en: Arlo cameras running without Arlo's cloud, on my own base station and Home Assistant.
+    fr: Des caméras Arlo sans le cloud Arlo, sur ma propre station de base et Home Assistant.
+    it: Telecamere Arlo senza il cloud Arlo, sulla mia base station e Home Assistant.
+- key: home-energy
+  name: Solar & home energy
+  repo: https://github.com/mmornati/ha-energy-analysis
+  pillar: solar-energy
+  dashboard: /solar-analysis/
+  summary:
+    en: Measured solar production, the water heater that follows it, and whether any of it pays off.
+    fr: La production solaire mesurée, le chauffe-eau qui la suit, et si tout cela est rentable.
+    it: La produzione solare misurata, lo scaldabagno che la segue, e se tutto questo conviene.
+- key: proton-photos
+  name: gphoto2proton & proton-faces
+  repo: https://github.com/mmornati/gphoto2proton
+  pillar: programming
+  summary:
+    en: Moving 354 GB of Google Photos to Proton, then searching them by face locally.
+    fr: Migrer 354 Go de Google Photos vers Proton, puis y chercher des visages en local.
+    it: Migrare 354 GB di Google Foto su Proton, poi cercarvi i volti in locale.
+- key: hitachi-csnet
+  name: Hitachi CSNet for Home Assistant
+  repo: https://github.com/mmornati/home-assistant-csnet-home
+  pillar: smart-home
+  summary:
+    en: A Home Assistant integration for Hitachi heat pumps, reverse-engineered from the cloud API.
+    fr: Une intégration Home Assistant pour les pompes à chaleur Hitachi, rétro-conçue depuis l'API cloud.
+    it: Un'integrazione Home Assistant per le pompe di calore Hitachi, ricavata dall'API cloud.
+- key: nexus-dev
+  name: nexus-dev
+  repo: https://github.com/mmornati/nexus-dev
+  pillar: ai-coding-agents
+  summary:
+    en: A local RAG and MCP gateway that gives coding agents memory without the token bill.
+    fr: Un RAG local et une passerelle MCP qui donnent de la mémoire aux agents de code sans exploser les tokens.
+    it: Un RAG locale e un gateway MCP che danno memoria agli agenti di codice senza far esplodere i token.
+- key: cyber-code-academy
+  name: Cyber Code Academy
+  pillar: ai-coding-agents
+  summary:
+    en: A learning platform built by vibe coding, then deployed, hardened and pen-tested.
+    fr: Une plateforme d'apprentissage construite en vibe coding, puis déployée, durcie et testée.
+    it: Una piattaforma didattica costruita in vibe coding, poi messa in produzione, protetta e testata.

@@ -12,6 +12,8 @@ tags:
 date: '2026-05-05T21:24:42.989000+00:00'
 slug: the-hidden-tax-on-every-ai-request-how-mcp-servers-are-draining-your-token-budget
 description: Exécuter 4 serveurs MCP m'a coûté 515$/mois en tokens gaspillés. Des données réelles de mon setup prouvent que la taxe de schéma à 99,7% est réelle.
+projects:
+- leanproxy-mcp
 ---
 
 

@@ -19,6 +19,8 @@ cover: cover.jpg
 showHero: true
 description: Un commento su Mastodon mi chiedeva perché non dare in pasto a un modello locale piccolo lo storico delle letture. Qui spiego perché un mini PC N100 con 16 GB di RAM non ce la farebbe, perché cambiare modello comunque non avrebbe risolto il problema vero, e cosa ho costruito al suo posto - uno storico compatto, una rete di sicurezza per i sensori rotti, una modalità shadow/attiva per ogni decisione, e un ciclo di feedback che valuta Jev contro le mie stesse regole. Con i numeri veri dei primi giorni in produzione.
 summary: La cura per "Jev non ha memoria" non era un modello diverso. Era dargli una memoria. Ecco lo script dello storico, il ciclo di feedback, e su cosa lo scoreboard live è già in disaccordo.
+projects:
+- ha-decision-models
 ---
 
 Il mio [articolo precedente](/it/jev-home-assistant-un-modello-decisionale-per-le-mie-automazioni/) raccontava come ho collegato **Jev**, il modello decisionale di TypeSafe, a Home Assistant per rispondere alla domanda "è normale?" che le mie automazioni a soglia non sanno gestire: la pompa di sollevamento gira a lungo perché ha piovuto, o perché il galleggiante è bloccato; l'acqua scorre per una doccia, o per una perdita. La regola calcola sempre la sua risposta, Jev si limita a consigliare, e tutto è partito in modalità shadow, così potevo leggere i disaccordi prima di fidarmi.

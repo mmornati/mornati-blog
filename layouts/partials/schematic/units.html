@@ -1,0 +1,9 @@
+{{/* Project units with posts in the current language, newest activity first. */}}
+{{ $units := slice }}
+{{ range $proj := hugo.Data.projects }}
+  {{ with index site.Taxonomies.projects $proj.key }}
+    {{ $pages := sort .Pages "Date" "desc" }}
+    {{ $units = $units | append (dict "data" $proj "pages" $pages "newest" (index $pages 0).Date) }}
+  {{ end }}
+{{ end }}
+{{ return sort $units "newest" "desc" }}

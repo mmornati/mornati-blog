@@ -22,6 +22,8 @@ aliases:
 description: 'Come ho sostituito la stazione base Arlo proprietaria con un router mesh Netgear Orbi RBR760 rootato via telnet, in modo che le mie telecamere potessero usare il WiFi mesh esistente.'
 cover: cover.jpg
 showHero: true
+projects:
+- arlo-self-hosted
 ---
 
 Nel 2020, quando mi sono trasferito nella casa attuale, ho acquistato un sistema di sicurezza Arlo: una stazione base singola e tre telecamere Pro 4 sparse nel giardino. La casa è piuttosto grande e con una sola stazione base non è facile mantenere tutte le telecamere perfettamente funzionanti. Ogni tanto una telecamera a caso perdeva la connessione, e la più lontana sembrava scaricare la batteria molto più velocemente delle altre — spendeva troppa energia lottando con il segnale WiFi debole proveniente dalla stazione nello studio al piano di sopra. Così ho deciso di provare il mesh Netgear Orbi che già possedevo, un router e due satelliti, per migliorare la copertura WiFi delle telecamere. Vi suona familiare?

@@ -13,6 +13,8 @@ slug: two-years-of-solar-the-real-numbers-and-roi
 translationKey: two-years-of-solar-the-real-numbers-and-roi
 description: "24 mois de données mesurées sur une installation de 12 panneaux en toiture — production, autoconsommation, revente du surplus et retour sur investissement réel."
 summary: "12 panneaux, 3 micro-onduleurs, pas de batterie — voici ce que les 24 premiers mois ont réellement produit, autoconsommé, injecté et rapporté."
+projects:
+- home-energy
 ---
 
 Il y a deux ans, par une matinée ensoleillée de septembre, douze rectangles sombres sont apparus sur mon toit. Pas encore de tableau de bord domotique, pas d'énergie monitor, pas de télémétrie d'onduleur — juste un installateur, quelques perceuses et trois micro-onduleurs APS DS3 branchés sur le tableau électrique.

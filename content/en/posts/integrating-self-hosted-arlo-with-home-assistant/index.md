@@ -18,6 +18,8 @@ translationKey: arlo-home-assistant-integration
 description: 'How to wire your self-hosted Arlo basestation emulator (arlo-cam-api + arlo-snapshot + mediamtx) into Home Assistant using REST sensors, template sensors, binary_sensors, automations, input_booleans and a Lovelace Cameras dashboard — all without relying on the deprecated pyaarlo/aarlo integrations.'
 cover: cover.jpg
 showHero: true
+projects:
+- arlo-self-hosted
 ---
 
 This is Post 3 — the final one — of a three-part series on replacing the proprietary Arlo base station with a self-hosted stack. In [Post 1 of this series](/replacing-arlo-base-station-with-a-netgear-orbi-router/) I covered the networking layer: how to make a Netgear Orbi RBR760 impersonate the Arlo base station well enough that the cameras connect, register, and keep streaming. In [Post 2 of this series](/self-hosting-arlo-cam-api-patches-and-improvements/) I covered the server layer: the `arlo-cam-api` Docker stack, the `arlo-snapshot` on-demand sidecar, the on-demand RTSP relay via MediaMTX, and the three upstream pull requests I contributed to fix the bugs I hit on the way.

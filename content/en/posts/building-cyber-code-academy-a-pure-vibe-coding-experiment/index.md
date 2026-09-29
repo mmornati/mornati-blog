@@ -11,6 +11,8 @@ date: '2025-12-28T15:14:36.216000+00:00'
 slug: building-cyber-code-academy-a-pure-vibe-coding-experiment
 description: 'Discover Cyber Code Academy: a gamified platform for learning Python,
   driven by AI and developed with "pure vibe coding" for interactive fun'
+projects:
+- cyber-code-academy
 ---
 
 

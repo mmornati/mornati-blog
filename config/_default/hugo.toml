@@ -20,6 +20,12 @@ enableEmoji = true
   [outputFormats.RSS]
     mediatype = "application/rss+xml"
     baseName = "rss"
+  # Lightweight per-language index for link hover previews (assets/js/previews.js).
+  [outputFormats.PREVIEWS]
+    mediatype = "application/json"
+    baseName = "previews"
+    isPlainText = true
+    notAlternative = true
 
 [pagination]
   pagerSize = 30
@@ -32,6 +38,7 @@ enableEmoji = true
   category = "categories"
   author = "authors"
   series = "series"
+  project = "projects"
 
 [sitemap]
   changefreq = "daily"
@@ -39,7 +46,7 @@ enableEmoji = true
   priority = 0.5
 
 [outputs]
-  home = ["HTML", "RSS", "JSON"]
+  home = ["HTML", "RSS", "JSON", "PREVIEWS"]
 
 # English posts stay at the blog root (https://blog.mornati.net/<slug>/).
 # Italian and French posts explicitly set `url` and `aliases` in their front matter.
@@ -57,6 +64,10 @@ enableEmoji = true
   [[related.indices]]
     name = "categories"
     weight = 100
+
+  [[related.indices]]
+    name = "projects"
+    weight = 150
 
   [[related.indices]]
     name = "series"

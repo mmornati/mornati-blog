@@ -1,0 +1,8 @@
+{{- $out := dict -}}
+{{- range where .Site.RegularPages "Type" "in" .Site.Params.mainSections -}}
+  {{- $cover := partial "schematic/cover.html" . -}}
+  {{- $c := "" -}}
+  {{- with $cover -}}{{- $c = (.Fill "480x270 q72 Center webp").RelPermalink -}}{{- end -}}
+  {{- $out = merge $out (dict .RelPermalink (dict "t" .Title "d" (.Date.Format "2006-01-02") "r" .ReadingTime "s" (.Params.summary | default .Description | default .Summary | plainify | truncate 180) "c" $c)) -}}
+{{- end -}}
+{{- $out | jsonify -}}

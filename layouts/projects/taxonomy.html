@@ -1,0 +1,17 @@
+{{ define "main" }}
+  {{ $lang := .Site.Language.Lang }}
+  {{ $units := partial "schematic/units.html" . }}
+  <header class="rack-page__head">
+    <h1>{{ i18n "rack.projects_title" }}</h1>
+    <p>{{ i18n "rack.units" }} · {{ i18n "rack.status_hint" }}.</p>
+  </header>
+  <div class="rack">
+    <div class="rack__rail rack__rail--l" aria-hidden="true"></div>
+    <div class="rack__bay">
+      {{ range $i, $u := $units }}
+        {{ partial "schematic/unit-project.html" (dict "u" $u "i" $i "lang" $lang) }}
+      {{ end }}
+    </div>
+    <div class="rack__rail rack__rail--r" aria-hidden="true"></div>
+  </div>
+{{ end }}

@@ -18,6 +18,8 @@ cover: cover.jpg
 showHero: true
 description: How I built proton-faces to bring Google-Photos-style search (people, objects, places) to my Proton Photos library, fully self-hosted, offline and read-only.
 summary: E2E encryption means Proton can never index your photos. So I built a two-container search engine that does it locally, on my own hardware, without ever writing back to Proton.
+projects:
+- proton-photos
 ---
 
 A few weeks ago I wrote about [migrating 354GB of Google Photos to Proton](/how-i-built-gphoto2proton-to-migrate-354gb-of-google-photos-to-proton/). The migration worked, my library is safe, albums are intact. But as I settled into Proton Photos, one quiet absence kept nagging me: **search**.

@@ -22,6 +22,8 @@ aliases:
 description: 'La correzione WiFi che mancava: aumentare il timeout di inattività del WiFi ospite e la durata del lease DHCP su un Netgear Orbi RBR760 affinché le telecamere VMC4040P smettano di ri-associarsi ogni 30 minuti e di scaricare la batteria durante la notte.'
 cover: cover.jpg
 showHero: true
+projects:
+- arlo-self-hosted
 ---
 
 Dopo la fusione dei tre post di questa serie, ho continuato a monitorare i livelli di batteria delle telecamere. Il Post 1 mi aveva detto che l'hardware WiFi era la seconda causa più probabile di consumo. I Post 2 e 3 mi avevano mostrato come il beacon e la politica di armamento delle telecamere interagiscono. Ma le telecamere continuavano a ri-associarsi alla rete ospite circa ogni trenta minuti, e la batteria continuava a scendere anche su telecamere armate in viste senza movimento. La causa restante non era affatto nel livello applicativo — era nel livello WiFi stesso.

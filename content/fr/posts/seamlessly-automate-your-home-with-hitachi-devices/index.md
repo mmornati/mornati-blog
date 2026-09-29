@@ -10,6 +10,8 @@ tags:
 date: '2025-01-26T10:18:06.650000+00:00'
 slug: seamlessly-automate-your-home-with-hitachi-devices-a-custom-home-assistant-integration
 description: Intégrez les appareils Hitachi avec Home Assistant en utilisant une intégration personnalisée CS-Net pour la surveillance et le contrôle en temps réel.
+projects:
+- hitachi-csnet
 ---
 
 La domotique a transformé notre façon d'interagir avec nos espaces de vie, offrant un contrôle, un confort et une efficacité sans précédent. Aujourd'hui, je suis ravi de présenter une intégration personnalisée qui comble le fossé entre les appareils Hitachi et Home Assistant pour de meilleures automatisations.

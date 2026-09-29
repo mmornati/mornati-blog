@@ -18,6 +18,8 @@ description: Comment j'ai préparé l'Ultra 110 km Trail Côte d'Opale avec ai-r
 url: /fr/preparer-un-ultra-trail-avec-ai-running-coach/
 aliases:
 - /preparer-un-ultra-trail-avec-ai-running-coach
+projects:
+- ai-running-coach
 ---
 
 Le 13 septembre 2026, à 02h00 du matin, je me suis élancé sur la ligne de départ de l'**Ultra 110 km Trail Côte d'Opale** à Wimereux. 15h26 plus tard, je franchissais la ligne d'arrivée. Entre ces deux moments, il n'y a pas eu que de l'entraînement : il y a eu des mois de **planification, d'analyse et d'ajustements** — et une bonne partie de ce travail a été faite avec l'aide d'agents IA.

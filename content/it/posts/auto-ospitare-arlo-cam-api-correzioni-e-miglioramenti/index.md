@@ -22,6 +22,8 @@ aliases:
 description: 'Come auto-ospitare l''emulatore di stazione base Arlo arlo-cam-api: stack Docker con RTSP on-demand tramite MediaMTX, sidecar Flask arlo-snapshot personalizzato, e le tre patch che ho inviato upstream per correggere un bug di avvio Flask, aggiungere un beacon keepalive, e abilitare snapshot-on-motion.'
 cover: cover.jpg
 showHero: true
+projects:
+- arlo-self-hosted
 ---
 
 Questo è il Post 2 di una serie di tre articoli sulla sostituzione della stazione base Arlo proprietaria con uno stack auto-ospitato. Nel [Post 1 di questa serie](/it/sostituire-la-stazione-base-arlo-con-un-router-netgear-orbi/) ho coperto il livello di rete — come fare in modo che un Netgear Orbi RBR760 si spacci sufficientemente bene per la stazione base Arlo da far connettere, registrare e streamare le telecamere. In questo post copro il livello *server*: lo stack Docker che effettivamente gira sul mini PC, il sidecar Flask personalizzato che cattura snapshot attivati dal movimento, il relay RTSP on-demand che rende lo streaming live rispettoso della batteria, e le tre pull request upstream che ho inviate per correggere bug incontrati strada facendo.

@@ -19,6 +19,8 @@ cover: cover.jpg
 showHero: true
 description: Comment j'ai branché Jev, le modèle de décision de TypeSafe, sur Home Assistant pour répondre aux questions que mes règles YAML ne savaient pas trancher (« est-ce que c'est normal ? »), sans jamais le laisser les remplacer. Les intégrations dispo, le mode shadow, six automatisations réelles, le coût par jour, et ce qu'on peut attendre de Laya en local.
 summary: Mes automatisations sont douées pour les seuils et nulles pour le contexte. Jev répond à des questions typées avec une probabilité calibrée, pour environ deux millièmes de centime la question. Voici comment je l'ai branché sur Home Assistant en gardant les anciennes règles comme filet de sécurité, et ce que ça coûte vraiment.
+projects:
+- ha-decision-models
 ---
 
 Toutes les installations Home Assistant que je connais finissent avec le même genre d'automatisation : *« si la valeur dépasse X pendant Y minutes, envoie une notif »*. Ça marche… jusqu'au jour où ça ne marche plus. La pompe de relevage tourne deux minutes après une nuit d'orage : alerte. Quelqu'un prend une longue douche : alerte « fuite possible ». La machine à laver fait une pause de trempage : notification « cycle terminé », vingt minutes trop tôt. Au bout d'un moment, on ne lit plus les notifications, et pour une alerte, c'est vraiment le pire qui puisse arriver.

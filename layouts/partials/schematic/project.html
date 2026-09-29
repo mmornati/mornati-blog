@@ -1,0 +1,4 @@
+{{/* Project record from data/projects.yaml for a taxonomy key, or nil. */}}
+{{ $found := false }}
+{{ range hugo.Data.projects }}{{ if eq .key $ }}{{ $found = . }}{{ end }}{{ end }}
+{{ return $found }}

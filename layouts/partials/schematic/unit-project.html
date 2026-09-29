@@ -1,0 +1,35 @@
+{{/* One 1U project unit: summary row plus a drawer listing the project's posts. */}}
+      {{ $u := .u }}{{ $i := .i }}{{ $lang := .lang }}
+      {{ $d := $u.data }}
+      {{ $state := partial "schematic/status.html" $u.newest }}
+      {{ $newest := index $u.pages 0 }}
+      {{ $hub := site.GetPage (printf "/projects/%s" $d.key) }}
+      <details class="unit unit--project" name="rack-unit">
+        {{ partial "schematic/ears.html" }}
+        <summary class="unit__face project">
+          <span class="project__u">U{{ printf "%02d" (add $i 5) }}</span>
+          <span class="project__status" title="{{ i18n "rack.status_hint" }}">{{ partial "schematic/led.html" $state }}<span>{{ i18n (printf "rack.%s" $state) }}</span></span>
+          <span class="project__id">
+            <span class="project__name">{{ $d.name }}</span>
+            <span class="project__summary">{{ index $d.summary $lang | default $d.summary.en }}</span>
+          </span>
+          <span class="project__newest">
+            <time datetime="{{ $newest.Date.Format "2006-01-02" }}">{{ $newest.Date.Format "2006-01-02" }}</time>
+            <span class="project__newest-title">{{ $newest.LinkTitle }}</span>
+          </span>
+          <span class="project__count"><span class="project__n">{{ i18n "rack.posts" (len $u.pages) }}</span>{{ with site.GetPage (printf "/categories/%s" $d.pillar) }}<a class="port port--trace project__port" data-pillar="{{ $d.pillar }}" href="{{ .RelPermalink }}" title="{{ .LinkTitle }}"><span class="port__pin" aria-hidden="true"></span>{{ $d.pillar }}</a>{{ end }}</span>
+          <span class="project__handle" aria-hidden="true"></span>
+        </summary>
+        <div class="unit__drawer">
+          <ol class="trace">
+            {{ range $u.pages }}
+              <li><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a><span class="trace__rt">{{ .ReadingTime }}′</span></li>
+            {{ end }}
+          </ol>
+          <p class="drawer__links">
+            {{ with $hub }}<a href="{{ .RelPermalink }}">{{ i18n "rack.hub" }}</a>{{ end }}
+            {{ with $d.dashboard }}<a href="{{ . }}">{{ i18n "rack.dashboard" }}</a>{{ end }}
+            {{ with $d.repo }}<a href="{{ . }}" rel="noopener">{{ i18n "rack.repo" }}{{ partial "schematic/arrow.html" "out" }}</a>{{ end }}
+          </p>
+        </div>
+      </details>

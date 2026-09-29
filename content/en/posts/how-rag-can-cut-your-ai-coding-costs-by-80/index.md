@@ -12,6 +12,8 @@ date: '2026-01-17T16:30:08.207000+00:00'
 slug: how-rag-can-cut-your-ai-coding-costs-by-80
 description: Learn how Retrieval-Augmented Generation (RAG) dramatically reduces AI
   coding costs by efficiently managing token usage in large codebases
+projects:
+- nexus-dev
 ---
 
 

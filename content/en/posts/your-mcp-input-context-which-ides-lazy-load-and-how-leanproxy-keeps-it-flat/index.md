@@ -18,6 +18,8 @@ description: Every MCP server you keep enabled pays a toll into the input contex
   every request. But not every IDE loads tools the same way. Here is who lazy-loads,
   who doesn't, and how LeanProxy keeps your context size flat no matter how many servers
   you keep configured and active.
+projects:
+- leanproxy-mcp
 ---
 
 

@@ -1,0 +1,5 @@
+{{/* Status of a rack unit from the date of its newest post: active (<= 60 days), quiet (<= 1 year), idle. */}}
+{{ $days := div (now.Sub .).Hours 24 }}
+{{ $state := "idle" }}
+{{ if le $days 60 }}{{ $state = "active" }}{{ else if le $days 365 }}{{ $state = "quiet" }}{{ end }}
+{{ return $state }}

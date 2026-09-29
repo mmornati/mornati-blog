@@ -1,0 +1,59 @@
+{{ define "main" }}
+  {{ $lang := .Site.Language.Lang }}
+  {{ $d := partial "schematic/project.html" .Data.Term }}
+  {{ $pages := sort .Pages "Date" "asc" }}
+  {{ $first := index $pages 0 }}
+  {{ $last := index (last 1 $pages) 0 }}
+  {{ $state := partial "schematic/status.html" $last.Date }}
+
+  <div class="rack">
+    <div class="rack__rail rack__rail--l" aria-hidden="true"></div>
+    <div class="rack__bay">
+
+      {{/* Datasheet */}}
+      <header class="unit unit--sheet">
+        {{ partial "schematic/ears.html" }}
+        <div class="unit__face sheet">
+          <div class="sheet__id">
+            <h1 class="sheet__name">{{ with $d }}{{ .name }}{{ else }}{{ $.Title }}{{ end }}</h1>
+            {{ with $d }}<p class="sheet__summary">{{ index .summary $lang | default .summary.en }}</p>{{ end }}
+            <p class="drawer__links">
+              <a href="{{ "projects/" | relLangURL }}" >{{ partial "schematic/arrow.html" "left" }}{{ i18n "rack.projects_title" }}</a>
+              {{ with $d }}{{ with .dashboard }}<a href="{{ . }}">{{ i18n "rack.dashboard" }}</a>{{ end }}{{ end }}
+              {{ with $d }}{{ with .repo }}<a href="{{ . }}" rel="noopener">{{ i18n "rack.repo" }}{{ partial "schematic/arrow.html" "out" }}</a>{{ end }}{{ end }}
+            </p>
+          </div>
+          <dl class="sheet__spec">
+            <div><dt>{{ i18n "rack.status" }}</dt><dd title="{{ i18n "rack.status_hint" }}">{{ partial "schematic/led.html" $state }} {{ i18n (printf "rack.%s" $state) }}</dd></div>
+            <div><dt>{{ i18n "rack.posts_label" }}</dt><dd>{{ len $pages }}</dd></div>
+            <div><dt>{{ i18n "rack.first_post" }}</dt><dd><time datetime="{{ $first.Date.Format "2006-01-02" }}">{{ $first.Date.Format "2006-01-02" }}</time></dd></div>
+            <div><dt>{{ i18n "rack.last_post" }}</dt><dd><time datetime="{{ $last.Date.Format "2006-01-02" }}">{{ $last.Date.Format "2006-01-02" }}</time></dd></div>
+          </dl>
+        </div>
+      </header>
+
+      {{/* The project's story, oldest first, wired along one trace */}}
+      <section class="unit unit--story" aria-label="{{ i18n "rack.unit_posts" }}">
+        {{ partial "schematic/ears.html" }}
+        <ol class="unit__face story">
+          {{ range $n, $p := $pages }}
+            {{ $cover := partial "schematic/cover.html" $p }}
+            <li class="story__node">
+              <span class="story__step">{{ add $n 1 }}/{{ len $pages }}</span>
+              <div class="story__body">
+                <p class="story__date"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time> · {{ .ReadingTime }}′</p>
+                <h2 class="story__title"><a href="{{ .RelPermalink }}">{{ .Title | emojify }}</a></h2>
+                {{ with .Params.summary | default .Description | default .Summary }}<p class="story__summary">{{ . | plainify | truncate 240 }}</p>{{ end }}
+              </div>
+              {{ with $cover }}
+                {{ $c := .Fill "480x300 q78 Center webp" }}
+                <a class="story__thumb" href="{{ $p.RelPermalink }}" tabindex="-1" aria-hidden="true"><img src="{{ $c.RelPermalink }}" width="480" height="300" alt="" loading="lazy" style="view-transition-name: {{ partial "schematic/vt-name.html" $p }}"></a>
+              {{ end }}
+            </li>
+          {{ end }}
+        </ol>
+      </section>
+    </div>
+    <div class="rack__rail rack__rail--r" aria-hidden="true"></div>
+  </div>
+{{ end }}

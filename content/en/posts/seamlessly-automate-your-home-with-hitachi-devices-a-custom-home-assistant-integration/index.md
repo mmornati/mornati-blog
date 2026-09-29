@@ -11,6 +11,8 @@ tags:
 date: '2025-01-26T10:18:06.650000+00:00'
 slug: seamlessly-automate-your-home-with-hitachi-devices-a-custom-home-assistant-integration
 description: Integrate Hitachi devices with Home Assistant using a custom CS-Net integration for real-time monitoring and control.
+projects:
+- hitachi-csnet
 ---
 
 

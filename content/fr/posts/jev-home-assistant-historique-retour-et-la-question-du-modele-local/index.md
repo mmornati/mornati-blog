@@ -19,6 +19,8 @@ cover: cover.jpg
 showHero: true
 description: Un commentaire sur Mastodon demandait pourquoi ne pas envoyer l'historique de Jev à un petit modèle local plutôt qu'au cloud. Voici pourquoi un mini PC N100 avec 16 Go de RAM ne peut pas porter ça, pourquoi changer de modèle n'aurait de toute façon rien réglé, et ce que j'ai construit à la place - un historique compact, un filet de sécurité contre les capteurs cassés, un mode shadow/active par décision, et une boucle de retour qui note Jev face à mes propres règles. Avec les vrais chiffres des premiers jours en production.
 summary: Le vrai correctif à « Jev n'a pas de mémoire », ce n'était pas un autre modèle. C'était de donner une mémoire à Jev. Voici le script d'historique, la boucle de retour, et ce que le tableau de bord en direct raconte déjà.
+projects:
+- ha-decision-models
 ---
 
 Mon [précédent article](/fr/jev-home-assistant-un-modele-de-decision-pour-mes-automatisations/) racontait comment j'avais branché **Jev**, le modèle de décision de TypeSafe, sur Home Assistant pour répondre à la question que mes automatisations à seuils ne savent pas trancher (« est-ce que c'est normal ? ») : la pompe de relevage tourne longtemps parce qu'il a plu, ou parce que le flotteur est coincé ; l'eau coule à cause d'une douche, ou d'une fuite. La règle calcule toujours sa propre réponse, Jev ne fait que conseiller, et tout a démarré en mode shadow pour que je puisse lire les désaccords avant de lui faire confiance.

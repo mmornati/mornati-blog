@@ -17,6 +17,8 @@ description: 'Four years after my first Shelly-based water heater automation, he
 summary: 'Two water heaters on a Heures Creuses tariff, 12 panels and no battery - the v2 of my water heater orchestration, with real YAML and real numbers.'
 cover: cover.jpg
 showHero: true
+projects:
+- home-energy
 ---
 
 Four years ago I [replaced the dumb night timers on my two water heaters with a Shelly Plus 1 and Home Assistant](/smart-water-heater-with-home-assistant-and-shelly-device/). It was a solid first step: turn the heaters on when the off-peak ("Heures Creuses", HC) window opens, and skip them when we are away. When the solar panels arrived, I described the whole midday-window dance inside the [two-years-of-solar post](/two-years-of-solar-the-real-numbers-and-roi/).
