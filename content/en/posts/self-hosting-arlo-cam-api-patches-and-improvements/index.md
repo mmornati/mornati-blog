@@ -19,6 +19,8 @@ translationKey: arlo-self-hosting-cam-api
 description: 'How to self-host the arlo-cam-api Arlo basestation emulator: Docker stack with on-demand RTSP via MediaMTX, a custom arlo-snapshot Flask sidecar, and the three patches I contributed upstream to fix a Flask startup bug, add a keepalive beacon, and enable snapshot-on-motion.'
 cover: cover.jpg
 showHero: true
+projects:
+- arlo-self-hosted
 ---
 
 This is Post 2 of a three-part series on replacing the proprietary Arlo base station with a self-hosted stack. In [Post 1 of this series](/replacing-arlo-base-station-with-a-netgear-orbi-router/) I covered the networking layer — how to make a Netgear Orbi RBR760 impersonate the Arlo base station well enough that the cameras connect, register, and stream. In this post I cover the *server* layer: the Docker stack that actually runs on the mini PC, the custom Flask sidecar service that captures motion-triggered snapshots, the on-demand RTSP relay that makes live streaming battery-friendly, and the three upstream pull requests I contributed to fix bugs I hit on the way.

@@ -14,6 +14,8 @@ tags:
 date: '2026-04-27T20:05:48.208000+00:00'
 slug: the-future-of-agentic-tooling-mcp-servers-vs-cli-a-data-driven-comparison
 description: 'Le MCP natif coûte 137× plus de tokens que la CLI dans une session dev typique. Mesures réelles + framework de décision pour un outillage agentique efficace en tokens.'
+projects:
+- nexus-dev
 ---
 
 

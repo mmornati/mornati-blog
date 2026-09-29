@@ -1,0 +1,536 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-29T20:09:56+00:00",
+  "title": "Design System: mornati.net blog",
+  "extensions": {
+    "colorMeta": {
+      "signal-copper": {
+        "role": "primary",
+        "displayName": "Signal Copper",
+        "canonical": "rgb(var(--color-primary-500))",
+        "tonalRamp": [
+          "#3d220b",
+          "#5e330e",
+          "#80440f",
+          "#a35712",
+          "#c46c1a",
+          "#e0852d",
+          "#f4c38a",
+          "#fdeddc"
+        ]
+      },
+      "signal-copper-deep": {
+        "role": "primary",
+        "displayName": "Deep Copper (--rack-signal, paper)",
+        "canonical": "rgb(var(--color-primary-600))",
+        "tonalRamp": [
+          "#3d220b",
+          "#5e330e",
+          "#80440f",
+          "#a35712",
+          "#c46c1a",
+          "#e0852d",
+          "#f4c38a",
+          "#fdeddc"
+        ]
+      },
+      "signal-copper-lit": {
+        "role": "primary",
+        "displayName": "Lit Copper (--rack-signal, night)",
+        "canonical": "rgb(var(--color-primary-400))",
+        "tonalRamp": [
+          "#3d220b",
+          "#5e330e",
+          "#80440f",
+          "#a35712",
+          "#c46c1a",
+          "#e0852d",
+          "#f4c38a",
+          "#fdeddc"
+        ]
+      },
+      "trace-cyan": {
+        "role": "secondary",
+        "displayName": "Trace Cyan",
+        "canonical": "rgb(var(--color-secondary-500))",
+        "tonalRamp": [
+          "#07333f",
+          "#0a4b5a",
+          "#0d6578",
+          "#128096",
+          "#1b9cb3",
+          "#33b8ce",
+          "#91deeb",
+          "#e0f7fa"
+        ]
+      },
+      "trace-cyan-deep": {
+        "role": "secondary",
+        "displayName": "Deep Trace (--rack-trace, paper)",
+        "canonical": "rgb(var(--color-secondary-700))",
+        "tonalRamp": [
+          "#07333f",
+          "#0a4b5a",
+          "#0d6578",
+          "#128096",
+          "#1b9cb3",
+          "#33b8ce",
+          "#91deeb",
+          "#e0f7fa"
+        ]
+      },
+      "trace-cyan-lit": {
+        "role": "secondary",
+        "displayName": "Lit Trace (--rack-trace, night)",
+        "canonical": "rgb(var(--color-secondary-300))",
+        "tonalRamp": [
+          "#07333f",
+          "#0a4b5a",
+          "#0d6578",
+          "#128096",
+          "#1b9cb3",
+          "#33b8ce",
+          "#91deeb",
+          "#e0f7fa"
+        ]
+      },
+      "blueprint-paper": {
+        "role": "neutral",
+        "displayName": "Blueprint Paper",
+        "canonical": "rgb(var(--color-neutral-50))",
+        "tonalRamp": [
+          "#0b0e14",
+          "#1a222f",
+          "#2d3b4f",
+          "#42546b",
+          "#5c708a",
+          "#7f94ac",
+          "#ccd8e6",
+          "#eef3f8"
+        ]
+      },
+      "rack-face-paper": {
+        "role": "neutral",
+        "displayName": "Faceplate Paper (--rack-face, paper)",
+        "canonical": "rgb(250, 252, 254)",
+        "tonalRamp": [
+          "#0b0e14",
+          "#1a222f",
+          "#2d3b4f",
+          "#42546b",
+          "#5c708a",
+          "#7f94ac",
+          "#ccd8e6",
+          "#eef3f8"
+        ]
+      },
+      "rack-rail-paper": {
+        "role": "neutral",
+        "displayName": "Rail Paper (--rack-rail, paper)",
+        "canonical": "rgb(var(--color-neutral-200))",
+        "tonalRamp": [
+          "#0b0e14",
+          "#1a222f",
+          "#2d3b4f",
+          "#42546b",
+          "#5c708a",
+          "#7f94ac",
+          "#ccd8e6",
+          "#eef3f8"
+        ]
+      },
+      "seam-paper": {
+        "role": "neutral",
+        "displayName": "Seam Paper (--rack-seam / --rack-recess, paper)",
+        "canonical": "rgb(var(--color-neutral-300))",
+        "tonalRamp": [
+          "#0b0e14",
+          "#1a222f",
+          "#2d3b4f",
+          "#42546b",
+          "#5c708a",
+          "#7f94ac",
+          "#ccd8e6",
+          "#eef3f8"
+        ]
+      },
+      "dim-ink-paper": {
+        "role": "neutral",
+        "displayName": "Dim Ink (--rack-dim, paper)",
+        "canonical": "rgb(var(--color-neutral-600))",
+        "tonalRamp": [
+          "#0b0e14",
+          "#1a222f",
+          "#2d3b4f",
+          "#42546b",
+          "#5c708a",
+          "#7f94ac",
+          "#ccd8e6",
+          "#eef3f8"
+        ]
+      },
+      "ink-paper": {
+        "role": "neutral",
+        "displayName": "Ink (--rack-ink, paper)",
+        "canonical": "rgb(var(--color-neutral-800))",
+        "tonalRamp": [
+          "#0b0e14",
+          "#1a222f",
+          "#2d3b4f",
+          "#42546b",
+          "#5c708a",
+          "#7f94ac",
+          "#ccd8e6",
+          "#eef3f8"
+        ]
+      },
+      "night-ground": {
+        "role": "neutral",
+        "displayName": "Night Ground (--rack-face / --rack-hole, night)",
+        "canonical": "rgb(var(--color-neutral-900))",
+        "tonalRamp": [
+          "#0b0e14",
+          "#1a222f",
+          "#2d3b4f",
+          "#42546b",
+          "#5c708a",
+          "#7f94ac",
+          "#ccd8e6",
+          "#eef3f8"
+        ]
+      },
+      "rack-recess-night": {
+        "role": "neutral",
+        "displayName": "Night Recess (--rack-recess, night)",
+        "canonical": "rgb(8, 10, 15)",
+        "tonalRamp": [
+          "#0b0e14",
+          "#1a222f",
+          "#2d3b4f",
+          "#42546b",
+          "#5c708a",
+          "#7f94ac",
+          "#ccd8e6",
+          "#eef3f8"
+        ]
+      },
+      "rack-face-hi-night": {
+        "role": "neutral",
+        "displayName": "Night Face Highlight (--rack-face-hi, night)",
+        "canonical": "rgb(19, 25, 35)",
+        "tonalRamp": [
+          "#0b0e14",
+          "#1a222f",
+          "#2d3b4f",
+          "#42546b",
+          "#5c708a",
+          "#7f94ac",
+          "#ccd8e6",
+          "#eef3f8"
+        ]
+      },
+      "seam-night": {
+        "role": "neutral",
+        "displayName": "Seam Night (--rack-seam / --rack-rail, night)",
+        "canonical": "rgb(var(--color-neutral-700))",
+        "tonalRamp": [
+          "#0b0e14",
+          "#1a222f",
+          "#2d3b4f",
+          "#42546b",
+          "#5c708a",
+          "#7f94ac",
+          "#ccd8e6",
+          "#eef3f8"
+        ]
+      },
+      "dim-ink-night": {
+        "role": "neutral",
+        "displayName": "Dim Ink Night (--rack-dim, night)",
+        "canonical": "rgb(var(--color-neutral-400))",
+        "tonalRamp": [
+          "#0b0e14",
+          "#1a222f",
+          "#2d3b4f",
+          "#42546b",
+          "#5c708a",
+          "#7f94ac",
+          "#ccd8e6",
+          "#eef3f8"
+        ]
+      },
+      "ink-night": {
+        "role": "neutral",
+        "displayName": "Ink Night (--rack-ink, night)",
+        "canonical": "rgb(var(--color-neutral-100))",
+        "tonalRamp": [
+          "#0b0e14",
+          "#1a222f",
+          "#2d3b4f",
+          "#42546b",
+          "#5c708a",
+          "#7f94ac",
+          "#ccd8e6",
+          "#eef3f8"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Project datasheet names."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Latest-transmission title; head unit name at a smaller clamp."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Story nodes on project pages."
+      },
+      "unit-name": {
+        "displayName": "Unit Name",
+        "purpose": "Project unit names and jack labels."
+      },
+      "body": {
+        "displayName": "Body (serif)",
+        "purpose": "Article prose and all summaries."
+      },
+      "label": {
+        "displayName": "Label (mono)",
+        "purpose": "Dates, counts, U-numbers, reading time, ports, badges; tabular numerals."
+      },
+      "panel-label": {
+        "displayName": "Panel Label",
+        "purpose": "Uppercase printed legend on blanking panels only."
+      }
+    },
+    "shadows": [
+      {
+        "name": "pulled-unit",
+        "value": "0 14px 28px -18px rgba(0, 0, 0, 0.45)",
+        "purpose": "Open project unit and its drawer."
+      },
+      {
+        "name": "floating-readout",
+        "value": "0 16px 36px -18px rgba(0, 0, 0, 0.55)",
+        "purpose": "Hover preview card."
+      },
+      {
+        "name": "map-tooltip",
+        "value": "0 8px 20px -10px rgba(0, 0, 0, 0.5)",
+        "purpose": "Topology map tooltip."
+      },
+      {
+        "name": "card-lift",
+        "value": "0 8px 24px -12px rgba(var(--color-primary-900), 0.35)",
+        "purpose": "Hovered Blowfish post card (black 0.6 at night)."
+      },
+      {
+        "name": "faceplate-highlight",
+        "value": "inset 0 1px 0 var(--rack-face-hi)",
+        "purpose": "Resting faceplate top edge; not elevation."
+      },
+      {
+        "name": "screw-rim",
+        "value": "inset 0 0 0 1px var(--rack-seam)",
+        "purpose": "Screw heads on unit ears."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "--ease-out: drawers, handle, cover zoom, jack wiring, preview fade, view transitions."
+      },
+      {
+        "name": "drawer",
+        "value": "block-size 0.45s var(--ease-out)",
+        "purpose": "Project unit drawer via ::details-content with interpolate-size."
+      },
+      {
+        "name": "handle-turn",
+        "value": "transform 0.35s var(--ease-out)",
+        "purpose": "Pull handle rotates 180 degrees when a unit opens."
+      },
+      {
+        "name": "led-activity",
+        "value": "0.7s steps(1, end) 1",
+        "purpose": "Active LED blinks once on project hover."
+      },
+      {
+        "name": "cover-zoom",
+        "value": "transform 0.9s var(--ease-out)",
+        "purpose": "Latest cover scales to 1.03 on hover."
+      },
+      {
+        "name": "peek",
+        "value": "opacity 0.18s, filter 0.18s var(--ease-out)",
+        "purpose": "Hover preview fades in from blur(2px)."
+      },
+      {
+        "name": "view-transition",
+        "value": "0.42s cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Cross-document cover carry from list to article."
+      },
+      {
+        "name": "read-progress",
+        "value": "linear, animation-timeline: scroll(root block)",
+        "purpose": "Copper reading-progress hairline."
+      },
+      {
+        "name": "card-lift",
+        "value": "0.18s ease",
+        "purpose": "Blowfish post card hover lift."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "tablet",
+        "value": "1023px",
+        "purpose": "max-width: project rows drop newest-post column."
+      },
+      {
+        "name": "phone",
+        "value": "767px",
+        "purpose": "max-width: rails 1rem, ears 0.5rem, rows restack."
+      }
+    ],
+    "rackTokens": [
+      {
+        "name": "--u",
+        "value": "2.75rem"
+      },
+      {
+        "name": "--rail",
+        "value": "1.75rem (1rem at phone)"
+      },
+      {
+        "name": "--ear",
+        "value": "0.95rem (0.5rem at phone)"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Project Unit",
+      "kind": "custom",
+      "refersTo": "project-unit",
+      "description": "1U rack unit: U-number, shape-coded LED, name and summary, cyan patch port, pull handle; expands in place.",
+      "html": "<div class=\"ds-root ds-unit\"><span class=\"ds-ear ds-ear-l\"><i></i><i></i></span><button class=\"ds-project\"><span class=\"ds-mono\">U05</span><span class=\"ds-status\"><span class=\"ds-led\"></span><span class=\"ds-mono\">active</span></span><span class=\"ds-id\"><b>ai-running-coach</b><small>AI agents that plan and review my training.</small></span><span class=\"ds-port ds-trace\">ai-coding-agents</span><span class=\"ds-handle\"></span></button><span class=\"ds-ear ds-ear-r\"><i></i><i></i></span></div>",
+      "css": ".ds-root{--rack-face:#fafcfe;--rack-face-hi:#fff;--rack-seam:#acbdd1;--rack-recess:#acbdd1;--rack-ink:#1a222f;--rack-dim:#42546b;--rack-signal:#a35712;--rack-trace:#0d6578;font-family:Archivo,system-ui,sans-serif;color:var(--rack-ink)}.ds-unit{position:relative;margin:0 1rem}.ds-ear{position:absolute;top:0;bottom:0;width:.95rem;display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:.7rem 0;background:var(--rack-face);border:1px solid var(--rack-seam)}.ds-ear-l{left:-.95rem;border-right:0}.ds-ear-r{right:-.95rem;border-left:0}.ds-ear i{width:.55rem;height:.55rem;border-radius:50%;background:linear-gradient(135deg,transparent 44%,#7f94ac 44% 56%,transparent 56%),#ccd8e6;box-shadow:inset 0 0 0 1px var(--rack-seam)}.ds-project{display:grid;grid-template-columns:2.75rem 6rem minmax(0,1fr) auto 1.5rem;align-items:center;gap:1rem;width:100%;min-height:2.75rem;padding:.55rem 1.25rem .55rem 1rem;background:var(--rack-face);border:1px solid var(--rack-seam);border-left:0;border-right:0;box-shadow:inset 0 1px 0 var(--rack-face-hi);font:inherit;color:inherit;text-align:left;cursor:pointer;transition:background-color .25s cubic-bezier(.16,1,.3,1)}.ds-project:hover{background:var(--rack-face-hi)}.ds-project:focus-visible{outline:2px solid #c46c1a;outline-offset:2px}.ds-mono{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--rack-dim);font-variant-numeric:tabular-nums}.ds-status{display:inline-flex;align-items:center;gap:.5rem}.ds-led{width:.6rem;height:.6rem;border-radius:50%;background:var(--rack-signal)}.ds-id{display:flex;flex-direction:column;min-width:0}.ds-id b{font-size:1.02rem;font-weight:700;letter-spacing:-.01em}.ds-id small{font-size:.85rem;color:var(--rack-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ds-port{font-family:'JetBrains Mono',monospace;font-size:.6875rem;font-weight:500;padding:.3em .5em;border:1px solid currentColor;border-radius:2px;color:var(--rack-signal)}.ds-trace{color:var(--rack-trace)}.ds-handle{width:.55rem;height:.55rem;justify-self:end;border-right:1.5px solid var(--rack-dim);border-bottom:1.5px solid var(--rack-dim);transform:rotate(45deg) translate(-2px,-2px)}"
+    },
+    {
+      "name": "Status LEDs",
+      "kind": "custom",
+      "refersTo": "led",
+      "description": "Status by shape: filled circle active, ring quiet, hollow square idle; always paired with a word.",
+      "html": "<div class=\"ds-root ds-leds\"><span><i class=\"ds-led ds-active\"></i>active</span><span><i class=\"ds-led ds-quiet\"></i>quiet</span><span><i class=\"ds-led ds-idle\"></i>idle</span></div>",
+      "css": ".ds-root{--rack-face:#fafcfe;--rack-face-hi:#fff;--rack-seam:#acbdd1;--rack-recess:#acbdd1;--rack-ink:#1a222f;--rack-dim:#42546b;--rack-signal:#a35712;--rack-trace:#0d6578;font-family:Archivo,system-ui,sans-serif;color:var(--rack-ink)}.ds-leds{display:flex;gap:1.5rem;font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--rack-dim)}.ds-leds span{display:inline-flex;align-items:center;gap:.5rem}.ds-led{display:inline-block;width:.6rem;height:.6rem;border-radius:50%}.ds-active{background:var(--rack-signal);box-shadow:inset 0 -1px 0 rgba(0,0,0,.25)}.ds-quiet{border:2px solid var(--rack-signal)}.ds-idle{border:1.5px solid var(--rack-dim);border-radius:1px;width:.55rem;height:.55rem}"
+    },
+    {
+      "name": "Port",
+      "kind": "chip",
+      "refersTo": "port",
+      "description": "Mono outlined identifier: copper for projects, cyan for topics.",
+      "html": "<div class=\"ds-root\" style=\"display:flex;gap:.75rem\"><a class=\"ds-port\" href=\"#\">leanproxy-mcp</a><a class=\"ds-port ds-trace\" href=\"#\">smart-home</a></div>",
+      "css": ".ds-root{--rack-face:#fafcfe;--rack-face-hi:#fff;--rack-seam:#acbdd1;--rack-recess:#acbdd1;--rack-ink:#1a222f;--rack-dim:#42546b;--rack-signal:#a35712;--rack-trace:#0d6578;font-family:Archivo,system-ui,sans-serif;color:var(--rack-ink)}.ds-port{display:inline-flex;align-items:center;font-family:'JetBrains Mono',monospace;font-size:.6875rem;font-weight:500;letter-spacing:.04em;line-height:1;padding:.3em .5em;border:1px solid currentColor;border-radius:2px;color:var(--rack-signal);text-decoration:none;transition:background-color .2s}.ds-trace{color:var(--rack-trace)}.ds-port:hover{background:color-mix(in srgb,currentColor 12%,transparent)}.ds-port:focus-visible{outline:2px solid #c46c1a;outline-offset:2px}"
+    },
+    {
+      "name": "Patch Jack",
+      "kind": "custom",
+      "refersTo": "jack",
+      "description": "Topic socket in the patch panel; wires to cyan when hovered or when its project port is hovered.",
+      "html": "<a class=\"ds-root ds-jack\" href=\"#\"><span class=\"ds-socket\"></span><span class=\"ds-label\">Smart Home</span><span class=\"ds-count\">18</span><span class=\"ds-id\">smart-home</span></a>",
+      "css": ".ds-root{--rack-face:#fafcfe;--rack-face-hi:#fff;--rack-seam:#acbdd1;--rack-recess:#acbdd1;--rack-ink:#1a222f;--rack-dim:#42546b;--rack-signal:#a35712;--rack-trace:#0d6578;font-family:Archivo,system-ui,sans-serif;color:var(--rack-ink)}.ds-jack{display:grid;grid-template-areas:'socket label count' 'socket id id';grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:.15rem .75rem;width:14rem;padding:.85rem 1rem;background:var(--rack-face);border:1px solid var(--rack-seam);color:inherit;text-decoration:none;transition:background-color .25s cubic-bezier(.16,1,.3,1)}.ds-socket{grid-area:socket;position:relative;width:1.5rem;height:1.1rem;border:1px solid var(--rack-dim);border-radius:1px}.ds-socket::before,.ds-socket::after{content:'';position:absolute;top:.3rem;width:1px;height:.35rem;background:var(--rack-dim);transform-origin:50% 100%;transition:background-color .2s,transform .3s cubic-bezier(.16,1,.3,1)}.ds-socket::before{left:.45rem}.ds-socket::after{right:.45rem}.ds-label{grid-area:label;font-size:.88rem;font-weight:600}.ds-count{grid-area:count;font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--rack-dim)}.ds-id{grid-area:id;font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--rack-trace)}.ds-jack:hover{background:var(--rack-face-hi)}.ds-jack:hover .ds-socket{border-color:var(--rack-trace);background:color-mix(in srgb,var(--rack-trace) 14%,transparent)}.ds-jack:hover .ds-socket::before,.ds-jack:hover .ds-socket::after{background:var(--rack-trace);transform:scaleY(1.4)}.ds-jack:focus-visible{outline:2px solid #c46c1a;outline-offset:2px}"
+    },
+    {
+      "name": "Blanking Panel",
+      "kind": "custom",
+      "refersTo": "blank-panel",
+      "description": "Group heading unit with printed legend, vent slots and a count.",
+      "html": "<div class=\"ds-root ds-blank\"><span>Running units</span><span class=\"ds-vents\"></span><span class=\"ds-n\">7U</span></div>",
+      "css": ".ds-root{--rack-face:#fafcfe;--rack-face-hi:#fff;--rack-seam:#acbdd1;--rack-recess:#acbdd1;--rack-ink:#1a222f;--rack-dim:#42546b;--rack-signal:#a35712;--rack-trace:#0d6578;font-family:Archivo,system-ui,sans-serif;color:var(--rack-ink)}.ds-blank{display:flex;align-items:center;gap:1rem;min-height:2.34rem;padding:0 1.25rem;background:var(--rack-face);border:1px solid var(--rack-seam);border-left:0;border-right:0;font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--rack-dim)}.ds-vents{flex:1;height:.55rem;background:repeating-linear-gradient(90deg,var(--rack-recess) 0 1.4rem,transparent 1.4rem 1.75rem);opacity:.8}.ds-n{font-weight:500;letter-spacing:.04em}"
+    },
+    {
+      "name": "Trace List",
+      "kind": "custom",
+      "refersTo": "trace",
+      "description": "Posts wired along one copper line; the current post has a larger node.",
+      "html": "<ol class=\"ds-root ds-trace-list\"><li><time>2025-11-02</time><a href=\"#\">Self-hosting the Arlo cam API</a><span>9′</span></li><li class=\"ds-here\"><time>2026-03-14</time><span>Replacing the base station</span><span>12′</span></li></ol>",
+      "css": ".ds-root{--rack-face:#fafcfe;--rack-face-hi:#fff;--rack-seam:#acbdd1;--rack-recess:#acbdd1;--rack-ink:#1a222f;--rack-dim:#42546b;--rack-signal:#a35712;--rack-trace:#0d6578;font-family:Archivo,system-ui,sans-serif;color:var(--rack-ink)}.ds-trace-list{list-style:none;margin:0;padding:0 0 0 1rem;border-left:1px solid var(--rack-signal)}.ds-trace-list li{position:relative;display:grid;grid-template-columns:6.5rem minmax(0,1fr) auto;gap:1rem;align-items:baseline;padding:.4rem 0;font-size:.92rem;font-weight:600}.ds-trace-list li::before{content:'';position:absolute;left:calc(-1rem - 3.5px);top:.95rem;width:6px;height:6px;border-radius:50%;background:var(--rack-signal)}.ds-trace-list time,.ds-trace-list li>span:last-child{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:400;color:var(--rack-dim)}.ds-trace-list a{color:inherit;text-decoration:none}.ds-trace-list a:hover{color:var(--rack-signal);text-decoration:underline;text-underline-offset:3px}.ds-here>span:nth-child(2){color:var(--rack-signal);font-weight:700}.ds-here::before{width:10px!important;height:10px!important;left:calc(-1rem - 5.5px)!important;top:.8rem!important;box-shadow:0 0 0 3px var(--rack-face)}"
+    },
+    {
+      "name": "Category Badge",
+      "kind": "chip",
+      "refersTo": "badge-category",
+      "description": "Blowfish-surface taxonomy chip: mono uppercase with a signal dot; categories cyan, tags copper.",
+      "html": "<div class=\"ds-root\" style=\"display:flex;gap:.75rem\"><span class=\"ds-badge ds-sec\">smart-home</span><span class=\"ds-badge\">python</span></div>",
+      "css": ".ds-root{--rack-face:#fafcfe;--rack-face-hi:#fff;--rack-seam:#acbdd1;--rack-recess:#acbdd1;--rack-ink:#1a222f;--rack-dim:#42546b;--rack-signal:#a35712;--rack-trace:#0d6578;font-family:Archivo,system-ui,sans-serif;color:var(--rack-ink)}.ds-badge{display:inline-flex;align-items:center;gap:.4em;font-family:'JetBrains Mono',monospace;font-size:.6875rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;line-height:1;padding:.3em .55em .3em .45em;border-radius:3px;border:1px solid rgba(224,133,45,.55);color:#80440f;background:rgba(250,222,189,.4)}.ds-badge::before{content:'';width:5px;height:5px;border-radius:999px;background:#c46c1a}.ds-sec{border-color:rgba(51,184,206,.55);color:#0d6578;background:rgba(191,237,244,.4)}.ds-sec::before{background:#1b9cb3}"
+    },
+    {
+      "name": "Hover Preview",
+      "kind": "card",
+      "refersTo": "peek",
+      "description": "Floating readout for internal links on hover-capable fine pointers.",
+      "html": "<div class=\"ds-root ds-peek\"><div class=\"ds-img\"></div><p class=\"ds-meta\">2026-09-12 · 11′</p><p class=\"ds-title\">Letting a decision model judge my automations</p><p class=\"ds-sum\">A small local model reviews each Home Assistant automation before it runs and explains why.</p></div>",
+      "css": ".ds-root{--rack-face:#fafcfe;--rack-face-hi:#fff;--rack-seam:#acbdd1;--rack-recess:#acbdd1;--rack-ink:#1a222f;--rack-dim:#42546b;--rack-signal:#a35712;--rack-trace:#0d6578;font-family:Archivo,system-ui,sans-serif;color:var(--rack-ink)}.ds-peek{width:20rem;padding:.6rem .6rem .75rem;background:var(--rack-face);border:1px solid var(--rack-seam);box-shadow:0 16px 36px -18px rgba(0,0,0,.55);transition:opacity .18s cubic-bezier(.16,1,.3,1),filter .18s cubic-bezier(.16,1,.3,1)}.ds-img{aspect-ratio:16/9;background:#acbdd1;margin:0 0 .55rem}.ds-peek p{margin:0}.ds-meta{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--rack-dim)}.ds-title{font-weight:700;line-height:1.25;margin-top:.2rem!important}.ds-sum{margin-top:.35rem!important;font-family:'Source Serif 4',Georgia,serif;font-size:.85rem;line-height:1.45;color:var(--rack-dim)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Infrastructure Schematic",
+    "overview": "Dark mode reads as a night terminal/schematic; light mode reads as blueprint paper pinned above a desk. Both are drawn from one blueprint-blue neutral ramp rather than a naive invert, so they feel like two real artifacts of the same discipline, not a light theme and its negative. Content renders as labeled, connected nodes: post cards, category chips, and TOC entries borrow the vocabulary of a diagram (node markers, port labels, signal dots) rather than a generic blog-template card grid. Chosen via the skill's direction round (seed key `d0c81b63`, network topology diagram), raised with disciplines borrowed from three catalog challengers: magnitude-as-size encoding, status-by-shape-not-color, and single-grotesque grid discipline.\n\nPass 2 (seed `639f710a`) gave the world a physical material: the **rack elevation**. Index surfaces (homepage, projects hub, project datasheets, topology map) are framed by two rails with square mounting holes; every block is a unit whose ears and screws sit over the rails, stacked with a 3px recess seam. Status is carried by LED shape. The wow lives on index surfaces; article pages stay calm, receiving only quiet schematic furniture (framed plate hero, project strip, freshness plate, connected posts, a copper reading-progress hairline).\n\nMotion is mechanical and brief: drawers slide out on one long ease-out, the activity LED blinks once, jack pins flex when wired. Every animation has a reduced-motion off switch.",
+    "keyCharacteristics": [
+      "One neutral ramp, two artifacts: blueprint paper and night terminal.",
+      "Copper is signal (links, active state, the trace line); cyan is the second wire (topics, ports to pillars, wiring on hover).",
+      "Flat faceplates with hairline seams; depth comes from recess, not shadow.",
+      "Status by LED shape, never color alone.",
+      "Identifiers (dates, U-numbers, counts, pillar ids) are mono and tabular; names are Archivo; reading is Source Serif 4."
+    ],
+    "rules": [
+      {
+        "name": "The Two-Wire Rule",
+        "body": "Copper means \"this is live or this is the way\"; cyan means \"this is a topic or a connection to one\". A component uses one or the other per role, never both as decoration.",
+        "section": "colors"
+      },
+      {
+        "name": "The Alias Rule",
+        "body": "Rack-world components read `--rack-*` aliases so light and dark resolve in one place; reach for a raw ramp step only on non-rack surfaces (article prose, Blowfish overrides).",
+        "section": "colors"
+      },
+      {
+        "name": "The Identifier Rule",
+        "body": "If it is a date, a count, a U-number, a duration or a machine id, set it in mono with tabular numerals. Names and prose never go mono.",
+        "section": "typography"
+      },
+      {
+        "name": "The Printed Legend Rule",
+        "body": "Uppercase tracked mono is a legend printed on hardware: blanking-panel headings, datasheet field names, the badge and port text, the LED readout beside the latest post's date. It is never a kicker above a headline.",
+        "section": "typography"
+      },
+      {
+        "name": "The Leaves-The-Rack Rule",
+        "body": "A shadow means the object has been pulled out or is floating. Units at rest, panels and plates never cast one.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** build new index surfaces as rack units: faceplate, ears from the shared partial, a U-number or blanking-panel legend, 3px seams.",
+      "**Do** encode state by shape first (filled circle, ring, hollow square) and pair it with a word or `title`.",
+      "**Do** use the `--rack-*` aliases so a component resolves in both modes from one rule.",
+      "**Do** set dates, counts, durations and ids in JetBrains Mono with tabular numerals, and write reading time as minutes with a prime (`12′`).",
+      "**Do** use copper for live and navigational signal and cyan for topics and the wiring to them.",
+      "**Do** give every animation a `prefers-reduced-motion` off switch and keep interactions CSS-first (native `details`, `:has()`, scroll timelines).",
+      "**Do** keep article pages calm: schematic furniture sits above and below the prose, never inside it."
+    ],
+    "donts": [
+      "**Don't** return the homepage to a grid of same-size cover cards.",
+      "**Don't** signal status with color alone.",
+      "**Don't** round faceplates, plates, frames or cells; radii above 3px have no place in this world.",
+      "**Don't** cast shadows from units at rest; only pulled units and floating readouts leave the rack.",
+      "**Don't** place uppercase tracked labels above headlines as kickers; printed legends label hardware.",
+      "**Don't** add icon sets or glyph icons; the authored arrow is the vocabulary.",
+      "**Don't** reintroduce copper and cyan accent borders on code blocks."
+    ]
+  }
+}

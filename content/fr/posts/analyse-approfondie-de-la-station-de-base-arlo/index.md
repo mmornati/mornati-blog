@@ -21,6 +21,8 @@ url: /fr/analyse-approfondie-de-la-station-de-base-arlo/
 description: 'Une analyse bonus approfondie de la station de base Arlo : mesures réelles de consommation batterie avec caméras armées/désarmées, données de paquets sniffés montrant comment la station de base maintient les caméras en veille, et la limitation de l''intervalle de balise du RBR760 qui empêche la reproduction DIY complète.'
 cover: cover.jpg
 showHero: true
+projects:
+- arlo-self-hosted
 ---
 
 Ceci est un cinquième article non planifié dans la série Arlo — une analyse bonus approfondie des données que j'ai collectées avant et pendant la série de quatre articles. Si vous m'avez suivi jusqu'ici, vous savez que la stack réseau fonctionne pour l'enregistrement et le streaming. Ce que la série n'avait pas anticipé, c'est *à quel point* le comportement WiFi de la station de base affecte l'autonomie de la batterie, et ce que j'ai découvert quand j'ai placé un renifleur de paquets entre les caméras et la vraie station de base Arlo.

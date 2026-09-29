@@ -12,6 +12,8 @@ date: '2026-01-10T09:30:33.669000+00:00'
 slug: vibe-coding-custom-penetration-tests-when-ai-becomes-your-security-partner
 description: Discover how AI can assist you in creating custom penetration tests tailored
   to your application's unique needs and enhance your security testing
+projects:
+- cyber-code-academy
 ---
 
 

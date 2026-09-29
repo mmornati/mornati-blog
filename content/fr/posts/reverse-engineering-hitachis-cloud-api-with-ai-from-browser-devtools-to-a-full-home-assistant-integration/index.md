@@ -11,6 +11,8 @@ tags:
 - hitachi
 date: '2026-02-25T12:30:56+00:00'
 slug: reverse-engineering-hitachis-cloud-api-with-ai-from-browser-devtools-to-a-full-home-assistant-integration
+projects:
+- hitachi-csnet
 ---
 
 

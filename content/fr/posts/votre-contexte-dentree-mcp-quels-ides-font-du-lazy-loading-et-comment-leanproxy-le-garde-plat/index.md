@@ -18,6 +18,8 @@ url: /fr/votre-contexte-dentree-mcp-quels-ides-font-du-lazy-loading-et-comment-l
 aliases:
 - /votre-contexte-dentree-mcp-quels-ides-font-du-lazy-loading-et-comment-leanproxy-le-garde-plat
 description: Chaque serveur MCP que vous gardez activé prélève un tribut sur votre contexte d'entrée à chaque requête. Mais tous les IDE ne chargent pas les outils de la même façon. Découvrez qui fait du lazy loading, qui n'en fait pas, et comment LeanProxy maintient votre contexte à taille constante quel que soit le nombre de serveurs configurés et actifs.
+projects:
+- leanproxy-mcp
 ---
 
 

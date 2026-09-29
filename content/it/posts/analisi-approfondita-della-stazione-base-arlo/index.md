@@ -21,6 +21,8 @@ url: /it/analisi-approfondita-della-stazione-base-arlo/
 description: 'Un''analisi bonus e approfondita della stazione base Arlo: misurazioni reali del consumo della batteria con telecamere armate e disarmate, dati dei pacchetti sniffati che mostrano come la stazione base mantiene le telecamere in sleep, e il limite dell''intervallo beacon dell''RBR760 che impedisce una replica fai-da-te completa.'
 cover: cover.jpg
 showHero: true
+projects:
+- arlo-self-hosted
 ---
 
 Questo è un quinto articolo non previsto nella serie Arlo — un'analisi bonus e approfondita dei dati che ho raccolto prima e durante i quattro post della serie. Se mi avete seguito fin qui, sapete che lo stack a livello di rete funziona per la registrazione e lo streaming. Quello che la serie non aveva previsto è *quanto* il comportamento WiFi della stazione base influenzi l'autonomia della batteria, e cosa ho scoperto quando ho messo un packet sniffer tra le telecamere e la vera stazione base Arlo.

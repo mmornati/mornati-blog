@@ -19,6 +19,8 @@ translationKey: arlo-wifi-layer-battery-fix
 description: 'The missing WiFi-layer fix: raising the guest WiFi inactivity timeout and DHCP lease on a Netgear Orbi RBR760 so VMC4040P cameras stop re-associating every 30 minutes and drain their batteries overnight.'
 cover: cover.jpg
 showHero: true
+projects:
+- arlo-self-hosted
 ---
 
 After the three posts of this series were merged, I kept watching the battery numbers on the cameras. Post 1 told me the WiFi hardware was the second-most likely cause of drain. Post 2 and Post 3 told me how the beacon and the camera arming policy interact. But the cameras were still re-associating with the guest network roughly every thirty minutes, and the battery still kept dropping even on cameras that were armed in views with no motion. The remaining cause was not in the application layer at all — it was in the WiFi layer itself.

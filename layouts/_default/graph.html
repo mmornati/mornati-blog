@@ -1,0 +1,78 @@
+{{ define "main" }}
+  {{ $posts := sort (where .Site.RegularPages "Type" "in" .Site.Params.mainSections) "Date" "desc" }}
+  {{ $byURL := dict }}
+  {{ range $i, $p := $posts }}{{ $byURL = merge $byURL (dict $p.RelPermalink $i) }}{{ end }}
+
+  {{/* Nodes: topics (t), projects (p), posts (n). Edges: post-topic, post-project, post-post (internal links). */}}
+  {{ $nodes := slice }}
+  {{ $links := slice }}
+  {{ $hubIndex := dict }}
+  {{ range site.Taxonomies.categories.ByCount }}
+    {{ $hubIndex = merge $hubIndex (dict (printf "c:%s" .Name) (len $nodes)) }}
+    {{ $nodes = $nodes | append (dict "k" "t" "g" .Name "l" .Page.LinkTitle "u" .Page.RelPermalink "w" .Count) }}
+  {{ end }}
+  {{ range $proj := hugo.Data.projects }}
+    {{ with index site.Taxonomies.projects $proj.key }}
+      {{ $hubIndex = merge $hubIndex (dict (printf "p:%s" $proj.key) (len $nodes)) }}
+      {{ $nodes = $nodes | append (dict "k" "p" "g" $proj.pillar "l" $proj.name "u" (site.GetPage (printf "/projects/%s" $proj.key)).RelPermalink "w" (len .Pages)) }}
+    {{ end }}
+  {{ end }}
+  {{ $base := len $nodes }}
+  {{ range $i, $p := $posts }}
+    {{ $me := add $base $i }}
+    {{ $nodes = $nodes | append (dict "k" "n" "l" $p.LinkTitle "u" $p.RelPermalink "w" $p.WordCount "d" ($p.Date.Format "2006-01-02")) }}
+    {{ range $p.GetTerms "categories" }}
+      {{ $k := printf "c:%s" .Name }}{{ if isset $hubIndex $k }}{{ $links = $links | append (dict "s" $me "t" (index $hubIndex $k)) }}{{ end }}
+    {{ end }}
+    {{ range $p.GetTerms "projects" }}
+      {{ $k := printf "p:%s" .Name }}{{ if isset $hubIndex $k }}{{ $links = $links | append (dict "s" $me "t" (index $hubIndex $k)) }}{{ end }}
+    {{ end }}
+    {{ range uniq (findRESubmatch `href="(/[^"#?]+/)"` $p.Content) }}
+      {{ $target := index $byURL (index . 1) }}
+      {{ if and (ne $target nil) (ne $target $i) }}{{ $links = $links | append (dict "s" $me "t" (add $base $target)) }}{{ end }}
+    {{ end }}
+  {{ end }}
+
+  <header class="rack-page__head graph__head">
+    <h1>{{ .Title }}</h1>
+    <p>{{ i18n "rack.graph_lead" }}</p>
+  </header>
+
+
+  <div class="rack graph__rack">
+    <div class="rack__rail rack__rail--l" aria-hidden="true"></div>
+    <div class="rack__bay">
+      <div class="unit unit--graph">
+        {{ partial "schematic/ears.html" }}
+        <div class="unit__face graph">
+          <div class="graph__filters" role="group" aria-label="{{ i18n "rack.graph_filter" }}" hidden>
+            <button type="button" class="graph__chip" aria-pressed="true" data-hub="">{{ i18n "rack.graph_all" }}</button>
+            {{ range $i, $n := $nodes }}{{ if ne $n.k "n" }}
+              <button type="button" class="graph__chip graph__chip--{{ $n.k }}" aria-pressed="false" data-hub="{{ $i }}">{{ $n.l }}</button>
+            {{ end }}{{ end }}
+          </div>
+          <svg class="graph__svg" role="img" aria-label="{{ .Title }}" data-graph></svg>
+          <div class="graph__tip" role="status" aria-live="polite" hidden></div>
+          <noscript>
+            <p>{{ i18n "rack.graph_noscript" }}</p>
+            <ul>{{ range site.Taxonomies.categories.ByCount }}<li><a href="{{ .Page.RelPermalink }}">{{ .Page.LinkTitle }}</a> ({{ .Count }})</li>{{ end }}</ul>
+          </noscript>
+        </div>
+      </div>
+      <div class="unit unit--legend">
+        {{ partial "schematic/ears.html" }}
+        <p class="unit__face legend">
+          <span><i class="legend__t"></i>{{ i18n "rack.topics" }}</span>
+          <span><i class="legend__p"></i>{{ i18n "rack.projects_title" }}</span>
+          <span><i class="legend__n"></i>{{ i18n "rack.legend_post" }}</span>
+          <span class="legend__count">{{ len $posts }} · {{ len $links }} {{ i18n "rack.links" }}</span>
+        </p>
+      </div>
+    </div>
+    <div class="rack__rail rack__rail--r" aria-hidden="true"></div>
+  </div>
+
+  <script type="application/json" id="graph-data">{{ dict "nodes" $nodes "links" $links | jsonify | safeJS }}</script>
+  {{ $js := resources.Get "js/graph.js" | minify | fingerprint }}
+  <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+{{ end }}

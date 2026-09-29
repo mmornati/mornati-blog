@@ -1,0 +1,31 @@
+{{/* A post's place in its project: a compact strip above the body, the full trace below it. */}}
+{{ $page := .page }}
+{{ $lang := $page.Site.Language.Lang }}
+{{ range $page.GetTerms "projects" }}
+  {{ $d := partial "schematic/project.html" .Data.Term }}
+  {{ $pages := sort .Pages "Date" "asc" }}
+  {{ $n := 0 }}
+  {{ range $i, $p := $pages }}{{ if eq $p.RelPermalink $page.RelPermalink }}{{ $n = add $i 1 }}{{ end }}{{ end }}
+  {{ $state := partial "schematic/status.html" (index (last 1 $pages) 0).Date }}
+  {{ $name := .LinkTitle }}{{ with $d }}{{ $name = .name }}{{ end }}
+  {{ if eq $.where "top" }}
+    <nav class="in-unit not-prose" aria-label="{{ $name }}">
+      {{ partial "schematic/led.html" $state }}
+      <a class="in-unit__name" href="{{ .RelPermalink }}">{{ $name }}</a>
+      <span class="in-unit__part">{{ i18n "rack.part" (dict "N" $n "Total" (len $pages)) }}</span>
+      <span class="in-unit__steps">
+        {{ if gt $n 1 }}{{ with index $pages (sub $n 2) }}<a href="{{ .RelPermalink }}" title="{{ .LinkTitle }}" >{{ partial "schematic/arrow.html" "left" }}{{ i18n "rack.prev" }}</a>{{ end }}{{ end }}
+        {{ if lt $n (len $pages) }}{{ with index $pages $n }}<a href="{{ .RelPermalink }}" title="{{ .LinkTitle }}">{{ i18n "rack.next" }}{{ partial "schematic/arrow.html" "right" }}</a>{{ end }}{{ end }}
+      </span>
+    </nav>
+  {{ else if gt (len $pages) 1 }}
+    <section class="unit-trace not-prose" aria-label="{{ i18n "rack.unit_posts" }}">
+      <h2 class="unit-trace__title">{{ partial "schematic/led.html" $state }}<a href="{{ .RelPermalink }}">{{ $name }}</a><span>{{ i18n "rack.posts" (len $pages) }}</span></h2>
+      <ol class="trace">
+        {{ range $pages }}
+          <li{{ if eq .RelPermalink $page.RelPermalink }} aria-current="page"{{ end }}><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>{{ if eq .RelPermalink $page.RelPermalink }}<span class="trace__here">{{ .LinkTitle }}</span>{{ else }}<a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>{{ end }}<span class="trace__rt">{{ .ReadingTime }}′</span></li>
+        {{ end }}
+      </ol>
+    </section>
+  {{ end }}
+{{ end }}

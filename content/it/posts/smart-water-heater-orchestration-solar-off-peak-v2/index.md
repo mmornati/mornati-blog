@@ -17,6 +17,8 @@ description: 'Quattro anni dopo la mia prima automazione dello scaldabagno basat
 summary: 'Due scaldabagni su tariffa Heures Creuses, 12 pannelli e nessuna batteria - la v2 della mia orchestrazione degli scaldabagni, con YAML reale e numeri reali.'
 cover: cover.jpg
 showHero: true
+projects:
+- home-energy
 ---
 
 Quattro anni fa [ho sostituito i timer notturni dei miei due scaldabagni con un Shelly Plus 1 e Home Assistant](/smart-water-heater-with-home-assistant-and-shelly-device/). Un primo passo solido: accendere gli scaldabagni quando si apre la finestra di tariffa ridotta (le francesi "Heures Creuses", HC) e saltarla quando siamo via. Quando sono arrivati i pannelli solari, ho descritto la danza della finestra di mezzogiorno nell'[articolo sui due anni di solare](/two-years-of-solar-the-real-numbers-and-roi/).

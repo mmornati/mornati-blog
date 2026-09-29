@@ -14,6 +14,8 @@ date: '2026-05-05T21:24:42.989000+00:00'
 slug: the-hidden-tax-on-every-ai-request-how-mcp-servers-are-draining-your-token-budget
 description: Running 4 MCP servers cost me $515/month in wasted tokens. Live data
   from my setup proves the 99.7% schema tax is real.
+projects:
+- leanproxy-mcp
 ---
 
 

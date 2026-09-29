@@ -1,0 +1,11 @@
+{{/* Freshness plate for technical posts: an explicit `lastVerified` date wins; otherwise posts older than three years say so. */}}
+{{ if eq .Type "posts" }}
+  {{ with .Params.lastVerified }}
+    {{ $d := time.AsTime . }}
+    <p class="freshness freshness--ok not-prose">{{ partial "schematic/led.html" "active" }}{{ i18n "rack.verified" (dict "Date" ($d | time.Format ":date_long")) }}</p>
+  {{ else }}
+    {{ if gt (div (now.Sub $.Date).Hours 24) 1095 }}
+      <p class="freshness not-prose">{{ partial "schematic/led.html" "idle" }}{{ i18n "rack.old" (dict "Year" $.Date.Year) }}</p>
+    {{ end }}
+  {{ end }}
+{{ end }}

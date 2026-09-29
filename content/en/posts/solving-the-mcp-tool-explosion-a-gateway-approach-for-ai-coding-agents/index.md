@@ -13,6 +13,8 @@ date: '2026-01-11T21:42:27.378000+00:00'
 slug: solving-the-mcp-tool-explosion-a-gateway-approach-for-ai-coding-agents
 description: Reduce AI tool overload and boost coding agent efficiency with Nexus-Dev's
   gateway architecture, limiting tool count and maintaining performance
+projects:
+- nexus-dev
 ---
 
 

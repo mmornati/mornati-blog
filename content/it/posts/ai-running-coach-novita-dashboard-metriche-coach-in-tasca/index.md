@@ -19,6 +19,8 @@ cover: cover.jpg
 showHero: true
 description: Dall'articolo sull'ultra-trail, ai-running-coach ha ricevuto più di 120 pull request. Ci sono una dashboard locale, metriche pensate per il trail ricavate dai file FIT, controlli deterministici e un registro delle decisioni, ritmi gara calcolati con il mio modello pendenza → passo, i primi contributi esterni, e un coach con cui parlo dal telefono grazie a Claude Code Remote Control su una macchina Linux, aggiornato da un semplice cron.
 summary: Una dashboard, un bel po' di metriche nuove, dei controlli capaci di dire di no, e un coach che gira su una macchina Linux a casa e mi risponde dal telefono. Ecco cosa è cambiato in ai-running-coach dopo l'ultra, e perché la sincronizzazione automatica usa cron e non una routine di Claude.
+projects:
+- ai-running-coach
 ---
 
 Il 19 settembre ho pubblicato [Preparare un ultra-trail con ai-running-coach](/it/preparare-un-ultra-trail-con-ai-running-coach/). Raccontavo l'Ultra 110 km del Trail Côte d'Opale e come una squadra di agenti IA, che lavorano su semplici file Markdown, mi avesse accompagnato fino al traguardo.

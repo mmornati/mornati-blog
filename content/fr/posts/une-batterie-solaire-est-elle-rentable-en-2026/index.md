@@ -14,6 +14,8 @@ description: Comment simuler la rentabilité d'une batterie solaire ? Analyse te
 url: /fr/une-batterie-solaire-est-elle-rentable-en-2026/
 aliases:
 - /une-batterie-solaire-est-elle-rentable-en-2026
+projects:
+- home-energy
 ---
 
 

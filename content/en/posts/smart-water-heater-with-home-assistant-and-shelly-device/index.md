@@ -11,6 +11,8 @@ tags:
 description: "Replacing a dumb timer with a Shelly Plus 1 smart switch to control a water heater via Home Assistant, with vacation detection to avoid heating when nobody's home."
 date: '2022-08-24T10:00:00.627000+00:00'
 slug: smart-water-heater-with-home-assistant-and-shelly-device
+projects:
+- home-energy
 ---
 
 Continuing to make my home smarter and, hopefully, reduce the electricity bill by being more environmentally friendly... if adding electric devices can be considered that 😩

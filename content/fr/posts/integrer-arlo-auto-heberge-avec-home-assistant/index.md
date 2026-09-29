@@ -21,6 +21,8 @@ aliases:
 description: 'Comment connecter votre émulateur de station de base Arlo auto-hébergé (arlo-cam-api + arlo-snapshot + mediamtx) à Home Assistant en utilisant des capteurs REST, des capteurs template, des binary_sensors, des automatisations, des input_booleans et un tableau de bord Lovelace pour caméras — sans dépendre des intégrations dépréciées pyaarlo/aarlo.'
 cover: cover.jpg
 showHero: true
+projects:
+- arlo-self-hosted
 ---
 
 Ceci est l'article 3 — le dernier — d'une série de trois sur le remplacement de la station de base Arlo propriétaire par une stack auto-hébergée. Dans l'[article 1 de cette série](/fr/remplacer-la-station-de-base-arlo-par-un-routeur-netgear-orbi/) j'ai couvert la couche réseau : comment faire en sorte qu'un Netgear Orbi RBR760 se fasse passer pour la station de base Arlo suffisamment bien pour que les caméras se connectent, s'enregistrent, et continuent à streamer. Dans l'[article 2 de cette série](/fr/auto-heberger-arlo-cam-api-correctifs-et-ameliorations/) j'ai couvert la couche serveur : la stack Docker `arlo-cam-api`, le sidecar `arlo-snapshot` à la demande, le relais RTSP à la demande via MediaMTX, et les trois pull requests upstream que j'ai contribué pour corriger les bugs que j'ai rencontrés en chemin.

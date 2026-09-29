@@ -17,6 +17,8 @@ description: 'Quatre ans après ma première automatisation de chauffe-eau à ba
 summary: 'Deux cumulus sur un tarif Heures Creuses, 12 panneaux et pas de batterie - la v2 de mon orchestration de chauffe-eau, avec le YAML réel et les vrais chiffres.'
 cover: cover.jpg
 showHero: true
+projects:
+- home-energy
 ---
 
 Il y a quatre ans, je [remplaçais les minuteries d'heures creuses de mes deux chauffe-eau par un Shelly Plus 1 et Home Assistant](/smart-water-heater-with-home-assistant-and-shelly-device/). Une première étape solide : allumer les cumulus quand la fenêtre heures creuses (HC) s'ouvre, et les sauter quand la maison est vide. Quand les panneaux solaires sont arrivés, j'ai décrit toute la danse de la fenêtre de midi dans [l'article sur les deux ans de solaire](/two-years-of-solar-the-real-numbers-and-roi/).

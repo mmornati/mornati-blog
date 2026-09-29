@@ -1,0 +1,17 @@
+{{/* Returns the page cover image resource (featureimage, cover param, or a feature/cover/thumbnail bundle file), or false. */}}
+{{ $img := false }}
+{{ with .Params.featureimage }}
+  {{ if not (or (strings.HasPrefix . "http:") (strings.HasPrefix . "https:")) }}
+    {{ $img = $.Resources.Get . }}
+  {{ end }}
+{{ end }}
+{{ if not $img }}
+  {{ with .Params.cover }}{{ $img = $.Resources.Get . }}{{ end }}
+{{ end }}
+{{ if not $img }}
+  {{ $images := .Resources.ByType "image" }}
+  {{ range slice "*feature*" "*cover*" "*thumbnail*" }}
+    {{ if not $img }}{{ $img = $images.GetMatch . }}{{ end }}
+  {{ end }}
+{{ end }}
+{{ return $img }}

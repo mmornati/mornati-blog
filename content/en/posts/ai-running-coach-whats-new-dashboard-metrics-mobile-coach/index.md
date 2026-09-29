@@ -19,6 +19,8 @@ cover: cover.jpg
 showHero: true
 description: Since my ultra-trail post, ai-running-coach got 120+ merged pull requests. A local dashboard, trail-specific metrics built from FIT files, deterministic guardrails and a decision log, race pacing from a personal slope model, community contributions, and a coach I talk to from my phone through Claude Code Remote Control on a Linux box, kept up to date by a plain cron job.
 summary: A dashboard, a pile of new metrics, guardrails that can say no, and a coach that lives on a Linux box at home and answers me from my phone. Here is what changed in ai-running-coach since the ultra, and why the automatic sync runs on cron instead of a Claude routine.
+projects:
+- ai-running-coach
 ---
 
 On September 19 I published [Preparing an Ultra-Trail with ai-running-coach](/preparing-an-ultra-trail-with-ai-running-coach/). That post told the story of the Ultra 110 km Trail Côte d'Opale and how a set of AI agents, working in markdown files, helped me get to the finish line.

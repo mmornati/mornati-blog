@@ -22,6 +22,8 @@ aliases:
 description: 'Le correctif WiFi qui manquait : augmenter le délai d''inactivité du WiFi invité et la durée du bail DHCP sur un Netgear Orbi RBR760 pour que les caméras VMC4040P cessent de se ré-associer toutes les 30 minutes et vident leur batterie pendant la nuit.'
 cover: cover.jpg
 showHero: true
+projects:
+- arlo-self-hosted
 ---
 
 Après la fusion des trois posts de cette série, je continuais à surveiller les niveaux de batterie des caméras. Le Post 1 m'avait appris que le matériel WiFi était la deuxième cause la plus probable de consommation. Les Posts 2 et 3 m'avaient montré comment le beacon et la politique d'armement des caméras interagissent. Mais les caméras continuaient à se ré-associer au réseau invité environ toutes les trente minutes, et la batterie continuait à chuter même sur des caméras armées dans des vues sans mouvement. La cause restante ne se trouvait pas du tout dans la couche applicative — elle se trouvait dans la couche WiFi elle-même.

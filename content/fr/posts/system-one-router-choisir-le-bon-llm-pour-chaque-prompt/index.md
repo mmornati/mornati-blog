@@ -23,6 +23,8 @@ cover: cover.jpg
 showHero: true
 description: La suite d'ai-dispatch. Une passerelle en Go qui pose quatre questions typées sur chaque prompt à un modèle de décision rapide (Jev de TypeSafe, appelé via OpenRouter, ou Laya en local), puis choisit le LLM le moins cher capable d'y répondre. Avec un benchmark de 80 prompts qui compare Jev à trois checkpoints de Laya.
 summary: Mon premier routeur de modèles laissait un LLM lire un fichier de prompt pour choisir un agent. Celui-ci pose quatre questions typées à un modèle de décision « System One », calcule le score des modèles avec de la simple arithmétique, et publie un benchmark pour prouver que ça marche (et montrer où ça ne marche pas).
+projects:
+- ha-decision-models
 ---
 
 En juin, j'ai écrit sur [la délégation intelligente, pièce manquante de votre chaîne d'outils IA](/fr/the-ai-orchestrator-why-intelligent-delegation-is-the-missing-piece-in-your-ai-toolchain/), et j'ai construit [ai-dispatch](https://github.com/mmornati/ai-dispatch) pour tester l'idée : un orchestrateur MCP qui confiait le travail à des agents spécialisés, chacun avec son propre modèle. Ça marchait assez bien pour me convaincre que le principe tenait la route. Mais au fond, je savais que la partie « routage » était le maillon faible de l'ensemble.

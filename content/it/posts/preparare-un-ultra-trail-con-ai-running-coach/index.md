@@ -15,6 +15,8 @@ slug: preparare-un-ultra-trail-con-ai-running-coach
 cover: cover.jpg
 showHero: true
 description: Come ho preparato l'Ultra 110 km Trail Côte d'Opale con ai-running-coach, un progetto open-source di agenti IA collegati a Garmin — pianificazione per periodi, nutrizione, analisi dei dati e strategia di gara.
+projects:
+- ai-running-coach
 ---
 
 Il 13 settembre 2026, alle 02h00 di notte, mi sono messo in fila sulla linea di partenza dell'**Ultra 110 km Trail Côte d'Opale** a Wimereux. 15h26 più tardi, tagliavo il traguardo. Tra questi due momenti non c'è stato solo allenamento: ci sono stati mesi di **pianificazione, analisi e aggiustamenti** — e una buona parte di questo lavoro è stata fatta con l'aiuto di agenti IA.

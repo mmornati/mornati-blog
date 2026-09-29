@@ -20,6 +20,8 @@ translationKey: arlo-base-station-deep-dive
 description: 'A bonus deep-dive into the Arlo base station: raw battery drain measurements across armed/disarmed cameras, sniffed wire data showing how the base station keeps cameras asleep, and the RBR760 beacon interval limitation that prevents full DIY replication.'
 cover: cover.jpg
 showHero: true
+projects:
+- arlo-self-hosted
 ---
 
 This is an unplanned fifth post in the Arlo series — a bonus deep-dive into the data I collected before and during the four-part series. If you have been following along, you know the network-layer stack works for registration and streaming. What the series did not anticipate is *how much* the base station's WiFi behaviour matters for battery life, and what I found when I put a packet sniffer between the cameras and the real Arlo base station.

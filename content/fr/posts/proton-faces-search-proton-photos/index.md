@@ -18,6 +18,8 @@ cover: cover.jpg
 showHero: true
 description: Comment j'ai construit proton-faces pour apporter la recherche de type Google Photos (personnes, objets, lieux) à ma bibliothèque Proton Photos, entièrement auto-hébergée, hors ligne et en lecture seule.
 summary: Le chiffrement de bout en bout fait que Proton ne peut pas indexer mes photos. J'ai donc construit un moteur de recherche en deux conteneurs qui le fait localement, sur mon matériel, sans jamais rien réécrire vers Proton.
+projects:
+- proton-photos
 ---
 
 Il y a quelques semaines, j'écrivais sur la [migration de 354 Go de Google Photos vers Proton](/how-i-built-gphoto2proton-to-migrate-354gb-of-google-photos-to-proton/). La migration a fonctionné, ma bibliothèque est en sécurité, les albums sont intacts. Mais en m'installant dans Proton Photos, une absence discrète n'a cessé de me tarauder : **la recherche**.

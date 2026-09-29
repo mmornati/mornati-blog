@@ -12,6 +12,8 @@ tags:
 date: '2026-08-01T18:04:49.167000+00:00'
 slug: how-i-built-gphoto2proton-to-migrate-354gb-of-google-photos-to-proton
 description: Comment j'ai construit un script pour migrer 354 Go de Google Photos vers Proton. Pourquoi Drive et Photos sont des API différentes, et les deux outils dont j'avais besoin pour les relier.
+projects:
+- proton-photos
 ---
 Si vous lisez ceci, vous êtes probablement dans le même bateau que moi : un abonné Proton heureux qui veut quitter Google Photos, mais qui ne trouve pas de chemin de migration simple, surtout si vous n'êtes pas sur Windows.
 

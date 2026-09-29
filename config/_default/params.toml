@@ -33,7 +33,7 @@ mainSections = ["posts"]
 
 # Homepage layout
 [homepage]
-  layout = "grid"
+  layout = "rack"
   showRecent = true
   showRecentItems = 8
   showMoreLink = true
@@ -60,6 +60,9 @@ mainSections = ["posts"]
   showZenMode = true
   showComments = true
   showHero = true
+  heroStyle = "plate"
+  showRelatedContent = true
+  relatedContentLimit = 3
 
 # List pages (taxonomies, archive, search, home)
 [list]

@@ -11,6 +11,8 @@ tags:
 date: '2026-01-17T13:01:03.593000+00:00'
 slug: from-tools-to-agents-the-evolution-of-nexus-dev
 description: Découvrez comment Nexus-Dev passe des outils aux agents IA, améliorant votre IDE avec des assistants de codage personnalisables et collaboratifs alimentés par MCP
+projects:
+- nexus-dev
 ---
 
 

@@ -23,6 +23,24 @@ FORM: Candidate 6 of 7 in the self-derived, resonance-ordered list (Home Assista
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance.
 
+## Pass 2 — homepage rack elevation + features (seed 639f710a)
+
+Scope for this pass: realise the world structurally. Visitor mode stays Read. User answers: push the schematic world (no replacement); add topic graph, project/series hubs, reading tools; refuse heavy JS and flashy article pages (wow lives on index surfaces, articles stay calm).
+
+## Direction contract
+
+THESIS: The homepage is a rack elevation of the author's running systems: each project is a 1U unit with a shape-coded status LED, its newest post and a patch port to its pillar. Refuses the Blowfish card grid of same-size cover cards.
+
+OWN-WORLD: Unchanged schematic tokens (copper signal, cyan trace, blueprint/night ramp, Archivo / Source Serif 4 / JetBrains Mono). New material: two rack rails with square mounting holes and mono U-numbers framing the page; faceplates as flat panels with hairline seams; status by LED shape (filled = active, ring = maintained, half = experiment, hollow square = archived), never colour alone.
+
+STORY: A visitor from search sees within one screen what Marco actually runs, which systems are live, and where every post plugs in; they open a unit, follow its series, or jump to the topology map.
+
+FIRST VIEWPORT: Rails left/right at full height. U-top: 1U head unit (avatar, name, headline, links). Then a 3U "latest transmission" unit: cover image at left third, title, summary, mono telemetry. Below it the first project units start inside the fold. Units expand in place (native details) to list their series; ledger and patch panel follow.
+
+FORM: Rack elevation, dealt index 4 of 7 in the surface structure list (pillar bus lines, topology map, rack elevation, featured plate + index, syslog ledger, datasheet, patch bay); locked by the user. Seed key: 639f710a. Signature interaction: unit slides out of the rack on expand, activity LED blinks on hover; card cover to article hero via view transitions.
+
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance.
+
 ## Unresolved decisions
 
 - Exact numeric palette values and font sizes are decided during implementation, within the OWN-WORLD description above.

@@ -1,0 +1,21 @@
+{{/* Related posts as connected nodes: projects weigh most (see [related] in hugo.toml). */}}
+{{ if .Params.showRelatedContent | default (.Site.Params.article.showRelatedContent | default false) }}
+  {{ $related := .Site.RegularPages.Related . | first (.Site.Params.article.relatedContentLimit | default 3) }}
+  {{ with $related }}
+    <section class="linked not-prose" aria-labelledby="linked-title">
+      <h2 id="linked-title" class="linked__title">{{ i18n "rack.related" }}</h2>
+      <ul class="linked__list">
+        {{ range . }}
+          {{ $cover := partial "schematic/cover.html" . }}
+          <li class="linked__node">
+            <a href="{{ .RelPermalink }}">
+              {{ with $cover }}{{ $c := .Fill "480x300 q76 Center webp" }}<img src="{{ $c.RelPermalink }}" width="480" height="300" alt="" loading="lazy">{{ else }}<span class="linked__blank" aria-hidden="true"></span>{{ end }}
+              <span class="linked__meta"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time> · {{ .ReadingTime }}′</span>
+              <span class="linked__name">{{ .LinkTitle }}</span>
+            </a>
+          </li>
+        {{ end }}
+      </ul>
+    </section>
+  {{ end }}
+{{ end }}

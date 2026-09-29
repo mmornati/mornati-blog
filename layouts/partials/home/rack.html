@@ -1,0 +1,131 @@
+{{/* Homepage as a rack elevation: head unit, latest post, one 1U unit per project, a patch panel of topics, a log. */}}
+{{ $lang := .Site.Language.Lang }}
+{{ $posts := sort (where .Site.RegularPages "Type" "in" .Site.Params.mainSections) "Date" "desc" }}
+{{ $latest := index $posts 0 }}
+{{ $oldest := index (last 1 $posts) 0 }}
+
+{{ $units := partial "schematic/units.html" . }}
+
+<div class="rack">
+  <div class="rack__rail rack__rail--l" aria-hidden="true"></div>
+  <div class="rack__bay">
+
+    {{/* ---- Head unit: who runs this rack ---- */}}
+    <section class="unit unit--head" aria-label="{{ .Site.Params.Author.name }}">
+      {{ partial "schematic/ears.html" }}
+      <div class="unit__face head">
+        <span class="unit__tag" aria-hidden="true">U01</span>
+        {{ with .Site.Params.Author.image }}
+          {{ with resources.Get . }}
+            {{ $a := .Fill "160x160 q90" }}
+            <span class="head__avatar">
+              <img src="{{ $a.RelPermalink }}" width="64" height="64" alt="">
+            </span>
+          {{ end }}
+        {{ end }}
+        <div class="head__id">
+          <h1 class="head__name">{{ .Site.Params.Author.name }}</h1>
+          <p class="head__role">{{ .Site.Params.Author.headline }}</p>
+        </div>
+        <dl class="head__meter">
+          <div><dt>{{ i18n "rack.posts" (len $posts) }}</dt></div>
+          <div><dt>{{ i18n "rack.since" (dict "Year" $oldest.Date.Year) }}</dt></div>
+          <div><dt>{{ i18n "rack.languages" }}</dt></div>
+        </dl>
+      </div>
+    </section>
+
+    {{/* ---- Latest post: the widest unit ---- */}}
+    {{ with $latest }}
+      {{ $cover := partial "schematic/cover.html" . }}
+      <article class="unit unit--latest">
+        {{ partial "schematic/ears.html" }}
+        <div class="unit__face latest">
+          <span class="unit__tag" aria-hidden="true">U02–04</span>
+          {{ with $cover }}
+            {{ $c := .Fill "960x600 q82 Center webp" }}
+            <a class="latest__cover" href="{{ $latest.RelPermalink }}" tabindex="-1" aria-hidden="true">
+              <img src="{{ $c.RelPermalink }}" width="960" height="600" alt="" loading="eager" fetchpriority="high"
+                style="view-transition-name: {{ partial "schematic/vt-name.html" $latest }}">
+            </a>
+          {{ end }}
+          <div class="latest__body">
+            <h2 class="latest__title"><a href="{{ .RelPermalink }}">{{ .Title | emojify }}</a></h2>
+            {{ with .Params.summary | default .Description | default .Summary }}<p class="latest__summary">{{ . | plainify | truncate 280 }}</p>{{ end }}
+            <p class="latest__meta">
+              <span class="latest__signal">{{ partial "schematic/led.html" "active" }}{{ i18n "rack.latest" }}</span>
+              <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
+              <span>{{ i18n "article.reading_time" .ReadingTime | markdownify }}</span>
+              {{ range .GetTerms "categories" }}<a class="port port--trace" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>{{ end }}
+              {{ range .GetTerms "projects" }}{{ $pd := partial "schematic/project.html" .Data.Term }}<a class="port" href="{{ .RelPermalink }}">{{ with $pd }}{{ .name }}{{ else }}{{ .LinkTitle }}{{ end }}</a>{{ end }}
+            </p>
+          </div>
+        </div>
+      </article>
+    {{ end }}
+
+    {{/* ---- Project units ---- */}}
+    <div class="unit unit--blank" role="presentation">
+      {{ partial "schematic/ears.html" }}
+      <h2 class="unit__face blank"><span>{{ i18n "rack.units" }}</span><span class="blank__vents" aria-hidden="true"></span><span class="blank__count">{{ len $units }}U</span></h2>
+    </div>
+
+    {{ range $i, $u := $units }}
+      {{ partial "schematic/unit-project.html" (dict "u" $u "i" $i "lang" $lang) }}
+    {{ end }}
+
+    {{/* ---- Patch panel: every topic as a port ---- */}}
+    <div class="unit unit--blank" role="presentation">
+      {{ partial "schematic/ears.html" }}
+      <h2 class="unit__face blank"><span>{{ i18n "rack.topics" }}</span><span class="blank__vents" aria-hidden="true"></span><span class="blank__count">{{ len site.Taxonomies.categories }}P</span></h2>
+    </div>
+    {{/* Hovering a unit's port lights the matching jack below: one rule per topic. */}}
+    <style>{{ range site.Taxonomies.categories }}.rack:has(.project__port[data-pillar="{{ .Page.Data.Term }}"]:hover) .jack[data-pillar="{{ .Page.Data.Term }}"]{--wired:1}{{ end }}</style>
+    <nav class="unit unit--patch" aria-label="{{ i18n "rack.topics" }}">
+      {{ partial "schematic/ears.html" }}
+      <ul class="unit__face patch">
+        {{ range site.Taxonomies.categories.ByCount }}
+          <li>
+            <a class="jack" data-pillar="{{ .Name }}" href="{{ .Page.RelPermalink }}">
+              <span class="jack__socket" aria-hidden="true"></span>
+              <span class="jack__label">{{ .Page.LinkTitle }}</span>
+              <span class="jack__count">{{ .Count }}</span>
+              <span class="jack__id">{{ .Name }}</span>
+            </a>
+          </li>
+        {{ end }}
+      </ul>
+    </nav>
+
+    {{/* ---- Log: the next most recent posts ---- */}}
+    <div class="unit unit--blank" role="presentation">
+      {{ partial "schematic/ears.html" }}
+      <h2 class="unit__face blank"><span>{{ i18n "rack.log" }}</span><span class="blank__vents" aria-hidden="true"></span><span class="blank__count">{{ len $posts }}</span></h2>
+    </div>
+    <section class="unit unit--log" aria-label="{{ i18n "rack.log" }}">
+      {{ partial "schematic/ears.html" }}
+      <ol class="unit__face log">
+        {{ range after 1 (first 13 $posts) }}
+          <li class="log__line">
+            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
+            <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+            <span class="log__tags">{{ range first 1 (.GetTerms "categories") }}<span class="port port--trace">{{ .LinkTitle }}</span>{{ end }}</span>
+            <span class="log__rt">{{ .ReadingTime }}′</span>
+          </li>
+        {{ end }}
+      </ol>
+    </section>
+
+    <nav class="unit unit--foot" aria-label="{{ i18n "rack.archive" }}">
+      {{ partial "schematic/ears.html" }}
+      <p class="unit__face foot">
+        <a href="{{ "archive/" | relLangURL }}">{{ i18n "rack.archive" }}{{ partial "schematic/arrow.html" "right" }}</a>
+        <a href="{{ "graph/" | relLangURL }}">{{ i18n "rack.map" }}{{ partial "schematic/arrow.html" "right" }}</a>
+        <a href="{{ "projects/" | relLangURL }}">{{ i18n "rack.projects_title" }}{{ partial "schematic/arrow.html" "right" }}</a>
+        <a href="{{ "rss.xml" | relLangURL }}">RSS</a>
+      </p>
+    </nav>
+
+  </div>
+  <div class="rack__rail rack__rail--r" aria-hidden="true"></div>
+</div>

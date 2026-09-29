@@ -19,6 +19,8 @@ cover: cover.jpg
 showHero: true
 description: How I plugged TypeSafe's Jev decision model into Home Assistant to answer the questions my YAML rules could not ("is this normal?"), without ever letting it replace them. The integrations available, the shadow-mode pattern, six real automations, what it costs per day, and what to expect from Laya running locally.
 summary: My automations are good at thresholds and bad at context. Jev answers typed questions with a calibrated probability, for about two thousandths of a cent each. Here is how I wired it into Home Assistant with the old rules kept as a safety net, and what it really costs.
+projects:
+- ha-decision-models
 ---
 
 Every Home Assistant setup I know ends up with the same kind of automation: *"if the value goes over X for Y minutes, send a notification"*. It works, until it doesn't. The sump pump runs for two minutes after a stormy night: alert. Someone takes a long shower: "possible leak" alert. The washing machine pauses for a soak: "cycle finished" notification, twenty minutes too early. After a while you stop reading the notifications, which is the worst possible outcome for an alert.

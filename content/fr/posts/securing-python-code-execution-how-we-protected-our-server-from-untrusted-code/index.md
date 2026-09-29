@@ -11,6 +11,8 @@ tags:
 date: '2026-01-01T09:00:08.213000+00:00'
 slug: securing-python-code-execution-how-we-protected-our-server-from-untrusted-code
 description: Apprenez à sécuriser l'exécution de code Python avec des conteneurs Docker, des espaces de noms restreints et des stratégies de défense en profondeur
+projects:
+- cyber-code-academy
 ---
 
 

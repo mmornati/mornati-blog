@@ -1,0 +1,11 @@
+{{/* Theme series block, then the schematic additions shown above the article body:
+     where this post sits in its project, and how current it is. */}}
+{{ if .Params.series }}
+  <details
+    class="mt-2 mb-5 overflow-hidden rounded-lg ms-0 ps-5"
+    {{ if .Params.seriesOpened | default (.Site.Params.article.seriesOpened | default false) }}open{{ end }}>
+    {{ partial "series/series_base.html" . }}
+  </details>
+{{ end }}
+{{ partial "schematic/in-project.html" (dict "page" . "where" "top") }}
+{{ partial "schematic/freshness.html" . }}
