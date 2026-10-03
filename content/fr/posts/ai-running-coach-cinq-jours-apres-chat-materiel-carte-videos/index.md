@@ -92,7 +92,11 @@ L'ingestion des FIT stocke les coordonnées GPS depuis le début, mais rien ne l
 
 ## 3. Un second avis sur les calories
 
-Garmin donne un chiffre de calories pour chaque séance. C'est une estimation, et quand le capteur cardio optique déraille, elle peut être très loin du compte. La **PR #123** ajoute un **modèle énergétique indépendant**, construit en cinq étapes :
+Garmin donne un chiffre de calories pour chaque séance. C'est une estimation, et quand le capteur cardio optique déraille, elle peut être très loin du compte.
+
+L'idée vient d'un échange avec **Alexandre Auffret**, de [Tout pour ma santé](https://toutpourmasante.fr), dont je suis le podcast depuis un moment. C'est lui qui m'a orienté vers une méthode de calcul différente, qui intègre davantage de données. Plutôt que de remplacer le chiffre de Garmin, j'ai préféré garder les deux : l'écart entre les deux calculs est une information en soi, et il aide à prendre des décisions plus pertinentes. Merci Alexandre ! 🙏 Au passage, son site regorge de ressources intéressantes sur la nutrition et l'entraînement, plans d'entraînement compris si vous en cherchez.
+
+La **PR #123** ajoute donc un **modèle énergétique indépendant**, construit en cinq étapes :
 
 1. **Le moteur** (`scripts/arc_energy.py`, des fonctions pures). En course, il utilise l'**équation RE3** (Looney, Hoogkamer & Kram, 2025), qui donne la puissance métabolique à partir de la vitesse et de la pente. En marche, il utilise le **polynôme de marche de Minetti** (2002). À l'arrêt, il ne compte que le métabolisme debout. Il intègre échantillon par échantillon sur les données FIT normalisées et ne comble jamais un trou. Validé sur 7 vraies séances : à ±0,6 % du calcul de référence, et 3 à 6 % au-dessus de Garmin.
 2. **L'indexation.** Une table dérivée `activity_energy`, construite pour la course, le trail, la randonnée et la marche. Le poids est déterminé à la date de la séance (fichier santé, puis nutrition, puis profil), et chaque échec est signalé avec une raison explicite (`no_weight`, `no_samples`…).

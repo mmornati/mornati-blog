@@ -92,7 +92,11 @@ The FIT ingestion has stored GPS coordinates since the start, but nothing displa
 
 ## 3. A second opinion on calories
 
-Garmin gives you a calorie number for every session. It is an estimate, and when your optical HR sensor goes wrong, it can be off by a lot. **PR #123** adds an **independent energy model**, and it was built in five steps:
+Garmin gives you a calorie number for every session. It is an estimate, and when your optical HR sensor goes wrong, it can be off by a lot.
+
+The idea came from a conversation with **Alexandre Auffret** of [Tout pour ma santé](https://toutpourmasante.fr), whose podcast I've been following for a while. He pointed me to a different way of computing energy expenditure, one that takes more data into account. Rather than replacing Garmin's number, I chose to keep both: the gap between the two calculations is information in itself, and it helps make better decisions. Thank you, Alexandre! 🙏 His site (in French) also has plenty of useful resources on nutrition and training, including training plans if you're looking for one.
+
+So **PR #123** adds an **independent energy model**, and it was built in five steps:
 
 1. **The engine** (`scripts/arc_energy.py`, pure functions). When running, it uses the **RE3 equation** (Looney, Hoogkamer & Kram, 2025), which gives metabolic power from speed and slope. When walking, it uses **Minetti's walking polynomial** (2002). When stopped, it counts only the standing metabolism. It integrates sample by sample over the normalised FIT data and never bridges a gap. Validated on 7 real sessions: within ±0.6 % of the reference calculation, and 3 to 6 % above Garmin.
 2. **Indexing.** A derived `activity_energy` table, built for running, trail, hiking and walking. Weight is resolved at the date of the session (health file, then nutrition, then profile), and any failure is reported with an explicit reason (`no_weight`, `no_samples`…).
