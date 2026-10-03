@@ -92,7 +92,11 @@ L'ingestione dei FIT salva le coordinate GPS fin dall'inizio, ma niente le mostr
 
 ## 3. Un secondo parere sulle calorie
 
-Garmin dà un numero di calorie per ogni seduta. È una stima, e quando il sensore ottico della FC va per conto suo può sbagliare di parecchio. La **PR #123** aggiunge un **modello energetico indipendente**, costruito in cinque passi:
+Garmin dà un numero di calorie per ogni seduta. È una stima, e quando il sensore ottico della FC va per conto suo può sbagliare di parecchio.
+
+L'idea nasce da uno scambio con **Alexandre Auffret** di [Tout pour ma santé](https://toutpourmasante.fr), di cui seguo il podcast da un po' di tempo. È stato lui a indicarmi un metodo di calcolo diverso, che tiene conto di più dati. Invece di sostituire il numero di Garmin, ho preferito tenerli entrambi: lo scarto tra i due calcoli è già un'informazione, e aiuta a prendere decisioni più sensate. Grazie Alexandre! 🙏 Sul suo sito (in francese) trovate anche parecchie risorse interessanti su nutrizione e allenamento, compresi dei piani di allenamento se ne state cercando uno.
+
+La **PR #123** aggiunge quindi un **modello energetico indipendente**, costruito in cinque passi:
 
 1. **Il motore** (`scripts/arc_energy.py`, funzioni pure). In corsa usa l'**equazione RE3** (Looney, Hoogkamer & Kram, 2025), che ricava la potenza metabolica da velocità e pendenza. In camminata usa il **polinomio della camminata di Minetti** (2002). Da fermi conta solo il metabolismo in piedi. Integra campione per campione sui dati FIT normalizzati e non colma mai un buco. Validato su 7 sedute vere: entro ±0,6 % dal calcolo di riferimento, e dal 3 al 6 % sopra Garmin.
 2. **Indicizzazione.** Una tabella derivata `activity_energy`, costruita per corsa, trail, escursionismo e camminata. Il peso viene preso alla data della seduta (file salute, poi nutrizione, poi profilo), e ogni fallimento viene segnalato con un motivo esplicito (`no_weight`, `no_samples`…).
