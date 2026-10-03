@@ -155,7 +155,7 @@ def rewrite_html(cloud: str, folder: str) -> int:
         if "/images/" not in text:
             continue
         changed = False
-        for m in set(re.findall(r"/images/([^\"'$<>{}]+)", text)):
+        for m in set(re.findall(r"/images/([^\"'$<>{}\s]+)", text)):
             url = ""
             entry = state.get(m)
             if isinstance(entry, dict) and entry.get("url"):
