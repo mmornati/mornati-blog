@@ -25,6 +25,10 @@ jobs:
           hugo-version: '0.164.0'
           extended: true
 
+      - name: Canvas videos — narration up to date
+        # stdlib only: fails if a script.json or lexicon changed without regenerating the voice
+        run: python3 scripts/video/narrate.py --check
+
       - name: Build site
         env:
           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
