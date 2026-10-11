@@ -29,24 +29,38 @@ Meno di due settimane fa [ai-running-coach](/it/ai-running-coach-cinque-giorni-d
 
 Nessuno di questi è un file video. Ogni "video" è una pagina web: **ogni frame è disegnato in JavaScript su un canvas** a partire dal solo tempo trascorso, sopra una traccia di narrazione prodotta da un motore text-to-speech. Gran parte del codice l'ha scritta Claude Code, a partire da prompt del tipo "fammi un video che spieghi questa funzionalità".
 
-Mi hanno chiesto come funziona, quindi questo articolo racconta il metodo. Parlo dell'idea, delle opzioni gratuite per la voce fuori campo (e delle trappole sulle licenze, che contano più della qualità della voce), di quello che mi hanno insegnato 21 episodi, di prompt che potete riutilizzare e di un esempio passo passo su un altro progetto, così da vedere tutto il processo partire da zero.
+Mi hanno chiesto come funziona, quindi questo articolo racconta il metodo. Parlo dell'idea, delle opzioni gratuite per la voce fuori campo (e delle trappole sulle licenze, che contano più della qualità della voce), di quello che mi hanno insegnato 21 episodi e di prompt che potete riutilizzare. Ora tutto è impacchettato in due skill di Claude Code in **[canvas-video-skill](https://github.com/mmornati/canvas-video-skill)**, e la sezione 6 ripercorre passo passo, con i comandi della skill, l'esempio qui sotto, realizzato su un altro progetto.
 
 ## 0. Prima il risultato
 
 Ecco l'esempio costruito per questo articolo: un video esplicativo di 80 secondi su [leanproxy-mcp](https://github.com/mmornati/leanproxy-mcp), il mio firewall dei token per MCP. È narrato in inglese, francese e italiano, e gira direttamente dentro questa pagina:
 
 <div style="container-type:inline-size;margin:1.5rem 0">
-<iframe src="/videos/leanproxy-mcp/?embed=1&lang=it" title="leanproxy-mcp in 80 secondi" loading="lazy" allow="fullscreen; autoplay" allowfullscreen style="display:block;width:100%;height:calc(56.25cqw + 40px);border:0;border-radius:8px;background:#f3f5f1"></iframe>
+<iframe src="https://mmornati.github.io/canvas-video-skill/leanproxy-mcp/?embed=1&lang=it" title="leanproxy-mcp in 80 secondi" loading="lazy" allow="fullscreen; autoplay" allowfullscreen style="display:block;width:100%;height:calc(56.25cqw + 40px);border:0;border-radius:8px;background:#f3f5f1"></iframe>
 </div>
 
-*Premete Play (con l'audio attivo). Potete cambiare lingua dalla barra di controllo o attivare i sottotitoli. [Apritelo a pagina intera](/videos/leanproxy-mcp/?lang=it) per avere l'elenco dei capitoli.*
+*Premete Play (con l'audio attivo). Potete cambiare lingua dalla barra di controllo o attivare i sottotitoli. [Apritelo a pagina intera](https://mmornati.github.io/canvas-video-skill/leanproxy-mcp/?lang=it) per avere l'elenco dei capitoli.*
 
 Qualche numero:
 
 - **2 MB** per le tre lingue: circa 40 KB di JavaScript e JSON, più circa 600 KB di audio AAC per lingua. Un export MP4 della sola versione inglese pesa 3,6 MB.
-- **1.300 righe di codice**, tutto compreso: il motore riutilizzabile (495 righe), le otto scene (389) e i due tool Python per la narrazione e l'export.
+- **Circa 900 righe di JavaScript**: il motore riutilizzabile (circa 500 righe, nessuna dipendenza) e le otto scene di questo video (389).
 - **0 euro**: la voce è [Kokoro](https://huggingface.co/hexgrad/Kokoro-82M), un modello a pesi aperti (Apache-2.0) che gira sulla CPU di un portatile.
-- **Hosting:** è una cartella dentro la `static/` di questo blog. Niente YouTube, niente player di terze parti, niente da caricare.
+- **Hosting:** una cartella di file statici su GitHub Pages, accanto alla skill che l'ha prodotta ([`docs/leanproxy-mcp/`](https://github.com/mmornati/canvas-video-skill/tree/main/docs/leanproxy-mcp)). Niente YouTube, niente player di terze parti.
+
+### Come averlo: canvas-video-skill
+
+Il motore, gli script, il template, il flusso di lavoro per la pronuncia e le note sulle licenze che trovate più sotto sono tutti in **[canvas-video-skill](https://github.com/mmornati/canvas-video-skill)**, un plugin di Claude Code con due skill:
+
+- **`canvas-video`** guida l'agente lungo tutto il metodo: fatti, storyboard, scaffolding, voce, scene, controllo visivo, incorporamento.
+- **`narration-lexicon`** trova e corregge le parole pronunciate male con Whisper, invece che con le vostre orecchie.
+
+```text
+/plugin marketplace add mmornati/canvas-video-skill
+/plugin install canvas-video@canvas-video-skill
+```
+
+Poi chiedete un video. Gli script funzionano anche senza agente, o con un altro agente: sono semplici file Python eseguiti con `uv`, e il video in sé è HTML e JavaScript.
 
 ## 1. L'idea: un video è una funzione del tempo
 
@@ -100,7 +114,7 @@ Perché non fare semplicemente un MP4? Si può, è un comando solo (sezione 7). 
 
 ## 2. Anatomia di un video
 
-Il motore che ho estratto per questo blog si trova in [`static/videos/engine/`](https://github.com/mmornati/mornati-blog/tree/main/static/videos/engine). È una versione ridotta di quello di ai-running-coach, senza le parti specifiche della serie (l'intro col pettorale, l'arco d'arrivo, il gestore degli screenshot). Un video è una cartella accanto:
+Il motore vive nella skill, in [`skills/canvas-video/engine/`](https://github.com/mmornati/canvas-video-skill/tree/main/skills/canvas-video/engine). È una versione ridotta e generica di quello di ai-running-coach, senza le parti specifiche della serie (l'intro col pettorale, l'arco d'arrivo, il gestore degli screenshot). Un video è una cartella accanto:
 
 | File | Scritto da | Ruolo |
 |---|---|---|
@@ -125,10 +139,12 @@ I numeri sono scritti in lettere di proposito. I motori TTS leggono "318" corret
 
 Il motore offre alle scene un piccolo vocabolario: `text`, `para`, `panel`, `pill`, `terminal` (con righe digitate e cursore), `arrow`, `packets` (puntini che scorrono lungo un filo), `highlight`, `callout`, `check`, più funzioni di easing e un generatore casuale con seed. Per i video esplicativi basta. Per qualsiasi altra cosa, la scena ha a disposizione il `ctx` grezzo del canvas.
 
-Gli strumenti sono due script Python eseguiti con `uv`, quindi nel progetto non viene installato nulla:
+Gli strumenti sono una manciata di script Python eseguiti con `uv`, quindi nel progetto non viene installato nulla:
 
-- [`scripts/video/narrate.py`](https://github.com/mmornati/mornati-blog/blob/main/scripts/video/narrate.py) si occupa della voce, del timing e del `--check` usato dalla CI.
-- [`scripts/video/render.py`](https://github.com/mmornati/mornati-blog/blob/main/scripts/video/render.py) produce le immagini fisse in PNG e l'export MP4.
+- [`new_video.py`](https://github.com/mmornati/canvas-video-skill/blob/main/skills/canvas-video/scripts/new_video.py) crea lo scheletro di un video che si riproduce già prima che scriviate una sola scena.
+- [`narrate.py`](https://github.com/mmornati/canvas-video-skill/blob/main/skills/canvas-video/scripts/narrate.py) si occupa della voce, del timing e del `--check` usato dalla CI.
+- [`render.py`](https://github.com/mmornati/canvas-video-skill/blob/main/skills/canvas-video/scripts/render.py) produce i provini a contatto, le immagini fisse in PNG e l'export MP4.
+- [`verify.py`](https://github.com/mmornati/canvas-video-skill/blob/main/skills/narration-lexicon/scripts/verify.py) e [`try_words.py`](https://github.com/mmornati/canvas-video-skill/blob/main/skills/narration-lexicon/scripts/try_words.py) controllano e correggono la pronuncia.
 
 Il video in sé è al 100% HTML, CSS e JavaScript.
 
@@ -178,7 +194,7 @@ I piani gratuiti dei servizi commerciali non sono un'opzione per questo uso: **E
 - Per le voci naturali di **Windows** non ho trovato alcuna autorizzazione alla pubblicazione.
 - **espeak-ng** (Linux, macOS, Windows) sembra uscito dal 1995, ma è software GPL che non avanza alcuna pretesa sul vostro audio: è il ripiego a costo zero che avete davvero il diritto di pubblicare.
 
-Il mio `narrate.py` supporta tre motori: `kokoro` (predefinito), `espeak` (ripiego pubblicabile) e `say` (bozze). Quello di ai-running-coach aggiunge `azure`, `edge`, `chatterbox` e `kyutai`. Aggiungere un motore richiede una classe di 15 righe: prende una frase, scrive un WAV.
+Il `narrate.py` della skill supporta quattro motori: `kokoro` (predefinito), `azure` (il piano gratuito ufficiale), `espeak` (il ripiego pubblicabile) e `say` (bozze). Quello di ai-running-coach ha anche `edge`, `chatterbox` e `kyutai`. Aggiungere un motore richiede una classe di 15 righe: prende una frase, scrive un WAV.
 
 ### Cosa sceglierei io
 
@@ -191,13 +207,16 @@ Per questo articolo ho usato di proposito Kokoro in tutte e tre le lingue, così
 
 ## 4. Cosa mi hanno insegnato 21 episodi
 
-**Il vero lavoro è la pronuncia, e non si può controllare a orecchio.** Dopo tre ascolti si sente quello che ci si aspetta. Trascrivete la traccia con Whisper (`faster-whisper` gira in locale) e fate il diff con lo script. Sul video di leanproxy, Whisper ha scovato:
+**Il vero lavoro è la pronuncia, e non si può controllare a orecchio.** Dopo tre ascolti si sente quello che ci si aspetta. Trascrivete la traccia con Whisper (`faster-whisper` gira in locale) e fate il diff con lo script. La skill `narration-lexicon` lo automatizza: ritaglia ogni frase dalla traccia grazie ai timestamp, la trascrive da sola e la confronta con lo script. Sul video di leanproxy ha scovato:
 
 - "your AI client" sentito come "your iClient";
 - "binaire Go" sentito come "binergo";
-- "LeanProxy" in italiano sentito come "L'improxia".
+- "LeanProxy" in italiano sentito come "L'improxia";
+- "Homebrew" in francese sentito come "Chromebook". Questo mi era sfuggito ascoltando tutta la traccia.
 
-Ognuno è stato corretto con una voce di una riga in `lexicon.json`: una grafia alternativa, oppure fonemi IPA grezzi per Kokoro (`"AI": "[[ˌeɪˈaɪ]]"`). I sottotitoli mantengono il testo originale.
+Ognuno è stato corretto con una voce di una riga in `lexicon.json` (una grafia alternativa, oppure fonemi IPA grezzi per Kokoro: `"AI": "[[ˌeɪˈaɪ]]"`) o riformulando la frase. I sottotitoli mantengono il testo originale.
+
+**Non ogni differenza è un problema della voce.** Nel report finale, tutte le 15 frasi inglesi corrispondono. Le differenze che restano in francese e in italiano sono omofoni ("surcoût" sentito come "sur coût", "Mesuré" come "Mesurée") o pregiudizi linguistici di Whisper stesso: in una frase italiana, "LeanProxy" torna indietro come una parola dall'aria italiana anche quando la voce lo pronuncia bene. La skill insegna all'agente a distinguere questi casi invece di "correggere" una voce che è già giusta.
 
 **Kokoro legge ad alta voce i propri marcatori di lingua.** Quando una frase francese contiene una parola inglese, espeak (che Kokoro usa per i fonemi) la racchiude tra marcatori di cambio lingua: `(en)kˈoʊtʃ(fr)`. kokoro-onnx toglie le parentesi ma non le lettere, quindi la voce diceva letteralmente "en coach fr". La soluzione è un parametro (`language_switch="remove-flags"`), ed è in `narrate.py`.
 
@@ -215,7 +234,9 @@ Ognuno è stato corretto con una voce di una riga in `lexicon.json`: una grafia 
 
 ## 5. Prompt da riutilizzare
 
-Le sessioni che hanno costruito "Il Sentiero" non esistono più: la prima girava in una sandbox nel cloud, e quelle locali nel frattempo sono state ripulite. Quello che segue è riscritto a partire dalle descrizioni delle pull request e generalizzato, così funziona su qualsiasi progetto. Gli ultimi due sono i prompt dietro l'esempio di questo articolo.
+Le sessioni che hanno costruito "Il Sentiero" non esistono più: la prima girava in una sandbox nel cloud, e quelle locali nel frattempo sono state ripulite. Quello che segue è riscritto a partire dalle descrizioni delle pull request e generalizzato, così funziona su qualsiasi progetto.
+
+Con la skill installata, per lo più non vi servono: le sue istruzioni codificano esattamente questi passaggi, e basta l'ultimo prompt. Restano utili senza la skill, con un altro agente, o per capire cosa la skill fa fare all'agente.
 
 Li lascio in inglese, così come li ho scritti: funzionano allo stesso modo in qualsiasi lingua.
 
@@ -283,47 +304,72 @@ layout before showing me anything.
 
 La parte che conta in tutti: **chiedete all'agente di guardare il proprio output.** Renderizzare immagini fisse di ogni scena e rileggerle come immagini, e trascrivere l'audio, è ciò che trasforma "compila" in "si vede e si sente bene".
 
-## 6. Passo passo: leanproxy-mcp in un pomeriggio
+## 6. Passo passo: il video di leanproxy-mcp con la skill
 
-Ecco come è stato realizzato il video in cima a questo articolo, nell'ordine.
+Ecco come è stato realizzato il video in cima a questo articolo. L'ho costruito prima con Claude Code, poi ho impacchettato i passaggi, gli script e i controlli nella skill, quindi questo è esattamente ciò che la skill ora fa fare a un agente. I percorsi sono relativi alla cartella `skills/` del plugin; l'agente esegue questi comandi da solo, e potete eseguirli anche a mano.
 
-**1. Raccogliere i fatti.** Un agente ha letto il repository di leanproxy-mcp, il suo sito di documentazione e i risultati dei suoi benchmark. La prima cosa che ha trovato è stata una trappola: la descrizione su GitHub dice ancora "50-80%", mentre i dati attuali e misurati sono *dal 65 al 94% di token in meno per sessione*, *10.049 → 318 token* di carico statico e *0 su 3* segreti piazzati trapelati. I miei due articoli precedenti sul progetto riportavano numeri ancora più vecchi. Il video usa solo i risultati attuali dell'harness e stampa sullo schermo le condizioni ("make harness · 5 mock servers · 118 tools · upper bounds").
+**1. Installare la skill e chiedere.**
 
-**2. Scrivere lo storyboard come `script.json`.** Otto scene: la tassa dello schema, il costo, il proxy, la modalità router, il governatore delle risposte, il firewall, le misure, l'installazione. Circa 170 parole in inglese. Le funzionalità opt-in vengono presentate come opt-in.
+```text
+/plugin marketplace add mmornati/canvas-video-skill
+/plugin install canvas-video@canvas-video-skill
 
-**3. Generare la voce.**
+> Make an ~80 s narrated explainer of github.com/mmornati/leanproxy-mcp, in EN, FR and IT,
+  with a free voice I'm allowed to publish. Only facts from the repo.
+```
+
+**2. Prima i fatti.** La skill fa leggere all'agente il repository, il sito di documentazione e i risultati dei benchmark prima di ogni altra cosa. La prima cosa che ha trovato è stata una trappola: la descrizione su GitHub dice ancora "50-80%", mentre i dati attuali e misurati sono *dal 65 al 94% di token in meno per sessione*, *10.049 → 318 token* di carico statico e *0 su 3* segreti piazzati trapelati. I miei due articoli precedenti sul progetto riportavano numeri ancora più vecchi. Il video usa solo i risultati attuali dell'harness e stampa sullo schermo le condizioni ("make harness · 5 mock servers · 118 tools · upper bounds").
+
+**3. Lo storyboard, approvato prima di costruire.** Otto scene: la tassa dello schema, il costo, il proxy, la modalità router, il governatore delle risposte, il firewall, le misure, l'installazione. Circa 170 parole in inglese, numeri scritti in lettere, funzionalità opt-in presentate come opt-in. Una volta approvato, diventa `script.json`.
+
+**4. Lo scheletro.**
 
 ```bash
-uv run --with kokoro-onnx --with soundfile scripts/video/narrate.py leanproxy-mcp
+python3 canvas-video/scripts/new_video.py docs/leanproxy-mcp --title "leanproxy-mcp in 80 seconds" --langs en,fr,it
+```
+
+Questo copia il motore condiviso `engine/` accanto al video, insieme a un template che si riproduce già.
+
+**5. Generare la voce.**
+
+```bash
+uv run --with kokoro-onnx --with soundfile canvas-video/scripts/narrate.py docs/leanproxy-mcp
 ```
 
 ```text
 leanproxy-mcp [en] 77.9 s (kokoro/af_heart)
-leanproxy-mcp [fr] 81.7 s (kokoro/ff_siwis)
+leanproxy-mcp [fr] 81.8 s (kokoro/ff_siwis)
 leanproxy-mcp [it] 90.9 s (kokoro/im_nicola)
 ```
 
-**4. Controllare la pronuncia con Whisper**, correggere il lessico, rigenerare. Tre giri, circa 15 minuti, per tutte e tre le lingue.
-
-**5. Scrivere le scene.** L'identità visiva viene dal `DESIGN.md` del progetto stesso: la palette "checkpoint scanner", con l'ambra per i token che si pagano, il verde acqua per ciò che è passato, e il rosso solo per le parentesi angolari attorno a qualcosa che è stato intercettato. Il logo, un arco da scanner, è ridisegnato in otto righe di codice canvas.
-
-**6. Guardarlo.** Renderizzare immagini fisse di ogni scena in ogni lingua, metterle su un provino a contatto e rileggerlo:
+**6. Controllare la pronuncia** con la skill `narration-lexicon`:
 
 ```bash
-uv run --with playwright scripts/video/render.py leanproxy-mcp --lang it --res 720 --still 4 --still 15 --still 33
+uv run --with faster-whisper --with num2words narration-lexicon/scripts/verify.py docs/leanproxy-mcp
+uv run --with kokoro-onnx --with soundfile --with faster-whisper --with num2words \
+  narration-lexicon/scripts/try_words.py docs/leanproxy-mcp --lang fr \
+  "Installez-le avec Homebrew, lancez" "Installez-le avec Home Brew, lancez"
+```
+
+`verify.py` elenca le frasi che non tornano indietro correttamente, con il diff parola per parola. `try_words.py` pronuncia alcune grafie candidate con la voce stessa del video e le ritrascrive. La vincitrice finisce in `lexicon.json`, poi si rinarra e si riverifica. Per le tre lingue ci sono voluti alcuni giri e circa un quarto d'ora.
+
+**7. Scrivere le scene, poi guardarle.** L'identità visiva viene dal `DESIGN.md` del progetto stesso: la palette "checkpoint scanner", con l'ambra per i token che si pagano, il verde acqua per ciò che è passato, e il rosso solo per le parentesi angolari attorno a qualcosa che è stato intercettato. Il logo, un arco da scanner, è ridisegnato in otto righe di codice canvas. Poi l'agente renderizza un provino a contatto di ogni scena in ogni lingua e rilegge le immagini:
+
+```bash
+uv run --with playwright canvas-video/scripts/render.py docs/leanproxy-mcp --sheet
 ```
 
 Quel passaggio ha scovato un blocco ambra che copriva il varco, una percentuale sovrapposta all'etichetta di una barra, e le legature del font per il codice che trasformavano `--stdio` in "—stdio" nella scena del terminale. Nessuno di questi problemi sarebbe emerso in una code review.
 
-**7. Pubblicare.** La cartella va nella `static/videos/` del blog, e l'articolo la incorpora con un `iframe` che punta a `?embed=1&lang=en`. Le versioni FR e IT di questo articolo usano `lang=fr` e `lang=it`.
+**8. Pubblicare.** La cartella è fatta di file statici: vive nella `docs/` del repository della skill, servita da GitHub Pages, e questo articolo la incorpora con un `iframe` che punta a `?embed=1&lang=en` (`lang=fr` e `lang=it` nelle versioni francese e italiana dell'articolo). `narrate.py --check` gira nella CI del repository, quindi una frase modificata senza rigenerare la voce fa fallire la build.
 
 ## 7. E quando serve un MP4
 
 YouTube, LinkedIn o una pagina di release non possono eseguire il vostro JavaScript. Per questi casi:
 
 ```bash
-uv run --with playwright scripts/video/render.py leanproxy-mcp --lang en              # 1080p MP4
-uv run --with playwright scripts/video/render.py leanproxy-mcp --lang en --burn-subs  # social media
+uv run --with playwright canvas-video/scripts/render.py docs/leanproxy-mcp --lang en              # 1080p MP4
+uv run --with playwright canvas-video/scripts/render.py docs/leanproxy-mcp --lang en --burn-subs  # social media
 ```
 
 Sul mio MacBook renderizza i 2.337 frame della versione inglese in **24 secondi** e produce un file da 3,6 MB, con la narrazione inserita senza ricodifica. Gli stessi pixel del browser, per costruzione.
@@ -333,10 +379,11 @@ Sul mio MacBook renderizza i 2.337 frame della versione inglese in **24 secondi*
 - Riportare una sola voce, con licenza, su tutti i 21 episodi de "Il Sentiero" (Azure F0 è il candidato ovvio).
 - Provare Pocket TTS e Chatterbox per francese e italiano nel prossimo video.
 - Forse una versione Node di `narrate.py` con `kokoro-js`, per i progetti che non vogliono neanche una riga di Python (per ora solo voci inglesi).
+- Nuovi motori nella skill: ognuno è una classe di 15 righe, e le pull request sono benvenute.
 
 Link:
 
-- 🎬 [Il video di leanproxy-mcp, a pagina intera](/videos/leanproxy-mcp/?lang=it)
+- 🧩 [canvas-video-skill](https://github.com/mmornati/canvas-video-skill): le due skill, il motore, gli script e gli esempi ([demo dal vivo](https://mmornati.github.io/canvas-video-skill/))
+- 🎬 [Il video di leanproxy-mcp, a pagina intera](https://mmornati.github.io/canvas-video-skill/leanproxy-mcp/?lang=it)
 - 🏃 ["Il Sentiero", la serie di ai-running-coach](https://mmornati.github.io/ai-running-coach/videos/)
-- 🧩 [Il motore e la cartella dei video](https://github.com/mmornati/mornati-blog/tree/main/static/videos) e [gli script di narrazione ed export](https://github.com/mmornati/mornati-blog/tree/main/scripts/video), nel repository pubblico di questo blog
 - 🛡️ [leanproxy-mcp su GitHub](https://github.com/mmornati/leanproxy-mcp)
