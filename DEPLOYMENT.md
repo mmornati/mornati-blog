@@ -201,6 +201,7 @@ CircleCI project setup (one-time):
   `trigger: scheduled`.
 - **Advanced:** "Auto-cancel redundant workflows" on.
 
-Budget: every job uses the `small` Docker class (~5 credits/min). The hourly
-check stops before installing Hugo, so ~720 short runs a month stay well inside
-the free allowance; a full deploy takes a couple of minutes.
+Budget: build and deploy run on the `medium` Docker class (~10 credits/min, a
+couple of minutes per run); the hourly check runs on `small` (~5 credits/min) and
+stops before installing Hugo, so ~720 short runs a month stay well inside the
+free allowance.

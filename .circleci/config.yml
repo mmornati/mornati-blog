@@ -31,7 +31,9 @@ executors:
   python:
     docker:
       - image: cimg/python:3.13.16
-    resource_class: small
+    # Hugo uses every core: on `small` (1 vCPU) the build takes ~3m40s, on `medium` about half
+    # for the same credits.
+    resource_class: medium
     environment:
       FIREBASE_PROJECT_ID: blog-mornati-net
       FIREBASE_MESSAGING_SENDER_ID: "697630817943"
@@ -67,6 +69,11 @@ jobs:
       trigger:
         type: enum
         enum: [push, scheduled, manual]
+      resource_class:
+        type: enum
+        enum: [small, medium]
+        default: medium
+    resource_class: << parameters.resource_class >>
     environment:
       DEPLOY_KEY_FINGERPRINT: SHA256:wwiWkBV8aOMpEFkvGvfWR2abEGHM92kjseCHaK9etng
     steps:
@@ -142,4 +149,6 @@ workflows:
     jobs:
       - deploy:
           trigger: scheduled
+          # ~720 runs a month that almost always stop at the gate: the smallest class is enough.
+          resource_class: small
           serial-group: << pipeline.project.slug >>/deploy
