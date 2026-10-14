@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths-ignore: ['content/**', 'static/images/**', 'README.md', 'DEPLOYMENT.md']
   pull_request:
+  workflow_dispatch:
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -12,6 +13,9 @@ concurrency:
 
 jobs:
   build:
+    # CircleCI is the primary provider: with CI_PROVIDER=circleci this job is skipped and costs
+    # nothing. scripts/ci/provider.sh switches; a manual run ignores the switch.
+    if: vars.CI_PROVIDER != 'circleci' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout (with submodules)
@@ -34,19 +38,7 @@ jobs:
           FIREBASE_MESSAGING_SENDER_ID: "697630817943"
           FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
           FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
-        run: |
-          hugo --minify --gc --baseURL https://blog.mornati.net/
-          python3 scripts/generate_redirects.py
+        run: bash scripts/ci/build.sh
 
       - name: Validate output
-        run: |
-          test -f public/index.html
-          test -f public/index.json
-          test -d public/it/posts
-          test -d public/fr/posts
-          POSTS=$(find public -path '*/posts/*' -name index.html | wc -l)
-          echo "post pages built: $POSTS"
-          REDIRECTS=$(find public -maxdepth 1 -type d | wc -l)
-          test -f public/blog-da-iphone/index.html
-          test -f public/tag/docker/index.html
-          echo "root redirect stubs present (+ tag redirects)"
+        run: bash scripts/ci/validate.sh

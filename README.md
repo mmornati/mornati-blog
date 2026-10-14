@@ -21,7 +21,9 @@ static/          favicon, avatar, and post images (images/ subtree)
 themes/blowfish  Theme (git submodule)
 scripts/         migrate.py + cloudinary_sync.py
 _raw/blog-posts  Hashnode backup clone (gitignored, read-only source)
-.github/workflows/  CI + Deploy pipelines
+.circleci/          CI + Deploy pipelines (primary)
+.github/workflows/  Same pipelines on GitHub Actions (fallback)
+scripts/ci/         Entry points shared by both providers
 ```
 
 ## Local development
@@ -41,8 +43,8 @@ make serve            # http://localhost:8080
 make build            # outputs ./public
 ```
 
-The `deploy` workflow (`.github/workflows/deploy.yml`) runs on every push to
-`main`, builds the site, syncs images to Cloudinary, and pushes the result to a
+The `deploy` workflow (CircleCI, `.circleci/config.yml`; GitHub Actions as a
+fallback, see `DEPLOYMENT.md` §7) runs on every push to `main`, builds the site, syncs images to Cloudinary, and pushes the result to a
 `deploy` branch that Coolify serves statically (no server-side build needed).
 
 ## Adding a new post
