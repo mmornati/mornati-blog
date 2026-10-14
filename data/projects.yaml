@@ -10,6 +10,14 @@
     en: AI agents that plan and review my trail-running training from Garmin data.
     fr: Des agents IA qui planifient et analysent mon entraînement de trail à partir des données Garmin.
     it: Agenti IA che pianificano e analizzano il mio allenamento di trail a partire dai dati Garmin.
+- key: ai-email-assistant
+  name: ai-email-assistant
+  repo: https://github.com/mmornati/ai-email-assistant
+  pillar: ai-coding-agents
+  summary:
+    en: Hourly Gmail triage, rules first and a small model last, that turns real requests into Google Tasks.
+    fr: Un tri Gmail toutes les heures, les règles d'abord et un petit modèle en dernier, qui transforme les vraies demandes en Google Tasks.
+    it: Uno smistamento di Gmail ogni ora, prima le regole e un modello piccolo per ultimo, che trasforma le vere richieste in Google Tasks.
 - key: ha-decision-models
   name: Jev & System One
   repo: https://github.com/mmornati/system-one-router
