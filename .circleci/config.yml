@@ -1,0 +1,145 @@
+# Blog CI/CD on CircleCI, the primary provider. .github/workflows/ is the fallback for months
+# when CircleCI runs out of credits; both call the same scripts/ci/ entry points.
+# DEPLOYMENT.md ("CI providers") explains the switch.
+#
+# Workflows (picked by the `trigger` pipeline parameter):
+#   ci         every branch push except main (GitHub: ci.yml). Build + validate.
+#   deploy     pushes to main (GitHub: deploy.yml). Build + validate, then publish to the
+#              `deploy` branch, sync Cloudinary and ping IndexNow, but only when a site path
+#              changed since the deployed commit (scripts/ci/deploy_gate.sh).
+#              Trigger by hand on main with trigger=manual to force a deploy.
+#   scheduled  hourly schedule trigger with trigger=scheduled (GitHub: publish-scheduled.yml).
+#              Deploys only when a future-dated post became due; otherwise stops after a few
+#              seconds.
+#
+# Project settings:
+#   env vars  FIREBASE_API_KEY, FIREBASE_AUTH_DOMAIN, FIREBASE_STORAGE_BUCKET, FIREBASE_APP_ID,
+#             FIREBASE_MEASUREMENT_ID, CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY,
+#             CLOUDINARY_API_SECRET
+#   SSH key   additional key for host github.com: the private half of the repository's
+#             write deploy key "circleci-deploy" (fingerprint below).
+
+version: 2.1
+
+parameters:
+  trigger:
+    type: enum
+    enum: [push, scheduled, manual]
+    default: push
+
+executors:
+  python:
+    docker:
+      - image: cimg/python:3.13.16
+    resource_class: small
+    environment:
+      FIREBASE_PROJECT_ID: blog-mornati-net
+      FIREBASE_MESSAGING_SENDER_ID: "697630817943"
+      CLOUDINARY_FOLDER: blog
+
+commands:
+  site:
+    description: Install Hugo, check out the theme submodule, build and validate public/.
+    steps:
+      - run:
+          name: Theme submodule
+          command: git submodule sync --recursive && git submodule update --init --recursive --depth 1
+      - run:
+          name: Install Hugo
+          command: bash scripts/ci/install_hugo.sh
+      - run:
+          name: Build site
+          command: bash scripts/ci/build.sh
+      - run:
+          name: Validate output
+          command: bash scripts/ci/validate.sh
+
+jobs:
+  build:
+    executor: python
+    steps:
+      - checkout
+      - site
+
+  deploy:
+    executor: python
+    parameters:
+      trigger:
+        type: enum
+        enum: [push, scheduled, manual]
+    environment:
+      DEPLOY_KEY_FINGERPRINT: SHA256:wwiWkBV8aOMpEFkvGvfWR2abEGHM92kjseCHaK9etng
+    steps:
+      - checkout
+      # The hourly check runs before Hugo is installed, so a run with nothing due stays short.
+      - run:
+          name: Anything to publish?
+          command: bash scripts/ci/deploy_gate.sh << parameters.trigger >> || circleci-agent step halt
+      - site
+      - run:
+          name: Previously deployed sitemap URLs
+          command: bash scripts/ci/sitemap_urls.sh /tmp/old-urls.txt
+      - run:
+          name: Cloudinary sync state key
+          command: |
+            { sha256sum scripts/cloudinary_sync.py; find static/images -type f -print0 | sort -z | xargs -0 sha256sum; } \
+              | sha256sum > /tmp/cloudinary-key
+      - restore_cache:
+          keys:
+            - cloudinary-sync-v1-{{ checksum "/tmp/cloudinary-key" }}
+            - cloudinary-sync-v1-
+      - run:
+          name: Sync images to Cloudinary + rewrite HTML
+          command: |
+            if [[ -z "${CLOUDINARY_CLOUD_NAME:-}" ]]; then
+              echo "CLOUDINARY_CLOUD_NAME not set; skipping"
+              exit 0
+            fi
+            python3 scripts/cloudinary_sync.py
+      - save_cache:
+          when: always
+          key: cloudinary-sync-v1-{{ checksum "/tmp/cloudinary-key" }}
+          paths:
+            - build/cloudinary.synced.json
+      - add_ssh_keys:
+          fingerprints:
+            - SHA256:wwiWkBV8aOMpEFkvGvfWR2abEGHM92kjseCHaK9etng
+      - run:
+          name: Publish public/ to the deploy branch
+          command: bash scripts/ci/publish.sh
+      - run:
+          name: Ping IndexNow with new articles only
+          command: |
+            bash scripts/ci/sitemap_urls.sh /tmp/new-urls.txt
+            python3 scripts/ci/indexnow.py /tmp/old-urls.txt /tmp/new-urls.txt
+
+workflows:
+  ci:
+    when:
+      and:
+        - equal: [push, << pipeline.parameters.trigger >>]
+        - not:
+            equal: [main, << pipeline.git.branch >>]
+    jobs:
+      - build
+
+  deploy:
+    when:
+      and:
+        - equal: [main, << pipeline.git.branch >>]
+        - or:
+            - equal: [push, << pipeline.parameters.trigger >>]
+            - equal: [manual, << pipeline.parameters.trigger >>]
+    jobs:
+      - deploy:
+          trigger: << pipeline.parameters.trigger >>
+          # One deploy at a time: each one force-pushes the deploy branch.
+          serial-group: << pipeline.project.slug >>/deploy
+
+  scheduled:
+    when:
+      equal: [scheduled, << pipeline.parameters.trigger >>]
+    jobs:
+      - deploy:
+          trigger: scheduled
+          serial-group: << pipeline.project.slug >>/deploy

@@ -11,6 +11,9 @@ permissions:
 
 jobs:
   publish:
+    # CircleCI is the primary provider: with CI_PROVIDER=circleci this job is skipped and costs
+    # nothing. scripts/ci/provider.sh switches; a manual run ignores the switch.
+    if: vars.CI_PROVIDER != 'circleci' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
