@@ -6,6 +6,7 @@
 # Env:
 #   DEPLOY_KEY_FINGERPRINT  SHA256 fingerprint of the write deploy key that CircleCI's
 #                           add_ssh_keys step installed under ~/.ssh
+#   DEPLOY_BRANCH           branch to publish to (default: deploy; a test run can use another)
 #   CIRCLE_SHA1, CIRCLE_PROJECT_USERNAME, CIRCLE_PROJECT_REPONAME  (set by CircleCI)
 set -euo pipefail
 cd "$(dirname "$0")/../.."
@@ -33,6 +34,6 @@ git init -q -b deploy
 git add -A
 git -c user.name='circleci[bot]' -c user.email='circleci-bot@users.noreply.github.com' \
   commit -q -m "deploy: ${CIRCLE_SHA1}"
-GIT_SSH_COMMAND="ssh -i $key -o IdentitiesOnly=yes" git push -q --force "$remote" deploy:deploy
+GIT_SSH_COMMAND="ssh -i $key -o IdentitiesOnly=yes" git push -q --force "$remote" "deploy:${DEPLOY_BRANCH:-deploy}"
 rm -rf .git
-echo "publish: deploy branch updated (deploy: ${CIRCLE_SHA1:0:12})"
+echo "publish: ${DEPLOY_BRANCH:-deploy} updated (deploy: ${CIRCLE_SHA1:0:12})"
