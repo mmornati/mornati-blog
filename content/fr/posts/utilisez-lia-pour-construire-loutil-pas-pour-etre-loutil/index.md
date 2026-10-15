@@ -10,7 +10,7 @@ tags:
 - cost
 - llm
 date: '2026-10-22T04:00:00.000000+00:00'
-draft: true
+draft: false
 slug: utilisez-lia-pour-construire-loutil-pas-pour-etre-loutil
 translationKey: use-ai-to-build-the-tool-not-to-be-the-tool
 cover: cover.jpg
