@@ -11,7 +11,7 @@ tags:
 - claude-code
 - automation
 - security
-date: '2026-10-15T12:00:00.000000+00:00'
+date: '2026-10-15T04:00:00.000000+00:00'
 draft: false
 slug: noye-sous-les-mails-ai-email-assistant-les-regles-dabord-les-modeles-ensuite
 translationKey: drowning-in-email-ai-email-assistant
