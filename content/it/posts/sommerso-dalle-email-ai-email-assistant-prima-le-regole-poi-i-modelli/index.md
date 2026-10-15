@@ -11,7 +11,7 @@ tags:
 - claude-code
 - automation
 - security
-date: '2026-10-15T12:00:00.000000+00:00'
+date: '2026-10-15T04:00:00.000000+00:00'
 draft: false
 slug: sommerso-dalle-email-ai-email-assistant-prima-le-regole-poi-i-modelli
 translationKey: drowning-in-email-ai-email-assistant
