@@ -222,9 +222,9 @@ A few things I like in this result:
 And two things that went less well, because a real run is more interesting than a demo:
 
 - **Six of 14 held for review is a lot.** Jules, Search Console and OpenCode are obviously newsletters or notifications. On day one, without personalized rules, the models are cautious. That's the job of the next step, the rules.
-- **The first two attempts were refused.** On the first one, Haiku returned malformed JSON (a broken string in a task note). On the second, a due date that wasn't `YYYY-MM-DD`. Both times the runner refused the whole batch, applied nothing and stopped: *"classifier did not return strict JSON; no decisions applied"*. The third attempt was fine. This is validation doing its job, but it also shows that a small model writing JSON by hand isn't 100% reliable. Using Claude Code's structured output with a JSON schema is now on the project's to-do list.
+- **The first four attempts were refused.** Three times, Haiku returned malformed JSON (for example, a broken string in a task note). Once, it returned a due date that wasn't `YYYY-MM-DD`. Each time the runner refused the whole batch, applied nothing and stopped (for the JSON: *"classifier did not return strict JSON; no decisions applied"*). The fifth attempt was fine. This is validation doing its job, but it also shows that a small model writing JSON by hand isn't 100% reliable. Using Claude Code's structured output with a JSON schema is now on the project's to-do list.
 
-Cost of all this, from `make usage`: four Haiku calls of about 4,500 cached input tokens and 3,000 output tokens each, and one Sonnet call. All on my Claude subscription.
+Cost of all this, from `make usage`: five Haiku calls on the same 14 messages (three of them logged as `invalid_json`), each with about 4,700 input tokens, mostly from the cache, and 2,800 to 3,900 output tokens, and one Sonnet call. All on my Claude subscription.
 
 ### Personalized rules
 
