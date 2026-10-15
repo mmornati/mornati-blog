@@ -9,7 +9,7 @@ tags:
 - productivity
 - cost
 - llm
-date: '2026-10-22T04:00:00.000000+00:00'
+date: '2026-10-15T05:00:00.000000+00:00'
 draft: false
 slug: utilisez-lia-pour-construire-loutil-pas-pour-etre-loutil
 translationKey: use-ai-to-build-the-tool-not-to-be-the-tool
