@@ -10,7 +10,7 @@ tags:
 - cost
 - llm
 date: '2026-10-22T04:00:00.000000+00:00'
-draft: true
+draft: false
 slug: usa-lia-per-costruire-lo-strumento-non-per-essere-lo-strumento
 translationKey: use-ai-to-build-the-tool-not-to-be-the-tool
 cover: cover.jpg
