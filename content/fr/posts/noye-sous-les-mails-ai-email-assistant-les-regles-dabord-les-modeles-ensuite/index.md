@@ -222,9 +222,9 @@ Quelques points qui me plaisent dans ce résultat :
 Et deux choses qui se sont moins bien passées, parce qu'un vrai passage est plus intéressant qu'une démo :
 
 - **Six sur 14 laissés pour revue, c'est beaucoup.** Jules, Search Console et OpenCode sont évidemment des newsletters ou des notifications. Le premier jour, sans règles personnalisées, les modèles sont prudents. C'est le rôle de l'étape suivante, les règles.
-- **Les deux premières tentatives ont été refusées.** À la première, Haiku a renvoyé un JSON mal formé (une chaîne cassée dans une note de tâche). À la deuxième, une échéance qui n'était pas au format `YYYY-MM-DD`. Les deux fois, le runner a refusé tout le lot, n'a rien appliqué et s'est arrêté : *"classifier did not return strict JSON; no decisions applied"*. La troisième tentative s'est bien passée. C'est la validation qui fait son travail, mais ça montre aussi qu'un petit modèle qui écrit du JSON à la main n'est pas fiable à 100 %. Utiliser la sortie structurée de Claude Code avec un schéma JSON est désormais sur la liste des choses à faire du projet.
+- **Les quatre premières tentatives ont été refusées.** Trois fois, Haiku a renvoyé un JSON mal formé (par exemple une chaîne cassée dans une note de tâche). Une fois, une échéance qui n'était pas au format `YYYY-MM-DD`. À chaque fois, le runner a refusé tout le lot, n'a rien appliqué et s'est arrêté (pour le JSON : *"classifier did not return strict JSON; no decisions applied"*). La cinquième tentative s'est bien passée. C'est la validation qui fait son travail, mais ça montre aussi qu'un petit modèle qui écrit du JSON à la main n'est pas fiable à 100 %. Utiliser la sortie structurée de Claude Code avec un schéma JSON est désormais sur la liste des choses à faire du projet.
 
-Coût de tout ça, d'après `make usage` : quatre appels à Haiku d'environ 4 500 tokens d'entrée en cache et 3 000 tokens de sortie chacun, et un appel à Sonnet. Le tout sur mon abonnement Claude.
+Coût de tout ça, d'après `make usage` : cinq appels à Haiku sur les mêmes 14 messages (dont trois enregistrés comme `invalid_json`), chacun avec environ 4 700 tokens d'entrée, presque tous en cache, et 2 800 à 3 900 tokens de sortie, et un appel à Sonnet. Le tout sur mon abonnement Claude.
 
 ### Des règles personnalisées
 

@@ -222,9 +222,9 @@ Alcune cose che mi piacciono di questo risultato:
 E due cose andate meno bene, perché un'esecuzione reale è più interessante di una demo:
 
 - **Sei su 14 tenuti per revisione sono tanti.** Jules, Search Console e OpenCode sono chiaramente newsletter o notifiche. Il primo giorno, senza regole personalizzate, i modelli sono prudenti. È il compito del passo successivo, le regole.
-- **I primi due tentativi sono stati rifiutati.** Al primo, Haiku ha restituito un JSON malformato (una stringa rotta nella nota di un'attività). Al secondo, una scadenza che non era `YYYY-MM-DD`. Entrambe le volte il runner ha rifiutato l'intero blocco, non ha applicato niente e si è fermato: *"classifier did not return strict JSON; no decisions applied"*. Il terzo tentativo è andato bene. È la validazione che fa il suo lavoro, ma mostra anche che un modello piccolo che scrive JSON a mano non è affidabile al 100%. Usare l'output strutturato di Claude Code con uno schema JSON è ora nella lista delle cose da fare del progetto.
+- **I primi quattro tentativi sono stati rifiutati.** Tre volte Haiku ha restituito un JSON malformato (per esempio una stringa rotta nella nota di un'attività). Una volta, una scadenza che non era `YYYY-MM-DD`. Ogni volta il runner ha rifiutato l'intero blocco, non ha applicato niente e si è fermato (per il JSON: *"classifier did not return strict JSON; no decisions applied"*). Il quinto tentativo è andato bene. È la validazione che fa il suo lavoro, ma mostra anche che un modello piccolo che scrive JSON a mano non è affidabile al 100%. Usare l'output strutturato di Claude Code con uno schema JSON è ora nella lista delle cose da fare del progetto.
 
-Il costo di tutto questo, da `make usage`: quattro chiamate a Haiku da circa 4.500 token di input in cache e 3.000 token di output ciascuna, e una chiamata a Sonnet. Tutto sul mio abbonamento Claude.
+Il costo di tutto questo, da `make usage`: cinque chiamate a Haiku sugli stessi 14 messaggi (tre registrate come `invalid_json`), ciascuna con circa 4.700 token di input, quasi tutti dalla cache, e da 2.800 a 3.900 token di output, e una chiamata a Sonnet. Tutto sul mio abbonamento Claude.
 
 ### Regole personalizzate
 
