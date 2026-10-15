@@ -15,6 +15,7 @@ RULES = {
     "proton-photos": r"gphoto2proton|proton-faces",
     "hitachi-csnet": r"home-assistant-csnet-home",
     "nexus-dev": r"github\.com/mmornati/nexus-dev",
+    "ai-email-assistant": r"github\.com/mmornati/ai-email-assistant",
     "cyber-code-academy": r"cyber-code-academy|Cyber Code Academy",
 }
 
