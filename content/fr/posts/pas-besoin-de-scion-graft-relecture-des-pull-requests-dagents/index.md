@@ -9,8 +9,8 @@ tags:
 - github
 - git
 - software-engineering
-date: '2026-10-29T06:00:00.000000+00:00'
-draft: true
+date: '2026-10-18T18:00:00.000000+00:00'
+draft: false
 slug: pas-besoin-de-scion-graft-relecture-des-pull-requests-dagents
 translationKey: graft-release
 cover: cover.jpg
