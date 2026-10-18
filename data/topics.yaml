@@ -1,0 +1,11 @@
+# Highlighter colour per category key. The value names a CSS custom property
+# (--hl-<value>) defined in assets/css/custom.css.
+ai-coding-agents: ai
+smart-home: home
+devops: ops
+linux-sysadmin: linux
+programming: prog
+web-dev-blogging: web
+mobile-gadgets: mob
+solar-energy: sun
+macos: mac

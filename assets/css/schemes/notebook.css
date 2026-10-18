@@ -1,0 +1,39 @@
+/* "Home-lab notebook" scheme.
+   Neutral = white graph paper (light end) to a dark slate notebook (800) with marker ink (900).
+   Primary = ballpoint blue: links and active state, like a pen correction on the page.
+   Secondary = highlighter yellow: the one warm swipe behind the current or newest thing. */
+:root {
+  --color-neutral: 255, 255, 255;
+  --color-neutral-50: 247, 249, 252;
+  --color-neutral-100: 237, 241, 246;
+  --color-neutral-200: 214, 220, 228;
+  --color-neutral-300: 186, 194, 206;
+  --color-neutral-400: 142, 150, 164;
+  --color-neutral-500: 106, 112, 128;
+  --color-neutral-600: 76, 82, 96;
+  --color-neutral-700: 52, 57, 68;
+  --color-neutral-800: 24, 27, 33;
+  --color-neutral-900: 21, 23, 28;
+
+  --color-primary-50: 238, 241, 255;
+  --color-primary-100: 221, 227, 255;
+  --color-primary-200: 188, 199, 255;
+  --color-primary-300: 146, 164, 255;
+  --color-primary-400: 128, 150, 255;
+  --color-primary-500: 66, 94, 235;
+  --color-primary-600: 43, 70, 214;
+  --color-primary-700: 33, 54, 173;
+  --color-primary-800: 28, 45, 138;
+  --color-primary-900: 24, 38, 105;
+
+  --color-secondary-50: 255, 252, 224;
+  --color-secondary-100: 255, 248, 189;
+  --color-secondary-200: 255, 241, 140;
+  --color-secondary-300: 255, 233, 90;
+  --color-secondary-400: 255, 225, 74;
+  --color-secondary-500: 240, 204, 20;
+  --color-secondary-600: 200, 166, 0;
+  --color-secondary-700: 150, 124, 0;
+  --color-secondary-800: 105, 87, 0;
+  --color-secondary-900: 70, 58, 0;
+}

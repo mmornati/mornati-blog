@@ -17,6 +17,7 @@ cover: cover.jpg
 showHero: true
 description: We are replacing scripts, boards and small apps with the same paid prompt asked every day. I measured what that costs with Claude Code on three everyday jobs, against having the agent write the script once. Building costs about one ask, the answers stop changing from one run to the next, and the model stays only where judgement is needed.
 summary: Asking an agent to block focus time, summarise yesterday's numbers or find a meeting slot works, but you pay for it every time, and the answer changes. I measured 14 Claude Code runs on three everyday jobs. Writing the script once costs about as much as asking once. With an interactive calculator, a checklist, and my own projects as examples.
+keyfigure: '$0.19 per ask, every time'
 ---
 
 I asked an agent to block two hours of focus time in my calendar tomorrow. It worked. It took **4 turns, 114,000 tokens, 14 seconds and $0.19**. Then I asked again, with exactly the same words and the same calendar, and it booked a different slot. Three runs, three answers: 13:00, 14:00, 13:00.

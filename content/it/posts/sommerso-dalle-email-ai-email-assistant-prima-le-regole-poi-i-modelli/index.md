@@ -21,6 +21,7 @@ description: Troppa posta ogni giorno lavorativo, e le richieste importanti si p
 summary: Uno smistamento di Gmail che costa pochi centesimi. Regole deterministiche gestiscono la posta di routine, Claude Haiku guarda solo quello che resta, Claude Sonnet solo quello su cui Haiku non è sicuro, e il codice valida ogni risposta. Le richieste diventano Google Tasks con una scadenza. Con un'esecuzione reale sulla mia casella, un'installazione da zero con Homebrew e qualche riflessione sul lasciare che un'IA risponda alle tue email.
 projects:
 - ai-email-assistant
+keyfigure: '27 messaggi su 37 smistati da semplici regole'
 ---
 
 Ogni giorno lavorativo comincia allo stesso modo: apro la casella di posta e ci sono troppi messaggi. Build della CI fallite, notifiche di GitHub, inviti in calendario, documenti condivisi, newsletter a cui mi sono iscritto anni fa, comunicazioni delle risorse umane. E da qualche parte in mezzo, le due o tre email che contano davvero: qualcuno che mi chiede una decisione, una revisione entro lunedì, una scadenza.

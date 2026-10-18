@@ -1,5 +1,5 @@
 ---
-title: "Topology map"
+title: "Map of posts"
 layout: graph
 url: /graph/
 showDate: false

@@ -1,0 +1,17 @@
+{{ define "main" }}
+  {{ $posts := sort (where .Site.RegularPages "Type" "in" .Site.Params.mainSections) "Date" "desc" }}
+  <div class="nb-lost">
+    <div>
+      <p class="nb-lost__code" aria-hidden="true">4<span>0</span>4</p>
+      <h1 class="nb-h2">{{ i18n "nb.lost_title" }}</h1>
+      <p>{{ i18n "nb.lost_text" }}</p>
+      <a class="nb-cta" href="{{ "archive/" | relLangURL }}">{{ i18n "nb.older_pages" (dict "Count" (len $posts)) }}{{ partial "notebook/arrow.html" "right" }}</a>
+    </div>
+    <section aria-labelledby="nb-lost-latest">
+      <h2 class="nb-h2" id="nb-lost-latest">{{ i18n "nb.latest_title" }}</h2>
+      <ol class="nb-sheet nb-rows">
+        {{ range first 6 $posts }}{{ partial "notebook/row.html" (dict "p" .) }}{{ end }}
+      </ol>
+    </section>
+  </div>
+{{ end }}

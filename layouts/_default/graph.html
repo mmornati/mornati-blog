@@ -33,44 +33,28 @@
     {{ end }}
   {{ end }}
 
-  <header class="rack-page__head graph__head">
-    <h1>{{ .Title }}</h1>
-    <p>{{ i18n "rack.graph_lead" }}</p>
-  </header>
+  {{ partial "notebook/page-head.html" (dict "page" . "lead" (i18n "rack.graph_lead")) }}
 
-
-  <div class="rack graph__rack">
-    <div class="rack__rail rack__rail--l" aria-hidden="true"></div>
-    <div class="rack__bay">
-      <div class="unit unit--graph">
-        {{ partial "schematic/ears.html" }}
-        <div class="unit__face graph">
-          <div class="graph__filters" role="group" aria-label="{{ i18n "rack.graph_filter" }}" hidden>
-            <button type="button" class="graph__chip" aria-pressed="true" data-hub="">{{ i18n "rack.graph_all" }}</button>
-            {{ range $i, $n := $nodes }}{{ if ne $n.k "n" }}
-              <button type="button" class="graph__chip graph__chip--{{ $n.k }}" aria-pressed="false" data-hub="{{ $i }}">{{ $n.l }}</button>
-            {{ end }}{{ end }}
-          </div>
-          <svg class="graph__svg" role="img" aria-label="{{ .Title }}" data-graph></svg>
-          <div class="graph__tip" role="status" aria-live="polite" hidden></div>
-          <noscript>
-            <p>{{ i18n "rack.graph_noscript" }}</p>
-            <ul>{{ range site.Taxonomies.categories.ByCount }}<li><a href="{{ .Page.RelPermalink }}">{{ .Page.LinkTitle }}</a> ({{ .Count }})</li>{{ end }}</ul>
-          </noscript>
-        </div>
-      </div>
-      <div class="unit unit--legend">
-        {{ partial "schematic/ears.html" }}
-        <p class="unit__face legend">
-          <span><i class="legend__t"></i>{{ i18n "rack.topics" }}</span>
-          <span><i class="legend__p"></i>{{ i18n "rack.projects_title" }}</span>
-          <span><i class="legend__n"></i>{{ i18n "rack.legend_post" }}</span>
-          <span class="legend__count">{{ len $posts }} · {{ len $links }} {{ i18n "rack.links" }}</span>
-        </p>
-      </div>
+  <div class="nb-panel nb-graph graph">
+    <div class="graph__filters" role="group" aria-label="{{ i18n "rack.graph_filter" }}" hidden>
+      <button type="button" class="graph__chip" aria-pressed="true" data-hub="">{{ i18n "rack.graph_all" }}</button>
+      {{ range $i, $n := $nodes }}{{ if ne $n.k "n" }}
+        <button type="button" class="graph__chip graph__chip--{{ $n.k }}" aria-pressed="false" data-hub="{{ $i }}">{{ $n.l }}</button>
+      {{ end }}{{ end }}
     </div>
-    <div class="rack__rail rack__rail--r" aria-hidden="true"></div>
+    <svg class="graph__svg" role="img" aria-label="{{ .Title }}" data-graph></svg>
+    <div class="graph__tip" role="status" aria-live="polite" hidden></div>
+    <noscript>
+      <p>{{ i18n "rack.graph_noscript" }}</p>
+      <ul>{{ range site.Taxonomies.categories.ByCount }}<li><a href="{{ .Page.RelPermalink }}">{{ .Page.LinkTitle }}</a> ({{ .Count }})</li>{{ end }}</ul>
+    </noscript>
   </div>
+  <p class="nb-legend">
+    <span><i class="legend__t"></i>{{ i18n "rack.topics" }}</span>
+    <span><i class="legend__p"></i>{{ i18n "rack.projects_title" }}</span>
+    <span><i class="legend__n"></i>{{ i18n "rack.legend_post" }}</span>
+    <span class="legend__count">{{ i18n "nb.posts" (len $posts) }} · {{ len $links }} {{ i18n "rack.links" }}</span>
+  </p>
 
   <script type="application/json" id="graph-data">{{ dict "nodes" $nodes "links" $links | jsonify | safeJS }}</script>
   {{ $js := resources.Get "js/graph.js" | minify | fingerprint }}

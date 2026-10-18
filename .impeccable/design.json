@@ -1,536 +1,635 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-29T20:09:56+00:00",
+  "generatedAt": "2026-10-18T19:00:10+00:00",
   "title": "Design System: mornati.net blog",
   "extensions": {
     "colorMeta": {
-      "signal-copper": {
+      "ballpoint-blue": {
         "role": "primary",
-        "displayName": "Signal Copper",
-        "canonical": "rgb(var(--color-primary-500))",
+        "displayName": "Ballpoint Blue",
+        "canonical": "oklch(47.7% 0.221 267.9)",
         "tonalRamp": [
-          "#3d220b",
-          "#5e330e",
-          "#80440f",
-          "#a35712",
-          "#c46c1a",
-          "#e0852d",
-          "#f4c38a",
-          "#fdeddc"
-        ]
+          "#182669",
+          "#2136ad",
+          "#2b46d6",
+          "#425eeb",
+          "#8096ff",
+          "#bcc7ff",
+          "#dde3ff",
+          "#eef1ff"
+        ],
+        "source": "Blowfish primary ramp, assets/css/schemes/notebook.css (primary-600)",
+        "cssVar": "--nb-pen (light)"
       },
-      "signal-copper-deep": {
+      "ballpoint-blue-night": {
         "role": "primary",
-        "displayName": "Deep Copper (--rack-signal, paper)",
-        "canonical": "rgb(var(--color-primary-600))",
+        "displayName": "Ballpoint Blue (night)",
+        "canonical": "oklch(70.3% 0.155 272.9)",
         "tonalRamp": [
-          "#3d220b",
-          "#5e330e",
-          "#80440f",
-          "#a35712",
-          "#c46c1a",
-          "#e0852d",
-          "#f4c38a",
-          "#fdeddc"
-        ]
+          "#182669",
+          "#2136ad",
+          "#2b46d6",
+          "#425eeb",
+          "#8096ff",
+          "#bcc7ff",
+          "#dde3ff",
+          "#eef1ff"
+        ],
+        "source": "primary-400, dark-mode --nb-pen",
+        "cssVar": "--nb-pen (dark)"
       },
-      "signal-copper-lit": {
-        "role": "primary",
-        "displayName": "Lit Copper (--rack-signal, night)",
-        "canonical": "rgb(var(--color-primary-400))",
-        "tonalRamp": [
-          "#3d220b",
-          "#5e330e",
-          "#80440f",
-          "#a35712",
-          "#c46c1a",
-          "#e0852d",
-          "#f4c38a",
-          "#fdeddc"
-        ]
-      },
-      "trace-cyan": {
+      "highlighter-yellow": {
         "role": "secondary",
-        "displayName": "Trace Cyan",
-        "canonical": "rgb(var(--color-secondary-500))",
+        "displayName": "Highlighter Yellow",
+        "canonical": "oklch(90.9% 0.165 97.6)",
         "tonalRamp": [
-          "#07333f",
-          "#0a4b5a",
-          "#0d6578",
-          "#128096",
-          "#1b9cb3",
-          "#33b8ce",
-          "#91deeb",
-          "#e0f7fa"
-        ]
+          "#463a00",
+          "#967c00",
+          "#c8a600",
+          "#f0cc14",
+          "#ffe14a",
+          "#fff18c",
+          "#fff8bd",
+          "#fffce0"
+        ],
+        "source": "--hl-ai; Blowfish secondary ramp (secondary-400)",
+        "cssVar": "--hl-ai"
       },
-      "trace-cyan-deep": {
-        "role": "secondary",
-        "displayName": "Deep Trace (--rack-trace, paper)",
-        "canonical": "rgb(var(--color-secondary-700))",
+      "highlighter-mint": {
+        "role": "tertiary",
+        "displayName": "Highlighter Mint",
+        "canonical": "oklch(84.9% 0.099 179.3)",
         "tonalRamp": [
-          "#07333f",
-          "#0a4b5a",
-          "#0d6578",
-          "#128096",
-          "#1b9cb3",
-          "#33b8ce",
-          "#91deeb",
-          "#e0f7fa"
-        ]
+          "#00100b",
+          "#022e27",
+          "#005146",
+          "#107667",
+          "#339d8b",
+          "#5ec3af",
+          "#83e7d3",
+          "#bffeef"
+        ],
+        "cssVar": "--hl-home"
       },
-      "trace-cyan-lit": {
-        "role": "secondary",
-        "displayName": "Lit Trace (--rack-trace, night)",
-        "canonical": "rgb(var(--color-secondary-300))",
+      "highlighter-pink": {
+        "role": "tertiary",
+        "displayName": "Highlighter Pink",
+        "canonical": "oklch(81.0% 0.122 355.5)",
         "tonalRamp": [
-          "#07333f",
-          "#0a4b5a",
-          "#0d6578",
-          "#128096",
-          "#1b9cb3",
-          "#33b8ce",
-          "#91deeb",
-          "#e0f7fa"
-        ]
+          "#1f000c",
+          "#4b0129",
+          "#742148",
+          "#9a4469",
+          "#c2688c",
+          "#ea8cb1",
+          "#fcbcd3",
+          "#ffe7ef"
+        ],
+        "cssVar": "--hl-ops"
       },
-      "blueprint-paper": {
+      "highlighter-orange": {
+        "role": "tertiary",
+        "displayName": "Highlighter Orange",
+        "canonical": "oklch(84.7% 0.125 72.2)",
+        "tonalRamp": [
+          "#170700",
+          "#382100",
+          "#603d02",
+          "#895b13",
+          "#b77b1e",
+          "#dea04b",
+          "#ffc57b",
+          "#feebd5"
+        ],
+        "cssVar": "--hl-linux"
+      },
+      "highlighter-lilac": {
+        "role": "tertiary",
+        "displayName": "Highlighter Lilac",
+        "canonical": "oklch(82.2% 0.100 295.1)",
+        "tonalRamp": [
+          "#10002c",
+          "#2c1751",
+          "#4a3874",
+          "#6b5999",
+          "#8e7dbf",
+          "#b2a1e7",
+          "#d4c8fc",
+          "#efebfe"
+        ],
+        "cssVar": "--hl-prog"
+      },
+      "highlighter-sky": {
+        "role": "tertiary",
+        "displayName": "Highlighter Sky",
+        "canonical": "oklch(84.6% 0.082 244.5)",
+        "tonalRamp": [
+          "#000c1e",
+          "#012944",
+          "#16496e",
+          "#3a6b92",
+          "#5d8fb8",
+          "#81b4df",
+          "#a8d7ff",
+          "#e1f1ff"
+        ],
+        "cssVar": "--hl-web"
+      },
+      "highlighter-lime": {
+        "role": "tertiary",
+        "displayName": "Highlighter Lime",
+        "canonical": "oklch(89.1% 0.159 130.0)",
+        "tonalRamp": [
+          "#040f00",
+          "#192d00",
+          "#324f01",
+          "#4d7412",
+          "#689b1c",
+          "#8cc14b",
+          "#aee570",
+          "#d5ffab"
+        ],
+        "cssVar": "--hl-mob"
+      },
+      "highlighter-apricot": {
+        "role": "tertiary",
+        "displayName": "Highlighter Apricot",
+        "canonical": "oklch(80.3% 0.129 54.1)",
+        "tonalRamp": [
+          "#1c0300",
+          "#3f1b00",
+          "#6a3405",
+          "#9d4d00",
+          "#c47133",
+          "#ed965a",
+          "#fec39d",
+          "#feeade"
+        ],
+        "cssVar": "--hl-sun"
+      },
+      "highlighter-graphite": {
+        "role": "tertiary",
+        "displayName": "Highlighter Graphite",
+        "canonical": "oklch(88.9% 0.013 255.5)",
+        "tonalRamp": [
+          "#080b11",
+          "#22272d",
+          "#41454c",
+          "#61676d",
+          "#848a91",
+          "#a9aeb6",
+          "#ccd2d9",
+          "#e9eff7"
+        ],
+        "cssVar": "--hl-mac"
+      },
+      "marker-ink": {
         "role": "neutral",
-        "displayName": "Blueprint Paper",
-        "canonical": "rgb(var(--color-neutral-50))",
+        "displayName": "Marker Ink",
+        "canonical": "oklch(20.5% 0.010 268.2)",
         "tonalRamp": [
-          "#0b0e14",
-          "#1a222f",
-          "#2d3b4f",
-          "#42546b",
-          "#5c708a",
-          "#7f94ac",
-          "#ccd8e6",
-          "#eef3f8"
-        ]
+          "#15171c",
+          "#343944",
+          "#4c5260",
+          "#6a7080",
+          "#8e96a4",
+          "#d6dce4",
+          "#edf1f6",
+          "#f7f9fc"
+        ],
+        "cssVar": "--hl-ink / --nb-ink (light)"
       },
-      "rack-face-paper": {
+      "graph-paper": {
         "role": "neutral",
-        "displayName": "Faceplate Paper (--rack-face, paper)",
-        "canonical": "rgb(250, 252, 254)",
+        "displayName": "Graph Paper",
+        "canonical": "oklch(100.0% 0.000 89.9)",
         "tonalRamp": [
-          "#0b0e14",
-          "#1a222f",
-          "#2d3b4f",
-          "#42546b",
-          "#5c708a",
-          "#7f94ac",
-          "#ccd8e6",
-          "#eef3f8"
-        ]
+          "#15171c",
+          "#343944",
+          "#4c5260",
+          "#6a7080",
+          "#8e96a4",
+          "#d6dce4",
+          "#edf1f6",
+          "#f7f9fc"
+        ],
+        "cssVar": "--nb-paper (light)"
       },
-      "rack-rail-paper": {
+      "grid-line": {
         "role": "neutral",
-        "displayName": "Rail Paper (--rack-rail, paper)",
-        "canonical": "rgb(var(--color-neutral-200))",
+        "displayName": "Grid Line",
+        "canonical": "oklch(92.3% 0.020 250.4)",
         "tonalRamp": [
-          "#0b0e14",
-          "#1a222f",
-          "#2d3b4f",
-          "#42546b",
-          "#5c708a",
-          "#7f94ac",
-          "#ccd8e6",
-          "#eef3f8"
-        ]
+          "#050c13",
+          "#1f2730",
+          "#3d4650",
+          "#5e6772",
+          "#808a95",
+          "#a5afbb",
+          "#c7d2de",
+          "#e5f0fc"
+        ],
+        "cssVar": "--nb-grid (light)"
       },
-      "seam-paper": {
+      "rule-line": {
         "role": "neutral",
-        "displayName": "Seam Paper (--rack-seam / --rack-recess, paper)",
-        "canonical": "rgb(var(--color-neutral-300))",
+        "displayName": "Rule Line",
+        "canonical": "oklch(88.9% 0.017 256.3)",
         "tonalRamp": [
-          "#0b0e14",
-          "#1a222f",
-          "#2d3b4f",
-          "#42546b",
-          "#5c708a",
-          "#7f94ac",
-          "#ccd8e6",
-          "#eef3f8"
-        ]
+          "#070b12",
+          "#21272f",
+          "#3f464e",
+          "#606770",
+          "#828a94",
+          "#a7afb9",
+          "#cad2dd",
+          "#e7effa"
+        ],
+        "cssVar": "--nb-rule (light)"
       },
-      "dim-ink-paper": {
+      "pencil-grey": {
         "role": "neutral",
-        "displayName": "Dim Ink (--rack-dim, paper)",
-        "canonical": "rgb(var(--color-neutral-600))",
+        "displayName": "Pencil Grey",
+        "canonical": "oklch(43.9% 0.024 267.0)",
         "tonalRamp": [
-          "#0b0e14",
-          "#1a222f",
-          "#2d3b4f",
-          "#42546b",
-          "#5c708a",
-          "#7f94ac",
-          "#ccd8e6",
-          "#eef3f8"
-        ]
+          "#15171c",
+          "#343944",
+          "#4c5260",
+          "#6a7080",
+          "#8e96a4",
+          "#d6dce4",
+          "#edf1f6",
+          "#f7f9fc"
+        ],
+        "cssVar": "--nb-dim (light)"
       },
-      "ink-paper": {
+      "slate-notebook": {
         "role": "neutral",
-        "displayName": "Ink (--rack-ink, paper)",
-        "canonical": "rgb(var(--color-neutral-800))",
+        "displayName": "Slate Notebook",
+        "canonical": "oklch(22.2% 0.013 264.3)",
         "tonalRamp": [
-          "#0b0e14",
-          "#1a222f",
-          "#2d3b4f",
-          "#42546b",
-          "#5c708a",
-          "#7f94ac",
-          "#ccd8e6",
-          "#eef3f8"
-        ]
+          "#15171c",
+          "#343944",
+          "#4c5260",
+          "#6a7080",
+          "#8e96a4",
+          "#d6dce4",
+          "#edf1f6",
+          "#f7f9fc"
+        ],
+        "cssVar": "--nb-paper (dark)"
       },
-      "night-ground": {
+      "slate-grid-line": {
         "role": "neutral",
-        "displayName": "Night Ground (--rack-face / --rack-hole, night)",
-        "canonical": "rgb(var(--color-neutral-900))",
+        "displayName": "Slate Grid Line",
+        "canonical": "oklch(28.3% 0.019 258.4)",
         "tonalRamp": [
-          "#0b0e14",
-          "#1a222f",
-          "#2d3b4f",
-          "#42546b",
-          "#5c708a",
-          "#7f94ac",
-          "#ccd8e6",
-          "#eef3f8"
-        ]
+          "#070b13",
+          "#212730",
+          "#3f454f",
+          "#606771",
+          "#828a95",
+          "#a7afba",
+          "#cad2de",
+          "#e7effb"
+        ],
+        "cssVar": "--nb-grid (dark)"
       },
-      "rack-recess-night": {
+      "slate-rule-line": {
         "role": "neutral",
-        "displayName": "Night Recess (--rack-recess, night)",
-        "canonical": "rgb(8, 10, 15)",
+        "displayName": "Slate Rule Line",
+        "canonical": "oklch(35.1% 0.023 261.2)",
         "tonalRamp": [
-          "#0b0e14",
-          "#1a222f",
-          "#2d3b4f",
-          "#42546b",
-          "#5c708a",
-          "#7f94ac",
-          "#ccd8e6",
-          "#eef3f8"
-        ]
+          "#060b15",
+          "#202732",
+          "#3e4552",
+          "#5f6674",
+          "#818a98",
+          "#a6aebd",
+          "#c9d1e1",
+          "#e6efff"
+        ],
+        "cssVar": "--nb-rule (dark)"
       },
-      "rack-face-hi-night": {
+      "chalk-ink": {
         "role": "neutral",
-        "displayName": "Night Face Highlight (--rack-face-hi, night)",
-        "canonical": "rgb(19, 25, 35)",
+        "displayName": "Chalk Ink",
+        "canonical": "oklch(95.7% 0.008 253.9)",
         "tonalRamp": [
-          "#0b0e14",
-          "#1a222f",
-          "#2d3b4f",
-          "#42546b",
-          "#5c708a",
-          "#7f94ac",
-          "#ccd8e6",
-          "#eef3f8"
-        ]
+          "#15171c",
+          "#343944",
+          "#4c5260",
+          "#6a7080",
+          "#8e96a4",
+          "#d6dce4",
+          "#edf1f6",
+          "#f7f9fc"
+        ],
+        "cssVar": "--nb-ink (dark)"
       },
-      "seam-night": {
+      "chalk-grey": {
         "role": "neutral",
-        "displayName": "Seam Night (--rack-seam / --rack-rail, night)",
-        "canonical": "rgb(var(--color-neutral-700))",
+        "displayName": "Chalk Grey",
+        "canonical": "oklch(81.1% 0.019 258.4)",
         "tonalRamp": [
-          "#0b0e14",
-          "#1a222f",
-          "#2d3b4f",
-          "#42546b",
-          "#5c708a",
-          "#7f94ac",
-          "#ccd8e6",
-          "#eef3f8"
-        ]
-      },
-      "dim-ink-night": {
-        "role": "neutral",
-        "displayName": "Dim Ink Night (--rack-dim, night)",
-        "canonical": "rgb(var(--color-neutral-400))",
-        "tonalRamp": [
-          "#0b0e14",
-          "#1a222f",
-          "#2d3b4f",
-          "#42546b",
-          "#5c708a",
-          "#7f94ac",
-          "#ccd8e6",
-          "#eef3f8"
-        ]
-      },
-      "ink-night": {
-        "role": "neutral",
-        "displayName": "Ink Night (--rack-ink, night)",
-        "canonical": "rgb(var(--color-neutral-100))",
-        "tonalRamp": [
-          "#0b0e14",
-          "#1a222f",
-          "#2d3b4f",
-          "#42546b",
-          "#5c708a",
-          "#7f94ac",
-          "#ccd8e6",
-          "#eef3f8"
-        ]
+          "#15171c",
+          "#343944",
+          "#4c5260",
+          "#6a7080",
+          "#8e96a4",
+          "#d6dce4",
+          "#edf1f6",
+          "#f7f9fc"
+        ],
+        "cssVar": "--nb-dim (dark)"
       }
     },
     "typographyMeta": {
       "display": {
         "displayName": "Display",
-        "purpose": "Project datasheet names."
+        "purpose": "Lead post title and article titles."
       },
       "headline": {
         "displayName": "Headline",
-        "purpose": "Latest-transmission title; head unit name at a smaller clamp."
+        "purpose": "Section headings on index pages and the home."
       },
       "title": {
         "displayName": "Title",
-        "purpose": "Story nodes on project pages."
+        "purpose": "Card names, page-turn titles, project story titles, sticky note titles."
       },
-      "unit-name": {
-        "displayName": "Unit Name",
-        "purpose": "Project unit names and jack labels."
+      "annotation": {
+        "displayName": "Annotation",
+        "purpose": "Margin notes (\"newest page!\"), CTA links, the punchline line."
+      },
+      "nav": {
+        "displayName": "Nav",
+        "purpose": "Main menu, footer links, map filter chips."
       },
       "body": {
-        "displayName": "Body (serif)",
-        "purpose": "Article prose and all summaries."
+        "displayName": "Body",
+        "purpose": "Article prose."
+      },
+      "body-ui": {
+        "displayName": "Body Ui",
+        "purpose": "Summaries, leads and index intros."
+      },
+      "row-title": {
+        "displayName": "Row Title",
+        "purpose": "Post titles in ruled lists."
       },
       "label": {
-        "displayName": "Label (mono)",
-        "purpose": "Dates, counts, U-numbers, reading time, ports, badges; tabular numerals."
+        "displayName": "Label",
+        "purpose": "Dates, minutes, counts, topic labels, meta lines."
       },
-      "panel-label": {
-        "displayName": "Panel Label",
-        "purpose": "Uppercase printed legend on blanking panels only."
+      "code": {
+        "displayName": "Code",
+        "purpose": "Code blocks and inline code."
       }
     },
     "shadows": [
       {
-        "name": "pulled-unit",
-        "value": "0 14px 28px -18px rgba(0, 0, 0, 0.45)",
-        "purpose": "Open project unit and its drawer."
+        "name": "note-drop",
+        "value": "0 10px 14px -10px rgba(0, 0, 0, 0.35)",
+        "purpose": "Topic sticky notes at rest; the freshness note uses 0.3 alpha."
       },
       {
-        "name": "floating-readout",
-        "value": "0 16px 36px -18px rgba(0, 0, 0, 0.55)",
+        "name": "note-lifted",
+        "value": "0 16px 20px -12px rgba(0, 0, 0, 0.4)",
+        "purpose": "Sticky note on hover."
+      },
+      {
+        "name": "tooltip",
+        "value": "0 10px 18px -10px rgba(0, 0, 0, 0.45)",
+        "purpose": "Yellow map tooltip."
+      },
+      {
+        "name": "overlay",
+        "value": "0 16px 30px -18px rgba(0, 0, 0, 0.5)",
         "purpose": "Hover preview card."
       },
       {
-        "name": "map-tooltip",
-        "value": "0 8px 20px -10px rgba(0, 0, 0, 0.5)",
-        "purpose": "Topology map tooltip."
+        "name": "overlay-modal",
+        "value": "0 24px 40px -24px rgba(0, 0, 0, 0.5)",
+        "purpose": "Search overlay."
       },
       {
-        "name": "card-lift",
-        "value": "0 8px 24px -12px rgba(var(--color-primary-900), 0.35)",
-        "purpose": "Hovered Blowfish post card (black 0.6 at night)."
-      },
-      {
-        "name": "faceplate-highlight",
-        "value": "inset 0 1px 0 var(--rack-face-hi)",
-        "purpose": "Resting faceplate top edge; not elevation."
-      },
-      {
-        "name": "screw-rim",
-        "value": "inset 0 0 0 1px var(--rack-seam)",
-        "purpose": "Screw heads on unit ears."
+        "name": "current-ring",
+        "value": "inset 0 0 0 2px var(--nb-ink)",
+        "purpose": "Current section in the main menu (an inset ring, not depth)."
       }
     ],
     "motion": [
       {
         "name": "ease-out",
         "value": "cubic-bezier(0.16, 1, 0.3, 1)",
-        "purpose": "--ease-out: drawers, handle, cover zoom, jack wiring, preview fade, view transitions."
+        "purpose": "The only easing; every transform transition and view transitions."
       },
       {
-        "name": "drawer",
-        "value": "block-size 0.45s var(--ease-out)",
-        "purpose": "Project unit drawer via ::details-content with interpolate-size."
+        "name": "lift-card",
+        "value": "transform 0.35s",
+        "purpose": "Project cards and page-turn panels rise 3px on hover."
       },
       {
-        "name": "handle-turn",
-        "value": "transform 0.35s var(--ease-out)",
-        "purpose": "Pull handle rotates 180 degrees when a unit opens."
+        "name": "lift-sticky",
+        "value": "transform 0.4s, box-shadow 0.4s",
+        "purpose": "Sticky note straightens and rises 4px."
       },
       {
-        "name": "led-activity",
-        "value": "0.7s steps(1, end) 1",
-        "purpose": "Active LED blinks once on project hover."
+        "name": "cover-straighten",
+        "value": "transform 0.6s",
+        "purpose": "Lead cover rotates from -1deg to 0 on hover."
       },
       {
-        "name": "cover-zoom",
-        "value": "transform 0.9s var(--ease-out)",
-        "purpose": "Latest cover scales to 1.03 on hover."
+        "name": "arrow-nudge",
+        "value": "transform 0.25s",
+        "purpose": "CTA arrow moves 3px right on hover."
       },
       {
-        "name": "peek",
-        "value": "opacity 0.18s, filter 0.18s var(--ease-out)",
-        "purpose": "Hover preview fades in from blur(2px)."
+        "name": "swipe-hover",
+        "value": "background-color 0.2s",
+        "purpose": "Yellow hover swipe on nav, CTAs."
+      },
+      {
+        "name": "preview",
+        "value": "opacity 0.18s, transform 0.25s",
+        "purpose": "Hover preview card fade-in."
       },
       {
         "name": "view-transition",
-        "value": "0.42s cubic-bezier(0.16, 1, 0.3, 1)",
-        "purpose": "Cross-document cover carry from list to article."
+        "value": "0.42s",
+        "purpose": "Cross-document transition carrying the cover from list to article."
       },
       {
-        "name": "read-progress",
-        "value": "linear, animation-timeline: scroll(root block)",
-        "purpose": "Copper reading-progress hairline."
+        "name": "reading-progress",
+        "value": "animation-timeline: scroll(root block)",
+        "purpose": "5px yellow progress stroke on articles, no script."
       },
       {
-        "name": "card-lift",
-        "value": "0.18s ease",
-        "purpose": "Blowfish post card hover lift."
+        "name": "reduced-motion",
+        "value": "prefers-reduced-motion: reduce",
+        "purpose": "Disables view transitions and all transform transitions. Hand-drawn strokes are static in every mode."
       }
     ],
     "breakpoints": [
       {
-        "name": "tablet",
-        "value": "1023px",
-        "purpose": "max-width: project rows drop newest-post column."
+        "name": "md",
+        "value": "768px",
+        "purpose": "Below: lead stacks, rows drop minutes, single-column cards and page turn."
       },
       {
-        "name": "phone",
-        "value": "767px",
-        "purpose": "max-width: rails 1rem, ears 0.5rem, rows restack."
+        "name": "lg",
+        "value": "1024px",
+        "purpose": "Below: home spread stacks, projects in two columns, stickies in three."
       }
     ],
-    "rackTokens": [
-      {
-        "name": "--u",
-        "value": "2.75rem"
-      },
-      {
-        "name": "--rail",
-        "value": "1.75rem (1rem at phone)"
-      },
-      {
-        "name": "--ear",
-        "value": "0.95rem (0.5rem at phone)"
-      }
-    ]
+    "cssVariables": {
+      "source": "assets/css/custom.css (:root and .dark) and assets/css/schemes/notebook.css (Blowfish RGB ramps)",
+      "wobble": "--wob",
+      "wobbleSmall": "--wob-sm",
+      "highlighterPrefix": "--hl-",
+      "topicMap": "data/topics.yaml",
+      "fonts": "layouts/partials/extend-head.html (Google Fonts: Shantell Sans wght/BNCE/INFM, Atkinson Hyperlegible, Fragment Mono)"
+    }
   },
   "components": [
     {
-      "name": "Project Unit",
-      "kind": "custom",
-      "refersTo": "project-unit",
-      "description": "1U rack unit: U-number, shape-coded LED, name and summary, cyan patch port, pull handle; expands in place.",
-      "html": "<div class=\"ds-root ds-unit\"><span class=\"ds-ear ds-ear-l\"><i></i><i></i></span><button class=\"ds-project\"><span class=\"ds-mono\">U05</span><span class=\"ds-status\"><span class=\"ds-led\"></span><span class=\"ds-mono\">active</span></span><span class=\"ds-id\"><b>ai-running-coach</b><small>AI agents that plan and review my training.</small></span><span class=\"ds-port ds-trace\">ai-coding-agents</span><span class=\"ds-handle\"></span></button><span class=\"ds-ear ds-ear-r\"><i></i><i></i></span></div>",
-      "css": ".ds-root{--rack-face:#fafcfe;--rack-face-hi:#fff;--rack-seam:#acbdd1;--rack-recess:#acbdd1;--rack-ink:#1a222f;--rack-dim:#42546b;--rack-signal:#a35712;--rack-trace:#0d6578;font-family:Archivo,system-ui,sans-serif;color:var(--rack-ink)}.ds-unit{position:relative;margin:0 1rem}.ds-ear{position:absolute;top:0;bottom:0;width:.95rem;display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:.7rem 0;background:var(--rack-face);border:1px solid var(--rack-seam)}.ds-ear-l{left:-.95rem;border-right:0}.ds-ear-r{right:-.95rem;border-left:0}.ds-ear i{width:.55rem;height:.55rem;border-radius:50%;background:linear-gradient(135deg,transparent 44%,#7f94ac 44% 56%,transparent 56%),#ccd8e6;box-shadow:inset 0 0 0 1px var(--rack-seam)}.ds-project{display:grid;grid-template-columns:2.75rem 6rem minmax(0,1fr) auto 1.5rem;align-items:center;gap:1rem;width:100%;min-height:2.75rem;padding:.55rem 1.25rem .55rem 1rem;background:var(--rack-face);border:1px solid var(--rack-seam);border-left:0;border-right:0;box-shadow:inset 0 1px 0 var(--rack-face-hi);font:inherit;color:inherit;text-align:left;cursor:pointer;transition:background-color .25s cubic-bezier(.16,1,.3,1)}.ds-project:hover{background:var(--rack-face-hi)}.ds-project:focus-visible{outline:2px solid #c46c1a;outline-offset:2px}.ds-mono{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--rack-dim);font-variant-numeric:tabular-nums}.ds-status{display:inline-flex;align-items:center;gap:.5rem}.ds-led{width:.6rem;height:.6rem;border-radius:50%;background:var(--rack-signal)}.ds-id{display:flex;flex-direction:column;min-width:0}.ds-id b{font-size:1.02rem;font-weight:700;letter-spacing:-.01em}.ds-id small{font-size:.85rem;color:var(--rack-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ds-port{font-family:'JetBrains Mono',monospace;font-size:.6875rem;font-weight:500;padding:.3em .5em;border:1px solid currentColor;border-radius:2px;color:var(--rack-signal)}.ds-trace{color:var(--rack-trace)}.ds-handle{width:.55rem;height:.55rem;justify-self:end;border-right:1.5px solid var(--rack-dim);border-bottom:1.5px solid var(--rack-dim);transform:rotate(45deg) translate(-2px,-2px)}"
+      "name": "Navigation",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Hand-lettered wordmark on a static yellow stroke, marker menu with yellow hover swipes, inset ink ring on the current section, wobble-framed icon buttons.",
+      "html": "<header class=\"ds-nav\"><a class=\"ds-wordmark\" href=\"#\">Marco's home-lab notebook<svg viewBox=\"0 0 300 10\" preserveAspectRatio=\"none\" fill=\"none\" aria-hidden=\"true\"><path d=\"M3 6 C 60 2, 120 9, 180 5 S 270 3, 297 6\"/></svg></a><nav><a href=\"#\" class=\"is-current\">All posts</a><a href=\"#\">Topics</a><a href=\"#\">Projects</a><a href=\"#\">Map</a><a href=\"#\">About</a></nav><button class=\"ds-iconbtn\" aria-label=\"Search\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\"><circle cx=\"11\" cy=\"11\" r=\"7\"/><path d=\"M20 20l-4-4\"/></svg></button></header>",
+      "css": ".ds-nav{--nb-ink:#15171c;--nb-paper:#fff;--nb-dim:#4c5260;--nb-rule:#d3dbe6;--hl-ai:#ffe14a;--hl-ink:#15171c;display:flex;align-items:center;gap:1rem;padding:.75rem 1rem;color:var(--nb-ink)} .ds-wordmark{position:relative;font-family:'Shantell Sans','Comic Neue',ui-rounded,system-ui,sans-serif;font-weight:800;font-size:1.5rem;font-variation-settings:\"INFM\" 100,\"BNCE\" 50;color:var(--nb-ink);text-decoration:none;white-space:nowrap} .ds-wordmark svg{position:absolute;left:0;bottom:-.45rem;width:100%;height:.6rem;stroke:var(--hl-ai);stroke-width:6;stroke-linecap:round} .ds-nav nav{display:flex;gap:.25rem;margin-left:auto} .ds-nav nav a{font-family:'Shantell Sans','Comic Neue',ui-rounded,system-ui,sans-serif;font-weight:600;font-variation-settings:\"INFM\" 40;padding:.3rem .65rem;border-radius:255px 18px 225px 16px / 16px 225px 18px 255px;color:var(--nb-ink);text-decoration:none;transition:background-color .2s} .ds-nav nav a:hover{background:var(--hl-ai);color:var(--hl-ink)} .ds-nav nav a.is-current{box-shadow:inset 0 0 0 2px var(--nb-ink)} .ds-nav a:focus-visible,.ds-iconbtn:focus-visible{ outline: 3px dashed var(--nb-ink, #15171c); outline-offset: 3px;} .ds-iconbtn{width:2.4rem;height:2.2rem;display:inline-grid;place-items:center;border:2px solid var(--nb-ink);border-radius:255px 18px 225px 16px / 16px 225px 18px 255px;background:transparent;color:var(--nb-ink);cursor:pointer} .ds-iconbtn:hover{background:var(--hl-ai);color:var(--hl-ink)}"
     },
     {
-      "name": "Status LEDs",
-      "kind": "custom",
-      "refersTo": "led",
-      "description": "Status by shape: filled circle active, ring quiet, hollow square idle; always paired with a word.",
-      "html": "<div class=\"ds-root ds-leds\"><span><i class=\"ds-led ds-active\"></i>active</span><span><i class=\"ds-led ds-quiet\"></i>quiet</span><span><i class=\"ds-led ds-idle\"></i>idle</span></div>",
-      "css": ".ds-root{--rack-face:#fafcfe;--rack-face-hi:#fff;--rack-seam:#acbdd1;--rack-recess:#acbdd1;--rack-ink:#1a222f;--rack-dim:#42546b;--rack-signal:#a35712;--rack-trace:#0d6578;font-family:Archivo,system-ui,sans-serif;color:var(--rack-ink)}.ds-leds{display:flex;gap:1.5rem;font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--rack-dim)}.ds-leds span{display:inline-flex;align-items:center;gap:.5rem}.ds-led{display:inline-block;width:.6rem;height:.6rem;border-radius:50%}.ds-active{background:var(--rack-signal);box-shadow:inset 0 -1px 0 rgba(0,0,0,.25)}.ds-quiet{border:2px solid var(--rack-signal)}.ds-idle{border:1.5px solid var(--rack-dim);border-radius:1px;width:.55rem;height:.55rem}"
+      "name": "CTA Link",
+      "kind": "button",
+      "refersTo": "cta-link",
+      "description": "Marker link with a 3px ink underline and a hand-drawn arrow; hover lays the yellow swipe and nudges the arrow.",
+      "html": "<a class=\"ds-cta\" href=\"#\">Read it<svg class=\"ds-arrow\" viewBox=\"0 0 40 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 9 C 14 5, 25 11, 36 8\"/><path d=\"M30 2 L 37 8 L 30 14\"/></svg></a>",
+      "css": ".ds-cta{--nb-ink:#15171c;--nb-paper:#fff;--nb-dim:#4c5260;--nb-rule:#d3dbe6;--hl-ai:#ffe14a;--hl-ink:#15171c;display:inline-flex;align-items:center;font-family:'Shantell Sans','Comic Neue',ui-rounded,system-ui,sans-serif;font-weight:700;font-size:1.1rem;color:var(--nb-ink);text-decoration:none;border-bottom:3px solid var(--nb-ink);padding-bottom:1px;transition:background-color .2s} .ds-cta .ds-arrow{width:1.9em;height:.8em;margin-inline:.35em;transition:transform .25s cubic-bezier(.16,1,.3,1)} .ds-cta:hover{background:var(--hl-ai);color:var(--hl-ink)} .ds-cta:hover .ds-arrow{transform:translateX(3px)} .ds-cta:focus-visible{ outline: 3px dashed var(--nb-ink, #15171c); outline-offset: 3px;}"
     },
     {
-      "name": "Port",
+      "name": "Highlighter Labels",
       "kind": "chip",
-      "refersTo": "port",
-      "description": "Mono outlined identifier: copper for projects, cyan for topics.",
-      "html": "<div class=\"ds-root\" style=\"display:flex;gap:.75rem\"><a class=\"ds-port\" href=\"#\">leanproxy-mcp</a><a class=\"ds-port ds-trace\" href=\"#\">smart-home</a></div>",
-      "css": ".ds-root{--rack-face:#fafcfe;--rack-face-hi:#fff;--rack-seam:#acbdd1;--rack-recess:#acbdd1;--rack-ink:#1a222f;--rack-dim:#42546b;--rack-signal:#a35712;--rack-trace:#0d6578;font-family:Archivo,system-ui,sans-serif;color:var(--rack-ink)}.ds-port{display:inline-flex;align-items:center;font-family:'JetBrains Mono',monospace;font-size:.6875rem;font-weight:500;letter-spacing:.04em;line-height:1;padding:.3em .5em;border:1px solid currentColor;border-radius:2px;color:var(--rack-signal);text-decoration:none;transition:background-color .2s}.ds-trace{color:var(--rack-trace)}.ds-port:hover{background:color-mix(in srgb,currentColor 12%,transparent)}.ds-port:focus-visible{outline:2px solid #c46c1a;outline-offset:2px}"
+      "refersTo": "highlighter-label",
+      "description": "Topic labels as ragged highlighter swipes behind ink; colour per topic from data/topics.yaml.",
+      "html": "<p class=\"ds-labels\"><a class=\"ds-hl\" style=\"--hl:#ffe14a\" href=\"#\">AI &amp; AI Coding Agents</a><a class=\"ds-hl\" style=\"--hl:#7fe3cf\" href=\"#\">Smart Home</a><a class=\"ds-hl\" style=\"--hl:#ff9fc4\" href=\"#\">DevOps</a><a class=\"ds-hl\" style=\"--hl:#c9b8ff\" href=\"#\">Programming</a><a class=\"ds-proj\" href=\"#\">ai-email-assistant</a></p>",
+      "css": ".ds-labels{display:flex;flex-wrap:wrap;gap:.5rem .75rem;align-items:center;font-family:'Fragment Mono',ui-monospace,Menlo,monospace;font-size:.78rem;color:#4c5260} .ds-hl{background:linear-gradient(100deg, transparent 0 2%, var(--hl, #d5dbe3) 3% 97%, transparent 98%);color:#15171c;padding:0 .35em;text-decoration:none;box-decoration-break:clone;-webkit-box-decoration-break:clone} .ds-hl:hover{text-decoration:underline;text-underline-offset:3px} .ds-proj{color:inherit;text-decoration:underline dotted;text-underline-offset:3px} .ds-proj:hover{color:#2b46d6} .ds-hl:focus-visible,.ds-proj:focus-visible{ outline: 3px dashed var(--nb-ink, #15171c); outline-offset: 3px;}"
     },
     {
-      "name": "Patch Jack",
-      "kind": "custom",
-      "refersTo": "jack",
-      "description": "Topic socket in the patch panel; wires to cyan when hovered or when its project port is hovered.",
-      "html": "<a class=\"ds-root ds-jack\" href=\"#\"><span class=\"ds-socket\"></span><span class=\"ds-label\">Smart Home</span><span class=\"ds-count\">18</span><span class=\"ds-id\">smart-home</span></a>",
-      "css": ".ds-root{--rack-face:#fafcfe;--rack-face-hi:#fff;--rack-seam:#acbdd1;--rack-recess:#acbdd1;--rack-ink:#1a222f;--rack-dim:#42546b;--rack-signal:#a35712;--rack-trace:#0d6578;font-family:Archivo,system-ui,sans-serif;color:var(--rack-ink)}.ds-jack{display:grid;grid-template-areas:'socket label count' 'socket id id';grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:.15rem .75rem;width:14rem;padding:.85rem 1rem;background:var(--rack-face);border:1px solid var(--rack-seam);color:inherit;text-decoration:none;transition:background-color .25s cubic-bezier(.16,1,.3,1)}.ds-socket{grid-area:socket;position:relative;width:1.5rem;height:1.1rem;border:1px solid var(--rack-dim);border-radius:1px}.ds-socket::before,.ds-socket::after{content:'';position:absolute;top:.3rem;width:1px;height:.35rem;background:var(--rack-dim);transform-origin:50% 100%;transition:background-color .2s,transform .3s cubic-bezier(.16,1,.3,1)}.ds-socket::before{left:.45rem}.ds-socket::after{right:.45rem}.ds-label{grid-area:label;font-size:.88rem;font-weight:600}.ds-count{grid-area:count;font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--rack-dim)}.ds-id{grid-area:id;font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--rack-trace)}.ds-jack:hover{background:var(--rack-face-hi)}.ds-jack:hover .ds-socket{border-color:var(--rack-trace);background:color-mix(in srgb,var(--rack-trace) 14%,transparent)}.ds-jack:hover .ds-socket::before,.ds-jack:hover .ds-socket::after{background:var(--rack-trace);transform:scaleY(1.4)}.ds-jack:focus-visible{outline:2px solid #c46c1a;outline-offset:2px}"
-    },
-    {
-      "name": "Blanking Panel",
-      "kind": "custom",
-      "refersTo": "blank-panel",
-      "description": "Group heading unit with printed legend, vent slots and a count.",
-      "html": "<div class=\"ds-root ds-blank\"><span>Running units</span><span class=\"ds-vents\"></span><span class=\"ds-n\">7U</span></div>",
-      "css": ".ds-root{--rack-face:#fafcfe;--rack-face-hi:#fff;--rack-seam:#acbdd1;--rack-recess:#acbdd1;--rack-ink:#1a222f;--rack-dim:#42546b;--rack-signal:#a35712;--rack-trace:#0d6578;font-family:Archivo,system-ui,sans-serif;color:var(--rack-ink)}.ds-blank{display:flex;align-items:center;gap:1rem;min-height:2.34rem;padding:0 1.25rem;background:var(--rack-face);border:1px solid var(--rack-seam);border-left:0;border-right:0;font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--rack-dim)}.ds-vents{flex:1;height:.55rem;background:repeating-linear-gradient(90deg,var(--rack-recess) 0 1.4rem,transparent 1.4rem 1.75rem);opacity:.8}.ds-n{font-weight:500;letter-spacing:.04em}"
-    },
-    {
-      "name": "Trace List",
-      "kind": "custom",
-      "refersTo": "trace",
-      "description": "Posts wired along one copper line; the current post has a larger node.",
-      "html": "<ol class=\"ds-root ds-trace-list\"><li><time>2025-11-02</time><a href=\"#\">Self-hosting the Arlo cam API</a><span>9′</span></li><li class=\"ds-here\"><time>2026-03-14</time><span>Replacing the base station</span><span>12′</span></li></ol>",
-      "css": ".ds-root{--rack-face:#fafcfe;--rack-face-hi:#fff;--rack-seam:#acbdd1;--rack-recess:#acbdd1;--rack-ink:#1a222f;--rack-dim:#42546b;--rack-signal:#a35712;--rack-trace:#0d6578;font-family:Archivo,system-ui,sans-serif;color:var(--rack-ink)}.ds-trace-list{list-style:none;margin:0;padding:0 0 0 1rem;border-left:1px solid var(--rack-signal)}.ds-trace-list li{position:relative;display:grid;grid-template-columns:6.5rem minmax(0,1fr) auto;gap:1rem;align-items:baseline;padding:.4rem 0;font-size:.92rem;font-weight:600}.ds-trace-list li::before{content:'';position:absolute;left:calc(-1rem - 3.5px);top:.95rem;width:6px;height:6px;border-radius:50%;background:var(--rack-signal)}.ds-trace-list time,.ds-trace-list li>span:last-child{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:400;color:var(--rack-dim)}.ds-trace-list a{color:inherit;text-decoration:none}.ds-trace-list a:hover{color:var(--rack-signal);text-decoration:underline;text-underline-offset:3px}.ds-here>span:nth-child(2){color:var(--rack-signal);font-weight:700}.ds-here::before{width:10px!important;height:10px!important;left:calc(-1rem - 5.5px)!important;top:.8rem!important;box-shadow:0 0 0 3px var(--rack-face)}"
-    },
-    {
-      "name": "Category Badge",
-      "kind": "chip",
-      "refersTo": "badge-category",
-      "description": "Blowfish-surface taxonomy chip: mono uppercase with a signal dot; categories cyan, tags copper.",
-      "html": "<div class=\"ds-root\" style=\"display:flex;gap:.75rem\"><span class=\"ds-badge ds-sec\">smart-home</span><span class=\"ds-badge\">python</span></div>",
-      "css": ".ds-root{--rack-face:#fafcfe;--rack-face-hi:#fff;--rack-seam:#acbdd1;--rack-recess:#acbdd1;--rack-ink:#1a222f;--rack-dim:#42546b;--rack-signal:#a35712;--rack-trace:#0d6578;font-family:Archivo,system-ui,sans-serif;color:var(--rack-ink)}.ds-badge{display:inline-flex;align-items:center;gap:.4em;font-family:'JetBrains Mono',monospace;font-size:.6875rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;line-height:1;padding:.3em .55em .3em .45em;border-radius:3px;border:1px solid rgba(224,133,45,.55);color:#80440f;background:rgba(250,222,189,.4)}.ds-badge::before{content:'';width:5px;height:5px;border-radius:999px;background:#c46c1a}.ds-sec{border-color:rgba(51,184,206,.55);color:#0d6578;background:rgba(191,237,244,.4)}.ds-sec::before{background:#1b9cb3}"
-    },
-    {
-      "name": "Hover Preview",
+      "name": "Ruled Sheet",
       "kind": "card",
-      "refersTo": "peek",
-      "description": "Floating readout for internal links on hover-capable fine pointers.",
-      "html": "<div class=\"ds-root ds-peek\"><div class=\"ds-img\"></div><p class=\"ds-meta\">2026-09-12 · 11′</p><p class=\"ds-title\">Letting a decision model judge my automations</p><p class=\"ds-sum\">A small local model reviews each Home Assistant automation before it runs and explains why.</p></div>",
-      "css": ".ds-root{--rack-face:#fafcfe;--rack-face-hi:#fff;--rack-seam:#acbdd1;--rack-recess:#acbdd1;--rack-ink:#1a222f;--rack-dim:#42546b;--rack-signal:#a35712;--rack-trace:#0d6578;font-family:Archivo,system-ui,sans-serif;color:var(--rack-ink)}.ds-peek{width:20rem;padding:.6rem .6rem .75rem;background:var(--rack-face);border:1px solid var(--rack-seam);box-shadow:0 16px 36px -18px rgba(0,0,0,.55);transition:opacity .18s cubic-bezier(.16,1,.3,1),filter .18s cubic-bezier(.16,1,.3,1)}.ds-img{aspect-ratio:16/9;background:#acbdd1;margin:0 0 .55rem}.ds-peek p{margin:0}.ds-meta{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--rack-dim)}.ds-title{font-weight:700;line-height:1.25;margin-top:.2rem!important}.ds-sum{margin-top:.35rem!important;font-family:'Source Serif 4',Georgia,serif;font-size:.85rem;line-height:1.45;color:var(--rack-dim)}"
+      "refersTo": "ruled-row",
+      "description": "The one list pattern: a wobble-framed paper sheet of rows with a marker date column, Atkinson title, topic label, mono minutes and reader marks.",
+      "html": "<ol class=\"ds-sheet\"><li class=\"ds-row\"><time class=\"ds-date\"><b>15</b>Oct</time><div><h3 class=\"ds-title\"><a href=\"#\">Drowning in Email: Rules First, Models Last</a><span class=\"ds-new\">new</span></h3><p class=\"ds-tags\"><a class=\"ds-hl\" style=\"--hl:#ffe14a\" href=\"#\">AI &amp; AI Coding Agents</a></p></div><span class=\"ds-min\">18 min</span></li><li class=\"ds-row is-read\"><time class=\"ds-date\"><b>11</b>Oct</time><div><h3 class=\"ds-title\"><a href=\"#\">Laya 0.4.2 and VegaML on a 16 GB MacBook</a><span class=\"ds-read\">read</span></h3><p class=\"ds-tags\"><a class=\"ds-hl\" style=\"--hl:#c9b8ff\" href=\"#\">Programming</a></p></div><span class=\"ds-min\">22 min</span></li></ol>",
+      "css": ".ds-sheet{--nb-ink:#15171c;--nb-paper:#fff;--nb-dim:#4c5260;--nb-rule:#d3dbe6;--hl-ai:#ffe14a;--hl-ink:#15171c;list-style:none;margin:0;padding:0;background:var(--nb-paper);border:2px solid var(--nb-ink);border-radius:255px 18px 225px 16px / 16px 225px 18px 255px;color:var(--nb-ink)} .ds-row{display:grid;grid-template-columns:4.75rem minmax(0,1fr) auto;gap:1rem;align-items:baseline;padding:.85rem 1.25rem} .ds-row+.ds-row{border-top:1.5px dashed var(--nb-rule)} .ds-date{font-family:'Shantell Sans','Comic Neue',ui-rounded,system-ui,sans-serif;font-weight:700;font-size:.92rem;line-height:1.1;color:var(--nb-dim)} .ds-date b{display:block;font-size:1.35rem;color:var(--nb-ink)} .ds-title{margin:0;font-family:'Atkinson Hyperlegible',-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:700;font-size:1.05rem;line-height:1.35} .ds-title a{color:inherit;text-decoration:none} .ds-title a:hover{text-decoration:underline wavy;text-decoration-thickness:1.5px;text-underline-offset:4px} .ds-title a:focus-visible{ outline: 3px dashed var(--nb-ink, #15171c); outline-offset: 3px;} .ds-new{display:inline-block;margin-left:.5rem;padding:.15rem .4rem;border:2px solid var(--nb-ink);border-radius:50%;font-family:'Shantell Sans','Comic Neue',ui-rounded,system-ui,sans-serif;font-weight:800;font-size:.75rem;line-height:1;transform:rotate(-8deg)} .ds-read{margin-left:.5rem;font-family:'Shantell Sans','Comic Neue',ui-rounded,system-ui,sans-serif;font-weight:600;font-size:.78rem;color:var(--nb-dim)} .is-read .ds-title a{color:var(--nb-dim)} .ds-tags{margin:.35rem 0 0;font-family:'Fragment Mono',ui-monospace,Menlo,monospace;font-size:.78rem} .ds-hl{background:linear-gradient(100deg, transparent 0 2%, var(--hl, #d5dbe3) 3% 97%, transparent 98%);color:#15171c;padding:0 .35em;text-decoration:none} .ds-min{font-family:'Fragment Mono',ui-monospace,Menlo,monospace;font-size:.78rem;color:var(--nb-dim);white-space:nowrap}"
+    },
+    {
+      "name": "Sticky Notes",
+      "kind": "custom",
+      "refersTo": "sticky-note",
+      "description": "Topics as paper notes in their highlighter, rotated by position, straightening and lifting on hover.",
+      "html": "<ul class=\"ds-stickies\"><li><a class=\"ds-sticky\" style=\"--hl:#ff9fc4\" href=\"#\"><b>DevOps &amp; Infrastructure</b><span>48 posts</span></a></li><li><a class=\"ds-sticky\" style=\"--hl:#c9b8ff\" href=\"#\"><b>Programming &amp; Software Engineering</b><span>36 posts</span></a></li><li><a class=\"ds-sticky\" style=\"--hl:#9fd3ff\" href=\"#\"><b>Web Development &amp; Blogging</b><span>31 posts</span></a></li><li><a class=\"ds-sticky\" style=\"--hl:#ffbf6b\" href=\"#\"><b>Linux &amp; Sysadmin</b><span>27 posts</span></a></li></ul>",
+      "css": ".ds-stickies{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem} .ds-sticky{display:flex;flex-direction:column;gap:.35rem;min-height:7.5rem;height:100%;padding:.85rem .9rem .95rem;background:var(--hl);color:#15171c;text-decoration:none;box-shadow:0 10px 14px -10px rgba(0,0,0,.35);transform:rotate(-1.3deg);transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s cubic-bezier(.16,1,.3,1)} .ds-stickies>li:nth-child(even) .ds-sticky{transform:rotate(1.2deg)} .ds-stickies>li:nth-child(3n) .ds-sticky{transform:rotate(-.5deg)} .ds-stickies>li .ds-sticky:hover{transform:rotate(0) translateY(-4px);box-shadow:0 16px 20px -12px rgba(0,0,0,.4)} .ds-sticky:focus-visible{ outline: 3px dashed var(--nb-ink, #15171c); outline-offset: 3px;} .ds-sticky b{font-family:'Shantell Sans','Comic Neue',ui-rounded,system-ui,sans-serif;font-weight:800;font-size:1.08rem;line-height:1.15;font-variation-settings:\"INFM\" 80} .ds-sticky span{margin-top:auto;font-family:'Fragment Mono',ui-monospace,Menlo,monospace;font-size:.78rem} @media (prefers-reduced-motion:reduce){.ds-sticky{transition:none}}"
+    },
+    {
+      "name": "Lead Panel",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "The newest post in a 2.5px wobble panel with a \"newest page!\" annotation breaking its top edge, display title, summary, mono punchline swipe and a CTA.",
+      "html": "<article class=\"ds-lead\"><span class=\"ds-anno\">newest page!<svg viewBox=\"0 0 70 44\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6 6 C 30 4, 50 14, 58 36\"/><path d=\"M48 30 L 58 37 L 63 25\"/></svg></span><p class=\"ds-meta\">Thursday, October 15, 2026 <span>14 min</span></p><h1 class=\"ds-leadtitle\"><a href=\"#\">Use AI to Build the Tool, Not to Be the Tool</a></h1><p class=\"ds-sum\">Writing the script once costs about as much as asking once.</p><p class=\"ds-fig\">The punchline: <mark>$0.19 per ask, every time</mark></p></article>",
+      "css": ".ds-lead{--nb-ink:#15171c;--nb-paper:#fff;--nb-dim:#4c5260;--nb-rule:#d3dbe6;--hl-ai:#ffe14a;--hl-ink:#15171c;position:relative;margin-top:2.5rem;padding:1.9rem;background:var(--nb-paper);border:2.5px solid var(--nb-ink);border-radius:255px 18px 225px 16px / 16px 225px 18px 255px;color:var(--nb-ink)} .ds-anno{position:absolute;top:-1.9rem;left:40%;display:flex;align-items:flex-start;gap:.25rem;padding:0 .5rem;background:var(--nb-paper);font-family:'Shantell Sans','Comic Neue',ui-rounded,system-ui,sans-serif;font-weight:700;font-size:1.15rem;font-variation-settings:\"INFM\" 100,\"BNCE\" 60;transform:rotate(-3deg)} .ds-anno svg{width:4.4rem;height:2.75rem;margin-top:.6rem} .ds-meta{margin:0;font-family:'Fragment Mono',ui-monospace,Menlo,monospace;font-size:.82rem;color:var(--nb-dim)} .ds-meta span{margin-left:.9rem} .ds-leadtitle{margin:.75rem 0 .9rem;font-family:'Shantell Sans','Comic Neue',ui-rounded,system-ui,sans-serif;font-weight:800;font-size:clamp(1.9rem,1.2rem + 2.1vw,3rem);line-height:1.06;letter-spacing:-.02em;font-variation-settings:\"INFM\" 30,\"BNCE\" 10;text-wrap:balance} .ds-leadtitle a{color:inherit;text-decoration:none} .ds-leadtitle a:hover{text-decoration:underline wavy;text-decoration-thickness:2px;text-underline-offset:6px} .ds-leadtitle a:focus-visible{ outline: 3px dashed var(--nb-ink, #15171c); outline-offset: 3px;} .ds-sum{margin:0;max-width:52ch;font-family:'Atkinson Hyperlegible',-apple-system,'Segoe UI',Roboto,sans-serif;font-size:1.05rem;line-height:1.6;color:var(--nb-dim)} .ds-fig{margin:1rem 0 0;font-family:'Shantell Sans','Comic Neue',ui-rounded,system-ui,sans-serif;font-weight:700;font-size:1.15rem} .ds-fig mark{font-family:'Fragment Mono',ui-monospace,Menlo,monospace;font-size:.95rem;font-weight:700;background:linear-gradient(100deg,transparent 0 2%,var(--hl-ai) 3% 97%,transparent 98%);color:var(--hl-ink);padding:.05em .35em}"
+    },
+    {
+      "name": "Project Card",
+      "kind": "card",
+      "refersTo": "project-card",
+      "description": "A project as a wobble-framed card with a tick box per post; hover lifts 3px and swipes yellow behind the name.",
+      "html": "<a class=\"ds-exp\" href=\"#\"><b class=\"ds-expname\">ai-email-assistant</b><span class=\"ds-expsum\">Rules first, models last: an inbox triage that runs at home.</span><span class=\"ds-ticks\" aria-hidden=\"true\"><i></i><i></i><i></i><i></i></span><span class=\"ds-expmeta\">4 posts · last post Oct 15, 2026</span></a>",
+      "css": ".ds-exp{--nb-ink:#15171c;--nb-paper:#fff;--nb-dim:#4c5260;--nb-rule:#d3dbe6;--hl-ai:#ffe14a;--hl-ink:#15171c;display:flex;flex-direction:column;gap:.35rem;max-width:20rem;padding:1.1rem 1.25rem 1.15rem;background:var(--nb-paper);border:2px solid var(--nb-ink);border-radius:255px 18px 225px 16px / 16px 225px 18px 255px;color:var(--nb-ink);text-decoration:none;transition:transform .35s cubic-bezier(.16,1,.3,1)} .ds-exp:hover{transform:translateY(-3px)} .ds-exp:focus-visible{ outline: 3px dashed var(--nb-ink, #15171c); outline-offset: 3px;} .ds-exp:hover .ds-expname{background:linear-gradient(100deg,transparent 0 2%,var(--hl-ai) 3% 97%,transparent 98%)} .ds-expname{align-self:flex-start;font-family:'Shantell Sans','Comic Neue',ui-rounded,system-ui,sans-serif;font-weight:800;font-size:1.2rem;padding:0 .15em} .ds-expsum{font-family:'Atkinson Hyperlegible',-apple-system,'Segoe UI',Roboto,sans-serif;font-size:.93rem;line-height:1.45;color:var(--nb-dim)} .ds-ticks{display:flex;gap:.35rem;padding-top:.6rem} .ds-ticks i{width:1rem;height:1rem;border:2px solid var(--nb-ink);border-radius:3px 5px 3px 6px;display:grid;place-items:center} .ds-ticks i::after{content:\"\";width:.5rem;height:.26rem;border:2.2px solid var(--nb-ink);border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)} .ds-expmeta{font-family:'Fragment Mono',ui-monospace,Menlo,monospace;font-size:.76rem;color:var(--nb-dim)}"
+    },
+    {
+      "name": "Page Turn",
+      "kind": "nav",
+      "refersTo": "turn-page",
+      "description": "Older and newer post as two wobble panels; the newer one carries the yellow swipe on its label.",
+      "html": "<nav class=\"ds-turn\"><a class=\"ds-page\" href=\"#\"><small><svg class=\"ds-arrow\" viewBox=\"0 0 40 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M37 9 C 26 5, 15 11, 4 8\"/><path d=\"M10 2 L 3 8 L 10 14\"/></svg>older post</small><b>Laya 0.4.2 and VegaML</b><time>Oct 11, 2026</time></a><a class=\"ds-page ds-page--next\" href=\"#\"><small><span>newer post</span><svg class=\"ds-arrow\" viewBox=\"0 0 40 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 9 C 14 5, 25 11, 36 8\"/><path d=\"M30 2 L 37 8 L 30 14\"/></svg></small><b>Drowning in Email</b><time>Oct 15, 2026</time></a></nav>",
+      "css": ".ds-turn{--nb-ink:#15171c;--nb-paper:#fff;--nb-dim:#4c5260;--nb-rule:#d3dbe6;--hl-ai:#ffe14a;--hl-ink:#15171c;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.25rem} .ds-page{display:flex;flex-direction:column;gap:.35rem;padding:1.15rem 1.4rem 1.2rem;background:var(--nb-paper);border:2.5px solid var(--nb-ink);border-radius:255px 18px 225px 16px / 16px 225px 18px 255px;color:var(--nb-ink);text-decoration:none;transition:transform .35s cubic-bezier(.16,1,.3,1)} .ds-page:hover{transform:translateY(-3px)} .ds-page:focus-visible{ outline: 3px dashed var(--nb-ink, #15171c); outline-offset: 3px;} .ds-page--next{text-align:right} .ds-page small{display:flex;align-items:center;font-family:'Shantell Sans','Comic Neue',ui-rounded,system-ui,sans-serif;font-weight:700;font-size:.95rem;opacity:.8} .ds-page--next small{justify-content:flex-end} .ds-page small span{background:linear-gradient(100deg,transparent 0 2%,var(--hl-ai) 3% 97%,transparent 98%);color:var(--hl-ink);padding:0 .3em} .ds-arrow{width:1.9em;height:.8em;margin-inline:.35em} .ds-page b{font-family:'Shantell Sans','Comic Neue',ui-rounded,system-ui,sans-serif;font-weight:800;font-size:1.25rem;line-height:1.2;font-variation-settings:\"INFM\" 40} .ds-page time{font-family:'Fragment Mono',ui-monospace,Menlo,monospace;font-size:.76rem;opacity:.75}"
+    },
+    {
+      "name": "Freshness Note",
+      "kind": "custom",
+      "refersTo": "freshness-note",
+      "description": "Paper note on old technical posts: orange when the post is over three years old, mint when lastVerified is set.",
+      "html": "<p class=\"ds-note\">This post is from 2019. Commands and versions may have moved on.</p><p class=\"ds-note ds-note--ok\">Checked and still accurate on 2 October 2026.</p>",
+      "css": ".ds-note{margin:0 0 1.25rem;padding:.85rem 1rem;max-width:62ch;background:#ffbf6b;color:#15171c;font-family:'Atkinson Hyperlegible',-apple-system,'Segoe UI',Roboto,sans-serif;font-size:.95rem;line-height:1.45;box-shadow:0 10px 14px -10px rgba(0,0,0,.3);transform:rotate(-.5deg)} .ds-note--ok{background:#7fe3cf}"
     }
   ],
   "narrative": {
-    "northStar": "Infrastructure Schematic",
-    "overview": "Dark mode reads as a night terminal/schematic; light mode reads as blueprint paper pinned above a desk. Both are drawn from one blueprint-blue neutral ramp rather than a naive invert, so they feel like two real artifacts of the same discipline, not a light theme and its negative. Content renders as labeled, connected nodes: post cards, category chips, and TOC entries borrow the vocabulary of a diagram (node markers, port labels, signal dots) rather than a generic blog-template card grid. Chosen via the skill's direction round (seed key `d0c81b63`, network topology diagram), raised with disciplines borrowed from three catalog challengers: magnitude-as-size encoding, status-by-shape-not-color, and single-grotesque grid discipline.\n\nPass 2 (seed `639f710a`) gave the world a physical material: the **rack elevation**. Index surfaces (homepage, projects hub, project datasheets, topology map) are framed by two rails with square mounting holes; every block is a unit whose ears and screws sit over the rails, stacked with a 3px recess seam. Status is carried by LED shape. The wow lives on index surfaces; article pages stay calm, receiving only quiet schematic furniture (framed plate hero, project strip, freshness plate, connected posts, a copper reading-progress hairline).\n\nMotion is mechanical and brief: drawers slide out on one long ease-out, the activity LED blinks once, jack pins flex when wired. Every animation has a reduced-motion off switch.",
+    "northStar": "The Home-Lab Notebook",
+    "overview": "**Creative North Star: \"The Home-Lab Notebook\"**\n\nEvery page of the blog is a page torn from Marco's lab notebook: white graph paper ruled in a pale blue 28px grid by day, a dark slate notebook with a faint grid by night. Headings, navigation and margin notes are lettered in a variable marker face; reading happens in a hyperlegible sans; dates, minutes, figures and code are typed in mono. Colour comes almost entirely from highlighters: one per topic, swiped behind dark ink, never used to colour the ink itself.\n\nStructure is chronological and sequential, not a dashboard. The newest post sits in a framed panel with a hand-drawn \"newest page!\" arrow, the next pages run as a ruled list, topics are sticky notes, projects are cards that tick off one box per post, and every article ends by handing the reader the neighbouring pages of the same project plus the older and newer post. Frames are drawn in marker with a deliberately wobbly radius; paper notes lift off the page with a soft drop; nothing else casts a shadow.\n\nHand-drawn strokes (the wordmark underline, the arrows) are static SVG. They render fully drawn on first paint; there is no draw-on animation.",
     "keyCharacteristics": [
-      "One neutral ramp, two artifacts: blueprint paper and night terminal.",
-      "Copper is signal (links, active state, the trace line); cyan is the second wire (topics, ports to pillars, wiring on hover).",
-      "Flat faceplates with hairline seams; depth comes from recess, not shadow.",
-      "Status by LED shape, never color alone.",
-      "Identifiers (dates, U-numbers, counts, pillar ids) are mono and tabular; names are Archivo; reading is Source Serif 4."
+      "Graph-paper ground in both modes, carried by the body background, never by a panel.",
+      "Marker-ink frames (2 to 2.5px) with an asymmetric wobble radius on every panel, sheet, card and pill.",
+      "One highlighter per topic, mapped in data/topics.yaml, always behind marker ink.",
+      "Three faces with fixed jobs: marker for voice, hyperlegible sans for reading, mono for facts.",
+      "Lists are ruled sheets with dashed rules; no post image grids.",
+      "Reader state is visible: \"new\" ring on recent posts, \"read\" mark from this browser's history, \"you are here\" on project steps."
     ],
     "rules": [
       {
-        "name": "The Two-Wire Rule",
-        "body": "Copper means \"this is live or this is the way\"; cyan means \"this is a topic or a connection to one\". A component uses one or the other per role, never both as decoration.",
+        "name": "The Swipe-Not-Ink Rule",
+        "body": "A highlighter is only ever a band of colour behind marker ink (`marker-ink`, in both modes). It is never a text colour, and never a panel or page fill. The only full-colour fills are paper notes: topic sticky notes, the freshness note, the map tooltip and the cover tape.",
         "section": "colors"
       },
       {
-        "name": "The Alias Rule",
-        "body": "Rack-world components read `--rack-*` aliases so light and dark resolve in one place; reach for a raw ramp step only on non-rack surfaces (article prose, Blowfish overrides).",
+        "name": "The One-Topic-One-Colour Rule",
+        "body": "A topic's highlighter comes from data/topics.yaml and nowhere else; a new category gets a mapping there or falls back to graphite. Do not pick a highlighter for decoration.",
         "section": "colors"
       },
       {
-        "name": "The Identifier Rule",
-        "body": "If it is a date, a count, a U-number, a duration or a machine id, set it in mono with tabular numerals. Names and prose never go mono.",
+        "name": "The Ballpoint Rule",
+        "body": "Blue is for links and corrections only; it never fills a surface.",
+        "section": "colors"
+      },
+      {
+        "name": "The Three Jobs Rule",
+        "body": "Marker for voice (headings, nav, notes, CTAs), Atkinson for anything read as sentences (including list titles), mono for facts (dates, counts, minutes, code). A face never borrows another's job.",
         "section": "typography"
       },
       {
-        "name": "The Printed Legend Rule",
-        "body": "Uppercase tracked mono is a legend printed on hardware: blanking-panel headings, datasheet field names, the badge and port text, the LED readout beside the latest post's date. It is never a kicker above a headline.",
+        "name": "The Marker Is Not Body Rule",
+        "body": "Shantell Sans never sets paragraphs or summaries.",
         "section": "typography"
       },
       {
-        "name": "The Leaves-The-Rack Rule",
-        "body": "A shadow means the object has been pulled out or is floating. Units at rest, panels and plates never cast one.",
+        "name": "The Paper-Only Shadow Rule",
+        "body": "If it is not a loose note or a floating overlay, it has no shadow. Framed panels never cast one, and no shadow is ever a hard offset block.",
         "section": "elevation"
+      },
+      {
+        "name": "The Wobble Rule",
+        "body": "No framed element uses a uniform radius; pick the wobble for panels and pills, the small wobble for images and code.",
+        "section": "shapes"
       }
     ],
     "dos": [
-      "**Do** build new index surfaces as rack units: faceplate, ears from the shared partial, a U-number or blanking-panel legend, 3px seams.",
-      "**Do** encode state by shape first (filled circle, ring, hollow square) and pair it with a word or `title`.",
-      "**Do** use the `--rack-*` aliases so a component resolves in both modes from one rule.",
-      "**Do** set dates, counts, durations and ids in JetBrains Mono with tabular numerals, and write reading time as minutes with a prime (`12′`).",
-      "**Do** use copper for live and navigational signal and cyan for topics and the wiring to them.",
-      "**Do** give every animation a `prefers-reduced-motion` off switch and keep interactions CSS-first (native `details`, `:has()`, scroll timelines).",
-      "**Do** keep article pages calm: schematic furniture sits above and below the prose, never inside it."
+      "Do put every highlighter behind marker ink (`marker-ink`) and take a topic's colour from data/topics.yaml.",
+      "Do frame panels, sheets and cards with a 2 to 2.5px ink stroke and the wobble radius.",
+      "Do list posts as ruled rows with a marker date column, an Atkinson title, a topic label and mono minutes.",
+      "Do keep reader state visible: \"new\" rings, read marks, \"you are here\".",
+      "Do end every article with the project's pages and the older and newer post.",
+      "Do set dates, counts, minutes and figures in Fragment Mono.",
+      "Do keep hand-drawn strokes as static SVG, fully drawn on first paint."
     ],
     "donts": [
-      "**Don't** return the homepage to a grid of same-size cover cards.",
-      "**Don't** signal status with color alone.",
-      "**Don't** round faceplates, plates, frames or cells; radii above 3px have no place in this world.",
-      "**Don't** cast shadows from units at rest; only pulled units and floating readouts leave the rack.",
-      "**Don't** place uppercase tracked labels above headlines as kickers; printed legends label hardware.",
-      "**Don't** add icon sets or glyph icons; the authored arrow is the vocabulary.",
-      "**Don't** reintroduce copper and cyan accent borders on code blocks."
+      "Don't use a highlighter as a text colour or as a panel or page fill; only paper notes are solid highlighter.",
+      "Don't set summaries or paragraphs in Shantell Sans.",
+      "Don't give framed panels a shadow, and never use a hard offset shadow.",
+      "Don't use a uniform border radius on a framed element.",
+      "Don't list posts as a grid of image cards; posts are rows, covers appear only on the lead, the article, project stories and the hover preview.",
+      "Don't put uppercase tracked labels (eyebrows) above headings; the theme's \"Author\" eyebrow is deliberately hidden.",
+      "Don't animate strokes drawing on; a stroke that can render blank is worse than no animation."
     ]
   }
 }

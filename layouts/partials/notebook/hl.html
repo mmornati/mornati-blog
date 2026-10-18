@@ -1,0 +1,4 @@
+{{/* Returns the highlighter key for a page's first category. */}}
+{{ $hl := "mac" }}
+{{ range first 1 (.GetTerms "categories") }}{{ $hl = index hugo.Data.topics .Data.Term | default "mac" }}{{ end }}
+{{ return $hl }}

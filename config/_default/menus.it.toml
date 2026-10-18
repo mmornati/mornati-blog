@@ -1,99 +1,55 @@
-# -- Italian main navigation --
+# -- Italian navigation (home-lab notebook): five plain destinations; extras live in the footer --
+[[main]]
+  identifier = "archive"
+  name = "Articoli"
+  url = "/it/archive/"
+  weight = 10
+
+[[main]]
+  identifier = "topics"
+  name = "Argomenti"
+  url = "/it/categories/"
+  weight = 20
+
+[[main]]
+  identifier = "projects"
+  name = "Progetti"
+  url = "/it/projects/"
+  weight = 30
+
+[[main]]
+  identifier = "map"
+  name = "Mappa"
+  url = "/it/graph/"
+  weight = 40
 
 [[main]]
   identifier = "about"
   name = "Chi sono"
-  url = "/page/about/"
-  weight = 10
-
-[[main]]
-  identifier = "archive"
-  name = "Archivio"
-  url = "/it/archive/"
-  weight = 20
-
-[[main]]
-  identifier = "categories"
-  name = "Categorie"
-  weight = 25
-
-[[main]]
-  identifier = "cat-smart-home"
-  name = "Casa Intelligente e Home Assistant"
-  url = "/it/categories/smart-home/"
-  parent = "categories"
-  weight = 10
-
-[[main]]
-  identifier = "cat-ai-coding-agents"
-  name = "IA e Agenti di Codice IA"
-  url = "/it/categories/ai-coding-agents/"
-  parent = "categories"
-  weight = 20
-
-[[main]]
-  identifier = "cat-devops"
-  name = "DevOps e Infrastruttura"
-  url = "/it/categories/devops/"
-  parent = "categories"
-  weight = 30
-
-[[main]]
-  identifier = "cat-web-dev-blogging"
-  name = "Sviluppo Web e Blogging"
-  url = "/it/categories/web-dev-blogging/"
-  parent = "categories"
-  weight = 40
-
-[[main]]
-  identifier = "cat-mobile-gadgets"
-  name = "Mobile e Gadget"
-  url = "/it/categories/mobile-gadgets/"
-  parent = "categories"
+  url = "/it/page/about/"
   weight = 50
 
-[[main]]
-  identifier = "cat-macos"
-  name = "macOS"
-  url = "/it/categories/macos/"
-  parent = "categories"
-  weight = 60
+# Footer links
+[[footer]]
+  identifier = "solar-data"
+  name = "Dati solari"
+  url = "/solar-analysis/"
+  weight = 10
 
-[[main]]
-  identifier = "cat-linux-sysadmin"
-  name = "Linux e Amministrazione di Sistema"
-  url = "/it/categories/linux-sysadmin/"
-  parent = "categories"
-  weight = 70
-
-[[main]]
-  identifier = "cat-programming"
-  name = "Programmazione e Ingegneria del Software"
-  url = "/it/categories/programming/"
-  parent = "categories"
-  weight = 80
-
-[[main]]
-  identifier = "cat-solar-energy"
-  name = "Solare ed Energia Domestica"
-  url = "/it/categories/solar-energy/"
-  parent = "categories"
-  weight = 90
-
-[[main]]
+[[footer]]
   identifier = "github"
   name = "GitHub"
   url = "https://github.com/mmornati"
-  weight = 40
+  weight = 20
 
 [[footer]]
-  identifier = "archive"
-  name = "Archivio"
-  url = "/it/archive/"
-  weight = 10
+  identifier = "tags"
+  name = "Tag"
+  url = "/it/tags/"
+  weight = 30
 
 [[footer]]
   identifier = "rss"
   name = "RSS"
-  url = "/rss.xml"
-  weight = 20
+  url = "/it/rss.xml"
+  weight = 40

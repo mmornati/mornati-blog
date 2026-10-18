@@ -1,5 +1,6 @@
-{{/* Theme series block, then the schematic additions shown above the article body:
-     where this post sits in its project, and how current it is. */}}
+{{/* Theme series block, then what the notebook shows above the article body:
+     which project page this is, and how current the post is. */}}
+<span hidden data-nb-article="{{ .RelPermalink }}"></span>
 {{ if .Params.series }}
   <details
     class="mt-2 mb-5 overflow-hidden rounded-lg ms-0 ps-5"

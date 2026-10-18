@@ -1,0 +1,8 @@
+{{/* Page heading for index pages: breadcrumbs, a marker title (optionally on a highlighter swipe), a lead line. */}}
+{{ $p := .page }}
+<header class="nb-pagehead">
+  {{ if $p.Params.showBreadcrumbs | default (site.Params.list.showBreadcrumbs | default false) }}{{ partial "breadcrumbs.html" $p }}{{ end }}
+  <h1 class="nb-pagehead__title">{{ with .hl }}<span class="hl hl--{{ . }}">{{ end }}{{ .title | default $p.Title | emojify }}{{ with .hl }}</span>{{ end }}</h1>
+  {{ with .lead }}<p class="nb-pagehead__lead">{{ . | safeHTML }}</p>{{ end }}
+</header>
+{{ if not .nocontent }}{{ with $p.Content }}<div class="nb-intro prose dark:prose-invert">{{ . }}</div>{{ end }}{{ end }}

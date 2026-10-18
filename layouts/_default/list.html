@@ -1,0 +1,5 @@
+{{ define "main" }}
+  {{ .Scratch.Set "scope" "list" }}
+  {{ partial "notebook/page-head.html" (dict "page" . "lead" (i18n "nb.posts" (len .Pages))) }}
+  {{ partial "notebook/year-rows.html" (dict "page" . "pages" .Pages "paginate" true) }}
+{{ end }}

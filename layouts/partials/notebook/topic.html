@@ -1,0 +1,3 @@
+{{/* Highlighter label for a category term page. Context: the term page. */}}
+{{ $hl := index hugo.Data.topics .Data.Term | default "mac" }}
+<a class="hl hl--{{ $hl }}" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>

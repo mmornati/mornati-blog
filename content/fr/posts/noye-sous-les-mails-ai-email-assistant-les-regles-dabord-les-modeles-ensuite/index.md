@@ -21,6 +21,7 @@ description: Trop de mails chaque jour de travail, et les vraies demandes se per
 summary: Un tri Gmail qui coûte quelques centimes. Des règles déterministes s'occupent du courrier de routine, Claude Haiku ne regarde que ce qui reste, Claude Sonnet uniquement ce dont Haiku n'est pas sûr, et le code valide chaque réponse. Les demandes deviennent des Google Tasks avec une échéance. Avec un vrai passage sur ma boîte de réception, une installation à partir de zéro avec Homebrew, et quelques réflexions sur l'idée de laisser une IA répondre à vos mails.
 projects:
 - ai-email-assistant
+keyfigure: '27 messages sur 37 triés par de simples règles'
 ---
 
 Chaque jour de travail commence de la même façon : j'ouvre ma boîte mail et il y a trop de messages dedans. Des échecs de CI, des notifications GitHub, des invitations, des documents partagés, des newsletters auxquelles je me suis abonné il y a des années, des annonces RH. Et quelque part au milieu, les deux ou trois mails qui comptent vraiment : quelqu'un qui me demande une décision, une relecture avant lundi, une échéance.

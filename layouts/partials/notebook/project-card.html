@@ -1,0 +1,12 @@
+{{/* A project as a notebook card: name, one line, one tick per post, date of the latest post. */}}
+{{ $u := .u }}{{ $d := $u.data }}{{ $lang := .lang }}
+{{ $hub := site.GetPage (printf "/projects/%s" $d.key) }}
+{{ $n := len $u.pages }}
+<li class="nb-exp">
+  <a href="{{ with $hub }}{{ .RelPermalink }}{{ end }}">
+    <b class="nb-exp__name">{{ $d.name }}</b>
+    <span class="nb-exp__sum">{{ index $d.summary $lang | default $d.summary.en }}</span>
+    <span class="nb-ticks" aria-hidden="true">{{ range first 12 $u.pages }}<i></i>{{ end }}{{ if gt $n 12 }}<em>+{{ sub $n 12 }}</em>{{ end }}</span>
+    <span class="nb-exp__meta">{{ i18n "nb.posts" $n }} · {{ i18n "nb.last" ($u.newest | time.Format ":date_medium") }}</span>
+  </a>
+</li>

@@ -1,0 +1,63 @@
+{{/* Homepage as the first spread of a home-lab notebook: the newest page in a framed panel,
+     the next pages as a ruled list, topics as sticky notes, then the projects that run across posts. */}}
+{{ $posts := sort (where .Site.RegularPages "Type" "in" .Site.Params.mainSections) "Date" "desc" }}
+{{ $latest := index $posts 0 }}
+{{ $fresh := now.AddDate 0 0 -10 }}
+
+{{ with $latest }}
+  {{ $cover := partial "schematic/cover.html" . }}
+  <article class="nb-panel nb-lead" data-nb-post="{{ .RelPermalink }}">
+    <span class="nb-anno">{{ i18n "nb.newest" }}{{ partial "notebook/arrow.html" "curve" }}</span>
+    {{ with $cover }}
+      {{ $c := .Fill "960x600 q82 Center webp" }}
+      <a class="nb-lead__cover" href="{{ $latest.RelPermalink }}" tabindex="-1" aria-hidden="true">
+        <img src="{{ $c.RelPermalink }}" width="960" height="600" alt="" loading="eager" fetchpriority="high"
+          style="view-transition-name: {{ partial "schematic/vt-name.html" $latest }}">
+      </a>
+    {{ end }}
+    <div class="nb-lead__body">
+      <p class="nb-lead__meta">
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_full" }}</time>
+        <span>{{ i18n "nb.min" .ReadingTime }}</span>
+        {{ range first 1 (.GetTerms "categories") }}{{ partial "notebook/topic.html" . }}{{ end }}
+      </p>
+      <h1 class="nb-lead__title"><a href="{{ .RelPermalink }}">{{ .Title | emojify }}</a></h1>
+      {{ with .Params.summary | default .Description | default .Summary }}<p class="nb-lead__summary">{{ partial "notebook/sentences.html" (dict "text" . "max" 240) }}</p>{{ end }}
+      {{ with .Params.keyfigure }}<p class="nb-lead__fig">{{ i18n "nb.punchline" }} <mark class="hl hl--ai">{{ . }}</mark></p>{{ end }}
+      <a class="nb-cta" href="{{ .RelPermalink }}">{{ i18n "nb.read_it" }}{{ partial "notebook/arrow.html" "right" }}</a>
+    </div>
+  </article>
+{{ end }}
+
+<div class="nb-spread">
+  <section class="nb-latest" aria-labelledby="nb-latest-h">
+    <h2 class="nb-h2" id="nb-latest-h">{{ i18n "nb.latest_title" }} <small>{{ i18n "nb.newest_first" }}</small></h2>
+    <ol class="nb-sheet nb-rows">
+      {{ range after 1 (first 11 $posts) }}
+        {{ partial "notebook/row.html" (dict "p" . "new" (.Date.After $fresh)) }}
+      {{ end }}
+    </ol>
+    <a class="nb-cta" href="{{ "archive/" | relLangURL }}">{{ i18n "nb.older_pages" (dict "Count" (len $posts)) }}{{ partial "notebook/arrow.html" "right" }}</a>
+  </section>
+
+  <nav class="nb-topics" aria-labelledby="nb-topics-h">
+    <h2 class="nb-h2" id="nb-topics-h">{{ i18n "nb.topics_title" }}</h2>
+    <ul class="nb-stickies">
+      {{ range site.Taxonomies.categories.ByCount }}
+        {{ $hl := index hugo.Data.topics .Name | default "mac" }}
+        <li><a class="nb-sticky hl--{{ $hl }}" href="{{ .Page.RelPermalink }}"><b>{{ .Page.LinkTitle }}</b><span>{{ i18n "nb.posts" .Count }}</span></a></li>
+      {{ end }}
+    </ul>
+  </nav>
+</div>
+
+{{ $units := partial "schematic/units.html" . }}
+{{ with $units }}
+  <section class="nb-projects" aria-labelledby="nb-proj-h">
+    <h2 class="nb-h2" id="nb-proj-h">{{ i18n "nb.projects_title" }} <small>{{ i18n "nb.projects_lead" }}</small></h2>
+    <ul class="nb-exps">
+      {{ range first 6 . }}{{ partial "notebook/project-card.html" (dict "u" . "lang" $.Site.Language.Lang) }}{{ end }}
+    </ul>
+    <a class="nb-cta" href="{{ "projects/" | relLangURL }}">{{ i18n "nb.all_projects" }}{{ partial "notebook/arrow.html" "right" }}</a>
+  </section>
+{{ end }}

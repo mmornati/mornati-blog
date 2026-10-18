@@ -1,0 +1,8 @@
+{{/* Hand-drawn arrows, one stroke weight. Context: "curve" (annotation pointing down-right), "right", "left". */}}
+{{ if eq . "curve" }}
+<svg class="nb-arrow" viewBox="0 0 70 44" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6 C 30 4, 50 14, 58 36"/><path d="M48 30 L 58 37 L 63 25"/></svg>
+{{ else if eq . "left" }}
+<svg class="nb-arrow nb-arrow--side" viewBox="0 0 40 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M37 9 C 26 5, 15 11, 4 8"/><path d="M10 2 L 3 8 L 10 14"/></svg>
+{{ else }}
+<svg class="nb-arrow nb-arrow--side" viewBox="0 0 40 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 C 14 5, 25 11, 36 8"/><path d="M30 2 L 37 8 L 30 14"/></svg>
+{{ end }}

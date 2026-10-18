@@ -1,9 +1,9 @@
 # -- Site Parameters --
 # https://blowfish.page/docs/configuration/
 
-# Colour scheme. Custom scheme defined at assets/css/schemes/schematic.css
-# ("Infrastructure Schematic": blueprint paper in light mode, night terminal in dark mode).
-colorScheme = "schematic"
+# Colour scheme. Custom scheme defined at assets/css/schemes/notebook.css
+# ("Home-lab notebook": white graph paper by day, a dark slate notebook by night).
+colorScheme = "notebook"
 
 # Appearance / dark mode
 defaultAppearance = "light"
@@ -33,7 +33,7 @@ mainSections = ["posts"]
 
 # Homepage layout
 [homepage]
-  layout = "rack"
+  layout = "notebook"
   showRecent = true
   showRecentItems = 8
   showMoreLink = true
@@ -60,7 +60,7 @@ mainSections = ["posts"]
   showZenMode = true
   showComments = true
   showHero = true
-  heroStyle = "plate"
+  heroStyle = "notebook"
   showRelatedContent = true
   relatedContentLimit = 3
 

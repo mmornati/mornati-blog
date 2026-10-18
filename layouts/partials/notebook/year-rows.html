@@ -1,0 +1,16 @@
+{{/* Posts grouped by year as ruled sheets. Context: dict "page", "pages", "paginate" (bool), "anchors" (bool: id per year). */}}
+{{ $groups := "" }}
+{{ if .paginate }}{{ $groups = (.page.Paginate (.pages.GroupByDate "2006")).PageGroups }}{{ else }}{{ $groups = .pages.GroupByDate "2006" }}{{ end }}
+{{ $fresh := now.AddDate 0 0 -10 }}
+{{ $anchors := .anchors }}
+<div class="nb-years">
+  {{ range $groups }}
+    <section class="nb-year"{{ if $anchors }} id="y{{ .Key }}"{{ end }}>
+      <h2 class="nb-year__h">{{ .Key }} <small>{{ i18n "nb.posts" (len .Pages) }}</small></h2>
+      <ol class="nb-sheet nb-rows">
+        {{ range .Pages }}{{ partial "notebook/row.html" (dict "p" . "new" (.Date.After $fresh)) }}{{ end }}
+      </ol>
+    </section>
+  {{ end }}
+</div>
+{{ if .paginate }}{{ partial "pagination.html" .page }}{{ end }}

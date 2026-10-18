@@ -1,29 +1,30 @@
-{{/* A post's place in its project: a compact strip above the body, the full trace below it. */}}
+{{/* A post's place in its project: a page-of strip above the body, every page of the project below it. */}}
 {{ $page := .page }}
-{{ $lang := $page.Site.Language.Lang }}
 {{ range $page.GetTerms "projects" }}
   {{ $d := partial "schematic/project.html" .Data.Term }}
   {{ $pages := sort .Pages "Date" "asc" }}
   {{ $n := 0 }}
   {{ range $i, $p := $pages }}{{ if eq $p.RelPermalink $page.RelPermalink }}{{ $n = add $i 1 }}{{ end }}{{ end }}
-  {{ $state := partial "schematic/status.html" (index (last 1 $pages) 0).Date }}
   {{ $name := .LinkTitle }}{{ with $d }}{{ $name = .name }}{{ end }}
   {{ if eq $.where "top" }}
-    <nav class="in-unit not-prose" aria-label="{{ $name }}">
-      {{ partial "schematic/led.html" $state }}
-      <a class="in-unit__name" href="{{ .RelPermalink }}">{{ $name }}</a>
-      <span class="in-unit__part">{{ i18n "rack.part" (dict "N" $n "Total" (len $pages)) }}</span>
-      <span class="in-unit__steps">
-        {{ if gt $n 1 }}{{ with index $pages (sub $n 2) }}<a href="{{ .RelPermalink }}" title="{{ .LinkTitle }}" >{{ partial "schematic/arrow.html" "left" }}{{ i18n "rack.prev" }}</a>{{ end }}{{ end }}
-        {{ if lt $n (len $pages) }}{{ with index $pages $n }}<a href="{{ .RelPermalink }}" title="{{ .LinkTitle }}">{{ i18n "rack.next" }}{{ partial "schematic/arrow.html" "right" }}</a>{{ end }}{{ end }}
+    <nav class="nb-pageof not-prose" aria-label="{{ $name }}">
+      <span>{{ i18n "nb.page_of" (dict "N" $n "Total" (len $pages)) }} <a class="nb-pageof__name" href="{{ .RelPermalink }}">{{ $name }}</a></span>
+      <span class="nb-pageof__steps">
+        {{ if gt $n 1 }}{{ with index $pages (sub $n 2) }}<a href="{{ .RelPermalink }}" title="{{ .LinkTitle }}" aria-label="{{ i18n "nb.prev_project" }}: {{ .LinkTitle }}">{{ partial "notebook/arrow.html" "left" }}</a>{{ end }}{{ end }}
+        {{ if lt $n (len $pages) }}{{ with index $pages $n }}<a href="{{ .RelPermalink }}" title="{{ .LinkTitle }}" aria-label="{{ i18n "nb.next_project" }}: {{ .LinkTitle }}">{{ partial "notebook/arrow.html" "right" }}</a>{{ end }}{{ end }}
       </span>
     </nav>
   {{ else if gt (len $pages) 1 }}
-    <section class="unit-trace not-prose" aria-label="{{ i18n "rack.unit_posts" }}">
-      <h2 class="unit-trace__title">{{ partial "schematic/led.html" $state }}<a href="{{ .RelPermalink }}">{{ $name }}</a><span>{{ i18n "rack.posts" (len $pages) }}</span></h2>
-      <ol class="trace">
-        {{ range $pages }}
-          <li{{ if eq .RelPermalink $page.RelPermalink }} aria-current="page"{{ end }}><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>{{ if eq .RelPermalink $page.RelPermalink }}<span class="trace__here">{{ .LinkTitle }}</span>{{ else }}<a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>{{ end }}<span class="trace__rt">{{ .ReadingTime }}′</span></li>
+    <section class="nb-project-pages not-prose" aria-labelledby="nb-pp-{{ .Data.Term }}">
+      <h2 class="nb-h2" id="nb-pp-{{ .Data.Term }}">{{ i18n "nb.project_pages" }} <small><a href="{{ .RelPermalink }}">{{ $name }}</a></small></h2>
+      <ol class="nb-sheet nb-steps">
+        {{ range $i, $p := $pages }}
+          {{ $here := eq $p.RelPermalink $page.RelPermalink }}
+          <li class="nb-step{{ if $here }} is-here{{ end }}" data-nb-post="{{ $p.RelPermalink }}"{{ if $here }} aria-current="page"{{ end }}>
+            <span class="nb-step__n">{{ add $i 1 }}</span>
+            {{ if $here }}<span class="nb-step__t">{{ $p.LinkTitle }} <em>{{ i18n "nb.you_are_here" }}</em></span>{{ else }}<a class="nb-step__t" href="{{ $p.RelPermalink }}">{{ $p.LinkTitle }}</a>{{ end }}
+            <time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date | time.Format ":date_medium" }}</time>
+          </li>
         {{ end }}
       </ol>
     </section>
