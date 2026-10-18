@@ -1,0 +1,12 @@
+{{/* Whole sentences of a summary up to about .max characters, never a cut mid-word. Context: dict "text", "max". */}}
+{{ $text := .text | plainify | htmlUnescape }}
+{{ $out := "" }}
+{{ if le (len $text) .max }}{{ $out = $text }}{{ else }}
+  {{ $done := false }}
+  {{ range split (replaceRE `([.!?])\s+` "$1\x1f" $text) "\x1f" }}
+    {{ if not $done }}
+      {{ if or (eq $out "") (le (add (len $out) (len .)) $.max) }}{{ $out = cond (eq $out "") . (printf "%s %s" $out .) }}{{ else }}{{ $done = true }}{{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ return $out }}

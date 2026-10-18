@@ -1,0 +1,16 @@
+{{/* Notebook header: the hand-lettered wordmark underlined in highlighter, then the theme menus. */}}
+<div class="main-menu nb-header flex items-center w-full gap-2 p-1 pl-0">
+  <a href="{{ "" | relLangURL }}" class="nb-wordmark">
+    <span class="sr-only">{{ .Site.Title }}</span>
+    <span aria-hidden="true">{{ i18n "nb.wordmark" }}</span>
+    <svg viewBox="0 0 300 10" preserveAspectRatio="none" fill="none" aria-hidden="true"><path d="M3 6 C 60 2, 120 9, 180 5 S 270 3, 297 6"/></svg>
+  </a>
+  <div class="flex items-center ms-auto">
+    <div class="hidden md:flex">
+      {{ partial "header/components/desktop-menu.html" . }}
+    </div>
+    <div class="flex md:hidden">
+      {{ partial "header/components/mobile-menu.html" . }}
+    </div>
+  </div>
+</div>

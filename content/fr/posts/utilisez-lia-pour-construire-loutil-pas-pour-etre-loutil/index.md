@@ -17,6 +17,7 @@ cover: cover.jpg
 showHero: true
 description: Nous remplaçons des scripts, des tableaux de bord et de petites applications par le même prompt payant posé chaque jour. J'ai mesuré ce que ça coûte avec Claude Code sur trois tâches du quotidien, face à un script écrit une seule fois par l'agent. Construire coûte à peu près une question, les réponses ne changent plus d'une exécution à l'autre, et le modèle ne reste que là où il faut du jugement.
 summary: Demander à un agent de bloquer du temps de concentration, de résumer les chiffres d'hier ou de trouver un créneau de réunion, ça marche, mais on paie à chaque fois, et la réponse change. J'ai mesuré 14 exécutions de Claude Code sur trois tâches du quotidien. Écrire le script une fois coûte à peu près autant que poser la question une fois. Avec un calculateur interactif, une checklist, et mes propres projets comme exemples.
+keyfigure: '0,19 $ par demande, à chaque fois'
 ---
 
 J'ai demandé à un agent de bloquer deux heures de concentration dans mon agenda pour demain. Ça a marché. Il lui a fallu **4 tours, 114 000 tokens, 14 secondes et 0,19 $**. Puis j'ai redemandé, avec exactement les mêmes mots et le même agenda, et il a réservé un autre créneau. Trois exécutions, trois réponses : 13:00, 14:00, 13:00.

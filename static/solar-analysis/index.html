@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link
-  href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,500;0,600;0,700;0,800;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+  href="https://fonts.googleapis.com/css2?family=Shantell+Sans:wght,INFM@400..800,0..100&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Fragment+Mono&display=swap"
   rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script>
@@ -25,39 +25,41 @@
 <style>
   :root {
     color-scheme: light;
-    --bg: 238, 243, 248;
-    --bg-alt: 227, 234, 242;
+    --bg: 255, 255, 255;
+    --bg-alt: 247, 249, 252;
     --card: 255, 255, 255;
-    --ink: 45, 59, 79;
-    --ink-strong: 26, 34, 47;
-    --muted: 92, 112, 138;
-    --border: 204, 216, 230;
-    --copper: 196, 108, 26;
-    --copper-strong: 163, 87, 18;
-    --copper-soft: 253, 237, 220;
-    --cyan: 27, 156, 179;
-    --cyan-soft: 224, 247, 250;
+    --ink: 21, 23, 28;
+    --ink-strong: 21, 23, 28;
+    --muted: 76, 82, 96;
+    --border: 211, 219, 230;
+    --copper: 232, 89, 12;
+    --copper-strong: 194, 65, 12;
+    --copper-soft: 255, 220, 196;
+    --cyan: 13, 148, 136;
+    --cyan-soft: 206, 245, 237;
   }
   html.dark {
     color-scheme: dark;
-    --bg: 11, 14, 20;
-    --bg-alt: 26, 34, 47;
-    --card: 20, 27, 38;
-    --ink: 227, 233, 240;
-    --ink-strong: 245, 248, 251;
-    --muted: 148, 165, 184;
-    --border: 45, 59, 79;
-    --copper: 224, 133, 45;
-    --copper-strong: 244, 195, 138;
-    --copper-soft: 61, 39, 18;
-    --cyan: 51, 184, 206;
-    --cyan-soft: 10, 56, 64;
+    --bg: 24, 27, 33;
+    --bg-alt: 30, 34, 41;
+    --card: 30, 34, 41;
+    --ink: 237, 241, 246;
+    --ink-strong: 255, 255, 255;
+    --muted: 186, 194, 206;
+    --border: 52, 59, 71;
+    --copper: 255, 146, 84;
+    --copper-strong: 255, 167, 107;
+    --copper-soft: 70, 40, 20;
+    --cyan: 94, 226, 200;
+    --cyan-soft: 15, 60, 55;
   }
   * { box-sizing: border-box; }
   body {
-    font-family: "Archivo", -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: "Atkinson Hyperlegible", -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     margin: 0;
-    background: rgb(var(--bg));
+    background-color: rgb(var(--bg));
+    background-image: linear-gradient(rgba(var(--border), .55) 1px, transparent 1px), linear-gradient(90deg, rgba(var(--border), .55) 1px, transparent 1px);
+    background-size: 28px 28px;
     color: rgb(var(--ink));
     transition: background-color .2s ease, color .2s ease;
   }
@@ -73,6 +75,7 @@
     border-bottom: 1px solid rgb(var(--border));
   }
   .topbar a.home {
+    font-family: "Shantell Sans", system-ui, sans-serif;
     font-weight: 700;
     text-decoration: none;
     color: rgb(var(--ink-strong));
@@ -101,6 +104,7 @@
     padding: 28px 24px;
   }
   header.hero h1 {
+    font-family: "Shantell Sans", system-ui, sans-serif;
     margin: 0 0 8px;
     font-size: 1.5rem;
     font-weight: 800;
@@ -123,12 +127,11 @@
   .cards { display: grid; grid-template-columns: repeat(auto-fit,minmax(160px,1fr)); gap: 12px; margin: 18px 0 26px; }
   .card {
     background: rgb(var(--card));
-    border: 1px solid rgb(var(--border));
-    border-top: 2px solid rgb(var(--copper));
-    border-radius: 0;
+    border: 2px solid rgb(var(--ink));
+    border-radius: 255px 14px 225px 12px / 12px 225px 14px 255px;
     padding: 14px 16px;
   }
-  .card .v { font-family: "JetBrains Mono", monospace; font-size: 1.3rem; font-weight: 600; color: rgb(var(--ink-strong)); }
+  .card .v { font-family: "Fragment Mono", monospace; font-size: 1.3rem; font-weight: 600; color: rgb(var(--ink-strong)); }
   .card .l { font-size: .8rem; color: rgb(var(--muted)); margin-top: 4px; line-height: 1.35; }
   .card.cyan { border-top-color: rgb(var(--cyan)); }
   .card.cyan .v { color: rgb(var(--cyan)); }
@@ -159,15 +162,15 @@
   .chart-wrap { background: rgb(var(--card)); border: 1px solid rgb(var(--border)); border-radius: 0; padding: 14px; margin-bottom: 18px; }
   .chart-wrap canvas { max-height: 320px; }
 
-  table { width: 100%; border-collapse: collapse; background: rgb(var(--card)); font-size: .82rem; font-family: "JetBrains Mono", monospace; }
+  table { width: 100%; border-collapse: collapse; background: rgb(var(--card)); font-size: .82rem; font-family: "Fragment Mono", monospace; }
   th, td { padding: 7px 8px; border-bottom: 1px solid rgb(var(--border)); text-align: right; }
   th { color: rgb(var(--muted)); font-weight: 600; text-align: right; white-space: nowrap; text-transform: uppercase; font-size: .75rem; letter-spacing: .05em; }
-  th:first-child, td:first-child { text-align: left; font-family: "Archivo", sans-serif; }
+  th:first-child, td:first-child { text-align: left; font-family: "Atkinson Hyperlegible", sans-serif; }
   tr.total td { font-weight: 700; background: rgba(var(--copper), .08); }
 
   .grid2 { display: grid; grid-template-columns: repeat(auto-fit,minmax(330px,1fr)); gap: 16px; }
   .note {
-    font-family: "Source Serif 4", Georgia, serif;
+    font-family: "Atkinson Hyperlegible", system-ui, sans-serif;
     font-size: .85rem;
     color: rgb(var(--ink));
     line-height: 1.6;
@@ -178,13 +181,13 @@
     padding: 12px 14px;
     margin-top: 10px;
   }
-  .note h3 { margin: 0 0 6px; font-size: .85rem; font-family: "Archivo", sans-serif; color: rgb(var(--ink-strong)); }
+  .note h3 { margin: 0 0 6px; font-size: .85rem; font-family: "Atkinson Hyperlegible", sans-serif; color: rgb(var(--ink-strong)); }
 
   .badge {
     display: inline-flex;
     align-items: center;
     gap: .4em;
-    font-family: "JetBrains Mono", monospace;
+    font-family: "Fragment Mono", monospace;
     letter-spacing: .02em;
     background: rgb(var(--copper-soft));
     color: rgb(var(--copper-strong));
@@ -202,7 +205,7 @@
   footer {
     text-align: center;
     color: rgb(var(--muted));
-    font-family: "JetBrains Mono", monospace;
+    font-family: "Fragment Mono", monospace;
     font-size: .72rem;
     padding: 24px 0;
   }
@@ -210,7 +213,7 @@
     background: rgb(var(--bg-alt));
     padding: 1px 5px;
     border-radius: 3px;
-    font-family: "JetBrains Mono", monospace;
+    font-family: "Fragment Mono", monospace;
     font-size: .85em;
   }
 </style>
@@ -371,11 +374,11 @@ const D = {"meta": {"generated": "17/08/2026", "install": "September 2024", "pan
 
 /* ---- Infrastructure Schematic chart palette (shared with the rest of the site) ---- */
 const CHART = {
-  copper: '#c46c1a',
-  copperLight: '#e0852d',
+  copper: '#e8590c',
+  copperLight: '#ffa76b',
   amber: '#eca556',
-  cyan: '#1b9cb3',
-  cyanLight: '#5ecbde',
+  cyan: '#0d9488',
+  cyanLight: '#7fe3cf',
   neutral: '#93a8c2',
   neutralSoft: '#c6d3e2',
   ink: (function () {

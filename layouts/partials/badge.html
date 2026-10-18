@@ -1,15 +1,16 @@
+{{/* Theme badge in notebook dress. Categories (sent with useSecondaryColor) become their topic's highlighter label,
+     found by title since the theme passes only the link title; other taxonomies (projects) read as a dotted link. */}}
 <span class="flex cursor-pointer">
-  {{ $linkTitle := . }}
-  {{ $useSecondaryColor := false }}
   {{ if (reflect.IsMap . ) }}
-    {{ $linkTitle = .linkTitle }}
-    {{ $useSecondaryColor = cond (not .useSecondaryColor) false .useSecondaryColor }}
-  {{ end }}
-  {{ if $useSecondaryColor }}
-    <span class="schematic-badge schematic-badge--secondary">
+    {{ $linkTitle := .linkTitle }}
+    {{ $hl := "mac" }}
+    {{ if .useSecondaryColor }}
+      {{ range $name, $_ := site.Taxonomies.categories }}
+        {{ with site.GetPage (printf "/categories/%s" $name) }}{{ if eq .LinkTitle $linkTitle }}{{ $hl = index hugo.Data.topics $name | default "mac" }}{{ end }}{{ end }}
+      {{ end }}
+    {{ end }}
+    <span class="nb-badge hl hl--{{ $hl }}">{{ $linkTitle }}</span>
   {{ else }}
-    <span class="schematic-badge schematic-badge--primary">
+    <span class="nb-badge-proj">{{ . }}</span>
   {{ end }}
-    {{ $linkTitle }}
-  </span>
 </span>

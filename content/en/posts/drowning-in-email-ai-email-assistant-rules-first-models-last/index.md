@@ -21,6 +21,7 @@ description: Too much mail every working day, and the important requests get los
 summary: A Gmail triage that costs cents. Deterministic rules handle the routine mail, Claude Haiku looks only at what's left, Claude Sonnet only at what Haiku isn't sure about, and code validates every answer. Requests become Google Tasks with a due date. With a real run on my inbox, a from-zero install with Homebrew, and a few thoughts on letting an AI answer your mail.
 projects:
 - ai-email-assistant
+keyfigure: '27 of 37 messages routed by plain rules'
 ---
 
 Every working day starts the same way: I open my mailbox and there are too many messages in it. CI failures, GitHub notifications, calendar invitations, shared documents, newsletters I subscribed to years ago, HR announcements. And somewhere in the middle, the two or three emails that actually matter: someone asking me for a decision, a review before Monday, a deadline.

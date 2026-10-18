@@ -1,0 +1,14 @@
+{{/* One ruled line in a list of posts: day + month, title, topic highlighter, project, minutes.
+     Context: dict "p" page, "new" bool, "year" bool (show year in the date column). */}}
+{{ $p := .p }}
+<li class="nb-row" data-nb-post="{{ $p.RelPermalink }}">
+  <time class="nb-row__date" datetime="{{ $p.Date.Format "2006-01-02" }}"><b>{{ $p.Date.Day }}</b>{{ $p.Date | time.Format "Jan" }}{{ if .year }} {{ $p.Date.Year }}{{ end }}</time>
+  <div class="nb-row__body">
+    <h3 class="nb-row__title"><a href="{{ $p.RelPermalink }}">{{ $p.LinkTitle | emojify }}</a>{{ if .new }}<span class="nb-new">{{ i18n "nb.new" }}</span>{{ end }}<span class="nb-read">{{ i18n "nb.read" }}</span></h3>
+    <p class="nb-row__tags">
+      {{ range first 1 ($p.GetTerms "categories") }}{{ partial "notebook/topic.html" . }}{{ end }}
+      {{ range $p.GetTerms "projects" }}{{ $pd := partial "schematic/project.html" .Data.Term }}<a class="nb-proj" href="{{ .RelPermalink }}">{{ with $pd }}{{ .name }}{{ else }}{{ .LinkTitle }}{{ end }}</a>{{ end }}
+    </p>
+  </div>
+  <span class="nb-row__min">{{ i18n "nb.min" $p.ReadingTime }}</span>
+</li>

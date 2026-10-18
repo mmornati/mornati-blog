@@ -1,0 +1,6 @@
+{{ define "main" }}
+  {{ .Scratch.Set "scope" "list" }}
+  {{ $hl := "" }}{{ if eq .Data.Plural "categories" }}{{ $hl = index hugo.Data.topics .Data.Term | default "mac" }}{{ end }}
+  {{ partial "notebook/page-head.html" (dict "page" . "hl" $hl "lead" (i18n "nb.posts" (len .Pages))) }}
+  {{ partial "notebook/year-rows.html" (dict "page" . "pages" .Pages "paginate" true) }}
+{{ end }}

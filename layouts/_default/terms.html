@@ -1,0 +1,24 @@
+{{ define "main" }}
+  {{ .Scratch.Set "scope" "terms" }}
+  {{ if eq .Data.Plural "categories" }}
+    {{ partial "notebook/page-head.html" (dict "page" . "lead" (i18n "nb.topics_lead")) }}
+    <ul class="nb-stickies nb-stickies--wide">
+      {{ range .Data.Terms.ByCount }}
+        {{ $hl := index hugo.Data.topics .Name | default "mac" }}
+        {{ $newest := index (sort .Pages "Date" "desc") 0 }}
+        <li><a class="nb-sticky hl--{{ $hl }}" href="{{ .Page.RelPermalink }}">
+          <b>{{ .Page.LinkTitle }}</b>
+          {{ with $newest }}<em>{{ i18n "nb.latest_in" }} {{ .LinkTitle }}</em>{{ end }}
+          <span>{{ i18n "nb.posts" .Count }}</span>
+        </a></li>
+      {{ end }}
+    </ul>
+  {{ else }}
+    {{ partial "notebook/page-head.html" (dict "page" .) }}
+    <ul class="nb-cloud">
+      {{ range .Data.Terms.ByCount }}
+        <li><a href="{{ .Page.RelPermalink }}">{{ .Page.LinkTitle }} <small>{{ .Count }}</small></a></li>
+      {{ end }}
+    </ul>
+  {{ end }}
+{{ end }}

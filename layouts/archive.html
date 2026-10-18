@@ -1,48 +1,14 @@
 {{ define "main" }}
   {{ .Scratch.Set "scope" "list" }}
-
-  <header>
-    {{ if .Params.showBreadcrumbs | default (site.Params.list.showBreadcrumbs | default false) }}
-      {{ partial "breadcrumbs.html" . }}
+  {{ $posts := sort (where .Site.RegularPages "Type" "in" site.Params.mainSections) "Date" "desc" }}
+  {{ $oldest := index (last 1 $posts) 0 }}
+  {{ partial "notebook/page-head.html" (dict "page" . "nocontent" true "lead" (i18n "nb.archive_lead" (dict "Year" $oldest.Date.Year))) }}
+  {{ $groups := $posts.GroupByDate "2006" }}
+  {{ $max := 1 }}{{ range $groups }}{{ if gt (len .Pages) $max }}{{ $max = len .Pages }}{{ end }}{{ end }}
+  <nav class="nb-yearjump" aria-label="{{ .Title }}">
+    {{ range $groups }}
+      <a href="#y{{ .Key }}"><span class="nb-yearjump__bar" style="--h: {{ div (mul (len .Pages) 100) $max }}%"></span><b>{{ .Key }}</b><small>{{ len .Pages }}</small></a>
     {{ end }}
-    <h1 class="mt-5 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
-      {{ .Title | emojify }}
-    </h1>
-    <div class="mt-1 mb-2 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
-      {{ partial "article-meta/list.html" (dict "context" . "scope" "single") }}
-    </div>
-  </header>
-
-  <section class="mt-8 prose flex max-w-full flex-col dark:prose-invert mb-10">
-    <div class="min-w-0 min-h-0 max-w-prose w-full">
-      {{ .Content }}
-    </div>
-  </section>
-
-  <section class="space-y-10 w-full">
-    {{ $posts := where .Site.RegularPages "Type" "in" site.Params.mainSections }}
-    {{ $byYear := dict }}
-    {{ range sort $posts "Date" "desc" }}
-      {{ $year := .Date.Format "2006" }}
-      {{ $list := index $byYear $year | default slice }}
-      {{ $byYear = merge $byYear (dict $year ($list | append .)) }}
-    {{ end }}
-    {{ $years := slice }}
-    {{ range $year, $pages := $byYear }}
-      {{ $years = $years | append $year }}
-    {{ end }}
-    {{ range sort $years "value" "desc" }}
-      {{ $year := . }}
-      <div>
-        <h2 class="mt-12 text-2xl font-bold text-neutral-700 first:mt-8 dark:text-neutral-300">
-          {{ $year }}
-        </h2>
-        <div class="space-y-10 mt-6">
-          {{ range index $byYear $year }}
-            {{ partial "article-link/simple.html" . }}
-          {{ end }}
-        </div>
-      </div>
-    {{ end }}
-  </section>
+  </nav>
+  {{ partial "notebook/year-rows.html" (dict "page" . "pages" $posts "paginate" false "anchors" true) }}
 {{ end }}

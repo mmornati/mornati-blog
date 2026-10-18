@@ -1,0 +1,27 @@
+{{/* Older / newer post as two notebook panels; the newer one carries the highlighter. */}}
+{{ if .Params.showPagination | default (.Site.Params.article.showPagination | default true) }}
+  {{ if or .NextInSection .PrevInSection }}
+    {{ $next := .NextInSection }}
+    {{ $prev := .PrevInSection }}
+    {{ if .Params.invertPagination | default (.Site.Params.article.invertPagination | default false) }}
+      {{ $next = .PrevInSection }}
+      {{ $prev = .NextInSection }}
+    {{ end }}
+    <nav class="nb-turn" aria-label="{{ i18n "nb.older_post" }} / {{ i18n "nb.newer_post" }}">
+      {{ with $prev }}
+        <a class="nb-turn__page" href="{{ .RelPermalink }}" rel="prev">
+          <small>{{ partial "notebook/arrow.html" "left" }}{{ i18n "nb.older_post" }}</small>
+          <b>{{ .Title | emojify }}</b>
+          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_medium" }}</time>
+        </a>
+      {{ end }}
+      {{ with $next }}
+        <a class="nb-turn__page nb-turn__page--next" href="{{ .RelPermalink }}" rel="next">
+          <small><span>{{ i18n "nb.newer_post" }}</span>{{ partial "notebook/arrow.html" "right" }}</small>
+          <b>{{ .Title | emojify }}</b>
+          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_medium" }}</time>
+        </a>
+      {{ end }}
+    </nav>
+  {{ end }}
+{{ end }}
