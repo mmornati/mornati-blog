@@ -10,8 +10,8 @@ tags:
 - code-review
 - productivity
 - cost
-date: '2026-10-22T05:00:00.000000+00:00'
-draft: true
+date: '2026-10-19T16:00:00.000000+00:00'
+draft: false
 slug: sei-settimane-in-una-notte-costruire-un-prodotto-nellera-degli-agenti
 translationKey: graft-phase-0
 cover: cover.jpg
