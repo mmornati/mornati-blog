@@ -23,7 +23,7 @@ Ogni risposta di un LLM arriva con un tasso di errore. Anche un ottimo agente di
 1 - 0.05 × 0.05 × 0.05 = 99.9875%
 ```
 
-È il numero dietro ogni presentazione del tipo "usa più agenti", ed è quello che avevo in testa quando ho cominciato a usare un secondo modello per fare la review delle pull request del primo. La vera domanda è se regge. Volevo misurarlo con un progetto: benchmark, chiamate API e un budget. Prima di spendere i soldi, ho controllato cosa è già stato pubblicato. La maggior parte della risposta c'è già: in un rapporto della NASA del 1985, in un famoso esperimento del 1986 e in due paper pubblicati quest'estate.
+È il numero dietro ogni presentazione del tipo "usa più agenti", ed è quello che avevo in testa quando ho cominciato a usare un secondo modello per fare la review delle pull request del primo. La vera domanda è se regge, e per verificarlo non serve un nuovo esperimento. Decenni di ingegneria dell'affidabilità forniscono già i dati: un rapporto della NASA del 1985, un famoso esperimento del 1986 con programmatori umani, due repliche con agenti di programmazione pubblicate quest'estate, oltre a benchmark pubblici e studi sui difetti. Basta questo per fare i calcoli e le stime di questo articolo.
 
 Questo articolo è quella risposta. In breve: **sì, più esecuzioni, più modelli e un controllo indipendente aiutano tutti, e la matematica spiega perché. Ma aiutano molto meno di quanto dica la formula ingenua, e il motivo è lo stesso che si era trovato con i programmatori umani quarant'anni fa.**
 
@@ -121,7 +121,7 @@ La maggior parte di noi non fa girare tre agenti per poi votare. Facciamo girare
 P(bug ships) = P(generator wrong) × P(reviewer misses it)
 ```
 
-Con un generatore al 95% e un revisore che trova l'80% dei bug, l'indipendenza prevede che il 5% × 20% = **1%** delle modifiche arrivi in produzione con un bug. Vale lo stesso problema di correlazione: il revisore ha più probabilità di lasciarsi sfuggire proprio i bug che erano difficili da evitare fin dall'inizio. E c'è un secondo rischio, quello dell'auto-review. [Goel et al.](https://arxiv.org/abs/2502.04313) mostrano che gli LLM usati come giudici favoriscono gli output di modelli simili a loro, e [diversi](https://arxiv.org/pdf/2603.12123) [studi](https://arxiv.org/abs/2504.03846v3) trovano che i modelli non vedono nel proprio output errori che invece trovano quando lo stesso testo arriva da fuori. Le prove sono contrastanti: un [test verificabile](https://arxiv.org/abs/2606.20093) non ha trovato nessuna preferenza per sé misurabile. Ma nessuno ha ancora misurato, su codice con una verità di riferimento eseguibile, quanto più spesso un bug scritto dal modello A viene approvato da A rispetto a un revisore di un'altra famiglia. È l'esperimento che volevo fare, ed è ancora aperto.
+Con un generatore al 95% e un revisore che trova l'80% dei bug, l'indipendenza prevede che il 5% × 20% = **1%** delle modifiche arrivi in produzione con un bug. Vale lo stesso problema di correlazione: il revisore ha più probabilità di lasciarsi sfuggire proprio i bug che erano difficili da evitare fin dall'inizio. E c'è un secondo rischio, quello dell'auto-review. [Goel et al.](https://arxiv.org/abs/2502.04313) mostrano che gli LLM usati come giudici favoriscono gli output di modelli simili a loro, e [diversi](https://arxiv.org/pdf/2603.12123) [studi](https://arxiv.org/abs/2504.03846v3) trovano che i modelli non vedono nel proprio output errori che invece trovano quando lo stesso testo arriva da fuori. Le prove sono contrastanti: un [test verificabile](https://arxiv.org/abs/2606.20093) non ha trovato nessuna preferenza per sé misurabile. Ma nessuno ha ancora misurato, su codice con una verità di riferimento eseguibile, quanto più spesso un bug scritto dal modello A viene approvato da A rispetto a un revisore di un'altra famiglia. È la domanda aperta più utile di tutto questo ambito.
 
 Cosa sostengono già i numeri:
 
@@ -185,7 +185,7 @@ La matematica e i dati dicono la stessa cosa, per gli umani e per i modelli:
 4. **Sistema la specifica prima di aggiungere agenti.** Nel 1986 come nel 2026, i fallimenti comuni si concentrano sulle specifiche ambigue. Nessun ensemble aggiusta una domanda posta male.
 5. **La sicurezza è l'eccezione.** I modelli sono diventati molto più bravi a scrivere codice che funziona, non codice sicuro. È un punto in cui un controllo dedicato, uno scanner o una review di sicurezza, non è facoltativo.
 
-Quindi non costruisco il grande progetto di benchmark, almeno per ora. La maggior parte di quello che avrebbe misurato è già stata misurata. La domanda aperta, cioè se un modello approva i propri bug più spesso di un revisore di un'altra famiglia, è abbastanza circoscritta da poterla testare in un fine settimana con una manciata di compiti con buoni test nascosti. Se lo faccio, i risultati saranno qui.
+La maggior parte di quello che serve per ragionare sugli ensemble è già misurata, e i calcoli qui sopra bastano per usarla. Quello che resta aperto è circoscritto: se un modello approva i propri bug più spesso di un revisore di un'altra famiglia. Basterebbe una manciata di compiti con buoni test nascosti per rispondere.
 
 ## Fonti
 

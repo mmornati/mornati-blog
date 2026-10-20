@@ -23,7 +23,7 @@ Every answer an LLM gives comes with an error rate. Even a very good coding agen
 1 - 0.05 × 0.05 × 0.05 = 99.9875%
 ```
 
-It is the number behind every "use several agents" pitch, and the one I had in mind when I started using a second model to review the first one's pull requests. The real question is whether it holds. I wanted to measure it with a project: benchmarks, API calls and a budget. Before spending the money, I checked what is already published. Most of the answer is already there: in a NASA report from 1985, in a famous 1986 experiment, and in two papers published this summer.
+It is the number behind every "use several agents" pitch, and the one I had in mind when I started using a second model to review the first one's pull requests. The real question is whether it holds, and we don't need a new experiment to check it. Decades of reliability engineering already report the data: a NASA report from 1985, a famous 1986 experiment with human programmers, two replications with coding agents published this summer, plus public benchmarks and defect studies. That is enough to do the maths and the estimations in this post.
 
 This post is that answer. The short version: **yes, more runs, more models and an independent check all help, and the maths explains why. But they help far less than the naive formula says, and the reason is the same one people found with human programmers forty years ago.**
 
@@ -121,7 +121,7 @@ Most of us don't run three agents and vote. We run one agent that writes the cod
 P(bug ships) = P(generator wrong) × P(reviewer misses it)
 ```
 
-With a 95% generator and a reviewer that catches 80% of bugs, independence predicts that 5% × 20% = **1%** of changes ship with a bug. The same correlation problem applies: the reviewer is most likely to miss exactly the bugs that were hard to avoid in the first place. And there is a second risk, the self-review one. [Goel et al.](https://arxiv.org/abs/2502.04313) show LLM judges favour outputs of models similar to themselves, and [several](https://arxiv.org/pdf/2603.12123) [studies](https://arxiv.org/abs/2504.03846v3) find models miss errors in their own output that they catch when the same text comes from outside. The evidence is mixed: one [verifiable test](https://arxiv.org/abs/2606.20093) found no measurable self-preference. But nobody has yet measured, on code with executable ground truth, how much more often a bug written by model A gets approved by A than by a reviewer from another family. That is the experiment I wanted to run, and it is still open.
+With a 95% generator and a reviewer that catches 80% of bugs, independence predicts that 5% × 20% = **1%** of changes ship with a bug. The same correlation problem applies: the reviewer is most likely to miss exactly the bugs that were hard to avoid in the first place. And there is a second risk, the self-review one. [Goel et al.](https://arxiv.org/abs/2502.04313) show LLM judges favour outputs of models similar to themselves, and [several](https://arxiv.org/pdf/2603.12123) [studies](https://arxiv.org/abs/2504.03846v3) find models miss errors in their own output that they catch when the same text comes from outside. The evidence is mixed: one [verifiable test](https://arxiv.org/abs/2606.20093) found no measurable self-preference. But nobody has yet measured, on code with executable ground truth, how much more often a bug written by model A gets approved by A than by a reviewer from another family. That is the most useful open question in this whole area.
 
 What the numbers already support:
 
@@ -185,7 +185,7 @@ The maths and the data say the same thing, for humans and for models:
 4. **Fix the spec before adding agents.** In 1986 and in 2026, common failures cluster on ambiguous specifications. No ensemble fixes a question that was asked badly.
 5. **Security is the exception.** Models got much better at working code, not at safe code. That is a place where a dedicated check, a scanner or a security review, is not optional.
 
-So I'm not building the big benchmark project, at least not yet. Most of what it would have measured is already measured. The open question, whether a model approves its own bugs more often than a reviewer from another family does, is narrow enough to test on a weekend with a handful of tasks with good hidden tests. If I do it, the results will be here.
+Most of what we need to reason about ensembles is already measured, and the maths above is enough to use it. What remains open is narrow: whether a model approves its own bugs more often than a reviewer from another family does. A handful of tasks with good hidden tests would be enough to answer it.
 
 ## Sources
 
