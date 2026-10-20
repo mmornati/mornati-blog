@@ -131,7 +131,37 @@ What the numbers already support:
 - **Prefer a reviewer from another family**, in a fresh context, with the spec but not the generator's reasoning.
 - **Prefer a check that executes.** Tests, a type checker, a fuzzer. Their errors are not correlated with the model's errors at all, which is exactly the property the maths asks for. It is also why I built [Graft](/you-dont-need-scion-graft-review-layer-for-agent-pull-requests/) and the [release gate](/your-agents-ship-fast-make-them-pass-a-release-gate/) around scripted checks, not around a second opinion.
 
-## 6. And humans? Forty years of defect data
+## 6. "We let the LLM review the PR": how the tools already do the maths
+
+When a tool says "an AI reviews your pull request", it is rarely one model reading one diff once. The tools that publish how they work use the same ingredients as the formulas above: several passes, a different entry point for each one, a vote or a threshold, and a second check on every finding.
+
+**BMAD-Method.** The `bmad-code-review` skill of [BMAD-Method](https://github.com/bmad-code-org/BMAD-METHOD) (v6.12, October 2026) runs up to four reviewers [in parallel](https://github.com/bmad-code-org/BMAD-METHOD/blob/61e01f82644c4bb533750cfa0d6d61ab61d2cc9b/skills/bmad-code-review/step-02-review.md). Each one is a fresh, context-free subagent, and each one gets a *different input* on purpose:
+
+| Reviewer | What it receives | What it looks for |
+| --- | --- | --- |
+| Blind Hunter | the diff, nothing else | what is wrong and what is missing; an empty list is not accepted |
+| Edge Case Hunter | the diff; the PR description only after it has traced every path | unhandled branches, and claims in the description that the code doesn't keep |
+| Verification Gap Reviewer | the diff and the repository's tests | changed behaviour that no test would catch |
+| Intent Alignment Auditor | the ticket or plan intent and the diff | whether the change does what was asked |
+
+This is section 2 applied. Four reviewers reading the same thing with the same context share the same θ(x). Giving one only the diff, one the tests and one the intent moves their blind spots to different places. The PR description is held back on purpose, so "the claims cannot steer it retroactively": the author's own framing is exactly the kind of shared input that correlates errors. Then the orchestrating session verifies every finding against the code *before* merging duplicates, and a reviewer that fails is reported as an incomplete review, not as a clean pass. The [v6.2 version](https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.2.0/src/bmm/workflows/4-implementation/bmad-code-review/steps/step-02-review.md), the one I used [earlier this year](/what-is-a-developer-when-we-use-coding-agents-my-1-day-bmad-experiment/), already had three layers with different access: diff only, diff plus project, diff plus spec. What BMAD doesn't change by default is the model: all reviewers run with the session's model, and another model is only a fallback or a customisation. Section 4 says that is the cheapest decorrelation left on the table.
+
+**Claude Code.** The [`code-review` plugin](https://github.com/anthropics/claude-code/blob/5a2676e1079cd6222a6afe85bb5fc8fab2aaece3/plugins/code-review/commands/code-review.md) launches four agents in parallel: two Sonnet agents check the CLAUDE.md rules, one Opus agent reads the diff only, "without reading extra context", and one Opus agent looks for bugs and security problems in the new code. Then every bug gets its own validator subagent, which must confirm it "with high confidence"; anything else is dropped. The [November 2025 version](https://github.com/anthropics/claude-code/blob/b85cc4474f22/plugins/code-review/commands/code-review.md) scored every finding from 0 to 100 and kept those at 80 or above, a confidence threshold. Anthropic's managed [Code Review](https://claude.com/blog/code-review) describes the same shape (find in parallel, verify, rank) and reports that less than 1% of findings are marked incorrect. Different lenses, different inputs, different model sizes, and a verification step that targets the false alarms.
+
+**Cursor Bugbot.** Bugbot [launched](https://cursor.com/blog/building-bugbot) with the most literal version of section 1: eight parallel passes over the same diff, each one with the diff in a different random order, "which nudged the model toward different lines of reasoning". Bugs found by a single pass were dropped by majority vote, and a validator model filtered the rest. Shuffling the input is the cheapest way to change the entry point. Bugbot has since moved to an agentic design, and its resolution rate went from 52% to more than 70%; the post doesn't say whether the vote survived.
+
+**OpenAI Codex.** The counterpoint is [OpenAI's reviewer](https://alignment.openai.com/scaling-code-verification/): a single trained reviewer, not a committee, but with access to the whole repository and to *execution*. Letting it run code improved both recall and precision compared with a diff-only reviewer. That is the last point of section 5: a check that executes makes errors that don't correlate with the model's.
+
+What they have in common, and what is still missing:
+
+- **They all diversify the entry point or the lens.** That is the main lever, and it costs nothing but tokens.
+- **Only Bugbot votes.** The others keep the union of all findings and verify each one. For a review that is the right call: a vote keeps what most passes agree on, so a bug that only one lens can see, like a missing test, would be voted away. In review, recall comes from diversity and precision from verification.
+- **Verification mostly reads, it doesn't run.** BMAD reviewers work by inspection, the Claude Code plugin and the managed service don't build or run the code. A verifier that reads the code with the same model shares its blind spots; a verifier that runs a test doesn't. [Ultrareview](https://code.claude.com/docs/en/ultrareview) is the exception on the Anthropic side: it says every finding is "independently reproduced and verified".
+- **Model diversity is the least used lever.** BMAD defaults to one model, and Claude Code mixes sizes of one family.
+
+So "we let the LLM validate the PR" is fine, as long as it means this: several reviewers with different inputs, each in a fresh context, a verification step on every finding, and ideally another model family and something that executes.
+
+## 7. And humans? Forty years of defect data
 
 The second question I had: how does all this compare with us? What is the probability that a human-written change fails, and how does it compare with a model from a year ago and one from today?
 
@@ -177,7 +207,7 @@ And one number didn't move: **security**. Veracode's pass rate on security-sensi
 
 There is also real-repository data, and it is less dramatic than both camps claim. [Mao et al.](https://arxiv.org/html/2603.27130v3) matched 36,855 likely-AI code units with 65,391 human ones in the same repositories: 10.0 static-analysis alerts per KLOC for AI against 13.6 for humans, the same rate of high-risk alerts, and slightly more follow-up fixes for AI code. "Rather small" effects, in their words. On the other side, [CodeRabbit](https://www.coderabbit.ai/blog/state-of-ai-vs-human-code-generation-report) counted 1.7 times more review findings on AI-assisted pull requests at the end of 2025, on a small sample and from a vendor that sells AI review. I found **no 2026 study that measures production incidents** of AI-written against human-written code. That is the number everyone would want, and nobody has it yet.
 
-## 7. What I take from it
+## 8. What I take from it
 
 The maths and the data say the same thing, for humans and for models:
 
@@ -215,3 +245,8 @@ Most of what we need to reason about ensembles is already measured, and the math
 - [Mao et al., AI-generated vs human code in real repositories (2026)](https://arxiv.org/html/2603.27130v3)
 - [CodeRabbit, State of AI vs Human Code Generation (2025)](https://www.coderabbit.ai/blog/state-of-ai-vs-human-code-generation-report)
 - [Cross-Context Review (2026)](https://arxiv.org/pdf/2603.12123), [Do LLM Evaluators Prefer Themselves for a Reason?](https://arxiv.org/abs/2504.03846v3), [Self-Preference Is Weak or Absent in Verifiable Revision (2026)](https://arxiv.org/abs/2606.20093)
+- [BMAD-Method, `bmad-code-review` skill, v6.12 (2026)](https://github.com/bmad-code-org/BMAD-METHOD/blob/61e01f82644c4bb533750cfa0d6d61ab61d2cc9b/skills/bmad-code-review/step-02-review.md) and [v6.2 review layers](https://github.com/bmad-code-org/BMAD-METHOD/blob/v6.2.0/src/bmm/workflows/4-implementation/bmad-code-review/steps/step-02-review.md)
+- [Anthropic, Claude Code `code-review` plugin](https://github.com/anthropics/claude-code/blob/5a2676e1079cd6222a6afe85bb5fc8fab2aaece3/plugins/code-review/commands/code-review.md) and [its November 2025 version](https://github.com/anthropics/claude-code/blob/b85cc4474f22/plugins/code-review/commands/code-review.md)
+- [Anthropic, Code Review for Claude Code (2026)](https://claude.com/blog/code-review) and [Ultrareview](https://code.claude.com/docs/en/ultrareview)
+- [Cursor, Building a better Bugbot (2026)](https://cursor.com/blog/building-bugbot)
+- [OpenAI, Scaling code verification (2025)](https://alignment.openai.com/scaling-code-verification/)
