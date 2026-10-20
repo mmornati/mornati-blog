@@ -9,7 +9,7 @@ tags:
 - llm
 - statistics
 - software-engineering
-date: '2026-10-22T16:00:00.000000+00:00'
+date: '2026-10-20T17:00:00.000000+00:00'
 draft: false
 slug: trois-agents-a-95-ne-donnent-pas-99-99
 translationKey: shared-blind-spots
