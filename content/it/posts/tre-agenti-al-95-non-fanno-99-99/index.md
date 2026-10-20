@@ -17,13 +17,13 @@ description: Far girare lo stesso compito su più esecuzioni di un LLM, su più 
 summary: Tre agenti al 95% ciascuno dovrebbero dare il 99,9875%, se sbagliano in modo indipendente e se sai riconoscere la risposta giusta. Nessuna delle due cose è vera. Con un voto e una difficoltà realistica dei compiti, gli stessi tre agenti arrivano intorno al 96%. Perché, cosa dicono i dati sul mescolare famiglie di modelli e revisori, e cosa sappiamo davvero dei tassi di difetti umani dagli anni '80 a confronto con i modelli di ottobre 2025 e ottobre 2026.
 ---
 
-Qualche settimana fa ho fatto a un chatbot una domanda semplice: se un agente di programmazione porta a termine un compito correttamente il 95% delle volte, quanto spesso ci riescono tre agenti? La risposta è arrivata in una riga, con molta sicurezza:
+Ogni risposta di un LLM arriva con un tasso di errore. Anche un ottimo agente di programmazione sbaglia qualche compito: diciamo uno su venti, il 5%. Non possiamo portare quel numero a zero, ma la statistica ha un vecchio trucco per le misure poco affidabili: non fidarsi di una sola, prenderne diverse. Se affidiamo lo stesso compito a più agenti, la probabilità che sbaglino tutti dovrebbe crollare in fretta. Con tre agenti al 5% di errore ciascuno, la probabilità che almeno uno abbia ragione è:
 
 ```text
 1 - 0.05 × 0.05 × 0.05 = 99.9875%
 ```
 
-È il numero dietro ogni presentazione del tipo "usa più agenti", ed è il numero che avevo in testa quando ho cominciato a usare un secondo modello per fare la review delle pull request del primo. Volevo trasformarlo in un progetto, con benchmark, chiamate API e un budget. Prima di spendere i soldi, ho controllato cosa c'è già online. E la maggior parte della risposta c'è già: in un rapporto della NASA del 1985, in un famoso esperimento del 1986 e in due paper pubblicati quest'estate.
+È il numero dietro ogni presentazione del tipo "usa più agenti", ed è quello che avevo in testa quando ho cominciato a usare un secondo modello per fare la review delle pull request del primo. La vera domanda è se regge. Volevo misurarlo con un progetto: benchmark, chiamate API e un budget. Prima di spendere i soldi, ho controllato cosa è già stato pubblicato. La maggior parte della risposta c'è già: in un rapporto della NASA del 1985, in un famoso esperimento del 1986 e in due paper pubblicati quest'estate.
 
 Questo articolo è quella risposta. In breve: **sì, più esecuzioni, più modelli e un controllo indipendente aiutano tutti, e la matematica spiega perché. Ma aiutano molto meno di quanto dica la formula ingenua, e il motivo è lo stesso che si era trovato con i programmatori umani quarant'anni fa.**
 

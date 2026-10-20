@@ -17,13 +17,13 @@ description: Faire passer la même tâche par plusieurs exécutions d'un LLM, pl
 summary: Trois agents à 95 % chacun devraient donner 99,9875 %, à condition qu'ils échouent de façon indépendante et qu'on sache reconnaître la bonne réponse. Aucune des deux conditions n'est vraie. Avec un vote et une difficulté de tâches réaliste, les trois mêmes agents arrivent autour de 96 %. Pourquoi, ce que disent les données sur le mélange de familles de modèles et de relecteurs, et ce qu'on sait vraiment des taux de défauts humains depuis les années 1980 face aux modèles d'octobre 2025 et d'octobre 2026.
 ---
 
-Il y a quelques semaines, j'ai posé une question simple à un chatbot : si un agent de code réussit une tâche 95 % du temps, combien de fois trois agents la réussissent-ils ? La réponse est arrivée en une ligne, avec beaucoup d'assurance :
+Chaque réponse d'un LLM vient avec un taux d'erreur. Même un très bon agent de code se trompe sur certaines tâches : disons une sur vingt, 5 %. On ne peut pas ramener ce chiffre à zéro, mais la statistique a une vieille astuce pour les mesures peu fiables : ne pas se fier à une seule, en prendre plusieurs. Si on confie la même tâche à plusieurs agents, la probabilité qu'ils se trompent tous devrait chuter vite. Avec trois agents à 5 % d'erreur chacun, la probabilité qu'au moins un ait raison vaut :
 
 ```text
 1 - 0.05 × 0.05 × 0.05 = 99.9875%
 ```
 
-C'est le chiffre derrière chaque argumentaire « utilisez plusieurs agents », et c'est le chiffre que j'avais en tête quand j'ai commencé à utiliser un deuxième modèle pour relire les pull requests du premier. Je voulais en faire un projet, avec des benchmarks, des appels d'API et un budget. Avant de dépenser l'argent, j'ai regardé ce qui existe déjà en ligne. Il se trouve que l'essentiel de la réponse est déjà là : dans un rapport de la NASA de 1985, dans une expérience célèbre de 1986, et dans deux articles publiés cet été.
+C'est le chiffre derrière chaque argumentaire « utilisez plusieurs agents », et celui que j'avais en tête quand j'ai commencé à utiliser un deuxième modèle pour relire les pull requests du premier. La vraie question est de savoir s'il tient. Je voulais le mesurer avec un projet : des benchmarks, des appels d'API et un budget. Avant de dépenser l'argent, j'ai regardé ce qui est déjà publié. L'essentiel de la réponse est déjà là : dans un rapport de la NASA de 1985, dans une expérience célèbre de 1986, et dans deux articles publiés cet été.
 
 Cet article, c'est cette réponse. La version courte : **oui, plus d'exécutions, plus de modèles et une vérification indépendante aident tous, et les maths expliquent pourquoi. Mais ils aident beaucoup moins que ce que dit la formule naïve, et la raison est la même que celle qu'on a découverte avec les programmeurs humains il y a quarante ans.**
 

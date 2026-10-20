@@ -17,13 +17,13 @@ description: Running the same task through several LLM runs, several models or a
 summary: Three agents at 95% each should give 99.9875%, if they fail independently and if you can tell which answer is right. Neither holds. With a voting step and realistic task difficulty the same three agents land near 96%. Why, what the data says about mixing model families and reviewers, and what we really know about human defect rates since the 1980s versus models from October 2025 and October 2026.
 ---
 
-A few weeks ago I asked a chatbot a simple question: if one coding agent gets a task right 95% of the time, how often do three of them get it right? The answer came back in one line, with a lot of confidence:
+Every answer an LLM gives comes with an error rate. Even a very good coding agent gets some tasks wrong: say one in twenty, 5%. We can't push that number to zero, but statistics has an old trick for unreliable measurements: don't trust one, take several. Run the same task through several agents, and the chance that all of them are wrong should shrink fast. With three agents at 5% each, the chance that at least one gets it right is:
 
 ```text
 1 - 0.05 × 0.05 × 0.05 = 99.9875%
 ```
 
-It is the number behind every "use several agents" pitch, and it is the number I had in my head when I started using a second model to review the first one's pull requests. I wanted to turn it into a project with benchmarks, API calls and a budget. Before spending the money, I checked what is already online. It turns out most of the answer is already there: in a NASA report from 1985, in a famous 1986 experiment, and in two papers published this summer.
+It is the number behind every "use several agents" pitch, and the one I had in mind when I started using a second model to review the first one's pull requests. The real question is whether it holds. I wanted to measure it with a project: benchmarks, API calls and a budget. Before spending the money, I checked what is already published. Most of the answer is already there: in a NASA report from 1985, in a famous 1986 experiment, and in two papers published this summer.
 
 This post is that answer. The short version: **yes, more runs, more models and an independent check all help, and the maths explains why. But they help far less than the naive formula says, and the reason is the same one people found with human programmers forty years ago.**
 
