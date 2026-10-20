@@ -13,6 +13,8 @@ date: '2026-10-22T16:00:00.000000+00:00'
 draft: false
 slug: tre-agenti-al-95-non-fanno-99-99
 translationKey: shared-blind-spots
+cover: cover.jpg
+showHero: true
 description: Far girare lo stesso compito su più esecuzioni di un LLM, su più modelli o su un generatore più un revisore dà davvero codice migliore di una sola esecuzione. Ma non di quell'1 - 0,05³ che promette ogni presentazione multi-agente. Cosa dice davvero la probabilità, cosa hanno misurato 40 anni di programmazione N-version e due repliche del 2026, e come si confrontano i tassi di difetti umani con i modelli di un anno fa e di oggi.
 summary: Tre agenti al 95% ciascuno dovrebbero dare il 99,9875%, se sbagliano in modo indipendente e se sai riconoscere la risposta giusta. Nessuna delle due cose è vera. Con un voto e una difficoltà realistica dei compiti, gli stessi tre agenti arrivano intorno al 96%. Perché, cosa dicono i dati sul mescolare famiglie di modelli e revisori, e cosa sappiamo davvero dei tassi di difetti umani dagli anni '80 a confronto con i modelli di ottobre 2025 e ottobre 2026.
 ---

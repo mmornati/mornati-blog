@@ -13,6 +13,8 @@ date: '2026-10-22T16:00:00.000000+00:00'
 draft: false
 slug: three-agents-at-95-percent-dont-give-you-99-99
 translationKey: shared-blind-spots
+cover: cover.jpg
+showHero: true
 description: Running the same task through several LLM runs, several models or a generator plus a reviewer does give better code than a single execution. But not by the 1 - 0.05³ that every multi-agent pitch promises. What the probability actually says, what 40 years of N-version programming and two 2026 replications measured, and how human defect rates compare with models from a year ago and from today.
 summary: Three agents at 95% each should give 99.9875%, if they fail independently and if you can tell which answer is right. Neither holds. With a voting step and realistic task difficulty the same three agents land near 96%. Why, what the data says about mixing model families and reviewers, and what we really know about human defect rates since the 1980s versus models from October 2025 and October 2026.
 ---

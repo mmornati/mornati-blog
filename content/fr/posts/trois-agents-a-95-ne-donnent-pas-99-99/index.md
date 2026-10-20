@@ -13,6 +13,8 @@ date: '2026-10-22T16:00:00.000000+00:00'
 draft: false
 slug: trois-agents-a-95-ne-donnent-pas-99-99
 translationKey: shared-blind-spots
+cover: cover.jpg
+showHero: true
 description: Faire passer la même tâche par plusieurs exécutions d'un LLM, plusieurs modèles ou un générateur suivi d'un relecteur donne bien un meilleur code qu'une seule exécution. Mais pas dans la proportion de 1 - 0,05³ que promet chaque argumentaire multi-agents. Ce que disent vraiment les probabilités, ce qu'ont mesuré 40 ans de programmation N-version et deux réplications de 2026, et comment les taux de défauts humains se comparent à ceux des modèles d'il y a un an et d'aujourd'hui.
 summary: Trois agents à 95 % chacun devraient donner 99,9875 %, à condition qu'ils échouent de façon indépendante et qu'on sache reconnaître la bonne réponse. Aucune des deux conditions n'est vraie. Avec un vote et une difficulté de tâches réaliste, les trois mêmes agents arrivent autour de 96 %. Pourquoi, ce que disent les données sur le mélange de familles de modèles et de relecteurs, et ce qu'on sait vraiment des taux de défauts humains depuis les années 1980 face aux modèles d'octobre 2025 et d'octobre 2026.
 ---
