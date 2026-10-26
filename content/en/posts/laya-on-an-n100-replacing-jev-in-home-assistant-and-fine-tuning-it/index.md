@@ -13,7 +13,7 @@ tags:
 - llm-as-a-judge
 - docker
 - self-hosting
-date: '2026-10-27T18:00:00.000000+00:00'
+date: '2026-10-26T17:00:00.000000+00:00'
 draft: false
 slug: laya-on-an-n100-replacing-jev-in-home-assistant-and-fine-tuning-it
 translationKey: laya-n100-home-assistant
