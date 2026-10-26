@@ -313,7 +313,7 @@ As an experiment, yes, clearly. A few things I take away:
 *   **An LLM with hindsight is a useful labeller, if you check it.** The recorder has the facts; the judge turns them into 2,019 calibrated labels; a person still has to look at the hard cases.
 *   **The house still runs on Jev.** v2 is good enough for **shadow mode on the VMC**: Home Assistant asks both, acts on Jev, and logs Laya next to it. The shutters will join next spring, once the template sends the right state.
 
-The bigger lesson is still about the data. My [scoreboard](/jev-home-assistant-history-feedback-and-the-local-model-question/) collects my own "who was right?" answers, and the outcome checks record what really happened after each decision. Those labels are **mine**, they need no judge, and they're the best target of all. The hindsight judge is a way to start before I have a thousand of them; the next training run will mix both.
+The bigger lesson is still about the data. My [scoreboard](/jev-home-assistant-history-feedback-and-the-local-model-question/#5-a-feedback-loop-so-i-dont-have-to-eyeball-the-logbook-forever) collects my own "who was right?" answers, and the outcome checks record what really happened after each decision. Those labels are **mine**, they need no judge, and they're the best target of all. The hindsight judge is a way to start before I have a thousand of them; the next training run will mix both.
 
 If you're running Laya, or any Jev-compatible model, at home, I'd really like to hear how you handle the context window and what you train it on. The comments are open.
 
