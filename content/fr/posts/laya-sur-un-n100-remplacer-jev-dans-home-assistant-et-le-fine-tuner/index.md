@@ -1,5 +1,5 @@
 ---
-title: 'Laya sur un N100 : remplacer Jev par un modèle local dans Home Assistant, et lui apprendre ma maison'
+title: 'Laya sur un N100 : remplacer Jev par un modèle local dans Home Assistant, et lui apprendre ma maison avec le recul'
 categories:
 - smart-home
 tags:
@@ -10,7 +10,7 @@ tags:
 - jev
 - laya
 - fine-tuning
-- distillation
+- llm-as-a-judge
 - docker
 - self-hosting
 date: '2026-10-27T18:00:00.000000+00:00'
@@ -19,8 +19,8 @@ slug: laya-sur-un-n100-remplacer-jev-dans-home-assistant-et-le-fine-tuner
 translationKey: laya-n100-home-assistant
 cover: cover.jpg
 showHero: true
-description: Laya parle l'API de Jev, alors je l'ai mis dans un conteneur Docker sur mon mini PC N100 et j'ai pointé Home Assistant dessus. Ça marche, c'est lent mais assez rapide, et ses réponses de base sont inutilisables pour ma maison. Puis, en expérience locale, je l'ai fine-tuné sur mon MacBook avec deux semaines de vraies requêtes Home Assistant. Comment marche l'entraînement, comment servir le nouveau checkpoint, les chiffres sur des jours mis de côté, et pourquoi tout ça reste une expérience.
-summary: Un modèle compatible Jev qui tourne sur un mini PC à 4 cœurs, sans qu'aucune donnée de mes capteurs ne quitte la maison. Tel quel, il disait « oui » à presque tout. Après une heure d'entraînement sur mon MacBook, il est d'accord avec Jev 93 % du temps sur des jours qu'il n'a jamais vus. Assez bon pour le mode shadow, pas pour piloter la maison, et avec une question de conditions d'utilisation que je ne peux pas ignorer.
+description: Laya parle l'API de Jev, alors je l'ai mis dans un conteneur Docker sur mon mini PC N100 et j'ai pointé Home Assistant dessus. Ça marche, c'est lent mais assez rapide, et ses réponses de base sont inutilisables pour ma maison. Je l'ai donc fine-tuné sur mon MacBook, sur des données Home Assistant étiquetées avec le recul par Claude Opus et vérifiées par moi, en gardant Jev comme point de comparaison. Comment marche l'entraînement, comment servir le checkpoint, et les chiffres sur des jours mis de côté.
+summary: Un modèle compatible Jev qui tourne sur un mini PC à 4 cœurs, sans qu'aucune donnée de mes capteurs ne quitte la maison. Tel quel, il disait « oui » à presque tout. Entraîné sur 2 019 vraies décisions jugées avec le recul, il fait jeu égal avec Jev sur la ventilation et prend la bonne décision pour les volets d'été 90 % du temps, une décision sur laquelle Jev n'a jamais été interrogé. En chemin, j'ai découvert que Jev n'est pas la vérité non plus.
 projects:
 - ha-decision-models
 ---
@@ -33,7 +33,7 @@ Dans le deuxième article, j'expliquais pourquoi je n'étais pas passé en local
 
 1.  faire tourner Laya dans Docker sur un N100 et le brancher sur Home Assistant ;
 2.  ce qui s'est passé quand j'ai rejoué à travers lui deux semaines de **vraies** requêtes Jev ;
-3.  une expérience locale : **fine-tuner Laya sur ces requêtes**, comment ça marche, comment servir le résultat, et les chiffres ;
+3.  **fine-tuner Laya sur ma propre maison** : des données Home Assistant, étiquetées avec le recul par Claude Opus et vérifiées par moi, avec Jev comme point de comparaison plutôt que comme professeur ;
 4.  si ça en valait la peine.
 
 ## Laya dans un conteneur sur un N100
@@ -156,21 +156,40 @@ La troncature n'est pas le problème principal. Avec le state complet visible su
 
 Ça correspond à la documentation de Laya lui-même : c'est un encodeur de 322M de paramètres (mmBERT-base) pré-entraîné sur des tâches de décision génériques, ses réponses oui/non peuvent suivre la formulation des options plutôt que le state, et les auteurs disent de le traiter comme une base à spécialiser. Une température ou un seuil ne peuvent rien y faire : ils remettent les scores à l'échelle, mais gardent leur ordre, et ici, c'est l'ordre qui est faux.
 
-Dans sa forme de base, Laya ne peut donc pas remplacer Jev dans ma maison. Ce qui m'amène à la partie que j'avais dit, dans [un article précédent](/fr/laya-vs-jev-dix-jours-plus-tard-fine-tuning-sur-un-macbook/), que je ne ferais pas.
+Dans sa forme de base, Laya ne peut donc pas remplacer Jev dans ma maison. Il faut l'entraîner. La vraie question, c'est : l'entraîner sur quoi ?
 
-## Une expérience locale : apprendre à Laya à partir de Jev
+## Apprendre ma maison à Laya
 
-### D'abord, le sujet qui fâche
+### Le raccourci que je n'ai pas gardé
 
-J'avais 1 416 vraies requêtes, chacune avec les probabilités de Jev. Entraîner un modèle à reproduire ces probabilités, c'est de la **distillation** : Jev est le professeur, Laya l'élève. Il y a trois semaines, j'avais abandonné exactement ce plan, parce que le [contrat client](https://typesafe.ai/legal/mca) de TypeSafe (§2.3(b)) dit qu'on ne peut pas utiliser le service ou ses sorties « to perform model distillation » ni pour « train a model to imitate the output of the Services » (autrement dit, ni pour faire de la distillation de modèle, ni pour entraîner un modèle à imiter les sorties du service). Il ne prévoit aucune exception pour un usage personnel ou non commercial.
+La cible évidente était sous mes yeux : 1 416 requêtes, chacune avec la réponse de Jev. Entraîner Laya à reproduire ces réponses, c'est de la **distillation**, et le [contrat client](https://typesafe.ai/legal/mca) de TypeSafe (§2.3(b)) l'exclut : on ne peut pas utiliser le service ou ses sorties « to perform model distillation » ni pour « train a model to imitate the output of the Services » (autrement dit, ni pour faire de la distillation de modèle, ni pour entraîner un modèle à imiter les sorties du service). Il n'y a aucune exception pour un usage personnel.
 
-Je l'ai fait quand même, comme une expérience bornée, et je veux être clair sur ce que ça veut dire :
+Pour être transparent : je l'ai essayé une fois, en local, comme premier test, pour voir si Laya pouvait seulement apprendre ma maison. Il le pouvait. Après une heure sur mon MacBook, ses décisions VMC sont passées de 14 % à 93 % d'accord avec Jev sur des jours qu'il n'avait jamais vus. Mais ce modèle était une copie de Jev : je ne pouvais pas le faire tourner la conscience tranquille, et il ne pourrait jamais être meilleur que Jev. J'ai donc supprimé le checkpoint et les données d'entraînement étiquetées par Jev, et je suis reparti avec des étiquettes qui ne viennent pas de Jev. C'est de ce deuxième modèle que parle cet article.
 
-*   **C'est un test local pour ma propre maison.** Il a tourné sur mon MacBook, sur mes propres requêtes, pour ma propre domotique. Rien n'est parti sur Kaggle ni sur un GPU dans le cloud : les données montrent qui est à la maison et quand.
-*   **Rien n'est publié.** Ni le dataset, ni les poids, ni les scripts sous forme de produit. Il n'y a aucun modèle à télécharger depuis cet article, et il n'y en aura pas. Les poids encodent de toute façon les habitudes de mon foyer, ce qui est une deuxième raison de les garder privés.
-*   **Le but était d'apprendre jusqu'où Laya peut aller** avec de vraies données de maison, et comment marche son entraînement, pas de construire un remplaçant de Jev pour qui que ce soit.
+Je ne suis pas le seul à être curieux. Sur GitHub, [Mini-Jev](https://github.com/Shauryagulati/mini-jev) distille Jev dans un petit modèle Qwen et invite lui-même ses lecteurs à vérifier les conditions de TypeSafe. D'autres, comme [Kev](https://github.com/jaredpalmer/kev) ou [system-one-open](https://github.com/mithalouni/system-one-open), s'entraînent plutôt sur des datasets publics ou sur leurs propres étiquettes synthétiques, et c'est la voie propre.
 
-Je ne prétends pas que ça rende la chose acceptable au regard des conditions de TypeSafe : la clause se moque de l'échelle comme de l'intention. Je vous dis ce que j'ai fait et ce que disent les conditions, pour que vous puissiez juger par vous-mêmes. Et je ne suis clairement pas le seul à être curieux. Sur GitHub, [Mini-Jev](https://github.com/Shauryagulati/mini-jev) distille Jev dans Qwen3-1.7B, compare fine-tuning supervisé, distillation sur étiquettes souples et RL, et invite ses lecteurs à vérifier les conditions de TypeSafe avant de réutiliser les poids. Sur Hugging Face, [jev-distill-corpus-v3](https://huggingface.co/datasets/SargeDev/jev-distill-corpus-v3) publie environ un demi-million de lignes étiquetées par Jev 1.13. Beaucoup d'autres projets « façon Jev » ([Kev](https://github.com/jaredpalmer/kev), [system-one-open](https://github.com/mithalouni/system-one-open), [Von](https://huggingface.co/wfzyx/von)…) s'entraînent plutôt sur des datasets publics ou sur leurs propres étiquettes synthétiques, et c'est la voie propre. J'y reviens à la fin.
+### Des étiquettes venues de Home Assistant, jugées avec le recul
+
+Home Assistant sait déjà ce qui s'est passé **après** chaque décision : si l'humidité de la salle de bain a continué de grimper après un « pas de boost », si le salon a atteint 28 °C l'après-midi où les volets sont restés levés. Un juge qui voit à la fois le moment de la décision et les heures qui suivent peut dire quelle était la bonne décision, sans demander à Jev.
+
+Toutes les entrées viennent de mon Home Assistant :
+
+*   **Octobre : 1 411 vraies décisions.** Les states exacts envoyés par Home Assistant entre le 11 et le 25 octobre : VMC, volets et les questions plus rares. Pour chacun, le recorder ajoute ce qui s'est passé ensuite : les relevés bruts des capteurs pour l'heure suivante depuis la mi-octobre, les statistiques horaires avant.
+*   **Été : 608 situations de volets.** Mon automatisation des volets n'a commencé à interroger Jev qu'à l'automne, quand la réponse est toujours « les laisser levés » : il n'y avait donc rien à apprendre sur le fait de les *baisser*. Mais Home Assistant garde des statistiques horaires à long terme (moyenne, min, max) pendant des années. À partir de là, Claude Code a reconstruit la décision des volets pour chaque zone et chaque heure de mai à septembre : température intérieure et extérieure, capteurs de façade au soleil, les quatre dernières heures, la position du soleil. Il en a ensuite tiré 608, réparties entre journées chaudes, tièdes et fraîches, avec la température atteinte par chaque pièce plus tard dans la journée.
+
+Le juge, c'est **Claude Opus**, via des sous-agents Claude Code qui travaillent à partir d'une grille écrite. Booster quand une pièce humide montre de la vapeur fraîche (environ +5 points en 15–30 minutes) et que le recul montre que c'est réel, pas un raté de capteur. Baisser les volets si la pièce va atteindre environ 26 °C plus tard dans la journée et que le soleil est sur cette façade. Pour tout le reste, le bon sens et le contexte de la question elle-même. Chaque étiquette est une probabilité, pas un oui/non (0,95 pour « booster, clairement », 0,6 pour « plutôt oui »), avec une raison en une ligne comme *"parents' bathroom +11 to 82.8, fresh shower steam"*. Soit 2 019 étiquettes au total.
+
+Ensuite, j'ai vérifié le juge. Claude Code a rassemblé les 52 cas les plus discutables et je les ai revus un par un moi-même. Une précision : pour trouver vite les cas difficiles, il les a choisis là où Opus et Jev n'étaient pas d'accord. J'ai été d'accord avec Opus sur les 52, aucune étiquette n'a donc changé. Les réponses de Jev n'ont jamais servi d'étiquettes ; elles sont gardées uniquement pour comparer.
+
+### Jev n'est pas la vérité
+
+C'est finalement la partie la plus intéressante. Sur les 831 requêtes VMC d'octobre, Jev et les étiquettes avec recul sont d'accord sur 743, environ 89 %. Les désaccords ne sont pas aléatoires :
+
+*   **53 fois, le juge aurait boosté et Jev ne l'a pas fait.** Presque toujours le début d'une douche : *"upstairs bathroom +12 to 81.5, fresh shower steam"*. Jev l'avait en général vu aussi, mais donnait 0,45–0,59, juste sous mon seuil de 0,6.
+*   **35 fois, Jev a boosté et le juge ne l'aurait pas fait.** Dans 31 cas, le boost tournait déjà : la cuisine ou la salle de bain était revenue à son niveau habituel, et Jev gardait la bruyante vitesse 2.
+*   **Le chauffe-eau de nuit** : quelques fois, Jev a dit « chauffer cette nuit » là où le juge penchait pour non, par exemple avec une seule personne à la maison.
+
+Une partie de tout ça vient de mes seuils autant que de Jev. Mais le message est clair : **Jev est un bon point de comparaison, pas la vérité**, et un modèle entraîné à le copier hérite de ses ratés.
 
 ### Ce qu'est vraiment Laya, et ce que l'entraînement change
 
@@ -182,29 +201,25 @@ Laya n'est pas un modèle de chat et n'écrit jamais de texte. Pour chaque quest
 
 Un encodeur lit le tout d'un coup, et une petite tête au-dessus le transforme en probabilités sur les options : `noul: 0.12`, ou une probabilité par choix. Une seule passe avant, aucune étape de raisonnement, c'est pour ça qu'un modèle de 322M répond en environ une seconde sur le CPU d'un mini PC.
 
-Le fine-tuning change les poids, pas le programme. Pour chaque exemple d'entraînement, Laya fait une prédiction, on la compare à la cible, et tous les poids bougent un peu dans sa direction. Faites ça quelques centaines de fois avec un petit learning rate, et le modèle s'adapte à *vos* questions sans oublier le reste. Avec les probabilités de Jev comme cibles, il apprend aussi l'incertitude de Jev : un 0,55 enseigne « limite », pas « oui ».
+Le fine-tuning change les poids, pas le programme. Pour chaque exemple d'entraînement, Laya fait une prédiction, on la compare à la cible, et tous les poids bougent un peu dans sa direction. Faites ça quelques centaines de fois avec un petit learning rate, et le modèle s'adapte à *vos* questions sans oublier le reste. Avec des probabilités comme cibles, il apprend aussi le doute : un 0,6 enseigne « plutôt oui », pas « oui ».
 
 Laya fournit son propre code d'entraînement, `laya.train`, ce qui valait mieux que de faire de la rétro-ingénierie sur le notebook Kaggle cité dans la model card.
 
-### Étape 1 : construire le dataset
+### L'entraînement
 
-Chaque ligne d'entraînement est une requête plus une cible :
+Chaque ligne d'entraînement est un state plus la probabilité du juge :
 
 ```json
 {"state": {...},
  "questions": {"answer": {"type": "noul", "instructions": {...}, "criteria": {...}}},
- "gold": {"answer": {"probabilities": {"false": 0.34, "true": 0.66}}}}
+ "gold": {"answer": {"probabilities": {"false": 0.05, "true": 0.95}}}}
 ```
 
 Les choix importants ont été :
 
-*   **Découper dans le temps, pas au hasard.** Entraînement sur le 11–21 octobre (1 004 requêtes), test sur le 22–25 octobre (409 requêtes que le modèle ne voit jamais). Un découpage aléatoire mettrait des requêtes VMC consécutives presque identiques des deux côtés, et le score aurait l'air bien meilleur qu'il ne l'est.
-*   **Ne jamais rien couper.** Comme Jev n'intervient pas ici, je pouvais utiliser un state compact propre à Laya : les règles de compaction testées plus haut, les faits décisifs en premier et un contexte VMC court. Chaque ligne a été vérifiée avec le `build_sequence` de Laya lui-même : si un seul token du state devait sauter, une règle de repli raccourcit les séries, puis retire les événements les plus anciens un par un. Résultat final : **chaque entrée tient dans 1 024 tokens avec 0 token perdu**, ce que j'ai aussi vérifié auprès du serveur sur le N100.
-*   **Les probabilités de Jev comme cibles souples**, converties au format de Laya pour chaque type de question (`noul`, `choice`, `score`).
-
-Les données sont très déséquilibrées : 587 requêtes VMC et 358 de volets dans le jeu d'entraînement, et quelques dizaines pour tout le reste (arrosage, lessive, chauffe-eau, présence).
-
-### Étape 2 : entraîner sur le MacBook
+*   **Découper dans le temps, pas au hasard.** Entraînement sur le 11–21 octobre et sur les journées d'été, sauf le 16–31 août. Test sur le 22–25 octobre (402 requêtes) et sur le 16–31 août (98 situations de volets). Un découpage aléatoire mettrait des requêtes VMC consécutives presque identiques des deux côtés, et le score aurait l'air bien meilleur qu'il ne l'est.
+*   **Ne jamais rien couper.** Le modèle n'a besoin de fonctionner que pour Laya, il reçoit donc un state compact : les faits décisifs en premier et un contexte VMC court. Chaque ligne a été vérifiée avec le `build_sequence` de Laya lui-même : si un seul token du state devait sauter, une règle de repli raccourcit les séries, puis retire les événements les plus anciens un par un. Résultat final : **chaque entrée tient dans 1 024 tokens avec 0 token perdu**.
+*   **Les probabilités comme cibles souples**, converties au format de Laya pour chaque type de question (`noul`, `choice`).
 
 Le script d'entraînement est court, parce que `laya.train` fait le travail :
 
@@ -215,49 +230,48 @@ cfg = TrainConfig(
     epochs=6,
     micro_batch=2, grad_accum=8,   # effective batch of 16
     encoder_lr=2.5e-5,
-    loss="soft-ce",                # match Jev's probabilities, not just yes/no
+    loss="soft-ce",                # match the label's probability, not just yes/no
     gradient_checkpointing=True,   # 1,024-token inputs in 16 GB
     seed=0,
 )
 finetune(data="train.jsonl", model_dir="laya/multilingual",
-         output_dir="ckpt/jev-ft", config=cfg, device="mps")
+         output_dir="ckpt/house-v2", config=cfg, device="mps")
 ```
 
 Trois réglages qui méritent une explication :
 
-*   **6 epochs, batch effectif de 16**, soit environ 340 mises à jour de l'optimiseur. Les valeurs par défaut n'en auraient donné que 60, et le code de Laya lui-même prévient que trop peu de mises à jour peuvent faire s'effondrer le modèle vers une réponse constante, exactement le problème que j'essayais de corriger.
-*   **La loss `soft-ce`** au lieu de `rlcd`, celle par défaut : la cross-entropy souple est l'objectif naturel quand la cible est une distribution de probabilités, et les notes de Laya elles-mêmes disent que le terme RL n'apportait aucun gain ici.
+*   **6 epochs, batch effectif de 16** : 516 mises à jour de l'optimiseur sur 1 363 lignes, avec 151 autres mises de côté pour la calibration. Les valeurs par défaut en auraient donné beaucoup moins, et le code de Laya lui-même prévient que trop peu de mises à jour peuvent faire s'effondrer le modèle vers une réponse constante, exactement le problème que j'essayais de corriger.
+*   **La loss `soft-ce`** au lieu de `rlcd`, celle par défaut : la cross-entropy souple est l'objectif naturel quand la cible est une probabilité, et les notes de Laya elles-mêmes disent que le terme RL n'apportait aucun gain ici.
 *   **Le gradient checkpointing** : sans lui, des séquences de 1 024 tokens ne tiennent pas dans les 16 Go de mémoire du M4. Il n'est pas exposé par la CLI, c'est pour ça que j'ai appelé `finetune()` depuis Python.
 
-L'entraînement a pris **66 minutes** sur le GPU du M4 (MPS), rien n'a quitté le portable, et la loss a cessé de baisser autour de 0,5. C'est normal : quand la cible elle-même est 0,3/0,7, la loss ne peut pas atteindre zéro. Ce sont les jours mis de côté qui disent si ça a marché.
+L'entraînement part des poids de base de Laya, pas de la copie de Jev supprimée. Il a pris **1 h 48** sur le GPU du M4 (MPS), rien n'a quitté le portable, et la loss est passée de 0,45 à 0,27. Elle ne peut pas atteindre zéro quand la cible elle-même est 0,6 ; ce sont les jours mis de côté qui disent si ça a marché.
 
-### Étape 3 : les résultats sur des jours qu'il n'a jamais vus
+### Les résultats sur des jours qu'il n'a jamais vus
 
-Chaque réponse est transformée en décision au seuil que mon automatisation utilise vraiment, puis comparée à celle de Jev :
+Chaque réponse est transformée en décision au seuil que mon automatisation utilise vraiment, puis comparée aux étiquettes avec recul revues :
 
-| 22–25 octobre, mis de côté | Laya de base | **Laya fine-tuné** | Bruit de Jev lui-même |
+| Mis de côté | Jev | Laya, premier test (entraîné sur Jev, supprimé) | **Laya v2 (étiquettes avec recul)** |
 | --- | --- | --- | --- |
-| **VMC** : même décision que Jev (244 requêtes) | 14 % | **93 %** | |
-| VMC : classement par rapport aux décisions de Jev (AUC) | 0,56 | **0,94** | |
-| VMC : corrélation de rang avec Jev (Spearman) | −0,02 | **0,84** | |
-| VMC : écart moyen avec la probabilité de Jev | 0,71 | 0,087 | 0,013 |
-| VMC : boosts (Jev : 34) | 244 | 18 | |
-| **Volets** : même décision que Jev (145) | 0 % | 100 % | |
-| Volets : écart moyen avec la probabilité de Jev | 0,82 | 0,018 | 0,007 |
+| **VMC** 22–25 oct. : même décision que les étiquettes (244) | 84 % | 79 % | **83 %** |
+| VMC : classement des situations (AUC) | 0,95 | 0,85 | 0,93 |
+| VMC : boosts ratés (sur 53) | 29 | 43 | 37 |
+| VMC : boosts inutiles | 10 | 8 | **4** |
+| **Volets** 22–25 oct. (145, aucun nécessaire) | 100 % | 100 % | 100 % |
+| **Volets d'été** 16–31 août (98, 33 à baisser) | jamais interrogé | 66 % | **90 %** |
+| Volets d'été : baisses ratées / inutiles | | 33 / 0 | 9 / 1 |
+| Questions rares, 22–25 oct. (13) | 85 % | 85 % | 77 % |
 
-De « oui à tout » à 93 % d'accord sur des jours qu'il n'avait jamais vus, en une heure sur un portable. Honnêtement, je ne m'attendais pas à autant.
+Pour référence, Laya de base obtient 22 % sur la VMC et 34 % sur les volets d'été : il dit oui à tout.
 
-Maintenant les petites lignes, parce qu'elles comptent plus que le titre :
+Ce que j'en lis :
 
-*   **Il rate la moitié des boosts de Jev.** Sur les 34 décisions de boost de Jev, le Laya fine-tuné est d'accord sur 17, en rate 17 (et en ajoute 1). Chaque raté est proche de la limite : Jev à 0,60–0,67, Laya à 0,30–0,50. Compté par épisode, il rejoint au moins une fois 5 des 6 épisodes de boost de Jev et rate entièrement une douche du samedi soir. Déplacer son seuil n'aide pas : le meilleur décalage, ajusté sur les jours d'entraînement, est de +0,01.
-*   **Il a en partie mémorisé les jours d'entraînement.** 98,5 % d'accord sur ceux-là, 92,6 % sur les nouveaux jours. Plus de données, ou moins d'epochs avec un arrêt anticipé, devraient réduire l'écart.
-*   **Les volets ne prouvent rien.** C'est l'automne : ni sur les jours d'entraînement ni sur les jours de test, Jev n'a jamais dit « les baisser ». Le modèle a seulement appris « les laisser levés ». Je revérifierai au printemps.
-*   **Il a appris ma maison, pas le raisonnement.** Sur six states de test génériques, la paire évidente sur l'humidité va toujours dans le mauvais sens : un saut de 68,8 % à 90,8 % obtient 0,38, une humidité plate 0,44. Posez-lui une nouvelle question demain, et vous retrouvez le modèle de base.
-*   **Les questions rares sont trop peu nombreuses pour juger** : chauffe-eau sur le solaire 5/5, arrosage 3/3, lessive 2/2, présence 2/4…
+*   **Les volets d'été sont le vrai gain.** Jev n'a jamais été interrogé sur la baisse des volets en été, et le premier test, entraîné sur des réponses d'automne, n'avait appris que « les laisser levés ». Entraîné sur cinq mois de statistiques, v2 les baisse dans 24 des 33 situations où il le faut, et une seule fois quand il ne le faut pas. C'est une décision pour laquelle ma maison n'avait aucune donnée jusque-là.
+*   **Sur la VMC, v2 fait jeu égal avec Jev ; il ne le bat pas.** 83 % contre 84 %, et plus prudent : moins de boosts inutiles (4 contre 10), plus de ratés (37 contre 29). La plupart des ratés sont limites. Pour un ventilateur bruyant, je préfère ce côté-là, mais ce n'est pas « meilleur que Jev ».
+*   **Il est noté par le juge dont il a appris.** v2 a appris des étiquettes d'Opus et il est évalué sur des étiquettes d'Opus ; Jev, non. Ça avantage v2. Ma revue des 52 cas disputés est la seule vérification indépendante. La lecture honnête, c'est « comparable à Jev sur la VMC, plus les volets d'été », pas « bat Jev ».
+*   **Le state des volets vient de statistiques horaires**, une vue plus grossière qu'une requête en direct. Avant qu'il décide quoi que ce soit, Home Assistant doit envoyer ce même format. C'est un chantier pour le printemps prochain.
+*   **Il a appris ma maison, pas le raisonnement.** Posez-lui une nouvelle question demain, et vous retrouvez le modèle de base. Et les 13 questions rares sont trop peu nombreuses pour juger.
 
-Et un rappel sur le plafond : un élève entraîné sur Jev peut au mieux égaler Jev. Le gain, ce ne sont pas de meilleures décisions ; ce sont les mêmes décisions, en local, gratuitement, avec mes données à la maison.
-
-### Étape 4 : servir le checkpoint fine-tuné
+### Servir le checkpoint
 
 La bonne nouvelle : **c'est le même programme et la même image**. `laya-serve` charge des checkpoints supplémentaires depuis la variable `LAYA_EXTRA_MODELS`, un dossier local ou un dépôt Hugging Face. Le dossier du checkpoint fait environ 650 Mo (`model.safetensors`, `rl_agent_config.json`, `questions.json`, `encoder/`, `tokenizer/` ; l'état de l'optimiseur n'est pas nécessaire).
 
@@ -269,19 +283,23 @@ services:
     build: .                      # the Dockerfile above
     restart: unless-stopped
     environment:
-      LAYA_EXTRA_MODELS: '{"jev-ft": "/models/jev-ft"}'
-      LAYA_MODELS: jev-ft
-      LAYA_DEFAULT_MODEL: jev-ft
+      LAYA_EXTRA_MODELS: '{"house-v2": "/models/house-v2"}'
+      LAYA_MODELS: house-v2
+      LAYA_DEFAULT_MODEL: house-v2
       OMP_NUM_THREADS: "4"
     volumes:
-      - ./jev-ft:/models/jev-ft:ro
+      - ./house-v2:/models/house-v2:ro
     ports:
       - "8181:8000"
 ```
 
-Avec `LAYA_DEFAULT_MODEL`, Home Assistant n'a même pas besoin de nommer le modèle ; sinon, il envoie `"model": "jev-ft"`. Je l'ai vérifié en local : servi de cette façon, le checkpoint donne exactement les réponses de l'évaluation, sans rien perdre. Un dépôt Hugging Face privé avec un `HF_TOKEN` marche aussi, mais un dossier local est plus simple et garde les poids sur votre réseau. Attention à la RAM : le modèle lui-même a besoin d'environ 1,3 Go, et `docker stats` montre mon conteneur Laya actuel à environ 5 Go, cache de pages compris, sur une machine de 16 Go qui fait aussi tourner d'autres choses. La vitesse ne change pas, puisque le modèle a la même taille : environ 1 seconde pour une requête courte, 5 pour une longue.
+Avec `LAYA_DEFAULT_MODEL`, Home Assistant n'a même pas besoin de nommer le modèle ; sinon, il envoie `"model": "house-v2"`. Un dépôt Hugging Face privé avec un `HF_TOKEN` marche aussi, mais un dossier local est plus simple et garde les poids sur votre réseau. Attention à la RAM : le modèle lui-même a besoin d'environ 1,3 Go, et `docker stats` montre mon conteneur Laya actuel à environ 5 Go, cache de pages compris, sur une machine de 16 Go qui fait aussi tourner d'autres choses. La vitesse ne change pas, puisque le modèle a la même taille : environ 1 seconde pour une requête courte, 5 pour une longue.
 
-Il reste un vrai changement côté Home Assistant, et il n'est pas optionnel : **il doit envoyer le state compact sur lequel le modèle a été entraîné**. La requête Jev complète serait de nouveau coupée à 1 024 tokens, et le modèle verrait quelque chose sur quoi il n'a jamais été entraîné.
+Il reste un vrai changement côté Home Assistant, et il n'est pas optionnel : **il doit envoyer les states sur lesquels le modèle a été entraîné**, le state VMC compact et le state des volets basé sur les statistiques. La requête Jev complète serait de nouveau coupée à 1 024 tokens, et le modèle verrait quelque chose sur quoi il n'a jamais été entraîné.
+
+{{< alert "circle-info" >}}
+**À propos des conditions d'utilisation.** Le modèle que je garde n'a jamais été entraîné sur les sorties de Jev. Ses étiquettes viennent de Claude Opus, qui a jugé avec le recul des données Home Assistant, et je les ai vérifiées. Les réponses de Jev n'ont servi qu'à comparer, et à m'indiquer les cas qui méritaient d'être revus ; le premier test entraîné sur Jev est supprimé. Les conditions d'Anthropic ont leur propre limite : on ne peut pas utiliser les sorties de Claude pour construire des produits qui concurrencent ceux d'Anthropic, y compris pour entraîner des modèles d'IA. Un petit classifieur qui décide quand le ventilateur de ma salle de bain passe en boost est un outil privé, pas un concurrent, mais si vous comptez publier des poids entraînés de cette façon, lisez aussi ces conditions. Les étiquettes les plus propres de toutes restent les vôtres.
+{{< /alert >}}
 
 ## Est-ce que ça en valait la peine ?
 
@@ -290,14 +308,15 @@ Comme expérience, oui, clairement. Ce que j'en retiens :
 *   **L'installation est la partie facile.** Une API compatible Jev, ça veut dire un conteneur Docker et une URL dans Home Assistant. C'est vraiment agréable.
 *   **Vérifiez `truncated` avant toute chose.** Un modèle qui coupe en silence la fin de votre requête aura l'air sûr de lui et se trompera, et Home Assistant ne vous le dira pas.
 *   **Un N100 suffit pour une maison**, à environ 100 décisions par jour. La lenteur n'est pas un problème ici ; les rafales, si, et des requêtes plus courtes les règlent mieux que du matériel.
-*   **Laya de base n'est pas un moteur de décision pour des states de maison numériques**, et ses auteurs le disent. Fine-tuné, il devient étonnamment bon sur *mes* questions, après une heure d'entraînement sur un portable.
-*   **Mesurez par rapport au bruit du professeur, sur des jours mis de côté.** 93 %, ça sonne très bien, jusqu'à ce que vous voyiez que l'écart moyen fait 7 fois le bruit de Jev lui-même et que la moitié des boosts sont ratés.
-*   **La maison tourne toujours sur Jev.** Le modèle fine-tuné est assez bon pour être essayé en **mode shadow sur la VMC** : Home Assistant interroge les deux, agit selon Jev, et journalise Laya à côté. Il n'est pas assez bon pour décider.
+*   **Laya de base n'est pas un moteur de décision pour des states de maison numériques**, et ses auteurs le disent. Fine-tuné, il devient étonnamment bon sur *mes* questions, après moins de deux heures d'entraînement sur un portable.
+*   **Copier Jev n'était de toute façon pas la bonne cible.** Conditions mises à part, une copie hérite des ratés de Jev et n'apprend rien là où Jev n'a jamais été interrogé. Les étiquettes avec recul m'ont donné les volets d'été, ce qu'aucune quantité de données Jev n'aurait pu faire.
+*   **Un LLM avec du recul est un bon étiqueteur, à condition de le vérifier.** Le recorder a les faits ; le juge les transforme en 2 019 étiquettes calibrées ; une personne doit quand même regarder les cas difficiles.
+*   **La maison tourne toujours sur Jev.** v2 est assez bon pour le **mode shadow sur la VMC** : Home Assistant interroge les deux, agit selon Jev, et journalise Laya à côté. Les volets suivront au printemps prochain, une fois que le template enverra le bon state.
 
-La leçon la plus importante concerne les données. Cette expérience a prouvé que Laya peut apprendre ma maison à partir d'environ 1 000 exemples. Il n'avait pas besoin de l'apprendre de Jev. Mon [tableau de bord](/fr/jev-home-assistant-historique-retour-et-la-question-du-modele-local/) collecte déjà mes propres réponses « qui avait raison ? », et les vérifications du résultat enregistrent ce qui s'est vraiment passé après chaque décision : la douche qui a bien eu lieu, la pompe qui s'est bien arrêtée. Ces étiquettes sont **les miennes**, elles sont autorisées, et elles pourraient même apprendre à un modèle là où Jev lui-même se trompe. Il faut plus de temps pour en collecter un millier, mais c'est la version de ce modèle que je serais vraiment à l'aise de faire tourner. D'ici là, le checkpoint fine-tuné reste sur mon portable, et la maison reste sur Jev.
+La leçon la plus importante concerne toujours les données. Mon [tableau de bord](/fr/jev-home-assistant-historique-retour-et-la-question-du-modele-local/) collecte mes propres réponses « qui avait raison ? », et les vérifications du résultat enregistrent ce qui s'est vraiment passé après chaque décision. Ces étiquettes sont **les miennes**, elles n'ont besoin d'aucun juge, et ce sont les meilleures cibles qui soient. Le juge avec recul est une façon de commencer avant d'en avoir un millier ; le prochain entraînement mélangera les deux.
 
 Si vous faites tourner Laya, ou n'importe quel modèle compatible Jev, à la maison, j'aimerais vraiment savoir comment vous gérez la fenêtre de contexte et sur quoi vous l'entraînez. Les commentaires sont ouverts.
 
 ## Comment il a été construit
 
-Deux sessions Claude Code avec Opus 5.5. La première est partie de mon « remplaçons Jev par Laya », a compris comment l'intégration parle à Jev, a trouvé la troncature, a mesuré le N100, a lu mes journaux de prompts OpenRouter dans le navigateur (je me suis connecté moi-même), les a rejoués à travers Laya, et a testé chaque raccourcissement par rapport au bruit de Jev avant de modifier le moindre template. Quand elle a conclu que seul un fine-tuning pouvait aider, elle l'a proposé comme une session séparée, qui a construit le dataset, entraîné le checkpoint sur mon MacBook, l'a évalué et a vérifié comment le servir. Une troisième session a lu les deux transcriptions et rédigé cet article. Mon rôle a été de décider quoi tester, d'insister pour que les réponses de Jev ne changent pas, et de décider quoi garder, y compris s'il fallait publier ou non la partie sur la distillation.
+Plusieurs sessions Claude Code avec Opus 5.5. La première est partie de mon « remplaçons Jev par Laya », a compris comment l'intégration parle à Jev, a trouvé la troncature, a mesuré le N100, a lu mes journaux de prompts OpenRouter dans le navigateur (je me suis connecté moi-même), les a rejoués à travers Laya, et a testé chaque raccourcissement par rapport au bruit de Jev avant de modifier le moindre template. Une deuxième a construit le premier dataset, lancé le test entraîné sur Jev sur mon MacBook et vérifié comment servir un checkpoint. Après ma relecture d'un premier brouillon de cet article, une troisième a reconstruit cinq mois de décisions à partir d'une copie en lecture seule du recorder de Home Assistant, a fait étiqueter 2 019 d'entre elles par des sous-agents Opus à partir d'une grille écrite, a préparé les 52 cas disputés pour ma revue, a entraîné et évalué v2, a supprimé le test entraîné sur Jev, et a réécrit cet article. Mon rôle a été de décider quoi tester, d'insister pour que les réponses de Jev ne changent pas, de revoir les cas difficiles du juge, et de décider quoi garder et quoi publier.
