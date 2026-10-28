@@ -1,0 +1,204 @@
+{
+  "_doc": "One human, a board and a team of agents: how the Horae project is built. Figures: horae-dev/horae issues #10 #11 #12 #13 #15 #20 (estimate tables and the Actuals comments), docs/ESTIMATION.md (likely case), as of 2026-10-28. Narrate: uv run --with kokoro-onnx --with soundfile <skill>/scripts/narrate.py static/videos/human-agents-board",
+  "langs": [
+    "en",
+    "fr",
+    "it"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "min": 7,
+      "lead": 0.8,
+      "chapter": {
+        "en": "One board",
+        "fr": "Un tableau",
+        "it": "Una board"
+      },
+      "en": [
+        "This is how I build software now.",
+        "One human, a team of AI agents, and a GitHub project board between us.",
+        "The board is the only interface we share."
+      ],
+      "fr": [
+        "Voici comment je développe aujourd'hui.",
+        "Un humain, une équipe d'agents IA, et un tableau de projet GitHub entre nous.",
+        "Le tableau est la seule interface que nous partageons."
+      ],
+      "it": [
+        "Ecco come sviluppo software oggi.",
+        "Un umano, un team di agenti di IA, e una board di progetto GitHub in mezzo.",
+        "La board è l'unica interfaccia che condividiamo."
+      ]
+    },
+    {
+      "id": "plan",
+      "min": 9,
+      "chapter": {
+        "en": "Tickets first",
+        "fr": "D'abord les tickets",
+        "it": "Prima i ticket"
+      },
+      "en": [
+        "Before any code, Claude and I wrote the plan and the backlog together.",
+        "One hundred and thirty issues, each with acceptance criteria, a size and two estimates.",
+        "I validated every ticket. Then Claude put them on the board, tagged with who does the work."
+      ],
+      "fr": [
+        "Avant la moindre ligne de code, Claude et moi avons écrit le plan et le backlog ensemble.",
+        "Cent trente tickets, chacun avec ses critères d'acceptation, une taille et deux estimations.",
+        "J'ai validé chaque ticket. Puis Claude les a placés sur le tableau, étiquetés selon qui fait le travail."
+      ],
+      "it": [
+        "Prima di scrivere codice, Claude e io abbiamo scritto insieme il piano e il backlog.",
+        "Centotrenta issue, ognuna con criteri di accettazione, una taglia e due stime.",
+        "Ho validato ogni ticket. Poi Claude li ha messi sulla board, etichettati in base a chi fa il lavoro."
+      ]
+    },
+    {
+      "id": "board",
+      "min": 9,
+      "chapter": {
+        "en": "Follow the board",
+        "fr": "Suis le tableau",
+        "it": "Segui la board"
+      },
+      "en": [
+        "Then I gave one instruction: follow the board.",
+        "The lead agent takes the Ready cards in order, assigns them, and moves them to In progress.",
+        "Human-led cards are skipped. They wait for me."
+      ],
+      "fr": [
+        "Ensuite, une seule consigne : suis le tableau.",
+        "L'agent principal prend les cartes Ready dans l'ordre, les assigne, et les passe en In progress.",
+        "Les cartes menées par l'humain sont laissées de côté. Elles m'attendent."
+      ],
+      "it": [
+        "Poi ho dato una sola istruzione: segui la board.",
+        "L'agente principale prende le card in Ready nell'ordine giusto, le assegna e le sposta in In progress.",
+        "Le card guidate dall'umano vengono saltate. Aspettano me."
+      ]
+    },
+    {
+      "id": "loop",
+      "min": 10,
+      "chapter": {
+        "en": "Build, review, fix",
+        "fr": "Construire, relire, corriger",
+        "it": "Costruire, rivedere, correggere"
+      },
+      "en": [
+        "Every story goes through three agents.",
+        "One builds it. A second, independent one reviews it. A third fixes every finding.",
+        "When the CI is green, the pull request is merged and the card moves to Done."
+      ],
+      "fr": [
+        "Chaque story passe par trois agents.",
+        "Le premier la construit. Un deuxième, indépendant, la relit et fait ses remarques. Un troisième les corrige toutes.",
+        "Quand la CI est verte, la pull request est fusionnée et la carte passe en Done."
+      ],
+      "it": [
+        "Ogni story passa per tre agenti.",
+        "Il primo la costruisce. Un secondo, indipendente, la rivede. Un terzo corregge ogni problema trovato.",
+        "Quando tutti i controlli sono verdi, la pull request viene unita e la card passa in Done."
+      ]
+    },
+    {
+      "id": "human",
+      "min": 10,
+      "chapter": {
+        "en": "Human needed",
+        "fr": "Human needed",
+        "it": "Human needed"
+      },
+      "en": [
+        "When a decision is mine, the card goes to Human needed.",
+        "The questions are written in the pull request, numbered.",
+        "I answer on the PR, move the card back to Ready, and the agents pick it up again."
+      ],
+      "fr": [
+        "Quand une décision me revient, la carte passe en Human needed.",
+        "Les questions sont écrites dans la pull request, numérotées.",
+        "Je réponds sur la PR, je remets la carte en Ready, et les agents la reprennent."
+      ],
+      "it": [
+        "Quando una decisione spetta a me, la card passa in Human needed.",
+        "Le domande sono scritte nella pull request, numerate.",
+        "Rispondo sulla PR, rimetto la card in Ready, e gli agenti la riprendono."
+      ]
+    },
+    {
+      "id": "numbers",
+      "min": 12,
+      "chapter": {
+        "en": "Estimate vs reality",
+        "fr": "Estimation et réalité",
+        "it": "Stima e realtà"
+      },
+      "en": [
+        "The estimate said one human with agents would be slower than a team of three developers.",
+        "It expected hours of agent work per story. The first six stories took between seven and thirty-two minutes each.",
+        "And the reviewers caught ninety-seven findings before anything was merged."
+      ],
+      "fr": [
+        "L'estimation disait qu'un humain avec des agents serait plus lent qu'une équipe de trois développeurs.",
+        "Elle prévoyait des heures de travail d'agent par story. Les six premières ont pris entre sept et trente-deux minutes chacune.",
+        "Et les relecteurs ont relevé quatre-vingt-dix-sept problèmes avant toute fusion."
+      ],
+      "it": [
+        "La stima diceva che un umano con degli agenti sarebbe stato più lento di un team di tre sviluppatori.",
+        "Prevedeva ore di lavoro degli agenti per ogni story. Le prime sei hanno richiesto tra sette e trentadue minuti ciascuna.",
+        "E i revisori hanno trovato novantasette problemi prima di qualsiasi merge."
+      ]
+    },
+    {
+      "id": "team",
+      "min": 11,
+      "chapter": {
+        "en": "Pizza or sandwich",
+        "fr": "Pizza ou sandwich",
+        "it": "Pizza o panino"
+      },
+      "en": [
+        "A two-pizza team spends a lot of its time coordinating.",
+        "Here the team is a sandwich team: one person, and agents that don't need meetings.",
+        "The bottleneck is no longer writing code. It is how many good decisions one person can make."
+      ],
+      "fr": [
+        "Une équipe à deux pizzas passe beaucoup de temps à se coordonner.",
+        "Ici, c'est une équipe sandwich : une personne, et des agents qui n'ont pas besoin de réunions.",
+        "Le goulot d'étranglement n'est plus d'écrire du code. C'est le nombre de bonnes décisions qu'une personne peut prendre."
+      ],
+      "it": [
+        "Un team da due pizze passa molto tempo a coordinarsi.",
+        "Qui il team sta dietro un panino: una persona, e agenti che non hanno bisogno di riunioni.",
+        "Il collo di bottiglia non è più scrivere codice. È quante buone decisioni può prendere una persona."
+      ]
+    },
+    {
+      "id": "outro",
+      "min": 6,
+      "tail": 1.4,
+      "chapter": {
+        "en": "Takeaways",
+        "fr": "À retenir",
+        "it": "Da ricordare"
+      },
+      "en": [
+        "Write the tickets well.",
+        "Let the board drive.",
+        "Keep the decisions human."
+      ],
+      "fr": [
+        "Écrivez bien vos tickets.",
+        "Laissez le tableau piloter.",
+        "Gardez les décisions humaines."
+      ],
+      "it": [
+        "Scrivete bene i ticket.",
+        "Lasciate guidare la board.",
+        "Tenete umane le decisioni."
+      ]
+    }
+  ]
+}
