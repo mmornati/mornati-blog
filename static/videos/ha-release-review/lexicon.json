@@ -1,0 +1,27 @@
+{
+  "_doc": "Pronunciation fixes, applied to the spoken text only (subtitles keep the original). A [[…]] value is raw IPA for Kokoro. Checked by transcribing the track with Whisper (narration-lexicon).",
+  "en": {
+    "CI": "C I",
+    "PyPI": "pie P I",
+    "API": "A P I"
+  },
+  "fr": {
+    "CI": "C I",
+    "PyPI": "[[pˈaɪ pˈiː ˈaɪ]]",
+    "API": "A P I",
+    "workflow": "work flow",
+    "Home Assistant": "Hôme Assistant",
+    "pull request": "poull riquest",
+    "git": "guite"
+  },
+  "it": {
+    "CI": "ci ai",
+    "PyPI": "[[pˈaɪ pˈi ˈaɪ]]",
+    "workflow": "uorkflou",
+    "Home Assistant": "Home Assistent",
+    "pull request": "pul riquest",
+    "maintainer": "meintèiner",
+    "Claude": "[[klˈɔd]]",
+    "git": "[[ɡˈit]]"
+  }
+}
