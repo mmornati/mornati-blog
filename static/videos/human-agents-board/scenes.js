@@ -24,10 +24,10 @@ const STR = {
     questions: "Questions in the PR", answers: "My answers", back: "back to Ready",
     q1: "1. mcp SDK: core dependency or extra?", q2: "2. Own stdio transport: agreed?", q3: "3. Base env: should TZ be set?", q4: "6. After a crash: dead, or one restart?",
     a1: "1. Core dependency", a2: "2. Agreed", a3: "3. Add TZ too", a4: "6. One restart",
-    kNum: "ESTIMATE VS REALITY", hNum: "Estimated in hours, done in minutes.",
+    kNum: "ESTIMATE VS REALITY", hNum: "Estimated in months, done in days.",
     forecast: "Up-front forecast (likely case)", f3: "3 developers", f1: "1 human + 4 agents", weeks: "weeks", f1note: "at 15 h/week of supervision",
-    est: "estimated agent time", act: "measured agent time", caught: "review findings fixed before merge",
-    cond: "first 6 stories · agent wall-clock · horae-dev/horae · Oct 2026",
+    est: "estimated agent time", act: "measured agent time", caught: "M0 to M2, planned for 23 weeks", days: "< 2 days",
+    cond: "36 stories · agent wall-clock per milestone · horae-dev · Oct 2026",
     kTeam: "PIZZA OR SANDWICH", hTeam: "Fewer people, fewer channels.",
     pizza: "two-pizza team", pizzaSub: "8 people · 28 channels", sandwich: "sandwich team", sandSub: "1 person + agents · 4 channels",
     bottleneck: "The bottleneck: decisions, not code.",
@@ -49,10 +49,10 @@ const STR = {
     questions: "Questions dans la PR", answers: "Mes réponses", back: "retour en Ready",
     q1: "1. SDK mcp : dépendance ou extra ?", q2: "2. Transport stdio maison : d'accord ?", q3: "3. Environnement : ajouter TZ ?", q4: "6. Après un crash : mort, ou un redémarrage ?",
     a1: "1. Dépendance du cœur", a2: "2. D'accord", a3: "3. Ajouter TZ", a4: "6. Un redémarrage",
-    kNum: "ESTIMATION ET RÉALITÉ", hNum: "Estimé en heures, fait en minutes.",
+    kNum: "ESTIMATION ET RÉALITÉ", hNum: "Estimé en mois, fait en jours.",
     forecast: "Prévision initiale (cas probable)", f3: "3 développeurs", f1: "1 humain + 4 agents", weeks: "semaines", f1note: "à 15 h/semaine de supervision",
-    est: "temps d'agent estimé", act: "temps d'agent mesuré", caught: "remarques de relecture corrigées avant fusion",
-    cond: "6 premières stories · durée des agents · horae-dev/horae · oct. 2026",
+    est: "temps d'agent estimé", act: "temps d'agent mesuré", caught: "M0 à M2, prévus sur 23 semaines", days: "< 2 jours",
+    cond: "36 stories · durée des agents par jalon · horae-dev · oct. 2026",
     kTeam: "PIZZA OU SANDWICH", hTeam: "Moins de monde, moins de canaux.",
     pizza: "équipe à deux pizzas", pizzaSub: "8 personnes · 28 canaux", sandwich: "équipe sandwich", sandSub: "1 personne + agents · 4 canaux",
     bottleneck: "Le goulot : les décisions, pas le code.",
@@ -74,10 +74,10 @@ const STR = {
     questions: "Domande nella PR", answers: "Le mie risposte", back: "di nuovo in Ready",
     q1: "1. SDK mcp: dipendenza o extra?", q2: "2. Trasporto stdio nostro: ok?", q3: "3. Ambiente: aggiungere TZ?", q4: "6. Dopo un crash: morto o un riavvio?",
     a1: "1. Dipendenza del core", a2: "2. Ok", a3: "3. Aggiungere TZ", a4: "6. Un riavvio",
-    kNum: "STIMA E REALTÀ", hNum: "Stimato in ore, fatto in minuti.",
+    kNum: "STIMA E REALTÀ", hNum: "Stimato in mesi, fatto in giorni.",
     forecast: "Previsione iniziale (caso probabile)", f3: "3 sviluppatori", f1: "1 umano + 4 agenti", weeks: "settimane", f1note: "con 15 h/settimana di supervisione",
-    est: "tempo agente stimato", act: "tempo agente misurato", caught: "problemi della review corretti prima del merge",
-    cond: "prime 6 story · durata degli agenti · horae-dev/horae · ott. 2026",
+    est: "tempo agente stimato", act: "tempo agente misurato", caught: "da M0 a M2, previste in 23 settimane", days: "< 2 giorni",
+    cond: "36 story · durata degli agenti per milestone · horae-dev · ott. 2026",
     kTeam: "PIZZA O PANINO", hTeam: "Meno persone, meno canali.",
     pizza: "team da due pizze", pizzaSub: "8 persone · 28 canali", sandwich: "team da un panino", sandSub: "1 persona + agenti · 4 canali",
     bottleneck: "Il collo di bottiglia: decisioni, non codice.",
@@ -305,25 +305,26 @@ function sNumbers(t, d, cues) {
     text(`${Math.round(w * k)} ${S.weeks}`, 110 + 200 * (w / 76) * k, y + 32, { size: 15, weight: 700, color: c, alpha: kf });
   });
   text(S.f1note, 100, 430, { size: 13, color: C.faint, alpha: seg(t, 2.4, 2.9) });
-  // estimate vs actual per story (sentence 2)
-  const rows = [["#10", 54, 7], ["#11", 54, 7], ["#15", 18, 12], ["#13", 222, 32], ["#12", 252, 11], ["#20", 222, 20]];
-  const X = 540, MAXW = 560, MAXM = 252;
+  // estimate vs actual per milestone (sentence 2)
+  const rows = [["M0", 858, 69], ["M1", 2196, 564], ["M2", 2202, 1075], ["M3", 948, 347]];
+  const X = 540, MAXW = 540, MAXM = 2202;
+  const fmt = m => m >= 60 ? `${(m / 60).toFixed(1)} h` : `${m} min`;
   rows.forEach(([id, est, act], i) => {
-    const y = 196 + i * 50, ke = outCubic(seg(t, a1 + i * 0.15, a1 + 0.8 + i * 0.15)), ka = outCubic(seg(t, a1 + 1.4 + i * 0.15, a1 + 2.2 + i * 0.15));
+    const y = 200 + i * 72, ke = outCubic(seg(t, a1 + i * 0.15, a1 + 0.8 + i * 0.15)), ka = outCubic(seg(t, a1 + 1.4 + i * 0.15, a1 + 2.2 + i * 0.15));
     const al = seg(t, a1 - 0.3, a1);
-    text(id, X - 14, y + 22, { size: 15, weight: 700, font: MONO, align: "right", alpha: al });
-    panel(X, y, MAXW * est / MAXM * ke + 0.1, 16, { r: 4, fill: "#d5dbe3", stroke: false, alpha: al });
-    text(est >= 60 ? `${(est / 60).toFixed(1)} h` : `${est} min`, X + MAXW * est / MAXM * ke + 8, y + 13, { size: 12, font: MONO, color: C.faint, alpha: ke });
-    panel(X, y + 20, MAXW * act / MAXM * ka + 0.1, 16, { r: 4, fill: C.accent, stroke: false, alpha: al });
-    text(`${act} min`, X + MAXW * act / MAXM * ka + 8, y + 33, { size: 12, font: MONO, color: C.accent, weight: 700, alpha: ka });
+    text(id, X - 14, y + 24, { size: 16, weight: 700, font: MONO, align: "right", alpha: al });
+    panel(X, y, MAXW * est / MAXM * ke + 0.1, 20, { r: 4, fill: "#d5dbe3", stroke: false, alpha: al });
+    text(fmt(est), X + MAXW * est / MAXM * ke + 8, y + 15, { size: 12, font: MONO, color: C.faint, alpha: ke });
+    panel(X, y + 24, MAXW * act / MAXM * ka + 0.1, 20, { r: 4, fill: C.accent, stroke: false, alpha: al });
+    text(fmt(act), X + MAXW * act / MAXM * ka + 8, y + 39, { size: 12, font: MONO, color: C.accent, weight: 700, alpha: ka });
   });
   const kl = seg(t, a1, a1 + 0.4);
   panel(X, 508, 14, 10, { r: 2, fill: "#d5dbe3", stroke: false, alpha: kl }); text(S.est, X + 22, 518, { size: 13, color: C.soft, alpha: kl });
   panel(X + 260, 508, 14, 10, { r: 2, fill: C.accent, stroke: false, alpha: kl }); text(S.act, X + 282, 518, { size: 13, color: C.soft, alpha: kl });
-  // findings caught (sentence 3)
-  const kc = outCubic(seg(t, a2, a2 + 1.6));
-  text(String(Math.round(97 * kc)), 260, 540, { size: 72, weight: 800, font: SORA, align: "center", color: C.good, alpha: seg(t, a2, a2 + 0.3) });
-  text(S.caught, 260, 572, { size: 14, color: C.soft, align: "center", alpha: seg(t, a2, a2 + 0.3) });
+  // calendar (sentence 3)
+  const kc = seg(t, a2, a2 + 0.4);
+  text(S.days, 260, 540, { size: 60, weight: 800, font: SORA, align: "center", color: C.good, alpha: kc });
+  text(S.caught, 260, 572, { size: 14, color: C.soft, align: "center", alpha: kc });
   text(S.cond, 1200, 640, { size: 11, font: MONO, color: C.faint, align: "right", alpha: kl });
 }
 
