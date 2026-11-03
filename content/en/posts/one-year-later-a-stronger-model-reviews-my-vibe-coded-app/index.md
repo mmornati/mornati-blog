@@ -132,7 +132,7 @@ Two of the production problems (the 500s and the empty leaderboard) only made se
 I asked for one pull request per roadmap step, each reviewed by **a separate subagent** that gets the diff and the goals but not the author's conclusions, then a merge once CI is green. The session followed that loop for a day:
 
 ```mermaid
-flowchart LR
+flowchart TD
     P[One prompt] --> R[Review:<br/>backend + frontend subagents,<br/>live-site tour]
     R --> Rep[Report:<br/>50 findings + roadmap]
     Rep --> Me{I pick<br/>the order}

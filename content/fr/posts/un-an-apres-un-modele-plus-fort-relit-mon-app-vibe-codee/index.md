@@ -132,7 +132,7 @@ Deux des problèmes de production (les 500 et le classement vide) ne s'expliquai
 J'ai demandé une pull request par étape de la feuille de route, chacune relue par **un sous-agent séparé** qui reçoit le diff et les objectifs mais pas les conclusions de l'auteur, puis un merge une fois la CI verte. La session a suivi cette boucle pendant une journée :
 
 ```mermaid
-flowchart LR
+flowchart TD
     P[Un seul prompt] --> R[Revue :<br/>sous-agents backend + frontend,<br/>visite du site]
     R --> Rep[Rapport :<br/>50 constats + feuille de route]
     Rep --> Me{Je choisis<br/>l'ordre}

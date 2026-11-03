@@ -132,7 +132,7 @@ Due dei problemi in produzione (i 500 e la classifica vuota) si spiegavano solo 
 Ho chiesto una pull request per ogni passo della roadmap, ognuna revisionata da **un subagent separato** che riceve il diff e gli obiettivi ma non le conclusioni dell'autore, poi il merge quando la CI è verde. La sessione ha seguito questo ciclo per un giorno:
 
 ```mermaid
-flowchart LR
+flowchart TD
     P[Un solo prompt] --> R[Revisione:<br/>subagent backend + frontend,<br/>giro del sito]
     R --> Rep[Report:<br/>50 problemi + roadmap]
     Rep --> Me{Io scelgo<br/>l'ordine}
