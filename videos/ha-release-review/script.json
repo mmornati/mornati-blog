@@ -1,0 +1,220 @@
+{
+ "_doc": "Scenes and narration of the HA release-review CI explainer. Figures: home-assistant-csnet-home PRs 208, 209, 213, 221, issue 216 and review run of 2026-10-30 (197,674 input / 18,742 output tokens, ~$1.17).",
+ "langs": [
+  "en",
+  "fr",
+  "it"
+ ],
+ "scenes": [
+  {
+   "id": "hook",
+   "min": 7,
+   "lead": 0.6,
+   "chapter": {
+    "en": "The problem",
+    "fr": "Le problème",
+    "it": "Il problema"
+   },
+   "en": [
+    "Home Assistant ships a new release every month.",
+    "For a custom integration, any of them can break something.",
+    "And you usually find out from a user's bug report."
+   ],
+   "fr": [
+    "Home Assistant publie une nouvelle version chaque mois.",
+    "Pour une intégration personnalisée, chacune peut casser quelque chose.",
+    "Et on l'apprend souvent par le rapport de bug d'un utilisateur."
+   ],
+   "it": [
+    "Home Assistant pubblica una nuova versione ogni mese.",
+    "Per un'integrazione personalizzata, ognuna può rompere qualcosa.",
+    "E di solito lo scopri dalla segnalazione di un utente."
+   ]
+  },
+  {
+   "id": "green",
+   "min": 8,
+   "en": [
+    "Our nightly check was green, every night.",
+    "But every step was set to continue on error.",
+    "Twelve tests were failing, and nothing turned red."
+   ],
+   "fr": [
+    "Notre vérification nocturne était verte, chaque nuit.",
+    "Mais chaque étape ignorait ses propres erreurs.",
+    "Douze tests étaient en échec, et rien ne passait au rouge."
+   ],
+   "it": [
+    "Il nostro controllo notturno era verde, ogni notte.",
+    "Ma ogni passo ignorava i propri errori.",
+    "Dodici test fallivano, e niente diventava rosso."
+   ]
+  },
+  {
+   "id": "layers",
+   "min": 9,
+   "chapter": {
+    "en": "Three layers",
+    "fr": "Trois couches",
+    "it": "Tre livelli"
+   },
+   "en": [
+    "So the new CI has three layers.",
+    "Honest checks every night, that really fail.",
+    "A Claude review of each monthly release.",
+    "And a fix, only when a maintainer asks for it."
+   ],
+   "fr": [
+    "Le nouveau CI compte donc trois couches.",
+    "Des vérifications nocturnes honnêtes, qui échouent vraiment.",
+    "Une revue par Claude de chaque version mensuelle.",
+    "Et un correctif, seulement quand un mainteneur le demande."
+   ],
+   "it": [
+    "Così il nuovo CI è fatto di tre livelli.",
+    "Controlli notturni onesti, che falliscono davvero.",
+    "Una revisione di Claude per ogni versione mensile.",
+    "E una correzione, solo quando un maintainer la chiede."
+   ]
+  },
+  {
+   "id": "collect",
+   "min": 9,
+   "chapter": {
+    "en": "The review",
+    "fr": "La revue",
+    "it": "La revisione"
+   },
+   "en": [
+    "Every six hours, the workflow asks PyPI for new versions.",
+    "At the first beta of a new release, it installs it and runs the tests.",
+    "Then it diffs the Home Assistant classes the integration builds on."
+   ],
+   "fr": [
+    "Toutes les six heures, le workflow interroge PyPI.",
+    "À la première bêta d'une nouvelle version, il l'installe et lance les tests.",
+    "Puis il compare les classes de Home Assistant dont l'intégration dépend."
+   ],
+   "it": [
+    "Ogni sei ore, il workflow interroga PyPI.",
+    "Alla prima beta di una nuova versione, la installa e lancia i test.",
+    "Poi confronta le classi di Home Assistant su cui si basa l'integrazione."
+   ]
+  },
+  {
+   "id": "review",
+   "min": 10,
+   "en": [
+    "Then, a single API call, with no tools.",
+    "Claude reads the release notes, the developer blog, the diff and our code.",
+    "It answers with a table: breaking, deprecated, or not affected.",
+    "About one dollar per release."
+   ],
+   "fr": [
+    "Ensuite, un seul appel d'API, sans aucun outil.",
+    "Claude parcourt les notes de version, le blog des développeurs, le diff et notre code.",
+    "Il répond par un tableau : cassant, déprécié, ou non concerné.",
+    "Environ un dollar par version."
+   ],
+   "it": [
+    "Poi, una sola chiamata API, senza strumenti.",
+    "Claude legge le note di rilascio, il blog degli sviluppatori, il diff e il nostro codice.",
+    "Risponde con una tabella: bloccante, deprecato, o non coinvolto.",
+    "Circa un dollaro per versione."
+   ]
+  },
+  {
+   "id": "issue",
+   "min": 10,
+   "en": [
+    "A separate job, with no model, checks the report and opens an issue.",
+    "The first review found two real deprecations.",
+    "And one false positive, stated with confidence.",
+    "That is why it stops at an issue."
+   ],
+   "fr": [
+    "Un job séparé, sans modèle, vérifie le rapport et ouvre une issue.",
+    "La première revue a trouvé deux vraies dépréciations.",
+    "Et un faux positif, affirmé avec assurance.",
+    "C'est pour ça qu'elle s'arrête à une issue."
+   ],
+   "it": [
+    "Un job separato, senza modello, controlla il report e apre una issue.",
+    "La prima revisione ha trovato due deprecazioni reali.",
+    "E un falso positivo, detto con sicurezza.",
+    "Per questo si ferma a una issue."
+   ]
+  },
+  {
+   "id": "label",
+   "min": 10,
+   "chapter": {
+    "en": "One label",
+    "fr": "Un label",
+    "it": "Una label"
+   },
+   "en": [
+    "When the maintainer agrees, they add one label.",
+    "A gate checks that they have write access.",
+    "Then Claude gets six narrow tools: read, search, edit two folders, run the tests.",
+    "No shell, no network, no git."
+   ],
+   "fr": [
+    "Quand le mainteneur est d'accord, il ajoute un label.",
+    "Un premier job vérifie qu'il a les droits d'écriture.",
+    "Claude reçoit alors six outils restreints : lire, chercher, modifier deux dossiers, lancer les tests.",
+    "Pas de shell, pas de réseau, pas de git."
+   ],
+   "it": [
+    "Quando il maintainer è d'accordo, aggiunge una label.",
+    "Un primo job controlla che abbia i permessi di scrittura.",
+    "Poi Claude riceve sei strumenti ristretti: leggere, cercare, modificare due cartelle, lanciare i test.",
+    "Niente shell, niente rete, niente git."
+   ]
+  },
+  {
+   "id": "pr",
+   "min": 9,
+   "en": [
+    "The workflow re-runs the tests itself and checks which files changed.",
+    "A job with no model opens the pull request.",
+    "It never merges. Normal CI and a human review stay the gate."
+   ],
+   "fr": [
+    "Le workflow relance lui-même les tests et vérifie les fichiers modifiés.",
+    "Un job sans modèle ouvre la pull request.",
+    "Il ne fusionne jamais. Le CI habituel et une revue humaine restent le filtre."
+   ],
+   "it": [
+    "Il workflow rilancia da solo i test e controlla quali file sono cambiati.",
+    "Un job senza modello apre la pull request.",
+    "Non fa mai il merge. Il CI normale e una revisione umana restano il filtro."
+   ]
+  },
+  {
+   "id": "outro",
+   "min": 8,
+   "tail": 1.2,
+   "chapter": {
+    "en": "The rule",
+    "fr": "La règle",
+    "it": "La regola"
+   },
+   "en": [
+    "The model that reads untrusted text cannot act.",
+    "The model that acts does not decide when.",
+    "The same pattern works for any plugin of a platform that ships every month."
+   ],
+   "fr": [
+    "Le modèle qui reçoit du texte non fiable ne peut pas agir.",
+    "Le modèle qui agit ne décide pas quand.",
+    "Ce schéma marche pour tout plugin d'une plateforme qui sort chaque mois."
+   ],
+   "it": [
+    "Il modello che legge testo non fidato non può agire.",
+    "Il modello che agisce non decide quando.",
+    "Lo stesso schema funziona per ogni plugin di una piattaforma che esce ogni mese."
+   ]
+  }
+ ]
+}
