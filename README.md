@@ -21,9 +21,9 @@ static/          favicon, avatar, and post images (images/ subtree)
 themes/blowfish  Theme (git submodule)
 scripts/         migrate.py + cloudinary_sync.py
 _raw/blog-posts  Hashnode backup clone (gitignored, read-only source)
-.circleci/          CI + Deploy pipelines (primary)
-.github/workflows/  Same pipelines on GitHub Actions (fallback)
-scripts/ci/         Entry points shared by both providers
+.circleci/          CI: scheduled publication batch only (build/deploy disabled)
+.github/workflows/  CI + Deploy pipelines on GitHub Actions (primary)
+scripts/ci/         Entry points shared by the CI providers
 ```
 
 ## Local development
@@ -43,9 +43,11 @@ make serve            # http://localhost:8080
 make build            # outputs ./public
 ```
 
-The `deploy` workflow (CircleCI, `.circleci/config.yml`; GitHub Actions as a
-fallback, see `DEPLOYMENT.md` §7) runs on every push to `main`, builds the site, syncs images to Cloudinary, and pushes the result to a
-`deploy` branch that Coolify serves statically (no server-side build needed).
+The `deploy` workflow (`.github/workflows/deploy.yml`) runs on every push to
+`main`, builds the site, syncs images to Cloudinary, and pushes the result to a
+`deploy` branch that Coolify serves statically (no server-side build needed). The
+scheduled/publication batch (future-dated posts) runs on the CircleCI `scheduled`
+workflow (see `DEPLOYMENT.md` §7).
 
 ## Adding a new post
 
@@ -65,6 +67,32 @@ Main config lives in `config/_default/hugo.toml`. Per-language settings in
 Blowfish supports `[params.umamiAnalytics]` natively. Fill in
 `websiteid`, `domain` and `scriptName` in `config/_default/params.toml`
 to enable it.
+
+### OpenObserve RUM (Real User Monitoring)
+
+The site loads the OpenObserve browser RUM SDK from the official CDN
+(`https://browsersdk.openobserve.ai/<version>/openobserve-rum.js`) through the
+`layouts/partials/extend-head.html` override, so no bundler/npm step is needed
+(static Hugo site).
+
+The snippet is rendered only when the following build-time env vars are set
+(see `.env.example`):
+
+- `OPENOBSERVE_RUM_TOKEN` (required) — client token from OpenObserve
+  (Ingestion -> Real User Monitoring)
+- `OPENOBSERVE_RUM_APP_ID` (required) — RUM application id
+- `OPENOBSERVE_RUM_SITE` (required) — OpenObserve instance host
+  (e.g. `openobserve.mornati.net`)
+
+Optional: `OPENOBSERVE_RUM_ORGANIZATION`, `OPENOBSERVE_RUM_SERVICE`,
+`OPENOBSERVE_RUM_ENV`, `OPENOBSERVE_RUM_VERSION` (optional; defaults to the
+latest published `@openobserve/browser-rum` version, resolved from the npm
+registry at build time).
+
+In CI these are provided as repository secrets and wired into the
+`Build site` steps of `ci.yml` and `deploy.yml`. The scheduled publication builds
+(run by the CircleCI `deploy` job) receive the same variables as CircleCI project
+environment variables.
 
 ### Comments (Remark42)
 

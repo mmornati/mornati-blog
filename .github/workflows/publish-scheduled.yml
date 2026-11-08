@@ -1,8 +1,14 @@
 name: Publish scheduled posts
 
+# The scheduled/publication batch runs on CircleCI (see .circleci/config.yml, `scheduled`
+# workflow): GitHub Actions scheduled workflows proved not to be run reliably, which is why the
+# hourly publication moved back to CircleCI while the build itself is back on GitHub Actions.
+#
+# Manual runs of this workflow are still available as an ops escape hatch: check the due posts
+# and dispatch the GitHub deploy workflow (which builds with the OpenObserve RUM secrets) when a
+# future-dated post became due.
+
 on:
-  schedule:
-    - cron: '23 * * * *'
   workflow_dispatch:
 
 permissions:
@@ -11,9 +17,6 @@ permissions:
 
 jobs:
   publish:
-    # CircleCI is the primary provider: with CI_PROVIDER=circleci this job is skipped and costs
-    # nothing. scripts/ci/provider.sh switches; a manual run ignores the switch.
-    if: vars.CI_PROVIDER != 'circleci' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

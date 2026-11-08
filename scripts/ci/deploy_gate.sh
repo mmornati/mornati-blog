@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Decide whether a CircleCI deploy pipeline publishes. Prints a reason and exits
+# Decide whether a deploy run should publish. Prints a reason and exits
 #   0  deploy
 #   1  nothing to publish (the caller halts the job, which then counts as a success)
 #
@@ -8,6 +8,7 @@
 #   deploy_gate.sh scheduled  the hourly trigger: deploy when a future-dated post became due
 #   deploy_gate.sh manual     always deploy
 #
+# Used by the CircleCI scheduled-publication deploy job and by manual/GitHub deploy runs.
 # GitHub filters push paths itself (deploy.yml `on.push.paths`); keep SITE_PATHS in step with it.
 set -euo pipefail
 cd "$(dirname "$0")/../.."

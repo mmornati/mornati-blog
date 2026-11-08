@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Install Hugo extended on a Linux amd64 CI box (CircleCI; GitHub uses peaceiris/actions-hugo).
+# Install Hugo extended on a Linux amd64 CI box (CircleCI scheduled-publication job; GitHub uses
+# peaceiris/actions-hugo).
 # Keep HUGO_VERSION in step with .github/workflows/*.yml and HUGO_IMAGE in the Makefile.
 set -euo pipefail
 

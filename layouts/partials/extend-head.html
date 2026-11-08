@@ -11,3 +11,43 @@
 <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
 {{- $nb := resources.Get "js/notebook.js" | minify | fingerprint }}
 <script src="{{ $nb.RelPermalink }}" integrity="{{ $nb.Data.Integrity }}" defer></script>
+
+{{/* OpenObserve RUM (Real User Monitoring) - https://openobserve.ai/docs/user-guide/rum/ */}}
+{{ $rumToken := os.Getenv "OPENOBSERVE_RUM_TOKEN" }}
+{{ $rumAppId := os.Getenv "OPENOBSERVE_RUM_APP_ID" }}
+{{ $rumSite := os.Getenv "OPENOBSERVE_RUM_SITE" }}
+{{ $rumService := os.Getenv "OPENOBSERVE_RUM_SERVICE" | default "blog" }}
+{{ $rumEnv := os.Getenv "OPENOBSERVE_RUM_ENV" | default "production" }}
+{{ $rumOrg := os.Getenv "OPENOBSERVE_RUM_ORGANIZATION" | default "default" }}
+
+{{ if and $rumToken $rumAppId $rumSite }}
+{{/* OpenObserve RUM SDK version: latest published on npm; override with OPENOBSERVE_RUM_VERSION */}}
+{{ $rumRegistry := resources.GetRemote "https://registry.npmjs.org/@openobserve/browser-rum" }}
+{{ $rumMeta := transform.Unmarshal $rumRegistry }}
+{{ $rumDistTags := index $rumMeta "dist-tags" }}
+{{ $rumLatest := index $rumDistTags "latest" }}
+{{ $rumVersion := os.Getenv "OPENOBSERVE_RUM_VERSION" | default $rumLatest }}
+<script>
+  (function (h, o, u, n, d) {
+    h = h[d] = h[d] || { q: [], onReady: function (c) { h.q.push(c) } };
+    d = o.createElement(u);
+    d.async = 1;
+    d.src = n;
+    n = o.getElementsByTagName(u)[0];
+    n.parentNode.insertBefore(d, n);
+  })(window, document, 'script', 'https://browsersdk.openobserve.ai/{{ $rumVersion }}/openobserve-rum.js', 'O2_RUM');
+  window.O2_RUM.onReady(function () {
+    window.O2_RUM.init({
+      clientToken: '{{ $rumToken }}',
+      applicationId: '{{ $rumAppId }}',
+      site: '{{ $rumSite }}',
+      organizationIdentifier: '{{ $rumOrg }}',
+      service: '{{ $rumService }}',
+      env: '{{ $rumEnv }}',
+      sessionSampleRate: 100,
+      sessionReplaySampleRate: 20,
+      defaultPrivacyLevel: 'mask-user-input',
+    });
+  });
+</script>
+{{ end }}

@@ -19,9 +19,9 @@ permissions:
 
 jobs:
   build-and-deploy:
-    # CircleCI is the primary provider: with CI_PROVIDER=circleci this job is skipped and costs
-    # nothing. scripts/ci/provider.sh switches; a manual run ignores the switch.
-    if: vars.CI_PROVIDER != 'circleci' || github.event_name == 'workflow_dispatch'
+    # GitHub Actions is the primary deploy provider again: CircleCI is disabled (see
+    # .circleci/config.yml). The OpenObserve RUM build-time env vars are wired from the
+    # repository secrets below and rendered by layouts/partials/extend-head.html when set.
     runs-on: ubuntu-latest
     steps:
       - name: Checkout (with submodules)
@@ -48,6 +48,13 @@ jobs:
           FIREBASE_MESSAGING_SENDER_ID: "697630817943"
           FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
           FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
+          OPENOBSERVE_RUM_TOKEN: ${{ secrets.OPENOBSERVE_RUM_TOKEN }}
+          OPENOBSERVE_RUM_APP_ID: ${{ secrets.OPENOBSERVE_RUM_APP_ID }}
+          OPENOBSERVE_RUM_SITE: ${{ secrets.OPENOBSERVE_RUM_SITE }}
+          OPENOBSERVE_RUM_ORGANIZATION: ${{ secrets.OPENOBSERVE_RUM_ORGANIZATION }}
+          OPENOBSERVE_RUM_SERVICE: ${{ secrets.OPENOBSERVE_RUM_SERVICE }}
+          OPENOBSERVE_RUM_ENV: ${{ secrets.OPENOBSERVE_RUM_ENV }}
+          OPENOBSERVE_RUM_VERSION: ${{ secrets.OPENOBSERVE_RUM_VERSION }}
         run: bash scripts/ci/build.sh
 
       - name: Cache Cloudinary sync state

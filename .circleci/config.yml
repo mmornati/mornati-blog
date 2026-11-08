@@ -1,23 +1,29 @@
-# Blog CI/CD on CircleCI, the primary provider. .github/workflows/ is the fallback for months
-# when CircleCI runs out of credits; both call the same scripts/ci/ entry points.
-# DEPLOYMENT.md ("CI providers") explains the switch.
+# Blog CI/CD on GitHub Actions — the primary provider again (CircleCI handles the publication batch only).
+#
+# .github/workflows/ is the source of truth for the build and the deploy:
+#   ci.yml              build + validate (every branch push except main / PRs)
+#   deploy.yml          build + validate, Cloudinary sync, publish to the `deploy` branch, ping IndexNow
+#                       (pushes to main with site-path changes, plus manual dispatch for forced deploys)
+#   publish-scheduled.yml  manual runs only: check for due future-dated posts, dispatch deploy.yml when DUE
+#
+# CircleCI is kept only for the "publication" batch (the hourly scheduled deploy of a future-dated
+# post). The `ci` and `deploy` workflows are DISABLED: the build is back on GitHub Actions, where the
+# OpenObserve RUM secrets live (wired into the `Build site` steps of .github/workflows/ci.yml and
+# deploy.yml). Keeping CircleCI for the scheduled publication is the backstop for the hourly batch,
+# since GitHub Actions scheduled workflows proved not to run reliably.
 #
 # Workflows (picked by the `trigger` pipeline parameter):
-#   ci         every branch push except main (GitHub: ci.yml). Build + validate.
-#   deploy     pushes to main (GitHub: deploy.yml). Build + validate, then publish to the
-#              `deploy` branch, sync Cloudinary and ping IndexNow, but only when a site path
-#              changed since the deployed commit (scripts/ci/deploy_gate.sh).
-#              Trigger by hand on main with trigger=manual to force a deploy.
-#   scheduled  hourly schedule trigger with trigger=scheduled (GitHub: publish-scheduled.yml).
-#              Deploys only when a future-dated post became due; otherwise stops after a few
-#              seconds.
+#   scheduled  hourly schedule trigger with trigger=scheduled. Deploys only when a future-dated
+#              post became due; otherwise stops after a few seconds (before installing Hugo).
 #
 # Project settings:
 #   env vars  FIREBASE_API_KEY, FIREBASE_AUTH_DOMAIN, FIREBASE_STORAGE_BUCKET, FIREBASE_APP_ID,
-#             FIREBASE_MEASUREMENT_ID, CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY,
-#             CLOUDINARY_API_SECRET
-#   SSH key   additional key for host github.com: the private half of the repository's
-#             write deploy key "circleci-deploy" (fingerprint below).
+#             FIREBASE_MEASUREMENT_ID, CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET
+#           + OPENOBSERVE_RUM_TOKEN, OPENOBSERVE_RUM_APP_ID, OPENOBSERVE_RUM_SITE (+ optional
+#           OPENOBSERVE_RUM_ORGANIZATION / OPENOBSERVE_RUM_SERVICE / OPENOBSERVE_RUM_ENV /
+#           OPENOBSERVE_RUM_VERSION) for the scheduled publication builds
+#   SSH key   additional key for host github.com: the private half of the repository's write deploy
+#             key "circleci-deploy" (fingerprint below).
 
 version: 2.1
 
@@ -82,6 +88,19 @@ jobs:
       - run:
           name: Anything to publish?
           command: bash scripts/ci/deploy_gate.sh << parameters.trigger >> || circleci-agent step halt
+      # The OpenObserve RUM snippet is rendered at build time when the env vars are set (the
+      # scheduled publication builds must embed it too). Each run step is a new shell on CircleCI,
+      # so the values (CircleCI project environment variables) are exported through $BASH_ENV.
+      - run:
+          name: Export OpenObserve RUM env vars
+          command: |
+            echo 'export OPENOBSERVE_RUM_TOKEN="${OPENOBSERVE_RUM_TOKEN:-}"' >> "$BASH_ENV"
+            echo 'export OPENOBSERVE_RUM_APP_ID="${OPENOBSERVE_RUM_APP_ID:-}"' >> "$BASH_ENV"
+            echo 'export OPENOBSERVE_RUM_SITE="${OPENOBSERVE_RUM_SITE:-}"' >> "$BASH_ENV"
+            echo 'export OPENOBSERVE_RUM_ORGANIZATION="${OPENOBSERVE_RUM_ORGANIZATION:-default}"' >> "$BASH_ENV"
+            echo 'export OPENOBSERVE_RUM_SERVICE="${OPENOBSERVE_RUM_SERVICE:-blog}"' >> "$BASH_ENV"
+            echo 'export OPENOBSERVE_RUM_ENV="${OPENOBSERVE_RUM_ENV:-production}"' >> "$BASH_ENV"
+            echo 'export OPENOBSERVE_RUM_VERSION="${OPENOBSERVE_RUM_VERSION:-}"' >> "$BASH_ENV"
       - site
       - run:
           name: Previously deployed sitemap URLs
@@ -121,28 +140,36 @@ jobs:
             python3 scripts/ci/indexnow.py /tmp/old-urls.txt /tmp/new-urls.txt
 
 workflows:
-  ci:
-    when:
-      and:
-        - equal: [push, << pipeline.parameters.trigger >>]
-        - not:
-            equal: [main, << pipeline.git.branch >>]
-    jobs:
-      - build
+  # DISABLED — the build is back on GitHub Actions (.github/workflows/ci.yml + deploy.yml); the
+  # OpenObserve RUM secrets are wired there. Re-enable (build/deploy) only if GitHub Actions ever
+  # becomes the secondary provider again.
+  #
+  # ci:
+  #   when:
+  #     and:
+  #         - equal: [push, << pipeline.parameters.trigger >>]
+  #         - not:
+  #             equal: [main, << pipeline.git.branch >>]
+  #   jobs:
+  #     - build
 
-  deploy:
-    when:
-      and:
-        - equal: [main, << pipeline.git.branch >>]
-        - or:
-            - equal: [push, << pipeline.parameters.trigger >>]
-            - equal: [manual, << pipeline.parameters.trigger >>]
-    jobs:
-      - deploy:
-          trigger: << pipeline.parameters.trigger >>
-          # One deploy at a time: each one force-pushes the deploy branch.
-          serial-group: << pipeline.project.slug >>/deploy
+  # DISABLED — same reason as `ci` above; scheduled publication is handled by the `scheduled`
+  # workflow below, manual/forced publishes by .github/workflows/deploy.yml workflow_dispatch.
+  #
+  # deploy:
+  #   when:
+  #     and:
+  #         - equal: [main, << pipeline.git.branch >>]
+  #         - or:
+  #             - equal: [push, << pipeline.parameters.trigger >>]
+  #             - equal: [manual, << pipeline.parameters.trigger >>]
+  #   jobs:
+  #     - deploy:
+  #         trigger: << pipeline.parameters.trigger >>
+  #         # One deploy at a time: each one force-pushes the deploy branch.
+  #         serial-group: << pipeline.project.slug >>/deploy
 
+  # ACTIVE — the hourly publication batch: deploy only when a future-dated post became due.
   scheduled:
     when:
       equal: [scheduled, << pipeline.parameters.trigger >>]
