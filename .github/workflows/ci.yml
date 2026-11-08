@@ -38,6 +38,13 @@ jobs:
           FIREBASE_MESSAGING_SENDER_ID: "697630817943"
           FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
           FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
+          OPENOBSERVE_RUM_TOKEN: ${{ secrets.OPENOBSERVE_RUM_TOKEN }}
+          OPENOBSERVE_RUM_APP_ID: ${{ secrets.OPENOBSERVE_RUM_APP_ID }}
+          OPENOBSERVE_RUM_SITE: ${{ secrets.OPENOBSERVE_RUM_SITE }}
+          OPENOBSERVE_RUM_ORGANIZATION: ${{ secrets.OPENOBSERVE_RUM_ORGANIZATION }}
+          OPENOBSERVE_RUM_SERVICE: ${{ secrets.OPENOBSERVE_RUM_SERVICE }}
+          OPENOBSERVE_RUM_ENV: ${{ secrets.OPENOBSERVE_RUM_ENV }}
+          OPENOBSERVE_RUM_VERSION: ${{ secrets.OPENOBSERVE_RUM_VERSION }}
         run: bash scripts/ci/build.sh
 
       - name: Validate output

@@ -66,6 +66,30 @@ Blowfish supports `[params.umamiAnalytics]` natively. Fill in
 `websiteid`, `domain` and `scriptName` in `config/_default/params.toml`
 to enable it.
 
+### OpenObserve RUM (Real User Monitoring)
+
+The site loads the OpenObserve browser RUM SDK from the official CDN
+(`https://browsersdk.openobserve.ai/<version>/openobserve-rum.js`) through the
+`layouts/partials/extend-head.html` override, so no bundler/npm step is needed
+(static Hugo site).
+
+The snippet is rendered only when the following build-time env vars are set
+(see `.env.example`):
+
+- `OPENOBSERVE_RUM_TOKEN` (required) — client token from OpenObserve
+  (Ingestion -> Real User Monitoring)
+- `OPENOBSERVE_RUM_APP_ID` (required) — RUM application id
+- `OPENOBSERVE_RUM_SITE` (required) — OpenObserve instance host
+  (e.g. `openobserve.mornati.net`)
+
+Optional: `OPENOBSERVE_RUM_ORGANIZATION`, `OPENOBSERVE_RUM_SERVICE`,
+`OPENOBSERVE_RUM_ENV`, `OPENOBSERVE_RUM_VERSION` (optional; defaults to the
+latest published `@openobserve/browser-rum` version, resolved from the npm
+registry at build time).
+
+In CI these are provided as repository secrets and wired into the
+`Build site` steps of `ci.yml` and `deploy.yml`.
+
 ### Comments (Remark42)
 
 Blowfish v2.105 requires a user-provided `layouts/partials/comments.html`

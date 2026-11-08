@@ -89,4 +89,4 @@ enableEmoji = true
 
 [security]
   [security.funcs]
-    getenv = ['^HUGO_', '^CI$', '^FIREBASE_']
+    getenv = ['^HUGO_', '^CI$', '^FIREBASE_', '^OPENOBSERVE_']
