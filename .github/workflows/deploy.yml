@@ -19,9 +19,9 @@ permissions:
 
 jobs:
   build-and-deploy:
-    # CircleCI is the primary provider: with CI_PROVIDER=circleci this job is skipped and costs
-    # nothing. scripts/ci/provider.sh switches; a manual run ignores the switch.
-    if: vars.CI_PROVIDER != 'circleci' || github.event_name == 'workflow_dispatch'
+    # GitHub Actions is the primary deploy provider again: CircleCI is disabled (see
+    # .circleci/config.yml). The OpenObserve RUM build-time env vars are wired from the
+    # repository secrets below and rendered by layouts/partials/extend-head.html when set.
     runs-on: ubuntu-latest
     steps:
       - name: Checkout (with submodules)

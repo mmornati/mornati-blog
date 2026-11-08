@@ -18,7 +18,7 @@ Internet ──> Traefik (Coolify proxy, Let's Encrypt TLS)
                ├── blog.mornati.net/script.js ──> Remark42
                ├── blog.mornati.net/remark  ──> Remark42
                └── blog.mornati.net/umami ──> Umami
-Images: git → CircleCI (GH Actions fallback) → Cloudinary CDN (bodies) / VPS (covers)
+Images: git → GitHub Actions → Cloudinary CDN (bodies) / VPS (covers)
 ```
 
 ## 1. Coolify static site (the blog)
@@ -29,9 +29,9 @@ Public Repository**:
 - **Source:** Public repository — `https://github.com/mmornati/mornati-blog`.
   (Repo is public, so **no GitHub App is required**; a Webhook-based source
   also works. The GitHub App is only needed for private repos.)
-- **Branch:** `deploy` — this branch is auto-pushed by the CircleCI `deploy`
-  workflow (or `.github/workflows/deploy.yml` when GitHub is the active
-  provider, see §7) with the pre-built HTML.
+- **Branch:** `deploy` — this branch is auto-pushed by the GitHub Actions
+  `deploy` workflow (`.github/workflows/deploy.yml`, see §7) with the
+  pre-built HTML.
 - **Build pack:** **None** (or use `Static` without a build command). Coolify
   only pulls the committed HTML; there is nothing to build server-side.
 - **Publish directory:** `/` (the branch root *is* the site).
@@ -122,15 +122,14 @@ Enable in the site: uncomment `[umamiAnalytics]` in
 ## 4. Images / Cloudinary
 
 Git is the source of truth (`static/images/`). On deploy, the deploy pipeline
-(CircleCI, or `.github/workflows/deploy.yml` as fallback):
+(`.github/workflows/deploy.yml`):
 
 1. Uploads changed images via `scripts/cloudinary_sync.py`.
 2. Rewrites local `/images/...` references in the built HTML to
    `https://res.cloudinary.com/<cloud>/image/upload/f_auto,q_auto/blog/...`.
 
-Configure the three `CLOUDINARY_*` secrets in CircleCI (project env vars) and
-in GitHub (for the fallback). Without them the deploy
-still works — images are just served from the VPS itself.
+Configure the three `CLOUDINARY_*` secrets in GitHub (repository secrets). Without
+them the deploy still works — images are just served from the VPS itself.
 
 Covers (`cover.*` inside each post folder) always stay on the VPS: they are
 Hugo page resources served by Traefik, kept small.
@@ -157,42 +156,50 @@ by `scripts/generate_redirects.py` during the build.
 
 ## 7. CI providers
 
-CircleCI is the **primary** provider; GitHub Actions is the **fallback** for
-months when the CircleCI free credits run out. Both call the same entry points
-in `scripts/ci/` (build, validate, sitemap URLs, IndexNow), so a pipeline means
+**GitHub Actions is the primary provider again; CircleCI is disabled** for the
+build and the deploy. Only the **scheduled publication batch** stays on
+CircleCI (the hourly `scheduled` workflow). Both call the same entry points in
+`scripts/ci/` (build, validate, sitemap URLs, IndexNow), so a pipeline means
 the same thing on either side.
 
-| Pipeline                | CircleCI (`.circleci/config.yml`)                   | GitHub fallback                |
-| ----------------------- | --------------------------------------------------- | ------------------------------ |
-| build + validate        | `ci` workflow, every branch except `main`           | `ci.yml`                       |
-| deploy                  | `deploy` workflow, `main` (skips when no site path changed since the deployed commit) | `deploy.yml` |
-| scheduled posts         | `scheduled` workflow, hourly schedule trigger with `trigger=scheduled` | `publish-scheduled.yml` |
-| forced deploy           | trigger a pipeline on `main` with `trigger=manual`  | run `deploy.yml` by hand       |
+### GitHub Actions — build + deploy (primary)
 
-GitHub has no "skip unless the other CI is out of credits" mode, so every
-GitHub job carries a guard:
+- **Build + validate:** `.github/workflows/ci.yml` — runs on every pull request
+  and on every push to `main` that does not touch site paths
+  (`content/**`, `static/images/**`, `README.md`, `DEPLOYMENT.md`).
+- **Deploy:** `.github/workflows/deploy.yml` — runs on every push to `main` that
+  touches site paths, and on manual dispatch (`workflow_dispatch`). It skips
+  when no site path changed since the deployed commit (see
+  `scripts/ci/deploy_gate.sh push`).
 
-```yaml
-if: vars.CI_PROVIDER != 'circleci' || github.event_name == 'workflow_dispatch'
-```
+The OpenObserve RUM build-time env vars (`OPENOBSERVE_RUM_*`) are repository
+secrets wired into the `Build site` steps of `ci.yml` and `deploy.yml`, so the
+snippet is rendered again as soon as a GitHub Actions build runs.
 
-With the repository variable `CI_PROVIDER=circleci` (the normal state) every
-GitHub job shows as **skipped**. Manual runs ignore the variable.
+### CircleCI — scheduled publication batch (active)
 
-```sh
-scripts/ci/provider.sh            # which provider is primary now
-scripts/ci/provider.sh github     # CircleCI out of credits: GitHub runs again
-scripts/ci/provider.sh circleci   # back to CircleCI (new month)
-```
+- The hourly `scheduled` workflow (`trigger: scheduled`) deploys only when a
+  future-dated post became due; otherwise it stops at the deploy gate before
+  installing Hugo.
 
-When switching to GitHub, also pause CircleCI (Project Settings → Advanced, or
-unfollow the project), otherwise a push to `main` deploys twice.
+GitHub-side setup (one-time):
+
+- **Secrets:** `FIREBASE_*`, `CLOUDINARY_*`, `OPENOBSERVE_RUM_*`
+  (RUM token, RUM app id, RUM site; optional: organization / service / env /
+  version) — plus the Firebase values needed by the comments widget.
+- **OpenObserve RUM:** the scheduled publication builds run in the CircleCI
+  `deploy` job, which receives the `OPENOBSERVE_RUM_*` values as CircleCI
+  **project environment variables** and exports them into the build shell via
+  `$BASH_ENV` (`.circleci/config.yml`).
 
 CircleCI project setup (one-time):
 
 - **Environment variables:** `FIREBASE_API_KEY`, `FIREBASE_AUTH_DOMAIN`,
   `FIREBASE_STORAGE_BUCKET`, `FIREBASE_APP_ID`, `FIREBASE_MEASUREMENT_ID`,
-  `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`.
+  `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`,
+  `OPENOBSERVE_RUM_TOKEN`, `OPENOBSERVE_RUM_APP_ID`, `OPENOBSERVE_RUM_SITE`
+  (+ optional `OPENOBSERVE_RUM_ORGANIZATION` / `OPENOBSERVE_RUM_SERVICE` /
+  `OPENOBSERVE_RUM_ENV` / `OPENOBSERVE_RUM_VERSION`).
 - **SSH key:** a GitHub deploy key with write access (`circleci-deploy`); its
   private half goes in Project Settings → SSH Keys → Additional SSH Keys, host
   `github.com`. The fingerprint is pinned in `.circleci/config.yml`; replace it
@@ -201,7 +208,7 @@ CircleCI project setup (one-time):
   `trigger: scheduled`.
 - **Advanced:** "Auto-cancel redundant workflows" on.
 
-Budget: build and deploy run on the `medium` Docker class (~10 credits/min, a
-couple of minutes per run); the hourly check runs on `small` (~5 credits/min) and
+Budget: the hourly check runs on the `small` Docker class (~5 credits/min) and
 stops before installing Hugo, so ~720 short runs a month stay well inside the
-free allowance.
+free allowance; build and deploy now run on GitHub Actions runners (free for
+public repositories).

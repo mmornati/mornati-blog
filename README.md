@@ -21,9 +21,9 @@ static/          favicon, avatar, and post images (images/ subtree)
 themes/blowfish  Theme (git submodule)
 scripts/         migrate.py + cloudinary_sync.py
 _raw/blog-posts  Hashnode backup clone (gitignored, read-only source)
-.circleci/          CI + Deploy pipelines (primary)
-.github/workflows/  Same pipelines on GitHub Actions (fallback)
-scripts/ci/         Entry points shared by both providers
+.circleci/          CI: scheduled publication batch only (build/deploy disabled)
+.github/workflows/  CI + Deploy pipelines on GitHub Actions (primary)
+scripts/ci/         Entry points shared by the CI providers
 ```
 
 ## Local development
@@ -43,9 +43,11 @@ make serve            # http://localhost:8080
 make build            # outputs ./public
 ```
 
-The `deploy` workflow (CircleCI, `.circleci/config.yml`; GitHub Actions as a
-fallback, see `DEPLOYMENT.md` §7) runs on every push to `main`, builds the site, syncs images to Cloudinary, and pushes the result to a
-`deploy` branch that Coolify serves statically (no server-side build needed).
+The `deploy` workflow (`.github/workflows/deploy.yml`) runs on every push to
+`main`, builds the site, syncs images to Cloudinary, and pushes the result to a
+`deploy` branch that Coolify serves statically (no server-side build needed). The
+scheduled/publication batch (future-dated posts) runs on the CircleCI `scheduled`
+workflow (see `DEPLOYMENT.md` §7).
 
 ## Adding a new post
 
@@ -88,7 +90,9 @@ latest published `@openobserve/browser-rum` version, resolved from the npm
 registry at build time).
 
 In CI these are provided as repository secrets and wired into the
-`Build site` steps of `ci.yml` and `deploy.yml`.
+`Build site` steps of `ci.yml` and `deploy.yml`. The scheduled publication builds
+(run by the CircleCI `deploy` job) receive the same variables as CircleCI project
+environment variables.
 
 ### Comments (Remark42)
 

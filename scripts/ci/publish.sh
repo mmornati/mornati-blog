@@ -4,8 +4,8 @@
 # including the "deploy: <sha>" message that scripts/ci/deploy_gate.sh reads back.
 #
 # Env:
-#   DEPLOY_KEY_FINGERPRINT  SHA256 fingerprint of the write deploy key that CircleCI's
-#                           add_ssh_keys step installed under ~/.ssh
+#   DEPLOY_KEY_FINGERPRINT  SHA256 fingerprint of the write deploy key that the scheduled
+#                           CircleCI deploy job installed under ~/.ssh
 #   DEPLOY_BRANCH           branch to publish to (default: deploy; a test run can use another)
 #   CIRCLE_SHA1, CIRCLE_PROJECT_USERNAME, CIRCLE_PROJECT_REPONAME  (set by CircleCI)
 set -euo pipefail
