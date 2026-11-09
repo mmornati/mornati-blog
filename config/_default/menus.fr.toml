@@ -37,6 +37,12 @@
   weight = 10
 
 [[footer]]
+  identifier = "system-one-benchmark"
+  name = "Benchmark modèles"
+  url = "/system-one-benchmark/"
+  weight = 15
+
+[[footer]]
   identifier = "github"
   name = "GitHub"
   url = "https://github.com/mmornati"
