@@ -16,7 +16,7 @@ tags:
 - home-assistant
 - claude
 - mcp
-date: '2026-11-11T16:00:00.000000+00:00'
+date: '2026-11-10T19:00:00.000000+00:00'
 draft: false
 slug: qui-utilise-vraiment-ma-fibre-copier-le-trafic-de-la-maison-vers-un-raspberry-pi
 translationKey: home-network-traffic-mirror
