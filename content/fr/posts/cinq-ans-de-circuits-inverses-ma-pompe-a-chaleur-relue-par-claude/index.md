@@ -115,12 +115,6 @@ Quelques minutes plus tard :
 
 L'étage reçoit enfin de l'eau à 40 °C. Le plancher reçoit de l'eau mélangée autour de 27 °C, ce que demande sa loi d'eau.
 
-## Ce qu'il reste à régler
-
-Je préfère être honnête : tout n'est pas encore parfait. Quand on a remis la vanne en auto, on a vu que **la position affichée par la PAC et la position réelle de la vanne ne correspondaient pas**. Pendant des années, CSNet disait « 100 % » alors que la vanne, en auto, allait se coller à sa butée fermée. Le servomoteur est un modèle « trois points » : la PAC lui dit « ouvre » ou « ferme » pendant un certain temps, sans jamais lire sa position. La piste la plus probable est un **servomoteur qui tourne à l'envers** (les deux fils ouverture et fermeture inversés, ou un sélecteur de sens mal positionné), avec en plus une échelle rouge/bleu mal calée sur la poignée.
-
-C'est un réglage de cinq minutes, hors tension, une fois le modèle exact identifié. En attendant, la vanne est réglée pour que le plancher tourne autour de 27 °C, et la nouvelle sonde me permet de le vérifier dans Home Assistant au lieu de descendre regarder le thermomètre.
-
 ## L'intégration en a profité aussi
 
 Cet après-midi a aussi fait avancer l'[intégration CSNet](https://github.com/mmornati/home-assistant-csnet-home), avec deux nouvelles versions publiées dans la foulée :

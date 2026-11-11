@@ -115,12 +115,6 @@ A few minutes later:
 
 Upstairs finally gets 40 °C water. The floor gets mixed water around 27 °C, which is what its curve asks for.
 
-## What's left to fix
-
-I'd rather be honest: it isn't all perfect yet. When we put the valve back in auto, we saw that **the position reported by the heat pump and the valve's real position didn't match**. For years CSNet said "100%" while the valve, in auto, went and sat against its closed end stop. The actuator is a "three-point" type: the heat pump tells it "open" or "close" for a given time and never reads its position. The most likely explanation is an **actuator turning the wrong way** (the open and close wires swapped, or a direction selector set wrong), plus a red/blue scale badly aligned on the handle.
-
-It's a five-minute job, power off, once the exact model is identified. Meanwhile the valve is set so the floor runs around 27 °C, and the new sensor lets me check that in Home Assistant instead of going down to read the thermometer.
-
 ## The integration got something out of it too
 
 The afternoon also moved the [CSNet integration](https://github.com/mmornati/home-assistant-csnet-home) forward, with two new releases published on the spot:

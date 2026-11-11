@@ -115,12 +115,6 @@ Pochi minuti dopo:
 
 Il piano di sopra riceve finalmente acqua a 40 °C. Il pavimento riceve acqua miscelata intorno ai 27 °C, quello che chiede la sua curva.
 
-## Cosa resta da sistemare
-
-Preferisco essere onesto: non è ancora tutto perfetto. Quando abbiamo rimesso la valvola in auto, abbiamo visto che **la posizione indicata dalla pompa di calore e quella reale della valvola non corrispondevano**. Per anni CSNet ha detto "100%" mentre la valvola, in auto, andava a fermarsi sul finecorsa chiuso. L'attuatore è di tipo "a tre punti": la pompa di calore gli dice "apri" o "chiudi" per un certo tempo, senza mai leggerne la posizione. La pista più probabile è un **attuatore che gira al contrario** (i fili di apertura e chiusura invertiti, o un selettore del senso di rotazione sbagliato), con in più una scala rosso/blu mal posizionata sulla maniglia.
-
-È un lavoro di cinque minuti, a corrente staccata, una volta identificato il modello esatto. Nel frattempo la valvola è regolata perché il pavimento giri intorno ai 27 °C, e la nuova sonda mi permette di verificarlo in Home Assistant invece di scendere a guardare il termometro.
-
 ## Ne ha approfittato anche l'integrazione
 
 Il pomeriggio ha fatto avanzare anche l'[integrazione CSNet](https://github.com/mmornati/home-assistant-csnet-home), con due nuove versioni pubblicate al volo:
