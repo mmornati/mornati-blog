@@ -26,8 +26,8 @@ const STR = {
     a1: "1. Core dependency", a2: "2. Agreed", a3: "3. Add TZ too", a4: "6. One restart",
     kNum: "ESTIMATE VS REALITY", hNum: "Estimated in months, done in days.",
     forecast: "Up-front forecast (likely case)", f3: "3 developers", f1: "1 human + 4 agents", weeks: "weeks", f1note: "at 15 h/week of supervision",
-    est: "estimated agent time", act: "measured agent time", caught: "M0 to M2, planned for 23 weeks", days: "< 2 days",
-    cond: "36 stories · agent wall-clock per milestone · horae-dev · Oct 2026",
+    est: "estimated agent time", act: "measured agent time", caught: "Horae agent work, planned for 76 weeks", days: "15 days",
+    cond: "timed stories: Horae 42 · Angelia 30 · agent wall-clock · Nov 2026",
     kTeam: "PIZZA OR SANDWICH", hTeam: "Fewer people, fewer channels.",
     pizza: "two-pizza team", pizzaSub: "8 people · 28 channels", sandwich: "sandwich team", sandSub: "1 person + agents · 4 channels",
     bottleneck: "The bottleneck: decisions, not code.",
@@ -51,8 +51,8 @@ const STR = {
     a1: "1. Dépendance du cœur", a2: "2. D'accord", a3: "3. Ajouter TZ", a4: "6. Un redémarrage",
     kNum: "ESTIMATION ET RÉALITÉ", hNum: "Estimé en mois, fait en jours.",
     forecast: "Prévision initiale (cas probable)", f3: "3 développeurs", f1: "1 humain + 4 agents", weeks: "semaines", f1note: "à 15 h/semaine de supervision",
-    est: "temps d'agent estimé", act: "temps d'agent mesuré", caught: "M0 à M2, prévus sur 23 semaines", days: "< 2 jours",
-    cond: "36 stories · durée des agents par jalon · horae-dev · oct. 2026",
+    est: "temps d'agent estimé", act: "temps d'agent mesuré", caught: "travail des agents sur Horae, prévu sur 76 semaines", days: "15 jours",
+    cond: "stories chronométrées : Horae 42 · Angelia 30 · nov. 2026",
     kTeam: "PIZZA OU SANDWICH", hTeam: "Moins de monde, moins de canaux.",
     pizza: "équipe à deux pizzas", pizzaSub: "8 personnes · 28 canaux", sandwich: "équipe sandwich", sandSub: "1 personne + agents · 4 canaux",
     bottleneck: "Le goulot : les décisions, pas le code.",
@@ -76,8 +76,8 @@ const STR = {
     a1: "1. Dipendenza del core", a2: "2. Ok", a3: "3. Aggiungere TZ", a4: "6. Un riavvio",
     kNum: "STIMA E REALTÀ", hNum: "Stimato in mesi, fatto in giorni.",
     forecast: "Previsione iniziale (caso probabile)", f3: "3 sviluppatori", f1: "1 umano + 4 agenti", weeks: "settimane", f1note: "con 15 h/settimana di supervisione",
-    est: "tempo agente stimato", act: "tempo agente misurato", caught: "da M0 a M2, previste in 23 settimane", days: "< 2 giorni",
-    cond: "36 story · durata degli agenti per milestone · horae-dev · ott. 2026",
+    est: "tempo agente stimato", act: "tempo agente misurato", caught: "lavoro degli agenti su Horae, previsto in 76 settimane", days: "15 giorni",
+    cond: "story cronometrate: Horae 42 · Angelia 30 · nov. 2026",
     kTeam: "PIZZA O PANINO", hTeam: "Meno persone, meno canali.",
     pizza: "team da due pizze", pizzaSub: "8 persone · 28 canali", sandwich: "team da un panino", sandSub: "1 persona + agenti · 4 canali",
     bottleneck: "Il collo di bottiglia: decisioni, non codice.",
@@ -306,11 +306,11 @@ function sNumbers(t, d, cues) {
   });
   text(S.f1note, 100, 430, { size: 13, color: C.faint, alpha: seg(t, 2.4, 2.9) });
   // estimate vs actual per milestone (sentence 2)
-  const rows = [["M0", 858, 69], ["M1", 2196, 564], ["M2", 2202, 1075], ["M3", 948, 347]];
-  const X = 540, MAXW = 540, MAXM = 2202;
+  const rows = [["Horae", 6936, 2322], ["Angelia", 6330, 1104]];
+  const X = 560, MAXW = 520, MAXM = 6936;
   const fmt = m => m >= 60 ? `${(m / 60).toFixed(1)} h` : `${m} min`;
   rows.forEach(([id, est, act], i) => {
-    const y = 200 + i * 72, ke = outCubic(seg(t, a1 + i * 0.15, a1 + 0.8 + i * 0.15)), ka = outCubic(seg(t, a1 + 1.4 + i * 0.15, a1 + 2.2 + i * 0.15));
+    const y = 230 + i * 120, ke = outCubic(seg(t, a1 + i * 0.15, a1 + 0.8 + i * 0.15)), ka = outCubic(seg(t, a1 + 1.4 + i * 0.15, a1 + 2.2 + i * 0.15));
     const al = seg(t, a1 - 0.3, a1);
     text(id, X - 14, y + 24, { size: 16, weight: 700, font: MONO, align: "right", alpha: al });
     panel(X, y, MAXW * est / MAXM * ke + 0.1, 20, { r: 4, fill: "#d5dbe3", stroke: false, alpha: al });

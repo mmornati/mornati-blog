@@ -12,14 +12,14 @@ tags:
 - estimation
 - productivity
 - team-topology
-date: '2026-10-31T17:00:00.000000+00:00'
+date: '2026-11-14T17:00:00.000000+00:00'
 draft: false
 slug: un-umano-una-board-e-un-team-di-agenti
 translationKey: human-agents-board
 cover: cover.jpg
 showHero: true
-description: "Un esperimento per ridisegnare il ciclo di sviluppo intorno a una board di GitHub Project condivisa da un umano e da un team di agenti IA. Ticket scritti con Claude e validati da me, una sola istruzione (\"segui la board\"), tre agenti per story (costruire, review indipendente, correggere) e un protocollo semplice per quando serve un umano. La stima diceva che un umano con degli agenti sarebbe stato più lento di tre sviluppatori. Dopo 36 story, le prime tre milestone, pianificate su 23 settimane, erano unite in meno di due giorni. Cosa dicono i numeri, cosa succede quando la quota di utilizzo ferma tutto, e come un secondo progetto, Angelia, cambia l'organizzazione."
-summary: "La stima diceva che un umano con quattro agenti avrebbe impiegato 76 settimane dove tre sviluppatori ne impiegano 22. Dopo 36 story, il lavoro degli agenti ha richiesto circa un terzo del tempo stimato, nessun umano è dovuto subentrare, e le prime tre milestone, pianificate su 23 settimane, erano unite in meno di due giorni. Il collo di bottiglia resta l'umano, ma non dove lo metteva il modello. In più: cosa insegnano gli stop per quota, e una seconda board, Angelia."
+description: "Un esperimento per ridisegnare il ciclo di sviluppo intorno a una board di GitHub Project condivisa da un umano e da un team di agenti IA, condotto su due progetti reali. Ticket scritti con Claude e validati da me, una sola istruzione (\"segui la board\"), agenti per costruire, fare la review e correggere, e un protocollo semplice per quando serve un umano. La stima diceva che un umano con degli agenti avrebbe impiegato 76 settimane per Horae. Tutto il lavoro che gli agenti potevano fare è stato finito in 15 giorni, senza nessun intervento umano su 123 story registrate. Cosa dicono i numeri sui due progetti, cosa hanno cambiato la quota di utilizzo e il conto dei token, e perché l'ultimo miglio, un vero deployment, è stato ancora soprattutto umano."
+summary: "La stima diceva che un umano con quattro agenti avrebbe impiegato 76 settimane per costruire Horae, dove tre sviluppatori ne impiegano 22. Tutto il lavoro che gli agenti potevano fare è stato finito in 15 giorni. Su entrambi i progetti gli agenti hanno richiesto da un terzo a un sesto del tempo stimato, e nessun umano è dovuto subentrare su 123 story registrate. Il collo di bottiglia resta l'umano, ma non dove lo metteva il modello: nei ticket, nelle decisioni, nella quota e nel primo vero deployment."
 projects:
 - horae
 - angelia
@@ -27,11 +27,11 @@ projects:
 
 Da qualche settimana sto verificando fino a che punto può cambiare il ciclo di sviluppo del software quando umani e agenti lavorano **sulla stessa board**. Non "un'IA che scrive il codice al posto mio", ma uno spazio di lavoro condiviso: il backlog, le colonne, le pull request e le decisioni vivono tutti in un GitHub Project, e sia gli umani sia gli agenti lo leggono e lo aggiornano.
 
-Il primo vero test è **Horae**, un progetto personale che sto costruendo soprattutto con agenti. Prima di scrivere una sola riga di codice ho chiesto a Claude di stimarlo in due modi: in **giorni umani**, se lo costruisse un team di sviluppatori, e in **giorni IA**, se lo costruisse un team di agenti con me a supervisionare. La risposta era chiara, e un po' deludente: **un umano con quattro agenti sarebbe stato più lento di tre sviluppatori**. 76 settimane contro 22, perché la mia supervisione sarebbe stata il collo di bottiglia.
+Ho condotto l'esperimento su due progetti reali. Il primo è stato **Horae**, un agente personale self-hosted. Prima di scrivere una sola riga di codice ho chiesto a Claude di stimarlo in due modi: in **giorni umani**, se lo costruisse un team di sviluppatori, e in **giorni IA**, se lo costruisse un team di agenti con me a supervisionare. La risposta era chiara, e un po' deludente: **un umano con quattro agenti sarebbe stato più lento di tre sviluppatori**. 76 settimane contro 22, perché la mia supervisione sarebbe stata il collo di bottiglia. **Angelia**, un bus di eventi di release scritto in Go, è arrivato qualche giorno dopo, con una board organizzata sulla base di quello che mi aveva insegnato Horae.
 
-Non ero convinto. Così ho organizzato il progetto in modo che fosse la board stessa a darmi la risposta: ogni story porta la sua stima, e ogni story riceve i suoi numeri reali quando è finita. Poi ho dato agli agenti una sola istruzione: *segui la board*.
+Non ero convinto dalla stima. Così ho organizzato entrambi i progetti in modo che fosse la board stessa a darmi la risposta: ogni story porta la sua stima, e ogni story riceve i suoi numeri reali quando è finita. Poi ho dato agli agenti una sola istruzione: *segui la board*.
 
-Questo post racconta come funziona giorno per giorno (la board, gli agenti, i momenti in cui servo io), cosa dicono 36 story finite rispetto alla stima, cosa succede quando la quota di utilizzo ferma tutto a metà strada, come un secondo progetto, **Angelia**, cambia l'organizzazione, e cosa cambia quando il tuo "team" è una persona con qualche agente invece di un team da due pizze.
+Due settimane e mezza dopo, tutto il lavoro su Horae che un agente poteva fare è unito, Horae gira sul mio server di casa e ha già mandato un promemoria al mio telefono, e Angelia ha pubblicato la sua prima release. Questo post racconta come funziona giorno per giorno, cosa dicono i numeri rispetto alla stima, cosa hanno cambiato la quota di utilizzo e il conto dei token, e perché l'ultimo miglio è stato ancora soprattutto umano.
 
 ## 0. Prima il risultato
 
@@ -43,11 +43,13 @@ Ecco tutto il ciclo in un centinaio di secondi. Come [i miei video precedenti](/
 
 *Premi Play (con l'audio). Cambia lingua nella barra dei controlli o attiva i sottotitoli. [Aprilo a pagina intera](/videos/human-agents-board/?lang=it) per avere l'elenco dei capitoli.*
 
-## 1. Il progetto: Horae
+## 1. Due progetti
 
-[**Horae**](https://github.com/horae-dev/horae) è un agente personale prevedibile e self-hosted: pipeline fisse invece di un loop di agenti, al massimo un passo LLM limitato, plugin con permessi dichiarati installati da git. Il brief del mattino, i promemoria, qualche integrazione con le mie note e la mia posta. Un prodotto vero con vincoli veri: input non affidabili, segreti, plugin che non ho scritto io.
+[**Horae**](https://github.com/horae-dev/horae) è un agente personale prevedibile e self-hosted: pipeline fisse invece di un loop di agenti, al massimo un passo LLM limitato, plugin con permessi dichiarati installati da git. Il brief del mattino, i promemoria, le integrazioni con le mie note, i miei calendari e la mia posta. Un prodotto vero con vincoli veri: input non affidabili, segreti, plugin che non ho scritto io. Python, 15 repository.
 
-È anche il primo progetto che ho deciso di costruire **soprattutto con agenti fin dal primo giorno**, con me come maintainer part-time: circa 15 ore a settimana, sere e weekend.
+[**Angelia**](https://github.com/angelia-dev/angelia) è un bus di eventi di release self-hosted: osserva PyPI, npm, crates.io, le release di GitHub e i registry OCI, e consegna un CloudEvent firmato per ogni nuova versione a CI, chat e agenti IA. Go, 5 repository.
+
+Li ho costruiti entrambi **soprattutto con agenti fin dal primo giorno**, con me come maintainer part-time: sere, qualche mattina e i weekend.
 
 ## 2. Prima i ticket, e li valida l'umano
 
@@ -70,7 +72,7 @@ Il progetto ha dei campi personalizzati che rendono la board leggibile sia dagli
 | Risk class | Normal · Docs/CI · Core contract · Security · Integration · External API · Design/prompt | sicurezza e API esterne richiedono molta più supervisione |
 | Human days, Agent hours, Supervision hours, First-pass % | numeri | le due stime, per story e per epic |
 
-![La vista "Backlog by milestone": ogni epic con la sua milestone, la data obiettivo, i giorni umani, le ore degli agenti e le ore di supervisione](/images/one-human-a-board-and-a-team-of-agents/estimates-by-epic.webp)
+![La vista "Backlog by milestone" all'inizio: ogni epic con la sua milestone, la data obiettivo, i giorni umani, le ore degli agenti e le ore di supervisione](/images/one-human-a-board-and-a-team-of-agents/estimates-by-epic.webp)
 
 Ogni repository ha anche un `AGENTS.md` (setup, comandi, convenzioni, definizione di "fatto") e una policy `graft.yaml` che dice quali percorsi richiedono la mia review, così le regole vivono nel repository, non in un prompt.
 
@@ -87,13 +89,13 @@ La vista board ha sei colonne. Le loro descrizioni contano, perché sono il cont
 | **Human needed** | bloccata sul maintainer |
 | **Done** | unita e accettata |
 
-![La board di Horae il 31 ottobre: 69 elementi in Backlog, 1 in Ready, 10 in corso, 1 in attesa dell'umano e 40 finiti, tra cui le epic delle prime tre milestone al 100%](/images/one-human-a-board-and-a-team-of-agents/board.webp)
+![La board di Horae il 13 novembre: 150 elementi finiti, 1 in corso, 3 in attesa dell'umano, e un Backlog che contiene solo task umani: l'app Graft, le impostazioni di sicurezza, le chiavi dei provider, le risorse del server, i test sul telefono, la configurazione della pubblicazione e la release v0.1](/images/one-human-a-board-and-a-team-of-agents/board.webp)
 
 Intorno ci sono altre cinque viste: **Roadmap**, **Backlog by milestone** (con le stime), **Agent-ready** (filtro `label:agent-ready status:Ready`: quello che un agente può prendere adesso), **Human work** (gli elementi Human-led e Human-only, il vero collo di bottiglia) e **Burning points** (i rischi).
 
-![La vista "Human work": ogni elemento Human-led e Human-only con le sue ore di supervisione, da 8 a 28 ore ciascuno](/images/one-human-a-board-and-a-team-of-agents/human-work.webp)
+![La vista "Human work" all'inizio: ogni elemento Human-led e Human-only con le sue ore di supervisione, da 8 a 28 ore ciascuno](/images/one-human-a-board-and-a-team-of-agents/human-work.webp)
 
-Quest'ultima è la schermata che guardo di più. Mi dice dove andranno le mie serate.
+Guardate la colonna Backlog nella board qui sopra: quello che resta su Horae è esattamente il lavoro che solo io posso fare.
 
 ## 4. Una sola istruzione: segui la board
 
@@ -116,22 +118,24 @@ Da lì, la sessione principale di Claude Code ha guidato la board. Per ogni stor
 
 ![La story #13 nella cronologia della issue: spostata in Ready, assegnata, spostata in In progress, chiusa dalla PR unita, poi il commento Actuals: 1 implementazione, 1 review con 20 problemi (8 gravi), 1 passata di correzione, circa 32 minuti di agente, nessun intervento umano](/images/one-human-a-board-and-a-team-of-agents/issue-actuals.webp)
 
-Le card con Executor **Human-led** vengono saltate finché non ho preso le decisioni. Quando ci sono story indipendenti in Ready, l'agente principale le avvia **in parallelo**, ognuna nel suo worktree git: tre o quattro alla volta è la norma.
+Le card con Executor **Human-led** vengono saltate finché non ho preso le decisioni. Quando ci sono story indipendenti in Ready, l'agente principale le avvia **in parallelo**, ognuna nel suo worktree git.
 
-Dopo la prima serata, le mie istruzioni sono diventate ancora più brevi, e sempre **una milestone alla volta**: *"Start M2"*, poi *"Can you proceed with the next user stories ready to dev?"*. Non ho mai chiesto tutto il backlog in un colpo solo. Si è rivelato importante (sezione 8).
+Dopo la prima serata, le mie istruzioni sono diventate ancora più brevi, e sempre **una milestone alla volta**: *"Start M2"*, *"Can you proceed with the next user stories ready to dev?"*, *"continue"*. Undici giorni dopo, l'ultima è stata *"yes go to complete the full project with the remaining tasks"*. Non ho mai chiesto tutto il backlog in un colpo solo. Si è rivelato importante (sezione 8).
+
+La board è anche cresciuta da sola. Gli agenti hanno aperto **43 nuove issue** su Horae e 34 su Angelia: seguiti delle review, story divise in due, lacune del core scoperte mentre costruivano i plugin. Sono passate per lo stesso ciclo.
 
 ### Cosa hanno trovato i revisori
 
-È la parte che mi ha convinto che il ciclo funziona. L'implementatore diceva sempre "tutti i controlli passano". Il revisore trovava sempre qualcosa di reale, e spesso di serio. Su 36 story, gli Actuals elencano **più di 360 problemi trovati in review**, tutti corretti prima del merge. Qualche esempio:
+È la parte che mi ha convinto che il ciclo funziona. L'implementatore diceva sempre "tutti i controlli passano". Il revisore trovava quasi sempre qualcosa di reale, e spesso di serio. Solo nelle prime 36 story di Horae, gli Actuals elencano **più di 360 problemi trovati in review**, tutti corretti prima del merge. Qualche esempio:
 
 - **#15 workflow degli agenti**: l'hook di commit usava il primo `python3` nel PATH. Con il Python 3.9 di default di macOS andava in crash e **bloccava ogni commit**, compresi i miei.
 - **#13 schema** (20 problemi, di cui 8 gravi): il percorso di una nota poteva uscire dal vault di Obsidian verso `.obsidian/plugins` (esecuzione di codice sul mio portatile), `notify.push` accettava link `javascript:`, e il lockfile accettava URL git `ext::`.
 - **#18 store SQLite**: le chiavi esterne erano attive prima delle migrazioni, quindi una futura ricostruzione di tabella avrebbe cancellato in silenzio tutte le voci del journal. Il revisore ha riprodotto la perdita di dati.
-- **#19 ciclo di vita delle esecuzioni**: per capire se un'esecuzione era ancora viva si guardavano hostname e ID del processo, cosa che non funziona nei container. La correzione è diventata un lock di file a livello di kernel per ogni pipeline.
 - **#32 cache**: dopo aver annullato un'esecuzione, la successiva esecuzione identica avrebbe riapplicato gli stessi intent dalla cache, gratis, per un massimo di 7 giorni, compresi intent nati da una prompt injection.
-- **#30 backend locali**: una risposta gzip di 305 KB si espandeva a 300 MiB e veniva accettata.
+- **#191 installazioni di terze parti**: un plugin di terze parti poteva piazzare un pacchetto avvelenato nella cache di download condivisa con le installazioni first-party, che una build successiva avrebbe eseguito sulla mia macchina, senza che il plugin venisse mai eseguito. Il revisore ha riprodotto l'attacco dall'inizio alla fine.
+- **#52 suite dei plugin malevoli**: nessuno dei 41 attacchi è passato. Poi un revisore ha disattivato 24 protezioni una alla volta per verificare che il test corrispondente fallisse. Cinque test passavano ancora con la loro protezione rimossa, quindi per quelle garanzie la suite dava una falsa sicurezza. Corretto prima del merge.
 
-E uno che i revisori non potevano trovare: il backend claude-cli (#29) passava tutti i test con i mock, ma la prima esecuzione reale con il mio token ha fatto fallire quattro test. La vera CLI avvolge il JSON in blocchi di codice, ragiona prima di rispondere e ritenta in silenzio le risposte troncate fino a tre volte, quindi una chiamata limitata a 64 token ne fatturava 256. I mock confermano le tue ipotesi; la realtà no.
+E uno che i revisori non potevano trovare: il backend claude-cli (#29) passava tutti i test con i mock, ma la prima esecuzione reale con il mio token ha fatto fallire quattro test. La vera CLI avvolge il JSON in blocchi di codice, ragiona prima di rispondere e ritenta in silenzio le risposte troncate fino a tre volte, quindi una chiamata limitata a 64 token ne fatturava 256. I mock confermano le tue ipotesi; la realtà no. La sezione 10 ne ha molti altri.
 
 ## 5. Quando serve un umano
 
@@ -144,15 +148,21 @@ Il protocollo sta in due passi:
 
 ![La pull request #85, la nota di design del plugin host: dieci domande numerate per il maintainer, e sotto le mie risposte, una riga ciascuna](/images/one-human-a-board-and-a-team-of-agents/pr-questions-answers.webp)
 
-Dieci domande, dieci risposte di una riga, una card rimessa in Ready. È tutta l'interfaccia. Finora l'ho fatto sei volte: il plugin host, il backend claude-cli, la de-identificazione, l'action guard, l'oscuramento dei segreti e i link di azione firmati. La mia risposta più lunga è di dieci righe.
+Dieci domande, dieci risposte di una riga, una card rimessa in Ready. È tutta l'interfaccia.
 
-Lo stesso schema torna per le decisioni più piccole. Quando `PLAN.md` era ambiguo, gli agenti **hanno scelto l'opzione più restrittiva** (allentare una regola dopo non rompe niente, stringerla sì), l'hanno segnata come provvisoria e me l'hanno elencata: alla fine di M3 c'erano più di 50 decisioni numerate in `schemas/README.md`. Gli ADR e il formato delle skill ("Agent + human check") sono rimasti senza merge finché non ho scritto "Accept and merge".
+Quando `PLAN.md` era ambiguo, gli agenti **hanno scelto l'opzione più restrittiva** (allentare una regola dopo non rompe niente, stringerla sì), l'hanno segnata come provvisoria e me l'hanno elencata. Alla fine c'erano più di 70 decisioni numerate in `schemas/README.md` di Horae.
 
-Gli agenti mi hanno anche detto chiaramente cosa *non potevano* fare: installare una GitHub App privata sull'organizzazione, rendere pubblica l'immagine del container, attivare l'impostazione "Template repository" o lanciare il test reale con il mio token. Questi compiti sono miei, e sono elencati in ogni report.
+### Il protocollo è cambiato il tredicesimo giorno
+
+Il 9 novembre la board aveva diverse card in attesa di me, tutte con il codice già unito e solo una verifica nel mondo reale da fare. Ho scritto: *"Get for all of them the recommendation you would like to do and move on. Plan the next development phases and go."* L'agente principale le ha chiuse, ha spostato ogni verifica nel mondo reale in una di tre issue di checklist per me, ha accettato il template di nota predefinito come una scelta di design che gli avevo delegato, ha pubblicato un piano da M4 a M8 e ha iniziato a costruire.
+
+Ha comunque tracciato un confine che non gli avevo chiesto. Le story che controllano quale codice di plugin viene installato ed eseguito (#44, #46, #47) sono arrivate solo fino a una PR con review: *"Fare il merge di codice di installazione critico per la sicurezza senza che tu lo guardi non spetta a me."* Nei due giorni successivi ho approvato nove di queste PR: installazione da git, approvazione dei permessi e lockfile, aggiornamento e audit, il runtime dei container, l'autenticazione MCP, il proxy di uscita, le esecuzioni di pipeline soggette ad approvazione, mount e limiti, e le installazioni di terze parti.
+
+Ecco la parte scomoda. Alcune di queste approvazioni mi hanno preso un paio di minuti: "I'll review it", poi "review done, you can proceed" due minuti dopo. Un revisore di sicurezza indipendente aveva già esaminato ogni diff, e la PR elencava le decisioni da verificare, quindi ho letto le decisioni, non il codice. È quello per cui il sistema è pensato, ma significa anche che **il cancello umano è solido solo quanto l'attenzione che c'è dietro**.
 
 ## 6. La stima, e perché ne dubitavo
 
-Ecco cosa diceva il modello, nel caso probabile:
+Ecco cosa diceva il modello per Horae, nel caso probabile:
 
 | | Team umano | Un umano + 4 agenti |
 |---|---|---|
@@ -166,29 +176,46 @@ Il modello era accurato e le sue fonti erano buone: gli [orizzonti temporali di 
 - Dopo tre fallimenti, **subentra un umano** al 60% dello sforzo umano.
 - Durata di un agente: 0,75 h per una story S, 2 h per una M, 5 h per una L.
 
-Quindi gran parte delle 1.134 ore ero io, a rivedere diff e a salvare agenti. E la roadmap costruita su questa stima collocava le prime tre milestone (le fondamenta, il walking skeleton, il passo LLM) in **23 settimane**, dal 2 novembre 2026 al 12 aprile 2027.
+Quindi gran parte delle 1.134 ore ero io, a rivedere diff e a salvare agenti. La roadmap costruita su questa stima andava dal **2 novembre 2026 al 13 aprile 2028**.
 
-## 7. Cosa dice la board dopo 36 story
+## 7. Cosa dicono le board
 
-La prima versione di questo post aveva sei story. Due giorni dopo la board ne aveva 36, quindi ecco un quadro più completo. Il "tempo agente misurato" è la somma delle durate dei tre agenti (costruire, review, correggere) come riportata su ogni issue; non comprende l'attesa della CI.
+### Horae: finito in 15 giorni
 
-| Milestone | Story | Tempo agente stimato | **Tempo agente misurato** | Supervisione stimata | Calendario previsto | **Calendario reale** |
-|---|---|---|---|---|---|---|
-| M0 Foundations | 6 | 14,3 h | **1,1 h**¹ | 36 h | 4,4 settimane | la prima serata + una review |
-| M1 Walking skeleton | 11 | 36,6 h | **9,4 h** | 88 h | 9,0 settimane | **un giorno** (28 ott., 08:48 → 15:18) |
-| M2 LLM step | 12² | 36,7 h | **17,9 h** | 101 h | 9,8 settimane | **18 ore** (28 ott. 15:32 → 29 ott. 09:22) |
-| M3 Dogfood (in corso) | 7 finora | 15,8 h | **5,8 h** | 28 h | 18,4 settimane | una serata finora |
-| **Totale** | **36** | **103 h** | **34 h** | **252 h** | | **0 interventi umani** |
+Delle 97 story e task del backlog originale di Horae, **89 sono finite**. Le 8 che restano sono 7 task solo umani (account, impostazioni, dispositivi, la release stessa) e un'integrazione che richiede una piccola modifica in due servizi che gestisco io. Strada facendo, gli agenti hanno anche aperto e chiuso 41 issue loro.
 
-¹ Il threat model (#14) l'ho rivisto io e non è cronometrato. ² Comprende la #113, la correzione emersa dal test reale che non era nel backlog originale, e la #29, le cui 3 h 40 min includono l'attesa dei merge paralleli.
+| Milestone | Finite | Previsto (inizio → obiettivo) |
+|---|---|---|
+| M0 Foundations | 6 / 8 | nov. 2026 → dic. 2026 |
+| M1 Walking skeleton | 11 / 11 | dic. 2026 → feb. 2027 |
+| M2 LLM step | 12 / 13 | feb. 2027 → apr. 2027 |
+| M3 Dogfood | 39 / 42 | apr. 2027 → ago. 2027 |
+| M4 Marketplace | 9 / 9 | ago. 2027 → ott. 2027 |
+| M5 Hard isolation | 7 / 7 | ott. 2027 → gen. 2028 |
+| M6 Existing MCP services | 2 / 3 | gen. 2028 → feb. 2028 |
+| M7 Mail, school, home | 10 / 10 | feb. 2028 → mar. 2028 |
+| M8 Public v0.1 | 3 / 5 | mar. 2028 → **apr. 2028** |
 
-M0, M1 e M2 erano pianificate su **23 settimane di calendario** e sono state completate **in meno di due giorni**, prima ancora della data di inizio prevista. Anche il team di tre sviluppatori della stima avrebbe avuto bisogno di circa 7 settimane.
+Tutto quello che è ancora aperto è nelle mani di un umano. La prima story è partita il **27 ottobre**, e l'ultimo task degli agenti è stato unito l'**11 novembre**: **15 giorni di calendario**, di cui gli agenti hanno effettivamente lavorato in 8. Il piano diceva 76 settimane. Anche il team di tre sviluppatori della stima avrebbe avuto bisogno di circa 18 settimane per le stesse 89 story (183 giorni-persona).
 
-Tre cose saltano all'occhio:
+### Tempo degli agenti: da un terzo a un sesto della stima
 
-1. **Il tempo degli agenti è stato circa 3 volte inferiore alla stima, non 9.** Le prime sei story suggerivano 9 volte, ma erano le più facili. Le story successive avevano revisori di sicurezza, secondi giri di review e merge tra branch paralleli: una story M ha richiesto in media **65 minuti** contro 3,6 ore stimate, una story S **48 minuti** contro 1,1 ore (vicino alla stima), e le story di sicurezza Human-led hanno richiesto circa metà del tempo agente stimato. Comunque il tempo degli agenti non è mai stato il collo di bottiglia.
-2. **Nessun intervento umano, su 36 story.** Il modello si aspettava che le story M fallissero il primo tentativo la maggior parte delle volte e ricadessero su di me. Non sono ricadute su di me: il revisore ha trovato i problemi e il correttore li ha corretti. Un primo tentativo fallito è diventato un'iterazione interna economica, non un salvataggio umano.
-3. **La mia supervisione non è sparita, si è spostata.** La stima metteva **252 ore** di supervisione su queste 36 story, soprattutto per rivedere diff. Non ho rivisto nessun diff. Quello che ho fatto davvero in quei due giorni: una dozzina di messaggi in chat, le risposte a sei note di design, la review di un threat model, due "Accept and merge" e un test reale con il mio token. Non l'ho cronometrato, ma è stato compatibile con una normale giornata di lavoro. Il resto del mio tempo è andato *a monte*, nelle sessioni di pianificazione e nella validazione di 130 ticket.
+Entrambi i progetti registrano la durata degli agenti negli Actuals. Ecco le story che hanno sia un tempo sia una stima:
+
+| | Story cronometrate | Tempo agente stimato | **Tempo agente misurato** | Rapporto |
+|---|---|---|---|---|
+| Horae | 42 | 116 h | **39 h** | ~3 volte meno |
+| Angelia | 30 | 106 h | **18 h** | ~6 volte meno |
+
+Su Angelia, dove il modello è sulla card, lo schema è lo stesso a ogni livello: una story Opus ha richiesto in media **44 minuti** contro 4,2 ore stimate, una story Sonnet **30 minuti** contro 2,9 ore, e una story M **34 minuti** contro 3,5 ore.
+
+Horae ha una lacuna che ho creato io: quando sono passato a un ciclo più leggero per risparmiare token (sezione 8), gli Actuals hanno continuato a dire quale agente e quale modello avevano fatto il lavoro, ma **hanno smesso di registrare il tempo**. Quindi 88 story di Horae non hanno una durata misurata. Se copiate questo sistema, proteggete il tempo nel vostro template di Actuals; è la prima cosa che salta quando si ottimizza il costo.
+
+### Interventi umani e supervisione
+
+**Nessun intervento umano**, in tutti i 123 Actuals che lo registrano, sui due progetti. Il modello si aspettava che le story M fallissero il primo tentativo la maggior parte delle volte e ricadessero su di me. Non è successo: il revisore ha trovato i problemi e il correttore li ha corretti. Un primo tentativo fallito è diventato un'iterazione interna economica, non un salvataggio umano.
+
+Per le 89 story di Horae finite, la stima prevedeva **684 ore della mia supervisione**, soprattutto per rivedere diff. Non ho rivisto quasi nessun diff. In quei 15 giorni ho mandato una quarantina di messaggi alla sessione principale, quasi tutti di una riga ("continue", "Start M2", "review done, you can proceed"), ho risposto a sette note di design, ho accettato gli ADR e il formato delle skill, ho preso una manciata di decisioni ("Relax it (option 2)", "Yes, container only") e ho approvato nove PR di sicurezza. Non l'ho cronometrato, quindi non inventerò un numero, ma siamo lontanissimi dalle 684 ore. Il resto del mio tempo è andato **a monte**, nelle sessioni di pianificazione e nella validazione dei ticket, e **a valle**, nel deployment della sezione 10.
 
 ### Perché il modello sbagliava
 
@@ -196,115 +223,144 @@ Il modello non era fatto male. Era **costruito su numeri del 2025, e metteva l'u
 
 - **I dati sono invecchiati in fretta.** L'aggiornamento di METR mette il tempo di raddoppio della lunghezza dei compiti che i modelli di frontiera sanno portare a termine a [circa 89 giorni per i modelli dal 2024](https://metr.org/blog/2026-1-29-time-horizon-1-1/), e Anthropic parla di un raddoppio ["circa ogni quattro mesi, contro i sette mesi di prima"](https://www.anthropic.com/institute/recursive-self-improvement). Una stima fatta a ottobre su studi di inizio 2025 è calibrata su modelli indietro di due o tre raddoppi.
 - **Presumeva che un umano rivedesse ogni tentativo.** In questo workflow la review la fa un agente indipendente, e io rivedo le decisioni. È anche la direzione in cui vanno i grandi team: Anthropic scrive che ["la code review umana è diventata un nuovo collo di bottiglia"](https://www.anthropic.com/institute/recursive-self-improvement), con oltre l'80% del suo codice unito ormai scritto da Claude. Anche il team .NET di Microsoft, dopo dieci mesi con il coding agent di Copilot, [indica la review come collo di bottiglia](https://devblogs.microsoft.com/dotnet/ten-months-with-cca-in-dotnet-runtime/).
-- **Il "successo al primo tentativo" era l'unità sbagliata.** Misura se il primo diff è pronto per il merge. Con un revisore e un correttore nel ciclo, conta se il *ciclo* converge senza un umano. 36 su 36 l'hanno fatto.
+- **Il "successo al primo tentativo" era l'unità sbagliata.** Misura se il primo diff è pronto per il merge. Con un revisore e un correttore nel ciclo, conta se il *ciclo* converge senza un umano. 123 su 123 l'hanno fatto.
 
 ### Cosa dice ancora di giusto il modello
 
 Non voglio sostituire un numero sbagliato con un altro, quindi ecco i limiti onesti:
 
-- **Niente è ancora in produzione.** "Unito con la CI verde dopo una review indipendente" non vuol dire "corretto". M3 è la milestone di dogfooding, ed è la prima volta che Horae girerà sulle mie note reali. L'action guard (#35) ha ancora bisogno di una sessione manuale di red team che la review automatica non poteva fare.
-- **Le parti più difficili non sono ancora iniziate.** L'isolamento dei plugin, il marketplace e le API esterne non ufficiali sono in milestone successive.
-- **I difetti non spariscono.** Gli studi trovano ancora più problemi nelle PR scritte dall'IA ([1,7 volte più problemi gravi per CodeRabbit](https://www.coderabbit.ai/blog/state-of-ai-vs-human-code-generation-report), [il 44% dei compiti con una vulnerabilità a rischio per Veracode](https://www.veracode.com/wp-content/uploads/2026-GenAI-Report-Infographic.pdf), più instabilità per DORA). I miei 360 problemi dicono la stessa cosa: la prima bozza è spesso sbagliata. È cambiato chi se ne accorge.
-- **Il tempo a monte è reale.** Scrivere e validare 130 buoni ticket mi ha richiesto più tempo di quanto ne abbiano impiegato gli agenti per consegnare tre milestone. Il team .NET ha visto la stessa cosa: il tasso di successo del loro agente è passato dal 38% al 69% dopo istruzioni migliori, e la loro conclusione è che ["la preparazione conta più del modello"](https://devblogs.microsoft.com/dotnet/ten-months-with-cca-in-dotnet-runtime/).
+- **Gran parte non è ancora provata sul campo.** Il core di Horae e i plugin Obsidian, calendario e ntfy ora girano sul mio server (sezione 10). I plugin di posta, scuola, Home Assistant e Google non hanno mai toccato un account reale; il protocollo di ÉcoleDirecte è stato scritto a partire dalla documentazione della community.
+- **I difetti non spariscono.** Gli studi trovano ancora più problemi nelle PR scritte dall'IA ([1,7 volte più problemi gravi per CodeRabbit](https://www.coderabbit.ai/blog/state-of-ai-vs-human-code-generation-report), [il 44% dei compiti con una vulnerabilità a rischio per Veracode](https://www.veracode.com/wp-content/uploads/2026-GenAI-Report-Infographic.pdf), più instabilità per DORA). Le mie centinaia di problemi trovati dicono la stessa cosa: la prima bozza è spesso sbagliata. È cambiato chi se ne accorge.
+- **Il tempo a monte e a valle è reale.** Scrivere e validare i ticket mi ha richiesto più tempo di quanto ne abbiano impiegato gli agenti per consegnare intere milestone. Il deployment mi ha preso due serate. Il team .NET ha visto anche la parte a monte: il tasso di successo del loro agente è passato dal 38% al 69% dopo istruzioni migliori, e la loro conclusione è che ["la preparazione conta più del modello"](https://devblogs.microsoft.com/dotnet/ten-months-with-cca-in-dotnet-runtime/).
+- **Il modello non ha prezzato due nuovi limiti**: la quota di utilizzo e il conto dei token. Prossima sezione.
 
-Quindi la stima aveva ragione: **il collo di bottiglia sono io**. Sbagliava sul *tipo* di lavoro che avrei fatto. Mi contava come revisore di codice. Lavoro come product owner e come architetto che risponde a domande.
+Quindi la stima aveva ragione: **il collo di bottiglia sono io**. Sbagliava sul *tipo* di lavoro che avrei fatto. Mi contava come revisore di codice. Ho lavorato come product owner, come architetto che risponde a domande, come approvatore e, alla fine, come operatore.
 
-## 8. Gli stop fanno parte del workflow
+## 8. Stop, quota e conto dei token
 
-Ecco una cosa che nessuna stima menziona: il lavoro **si ferma**. Non perché qualcosa si rompe, ma perché l'umano non c'è, o perché la quota di utilizzo finisce. Horae non è finito, e in questo momento è fermo: la mia quota settimanale è quasi esaurita.
+Ecco una cosa che nessuna stima menziona: il lavoro **si ferma**. Non perché qualcosa si rompe, ma perché l'umano non c'è, o perché la quota di utilizzo finisce.
 
-Questa è la cronologia di Horae finora (ora di Parigi):
-
-| Pausa | Perché | Cosa l'ha fatto ripartire |
-|---|---|---|
-| 27 ott. 23:22 → 28 ott. 07:58 | notte; gli ADR aspettavano la mia accettazione | *"Accept and merge"* |
-| 28 ott. 22:12 → 22:50 | limite di utilizzo raggiunto | *"continue"* |
-| 29 ott. 01:25 → 08:15 | M2 finita tranne una story in attesa del mio test reale | *"Merge #29 without it"*, poi l'esecuzione reale |
-| 29 ott. 09:22 → 18:24 | la mia giornata di lavoro; niente più in Ready | *"Can you proceed with the next user stories ready to dev?"* |
-| 29 ott. 22:16 → adesso | limite di sessione, poi la quota settimanale | non ancora |
-
-In circa 48 ore di calendario, gli agenti hanno effettivamente lavorato per circa 23. Il resto era attesa: di me, o della quota.
+Horae ha chiuso story in 9 giorni tra il 27 ottobre e il 12 novembre. In mezzo: le notti, le mie giornate di lavoro, quattro stop per limite di utilizzo e due lunghe pause, il 30–31 ottobre e dal 2 al 7 novembre. La seconda era dovuta alla quota settimanale e all'altro progetto: dall'1 al 7 novembre facevo girare Angelia, poi di nuovo Horae dall'8 novembre. **Due board condividono un umano e una quota.**
 
 Cosa ho imparato dagli stop:
 
-- **La board è il salvataggio.** Quando tutto si ferma, non si perde niente: ogni card dice a che punto è, ogni PR contiene le sue domande, ogni story finita ha i suoi Actuals. La sessione successiva, o la persona successiva, comincia leggendo la board, non una cronologia di chat.
-- **Chiedere una milestone alla volta è ciò che rende gli stop economici.** Siccome ho chiesto M1, poi M2, poi "le prossime story", ogni stop è arrivato tra due blocchi di lavoro o dentro un blocco piccolo. Se avessi chiesto tutto il backlog, la quota avrebbe tagliato a metà un blocco molto più grande.
-- **Uno stop a metà di una story ha un costo.** All'ultimo limite, quattro story di plugin erano In progress: una aveva una PR, le altre solo un branch o un worktree. Quando è arrivato il primo limite di utilizzo, l'agente principale ha fermato di proposito i suoi due agenti in esecuzione invece di bruciare l'ultimo margine disponibile, e ha annotato a che punto era ciascuno (branch, percorso del worktree, cosa restava da fare). È quella nota che rende possibile ripartire. Ora ne farei una regola: **prima di fermarsi, ogni card In progress riceve un commento di checkpoint.**
-- **Il protocollo umano funziona attraverso gli stop, ma solo se l'agente principale rilegge la board.** Il 29 ottobre alle 19:18 ho risposto alle dieci domande sulla nota dei link di azione firmati e ho rimesso la #38 in Ready. Tre ore dopo, il report dell'agente principale elencava ancora la #38 come "in attesa delle tue risposte": lavorava sui propri appunti, non sulla board. La card è ancora in Ready oggi. La correzione è semplice: rileggere la board tra una story e l'altra, non solo all'inizio.
-- **La quota si comporta come un limite di WIP.** Limita quanto lavoro può essere in corso, e come ogni limite di WIP premia i blocchi piccoli e il finire prima di cominciare.
+- **La board è il salvataggio.** Quando tutto si ferma, non si perde niente: ogni card dice a che punto è, ogni PR contiene le sue domande, ogni story finita ha i suoi Actuals. Una settimana dopo, è bastato *"Continue"* per riprendere Horae.
+- **Chiedere una milestone alla volta è ciò che rende gli stop economici.** Ogni stop è arrivato tra due blocchi di lavoro o dentro un blocco piccolo.
+- **Uno stop a metà di una story ha un costo.** Quando arriva un limite di utilizzo, l'agente principale ferma di proposito i suoi agenti in esecuzione invece di bruciare l'ultimo margine disponibile, e annota a che punto era ciascuno (branch, percorso del worktree, cosa restava da fare). È quella nota che rende possibile ripartire.
+- **L'agente principale deve rileggere la board tra una story e l'altra.** Una volta ho risposto a una nota di design e ho rimesso la card in Ready, e tre ore dopo l'agente principale la elencava ancora come "in attesa delle tue risposte": lavorava sui propri appunti, non sulla board.
 
-Quindi il vero ciclo non è "gli agenti lavorano all'infinito". È **gli agenti eseguono un blocco, l'umano decide e fa ripartire**. L'umano è anche lo scheduler.
+### Il conto dei token
+
+L'8 novembre, dopo il terzo stop per limite di utilizzo, ho chiesto all'agente principale di analizzare dove andavano i token. La risposta era chiara:
+
+- **Tre agenti per story** (costruire, review, correggere) rileggevano ciascuno gran parte degli stessi documenti e dello stesso codice: circa **da 600.000 a 1 milione di token per story**.
+- **Fino a 7 story in parallelo** causavano conflitti di merge e tre collisioni sui numeri delle decisioni, ognuna con giri in più.
+- **Ogni problema minore riceveva una passata di correzione**, e le piccole modifiche andavano agli agenti.
+
+Il nuovo "ciclo leggero":
+
+1. **Un agente per story come default**: implementa, rivede il proprio diff rispetto a una checklist, corregge, apre la PR e aspetta la CI. Sonnet come default, Opus per il lavoro di sicurezza o sui contratti del core.
+2. **Un revisore indipendente solo per le story di sicurezza o sui contratti del core**, limitato al diff, che segnala i problemi gravi e medi e li corregge lui stesso.
+3. **I problemi minori diventano issue di follow-up.**
+4. **Al massimo due story in corso.**
+5. **Merge, rinumerazioni e piccole modifiche le fa l'agente principale.**
+
+Le tre story successive hanno usato circa **80.000, 108.000 e 220.000 token**. Da tre a dieci volte meno, ed è il ciclo che ha finito da M3 a M7. Il lavoro di sicurezza ha mantenuto il suo revisore indipendente, ed è da lì che vengono i problemi seri della sezione 4. Il prezzo sono stati i dati sui tempi, come ho detto sopra.
 
 ## 9. Una seconda board: Angelia
 
-Il 30 ottobre ho iniziato un secondo progetto, [**Angelia**](https://github.com/angelia-dev/angelia): un bus di eventi di release self-hosted che osserva PyPI, npm, crates.io, le release di GitHub e i registry OCI, e consegna un CloudEvent firmato per ogni nuova versione a CI, chat e agenti IA. Questa volta scritto in Go.
+Il 30 ottobre ho chiesto a Claude di copiare quello che avevamo fatto su horae-dev e di costruire "a full board agent + human development oriented to work together", in cui **sono gli agenti a decidere quando serve un umano** e **il modello viene scelto in base alla complessità**. In circa 45 minuti ha creato cinque repository e **129 issue** sulla [Angelia Roadmap](https://github.com/orgs/angelia-dev/projects/1).
 
-Ho chiesto a Claude di copiare quello che avevamo fatto su horae-dev e di costruire "a full board agent + human development oriented to work together", in cui **sono gli agenti a decidere quando serve un umano**, e in cui **il modello viene scelto in base alla complessità**. In circa 45 minuti ha creato cinque repository e **129 issue** sulla [Angelia Roadmap](https://github.com/orgs/angelia-dev/projects/1).
+![La board di Angelia il 13 novembre: 180 elementi finiti (issue e relative pull request), 35 in Backlog, 2 in Ready, 3 in corso, 3 in review e 4 in attesa dell'umano. Ogni card mostra il suo esecutore, il suo modello e la sua taglia](/images/one-human-a-board-and-a-team-of-agents/angelia-board.webp)
 
-![La board di Angelia: 87 elementi in Backlog, 6 in Ready, 1 in corso e 1 in review. Ogni card mostra il suo esecutore, il suo modello e la sua taglia, e le prime card sono task solo umani](/images/one-human-a-board-and-a-team-of-agents/angelia-board.webp)
-
-È simile, ma non uguale. Ecco cosa è cambiato, soprattutto grazie a quello che mi ha insegnato Horae:
+È simile a Horae, ma non uguale:
 
 | | Horae | Angelia |
 |---|---|---|
 | Repository | 15 | 5 |
-| Issue | 130 | 129 |
+| Issue all'inizio | 130 | 129 |
 | **Scelta del modello** | la sceglie l'agente principale per ogni story | un campo **Complexity** determina un campo **Model** su ogni card: Low → Haiku, Medium → Sonnet, High e Very high → Opus; posso cambiarlo io |
 | **Quando chiedere a un umano** | il campo Executor, più il giudizio dell'agente | trigger espliciti in `AGENTS.md`: un contratto pubblico, una scelta di sicurezza, una nuova dipendenza, una specifica ambigua, o lo stesso controllo della CI che fallisce tre volte |
 | **Escalation** | niente di scritto | tre fallimenti della CI o il doppio del tempo stimato → un nuovo tentativo con il modello superiore → poi un umano |
-| **Livello di dettaglio delle specifiche** | ogni story dettagliata fin dall'inizio | Fasi 0 e 1 dettagliate (`agent-ready`); le Fasi 2 e 3 sono **27 abbozzi** (`needs-spec`), dettagliate poco prima che inizino |
-| **Prima fase** | le fondamenta | uno **spike** con sei benchmark e un go/no-go umano sulle scelte di linguaggio e di plugin |
-| **Review** | Graft rimandato | installare Graft è una delle prime card |
+| **Livello di dettaglio delle specifiche** | ogni story dettagliata fin dall'inizio | Fasi 0 e 1 dettagliate (`agent-ready`); le Fasi 2 e 3 sono **27 abbozzi** (`needs-spec`), dettagliati poco prima che inizino |
+| **Prima fase** | le fondamenta | uno **spike** con dei benchmark e un go/no-go umano |
+| **Dove girano gli agenti** | una sessione locale di Claude Code | un thread coordinatore e agenti nel cloud; il mio Mac per le scritture sulla board e i benchmark |
 | **Viste** | 6 | 8, con l'aggiunta di una board **Human needed** e di un **Model planner** |
 
 ![La vista "Model planner": le story aperte con il loro stato, il modello suggerito, la fase, la complessità, la taglia, l'esecutore e le ore degli agenti](/images/one-human-a-board-and-a-team-of-agents/angelia-model-planner.webp)
 
-Due di questi cambiamenti rispondono a problemi che ho avuto su Horae:
+### Cosa è successo
 
-- **Specifiche just-in-time.** Su Horae ho validato 130 ticket dettagliati prima di qualsiasi riga di codice. È stato il passo umano più costoso, e i ticket più lontani saranno superati quando gli agenti ci arriveranno. Su Angelia sono dettagliate solo le due fasi successive; il resto aspetta che lo spike abbia risposto alle grandi domande.
-- **Il modello è sulla card.** Su Horae l'agente principale sceglieva il modello strada facendo, e funzionava, ma era invisibile. Su Angelia la scelta è visibile, verificabile e modificabile prima dell'esecuzione, e gli Actuals diranno se Haiku è bastato per le story "Low".
+Angelia è partito il 1° novembre con un solo messaggio: controlla la board, fai da coordinatore, costruisci ogni story in Ready con il modello indicato sulla sua card, fai la review con un altro agente, correggi, e fai il merge quando la CI è verde. **35 story chiuse il primo giorno.** Al 13 novembre:
 
-Su Angelia non è ancora stato unito niente, e guardate cosa c'è in testa alla board: **task solo umani**. Installare l'app di review, configurare il runtime degli agenti e i limiti di spesa, riservare i nomi, preparare l'ambiente dei benchmark. L'umano viene per primo.
+- **83 story finite**: 55 delle 95 del backlog originale, più 28 aggiunte dagli agenti. La Fase 0 è a 32 su 38, la Fase 1 a 21 su 30, e la Fase 2 è iniziata.
+- **Release**: v0.1.0 taggata il 10 novembre e **v0.1.2 pubblicata il 12 novembre**. La roadmap prevedeva l'MVP v0.1 per marzo 2027.
+- **Benchmark su hardware reale**: i benchmark dello spike sono girati sul mio Mac, compreso uno che osserva 2.000 repository GitHub con un solo token. Un'esecuzione reale di 6,5 ore è stata interrotta da un riavvio di Claude Code e ha prodotto un report parziale.
 
-La stima di Angelia usa ancora la stessa griglia di Horae (una story M = 3,5 ore di agenti), per un totale di **220 giorni umani, 294 ore di agenti e 431 ore di supervisione**. La sua Fase 0 sarà un secondo test dello stesso modello, su un linguaggio diverso e su un tipo di progetto diverso.
+E tre cose che non sono andate come previsto:
 
-## 10. Team da due pizze o team da un panino?
+- **La board si è disallineata.** Il coordinatore non poteva scrivere direttamente sul progetto, quindi ha inoltrato **64 richieste di aggiornamento della board** a una sessione di supporto sul mio Mac. Il 3 novembre ho scritto: *"there is nothing on the board to approve. Where the PR/Issues concerned are?"* La correzione è stata mettere ogni PR sulla board come card a sé, ed è per questo che la colonna Done conta issue e PR. **L'agente che fa il lavoro deve poter aggiornare la board direttamente**, altrimenti la board smette di essere la verità.
+- **La release è arrivata prima del go/no-go.** La v0.1 è uscita, ma il report della Fase 0 e la decisione go/no-go (#110, #119) sono ancora in Backlog. Gli agenti sono andati più veloci delle mie scartoffie; la decisione formale deve recuperare.
+- **La stima non è stata ricalibrata.** La griglia di Angelia dice ancora che una story M richiede 3,5 ore di agenti. In media ha richiesto 34 minuti. I dati di Horae c'erano; avrei dovuto usarli.
+
+Le **specifiche just-in-time** hanno funzionato come speravo: gli abbozzi delle fasi successive vengono dettagliati solo adesso, dopo che lo spike ha risposto alle grandi domande. E il **modello sulla card** ha reso visibile il costo prima di ogni esecuzione: delle story cronometrate, 15 sono girate su Opus, 14 su Sonnet e 1 su Haiku.
+
+## 10. L'ultimo miglio è umano
+
+Il 12 novembre ho chiesto all'agente principale di Horae: *"What is the status of the horae-dev project? Are we able to finish and start to test?"* Ha fatto girare Horae in locale su una copia pulita in pochi minuti. Poi gli ho chiesto di fare il deployment sul mio server di casa, dove giravano già Coolify, authentik, un tunnel Cloudflare, ntfy e Uptime Kuma.
+
+Ci sono volute **due serate**, ed è lì che la CI verde ha incontrato la realtà:
+
+- L'immagine del container su GHCR era **privata**, quindi il server non poteva scaricarla. GitHub non ha un'API per cambiarlo; ho dovuto cliccare io.
+- **Cloudflare bloccava l'health check dell'helper di LiveSync** perché si identificava come `Python-urllib`, e l'helper interpretava il 403 come credenziali sbagliate.
+- Coolify creava un file di configurazione montato **vuoto e in sola lettura**.
+- Il database di LiveSync era **bloccato** sui miei due dispositivi, quindi il server veniva rifiutato come nuovo dispositivo.
+- **Ogni installazione di plugin falliva**: i plugin prendevano l'SDK da un commit git, e l'installer di Horae giustamente rifiuta le sorgenti senza hash. La correzione è stata pubblicare l'SDK su PyPI, e per questo ho dovuto configurare io il trusted publisher.
+- **I pack non si potevano installare affatto**: l'installer provava a costruire un ambiente Python per un plugin che contiene solo file. Era un vero bug, corretto nella #201.
+- Il mio Obsidian desktop **ha smesso di sincronizzare** per un problema di DNS sul Mac.
+
+Ciascuno di questi ha richiesto a un agente pochi minuti di diagnosi, una volta fatta la mia parte: accedere a Coolify e authentik nel pannello del browser, digitare i segreti, aggiungere l'hostname del tunnel, configurare PyPI, sbloccare cose in Obsidian, incollare comandi nel terminale del container, e guardare il mio telefono.
+
+Alle 21:24 del 13 novembre ho scritto due parole nella sessione: *"Phone rang."* Un task che avevo scritto in Obsidian sul desktop si era sincronizzato sul server, Horae l'aveva trovato e ntfy aveva mandato il promemoria al mio iPhone. Il prossimo è il brief del mattino, in attesa della #201.
+
+Gli agenti hanno fatto settimane di lavoro in pochi giorni. Il primo vero deployment ha comunque richiesto un umano per ogni account, segreto, impostazione e dispositivo, e ha trovato bug che nessuna review e nessuna esecuzione della CI avevano visto.
+
+## 11. Team da due pizze o team da un panino?
 
 La stima confrontava "un umano + agenti" con "tre sviluppatori". Penso che il confronto più interessante riguardi la forma del team.
 
 Il **team da due pizze** di Amazon (abbastanza piccolo da essere sfamato con due pizze, quindi da sei a dieci persone) è stato pensato per limitare la coordinazione. Anche così, otto persone hanno **28 canali di comunicazione** tra loro (n(n−1)/2). Matt Ström-Awn scrive che l'idea [si è trasformata in "team da due panini"](https://mattstromawn.com/writing/high-agency-strategy/), "lo stesso principio, ma con un team di due persone". A luglio [Business Insider ha raccolto lo stesso segnale da diversi leader del settore](https://finance.yahoo.com/technology/ai/articles/2-pizza-days-over-heres-095501046.html): il field CTO di Cursor dice che "due pizze sono troppa pizza", il CEO di Coinbase parla di "team di una persona".
 
-Una board come questa è un **hub**, non una rete. Un umano parla con un agente principale, l'agente principale parla con gli agenti operativi, e questi non parlano mai tra loro. Con quattro agenti sono quattro canali, non 28. Non è un dettaglio: la ricerca sulla cooperazione tra agenti trova che agenti che si coordinano tra loro [fanno nettamente peggio di un agente da solo](https://www.mintlify.com/cooperbench/CooperBench/results/findings), quindi l'hub è la forma giusta anche per gli agenti.
+Una board come questa è un **hub**, non una rete. Un umano parla con un agente principale, l'agente principale parla con gli agenti operativi, e questi non parlano mai tra loro. Con quattro agenti sono quattro canali, non 28. Non è un dettaglio: la ricerca sulla cooperazione tra agenti trova che agenti che si coordinano tra loro [fanno nettamente peggio di un agente da solo](https://www.mintlify.com/cooperbench/CooperBench/results/findings), quindi l'hub è la forma giusta anche per gli agenti. L'analisi dei token di Horae dice la stessa cosa dal lato dei costi: più agenti in parallelo hanno significato più conflitti, non più velocità.
 
 Cosa ne ricavo:
 
-- **L'unità di throughput ora sono le decisioni al giorno, non le righe di codice al giorno.** La capacità decisionale di una persona è il tetto. Le mie 15 ore a settimana sono il vero vincolo, come diceva il modello, solo spese in un altro modo. E ora c'è un secondo tetto: la quota di utilizzo.
-- **Un team da un panino, due persone, è probabilmente il punto di equilibrio.** Due persone raddoppiano la capacità decisionale con un solo canale in più, e la board continua a muoversi quando una delle due è occupata. Su Horae la divisione ovvia sarebbe prodotto e architettura da una parte, sicurezza e story Human-led dall'altra.
-- **Un team da due pizze diventa più team da un panino**, ognuno responsabile di un prodotto o di un repository con la propria board, invece di otto persone su un unico backlog. È letteralmente quello che sto facendo con Horae e Angelia: due board, un umano, ognuna con i propri agenti. La coordinazione che resta è tra board, e può essere esplicita: link "bloccato da", contratti in `schemas/`, ADR.
-- **I team da due pizze vincono ancora** dove il lavoro è irriducibilmente umano e parallelo: review di sicurezza, reperibilità, conoscenza del dominio, il rapporto con gli utenti, e il bus factor. Un team da un panino con agenti ha un bus factor di uno o due.
+- **L'unità di throughput ora sono le decisioni al giorno, non le righe di codice al giorno.** La capacità decisionale di una persona è il tetto, e ora c'è un secondo tetto: la quota di utilizzo.
+- **Un team da due pizze diventa più team da un panino**, ognuno responsabile di un prodotto con la propria board. È letteralmente quello che ho fatto con Horae e Angelia: due board, un umano, ognuna con i propri agenti. Ma non girano in parallelo come farebbero due team: condividono la mia attenzione e la mia quota, quindi in pratica ho alternato.
+- **Un team da un panino, due persone, è probabilmente il punto di equilibrio.** Due persone raddoppiano la capacità decisionale con un solo canale in più, la board continua a muoversi quando una delle due è occupata, e una seconda persona rende le approvazioni di sicurezza della sezione 5 molto meno una formalità.
+- **I team da due pizze vincono ancora** dove il lavoro è irriducibilmente umano e parallelo: review di sicurezza, reperibilità, conoscenza del dominio, il rapporto con gli utenti, i deployment su infrastruttura reale, e il bus factor. Un team da un panino con agenti ha un bus factor di uno o due.
 
 Lo studio sul campo di Microsoft su Claude Code e Copilot CLI ha misurato [circa il 24% di PR unite in più](https://arxiv.org/abs/2607.01418) tra chi li ha adottati, in un'organizzazione che ha mantenuto la forma dei propri team. È un guadagno reale, ma niente a che vedere con quello che si vede quando il processo viene ricostruito intorno agli agenti. Sospetto che gran parte della differenza stia nella forma del team e nel processo, non nel modello.
 
-## 11. Come provarlo a casa tua
+## 12. Come provarlo a casa tua
 
-Se vuoi provarci sul tuo progetto, questo è il minimo che l'ha fatto funzionare, con quello che ha aggiunto Angelia:
+Se vuoi provarci sul tuo progetto, questo è il minimo che l'ha fatto funzionare, con quello che hanno aggiunto Angelia e il conto dei token:
 
-1. **Scrivi il backlog con l'agente, validalo tu.** Criteri di accettazione su ogni story. Ma dettaglia solo la fase successiva, o le due successive; lascia il resto come abbozzo.
+1. **Scrivi il backlog con l'agente, validalo tu.** Criteri di accettazione su ogni story. Dettaglia solo la fase successiva, o le due successive; lascia il resto come abbozzo.
 2. **Aggiungi un campo Executor** (Agent, Agent + human check, Human-led, Human-only) e una **vista Agent-ready**. Gli agenti devono sapere cosa saltare.
 3. **Metti il modello sulla card**: un campo Complexity e un Model suggerito che puoi cambiare.
 4. **Descrivi le colonne.** "Ready = specifica completa", "Human needed = bloccata sul maintainer". Le descrizioni sono il protocollo.
 5. **Scrivi quando un agente deve fermarsi e chiedere**: contratti pubblici, scelte di sicurezza, nuove dipendenze, specifiche ambigue, fallimenti ripetuti della CI.
-6. **Metti una stima e una sezione Actuals vuota in ogni story.** Chiedi all'agente di compilare gli Actuals alla fine. Dopo 15 story avrai la tua calibrazione invece dello studio di qualcun altro.
-7. **Separa i ruoli**: costruttore, revisore indipendente, correttore. Chi scrive non approva mai.
-8. **Fai della CI il cancello**: un controllo aggregato "CI OK", e merge solo sul verde.
-9. **Concorda il protocollo Human needed**: domande numerate nella PR, risposte sulla PR, card di nuovo in Ready. E fai in modo che l'agente principale **rilegga la board tra una story e l'altra**.
-10. **Chiedi una milestone alla volta**, e fai in modo che ogni card In progress abbia un checkpoint prima di uno stop.
+6. **Metti una stima e una sezione Actuals in ogni story**, e rendi il tempo una riga obbligatoria. Ricalibra dopo 15 story, e porta la calibrazione nel tuo progetto successivo.
+7. **Parti con un agente per story e un'autoreview su checklist**; aggiungi un revisore indipendente per la sicurezza e i contratti pubblici. Su quelli, chi scrive non approva mai.
+8. **Fai della CI il cancello**, e tieni al massimo due story in corso.
+9. **Concorda il protocollo Human needed**: domande numerate nella PR, risposte sulla PR, card di nuovo in Ready. Fai in modo che l'agente principale rilegga la board tra una story e l'altra, e lascia che aggiorni la board da solo.
+10. **Chiedi una milestone alla volta**, e aspettati degli stop.
+11. **Fai presto il deployment.** Un'istanza reale su un'infrastruttura reale trova quello che review e CI non trovano, e ha bisogno di te.
 
-Quello che non ho ancora fatto, e dovrei: una protezione del branch che *richieda* "CI OK" (oggi è solo una convenzione), [Graft](/it/sei-settimane-in-una-notte-costruire-un-prodotto-nellera-degli-agenti/) su Horae per registrare quale agente e quale modello hanno scritto ogni PR, e la misura del costo in token per story, ora che la quota ha dimostrato di essere un vincolo reale.
+## 13. Per chiudere
 
-## 12. Per chiudere
-
-La stima diceva che sarei stato io il collo di bottiglia, e lo sono. Ma le ore che ci passo non sono nei diff. Sono nei ticket, prima che il codice esista, nelle domande a cui gli agenti non possono, e non devono, rispondere, e nel decidere quando premere "continue". Tutto quello che succede tra questi momenti ora richiede minuti, o qualche ora per un'intera milestone.
+La stima diceva che sarei stato io il collo di bottiglia, e lo sono. Ma le ore che ci passo non sono nei diff. Sono nei ticket, prima che il codice esista, nelle domande a cui gli agenti non possono, e non devono, rispondere, nel decidere quando premere "continue", e negli account, nei segreti e nei dispositivi del primo vero deployment. Tutto quello che succede tra questi momenti ora richiede minuti, o qualche giorno per un intero progetto.
 
 Scrivete bene i ticket. Lasciate guidare la board. Tenete umane le decisioni.
 
@@ -312,7 +368,7 @@ Scrivete bene i ticket. Lasciate guidare la board. Tenete umane le decisioni.
 
 - 🗂️ [Horae Roadmap](https://github.com/orgs/horae-dev/projects/1): la board pubblica, con tutte le sue viste
 - 📦 [horae-dev/horae](https://github.com/horae-dev/horae): il codice, `docs/ESTIMATION.md` e `docs/ROADMAP.md`
-- 🗂️ [Angelia Roadmap](https://github.com/orgs/angelia-dev/projects/1) e [angelia-dev/angelia](https://github.com/angelia-dev/angelia): la seconda board, con `docs/ESTIMATION.md` e `AGENTS.md`
+- 🗂️ [Angelia Roadmap](https://github.com/orgs/angelia-dev/projects/1) e [angelia-dev/angelia](https://github.com/angelia-dev/angelia): la seconda board, con `docs/ESTIMATION.md`, `AGENTS.md` e la [release v0.1.2](https://github.com/angelia-dev/angelia/releases/tag/v0.1.2)
 - 🎬 [Il video a pagina intera](/videos/human-agents-board/?lang=it), fatto con [canvas-video-skill](https://github.com/mmornati/canvas-video-skill)
 - 📖 [Sei settimane in una notte](/it/sei-settimane-in-una-notte-costruire-un-prodotto-nellera-degli-agenti/): l'esperimento precedente, con Graft
 

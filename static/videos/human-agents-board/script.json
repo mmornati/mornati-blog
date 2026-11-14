@@ -1,5 +1,5 @@
 {
-  "_doc": "One human, a board and a team of agents: how the Horae project is built. Figures: horae-dev/horae the 36 Done stories as of 2026-10-31 (estimate fields and the Actuals comments), docs/ESTIMATION.md (likely case), as of 2026-10-28. Narrate: uv run --with kokoro-onnx --with soundfile <skill>/scripts/narrate.py static/videos/human-agents-board",
+  "_doc": "One human, a board and a team of agents: how the Horae project is built. Figures: the timed Done stories of horae-dev and angelia-dev as of 2026-11-13 (estimate fields and the Actuals comments), docs/ESTIMATION.md (likely case), as of 2026-10-28. Narrate: uv run --with kokoro-onnx --with soundfile <skill>/scripts/narrate.py static/videos/human-agents-board",
   "langs": [
     "en",
     "fr",
@@ -137,18 +137,18 @@
       },
       "en": [
         "The estimate said one human with agents would be slower than a team of three developers.",
-        "After thirty-six stories, the agents needed about a third of the estimated time, and I never had to take over.",
-        "The first three milestones, planned for twenty-three weeks, were merged in less than two days."
+        "On both projects, the agents needed between a third and a sixth of the estimated time, and I never had to take over.",
+        "All of Horae's agent work, planned for seventy-six weeks, was done in fifteen days."
       ],
       "fr": [
         "L'estimation disait qu'un humain avec des agents serait plus lent qu'une équipe de trois développeurs.",
-        "Après trente-six stories, les agents ont mis environ un tiers du temps prévu, et je n'ai jamais dû reprendre la main.",
-        "Les trois premiers jalons, prévus sur vingt-trois semaines, ont été fusionnés en moins de deux jours."
+        "Sur les deux projets, les agents ont mis entre un tiers et un sixième du temps prévu, et je n'ai jamais dû reprendre la main.",
+        "Tout le travail des agents sur Horae, prévu sur soixante-seize semaines, a été fait en quinze jours."
       ],
       "it": [
         "La stima diceva che un umano con degli agenti sarebbe stato più lento di un team di tre sviluppatori.",
-        "Dopo trentasei story, gli agenti hanno impiegato circa un terzo del tempo stimato, e non ho mai dovuto subentrare.",
-        "Le prime tre fasi del progetto, previste in ventitré settimane, sono state completate in meno di due giorni."
+        "Su entrambi i progetti, gli agenti hanno impiegato tra un terzo e un sesto del tempo stimato, e non ho mai dovuto subentrare.",
+        "Tutto il lavoro degli agenti su Horae, previsto in settantasei settimane, è stato fatto in quindici giorni."
       ]
     },
     {
