@@ -1,0 +1,27 @@
+{
+  "_doc": "Pronunciation fixes, applied to the spoken text only (subtitles keep the original). A [[…]] value is raw IPA for Kokoro. Checked with the narration-lexicon skill (Whisper). Remaining Whisper diffs left on purpose: French 'pull' (always heard as pôle/pool whatever the spelling), French homophones (suis/suit, la/l'a, numérotées), Italian 'Claude' and 'story' (Whisper's Italian prior).",
+  "en": {
+    "AI": "[[ˌeɪˈaɪ]]",
+    "CI": "C I",
+    "PR": "P R"
+  },
+  "fr": {
+    "IA": "I A",
+    "CI": "C I",
+    "PR": "P R",
+    "story": "storie",
+    "progress": "prôgress",
+    "In": "inn",
+    "Human needed": "[[hjˈuːmən nˈiːdɪd]]",
+    "Done": "Danne",
+    "GitHub": "Guitte heub"
+  },
+  "it": {
+    "IA": "I A",
+    "CI": "ci i",
+    "PR": "pi erre",
+    "GitHub": "Ghit Hab",
+    "Ready": "Redi",
+    "Done": "[[dˈan]]"
+  }
+}
