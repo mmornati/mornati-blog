@@ -9,6 +9,11 @@
     "description": "Core runtime, CLI, HTTP API, MCP server, SDK and docs for Horae, a predictable self-hosted personal agent.",
     "homepage": ""
   },
+  "mmornati/ai-brief": {
+    "stars": 0,
+    "description": "AI-powered pipeline for generating structured briefs, blog posts, and slide decks using opencode and Claude Code",
+    "homepage": "https://mmornati.github.io/ai-brief/"
+  },
   "mmornati/ai-email-assistant": {
     "stars": 0,
     "description": "Low-cost Gmail triage: deterministic rules first, a small model only when human mail needs interpretation. Google Tasks integration, dry-run by default.",
@@ -19,10 +24,25 @@
     "description": "Private, self-hosted personal finance coach: PSD2 bank sync, local classification, deterministic analytics, encrypted storage, an LLM coach that never sees raw bank data",
     "homepage": "https://mmornati.github.io/ai-finance-coach/"
   },
+  "mmornati/ai-nutrition-coach": {
+    "stars": 0,
+    "description": "",
+    "homepage": "https://mmornati.github.io/ai-nutrition-coach/"
+  },
   "mmornati/ai-running-coach": {
     "stars": 25,
     "description": "Running Coach made with AI agents and tools",
     "homepage": "https://mmornati.github.io/ai-running-coach/"
+  },
+  "mmornati/arlo-base-station": {
+    "stars": 1,
+    "description": "Self-hosted replacement for the Arlo base station: Netgear Orbi RBR760 telnet hack + arlo-cam-api Docker stack + Home Assistant integration",
+    "homepage": ""
+  },
+  "mmornati/bmad-dev-loop": {
+    "stars": 0,
+    "description": "BMAD epics and story loop skill",
+    "homepage": "https://mmornati.github.io/bmad-dev-loop/"
   },
   "mmornati/canvas-video-skill": {
     "stars": 1,
@@ -44,25 +64,50 @@
     "description": "Graft: review and policy layer for agent-written pull requests (Phase 0)",
     "homepage": "https://mmornati.github.io/graft/"
   },
+  "mmornati/ha-energy-analysis": {
+    "stars": 0,
+    "description": "Home Assistant energy analysis to validate the sonar panels and battery ROI",
+    "homepage": ""
+  },
   "mmornati/home-assistant-csnet-home": {
     "stars": 15,
     "description": "CSNet Home to control Hitachi heaters using the atw-iot-01 module",
     "homepage": "https://mmornati.github.io/home-assistant-csnet-home/"
+  },
+  "mmornati/home-assistant-mel-garbage-collection": {
+    "stars": 2,
+    "description": "Intégration Home Assistant – Collecte des déchets MEL (Lille - Haut de France)",
+    "homepage": "https://mmornati.github.io/home-assistant-mel-garbage-collection/"
   },
   "mmornati/leanproxy-mcp": {
     "stars": 5,
     "description": "A \"Token Firewall\" for MCP - reduce AI token costs by 50-80% while securing your code from secret leaks.",
     "homepage": "https://mmornati.github.io/leanproxy-mcp/"
   },
+  "mmornati/nexus-dev": {
+    "stars": 8,
+    "description": "Nexus-Dev is an open-source MCP server that provides persistent memory for AI coding agents. It uses LanceDB as a local vector database and tree-sitter for multi-language intelligent code chunking.",
+    "homepage": ""
+  },
   "mmornati/proton-faces": {
     "stars": 1,
     "description": "Faces and objects recognition added to the Proton Photos",
     "homepage": "https://mmornati.github.io/proton-faces/"
   },
+  "mmornati/reed-contact-zigbee": {
+    "stars": 0,
+    "description": "Know it's closed: a mains-powered Zigbee contact sensor & router on the Seeed XIAO ESP32-C6. Zigbee2MQTT + Home Assistant ready, flash it from your browser.",
+    "homepage": "https://mmornati.github.io/reed-contact-zigbee/"
+  },
   "mmornati/system-one-router": {
     "stars": 4,
     "description": "A fast System One decision model (Jev or local Laya) picks which LLM answers each prompt: OpenAI-compatible Go gateway + decision benchmark",
     "homepage": "https://mmornati.github.io/system-one-router/"
+  },
+  "mmornati/water-flow-meter-zigbee": {
+    "stars": 0,
+    "description": "",
+    "homepage": "https://mmornati.github.io/water-flow-meter-zigbee/"
   },
   "mmornati/weather-station-zigbee": {
     "stars": 1,
