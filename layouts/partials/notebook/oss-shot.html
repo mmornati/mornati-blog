@@ -1,0 +1,13 @@
+{{/* A project's screenshot as a link to its site; a lettered graph-paper tile when it has none.
+     Context: dict "p" project, "size" Hugo fill size, "class" extra class, "eager" bool. */}}
+{{ $p := .p }}
+{{ with $p.shot }}
+  {{ $img := .Fill (printf "%s webp q80 Top" $.size) }}
+  <a class="nb-shot {{ $.class }}" href="{{ $p.site }}" rel="noopener" tabindex="-1" aria-hidden="true">
+    <img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}" alt="" loading="{{ if $.eager }}eager{{ else }}lazy{{ end }}" decoding="async">
+  </a>
+{{ else }}
+  <a class="nb-shot nb-shot--none {{ $.class }}" href="{{ $p.site }}" rel="noopener" tabindex="-1" aria-hidden="true">
+    <b>{{ $p.name }}</b><small>{{ i18n "oss.no_site" }}</small>
+  </a>
+{{ end }}

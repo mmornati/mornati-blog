@@ -1,4 +1,4 @@
-# -- French navigation (home-lab notebook): five plain destinations; extras live in the footer --
+# -- French navigation (home-lab notebook): plain destinations plus a "Lab" drop-down for the dashboards and the map --
 [[main]]
   identifier = "archive"
   name = "Articles"
@@ -18,10 +18,38 @@
   weight = 30
 
 [[main]]
+  identifier = "open-source"
+  name = "Open source"
+  url = "/fr/open-source/"
+  weight = 32
+
+# "Lab": the two standalone dashboards and the map of posts, reachable from every page.
+[[main]]
+  identifier = "data"
+  name = "Labo"
+  url = "/fr/#data"
+  weight = 35
+
+[[main]]
+  identifier = "data-solar"
+  name = "Données solaires"
+  url = "/solar-analysis/"
+  parent = "data"
+  weight = 10
+
+[[main]]
+  identifier = "data-benchmark"
+  name = "Benchmark des modèles"
+  url = "/system-one-benchmark/"
+  parent = "data"
+  weight = 20
+
+[[main]]
   identifier = "map"
-  name = "Carte"
+  name = "Carte des sujets"
   url = "/fr/graph/"
-  weight = 40
+  parent = "data"
+  weight = 30
 
 [[main]]
   identifier = "about"

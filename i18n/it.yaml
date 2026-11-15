@@ -75,3 +75,28 @@ nb.posts:
   other: "{{ .Count }} articoli"
 nb.lost_title: "Questa pagina è stata strappata"
 nb.lost_text: "Il link potrebbe essere vecchio, o l'articolo si è spostato quando il blog ha cambiato casa. Prova la ricerca, o riparti dalle ultime pagine:"
+# --- Dashboards on the home page ---
+nb.data_title: "Dashboard"
+nb.data_lead: "i numeri dietro gli articoli"
+nb.data_solar: "Dati solari"
+nb.data_solar_sum: "La produzione misurata dei miei pannelli da settembre 2024, e se conviene."
+nb.data_solar_meta: "APS DS3 · da sett. 2024"
+nb.data_bench: "Benchmark modelli"
+nb.data_bench_sum: "Jev, Laya, Von, Kev, Clef-flash e VegaML sugli stessi 80 prompt etichettati."
+nb.data_bench_meta: "system-one-router · 80 prompt"
+# --- Open-source gallery (/open-source/) ---
+oss.lead: "Quello che costruisco in open source, sul mio account e nelle organizzazioni Horae e Angelia. Le stelle sono lette da GitHub a ogni build."
+oss.filter: "Mostra i progetti di"
+oss.all: "Tutto"
+oss.on_desk: "sulla scrivania adesso"
+oss.open_docs: "Apri la documentazione"
+oss.open_repo: "Apri il repository"
+oss.no_site: "ancora nessun sito, apre il README"
+oss.on_github: "su GitHub"
+oss.none: "Ancora niente da questo account."
+oss.projects:
+  one: "{{ .Count }} progetto"
+  other: "{{ .Count }} progetti"
+oss.stars:
+  one: "{{ .Count }} stella"
+  other: "{{ .Count }} stelle"

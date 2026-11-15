@@ -13,7 +13,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/../.."
 
-SITE_PATHS=(content config layouts assets i18n static themes/blowfish)
+SITE_PATHS=(content config layouts assets data i18n static themes/blowfish)
 
 git fetch --depth=1 origin deploy 2> /dev/null || true
 

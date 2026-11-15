@@ -1,0 +1,111 @@
+# The /open-source/ gallery. To publish a project, add an entry under `projects` and push:
+#
+#   - repo: owner/name        # required
+#     family: ai              # required: one of the keys under `families`
+#     site: https://...       # optional: docs or website; defaults to the repository's homepage, then to GitHub
+#     featured: true          # optional: the one project shown in the large panel (first one wins)
+#     summary:                # optional: per-language one-liner; defaults to the GitHub description
+#       en: ...
+#
+# Stars are read from the GitHub API at build time, with data/opensource_stats.json as the fallback.
+# Screenshots live in assets/opensource/<name>.webp; `python3 scripts/sync_opensource.py` takes the
+# missing ones and refreshes the stats file (the weekly "Open source sync" workflow does both).
+families:
+  - key: horae
+    name: { en: Horae, fr: Horae, it: Horae }
+  - key: angelia
+    name: { en: Angelia, fr: Angelia, it: Angelia }
+  - key: ai
+    name: { en: Agents and AI tooling, fr: Agents et outils IA, it: Agenti e strumenti IA }
+  - key: home
+    name: { en: Home lab and smart home, fr: Home lab et maison connectée, it: Home lab e casa connessa }
+  - key: tools
+    name: { en: Tools, fr: Outils, it: Strumenti }
+
+projects:
+  - repo: horae-dev/horae
+    family: horae
+    site: https://horae-dev.github.io/horae/
+    featured: true
+    summary:
+      en: "A predictable, self-hosted personal agent: fixed pipelines, bounded LLM steps, permissioned plugins."
+      fr: "Un agent personnel auto-hébergé et prévisible : pipelines fixes, étapes LLM bornées, plugins à permissions."
+      it: "Un agente personale self-hosted e prevedibile: pipeline fisse, passaggi LLM limitati, plugin con permessi."
+  - repo: angelia-dev/angelia
+    family: angelia
+    summary:
+      en: "The self-hosted release event bus: detect new versions and deliver them to CI, chat and AI agents."
+      fr: "Le bus d'événements de release auto-hébergé : détecter les nouvelles versions et les livrer à la CI, au chat et aux agents IA."
+      it: "Il bus di eventi di release self-hosted: rileva le nuove versioni e le consegna a CI, chat e agenti IA."
+  - repo: mmornati/ai-running-coach
+    family: ai
+    summary:
+      en: AI agents that plan and review my trail-running training from Garmin data.
+      fr: Des agents IA qui planifient et analysent mon entraînement de trail à partir des données Garmin.
+      it: Agenti IA che pianificano e analizzano il mio allenamento di trail a partire dai dati Garmin.
+  - repo: mmornati/graft
+    family: ai
+    summary:
+      en: A review and policy layer for pull requests written by coding agents.
+      fr: Une couche de revue et de règles pour les pull requests écrites par des agents de code.
+      it: Un livello di revisione e di regole per le pull request scritte dagli agenti di codice.
+  - repo: mmornati/leanproxy-mcp
+    family: ai
+    summary:
+      en: A token firewall for MCP that keeps the input context flat and secrets out of prompts.
+      fr: Un pare-feu à tokens pour MCP qui garde le contexte d'entrée léger et les secrets hors des prompts.
+      it: Un firewall di token per MCP che mantiene leggero il contesto di input e i segreti fuori dai prompt.
+  - repo: mmornati/ai-finance-coach
+    family: ai
+    summary:
+      en: "A private finance coach: PSD2 bank sync, local classification, an LLM that never sees raw bank data."
+      fr: "Un coach financier privé : synchro bancaire PSD2, classification locale, un LLM qui ne voit jamais les données bancaires brutes."
+      it: "Un coach finanziario privato: sincronizzazione bancaria PSD2, classificazione locale, un LLM che non vede mai i dati bancari grezzi."
+  - repo: mmornati/system-one-router
+    family: ai
+    summary:
+      en: A fast decision model picks which LLM answers each prompt.
+      fr: Un modèle de décision rapide choisit quel LLM répond à chaque prompt.
+      it: Un modello decisionale veloce sceglie quale LLM risponde a ogni prompt.
+  - repo: mmornati/canvas-video-skill
+    family: ai
+    summary:
+      en: Narrated product videos that are web pages, drawn frame by frame on a canvas.
+      fr: Des vidéos produit narrées qui sont des pages web, dessinées image par image sur un canvas.
+      it: Video di prodotto narrati che sono pagine web, disegnati fotogramma per fotogramma su un canvas.
+  - repo: mmornati/ai-email-assistant
+    family: ai
+    summary:
+      en: Hourly Gmail triage, rules first and a small model last, that turns real requests into Google Tasks.
+      fr: Un tri Gmail toutes les heures, les règles d'abord et un petit modèle en dernier, qui transforme les vraies demandes en Google Tasks.
+      it: Uno smistamento di Gmail ogni ora, prima le regole e un modello piccolo per ultimo, che trasforma le vere richieste in Google Tasks.
+  - repo: mmornati/home-assistant-csnet-home
+    family: home
+    summary:
+      en: A Home Assistant integration for Hitachi heat pumps, reverse-engineered from the cloud API.
+      fr: Une intégration Home Assistant pour les pompes à chaleur Hitachi, rétro-conçue depuis l'API cloud.
+      it: Un'integrazione Home Assistant per le pompe di calore Hitachi, ricavata dall'API cloud.
+  - repo: mmornati/weather-station-zigbee
+    family: home
+    summary:
+      en: A solar weather station on an ESP32-C6 that reports over Zigbee.
+      fr: Une station météo solaire sur ESP32-C6 qui communique en Zigbee.
+      it: Una stazione meteo solare su ESP32-C6 che comunica via Zigbee.
+  - repo: mmornati/gphoto2proton
+    family: tools
+    summary:
+      en: Move a Google Photos library to Proton Drive, albums and EXIF dates included.
+      fr: Migrer une bibliothèque Google Photos vers Proton Drive, albums et dates EXIF compris.
+      it: Migrare una libreria Google Foto su Proton Drive, album e date EXIF inclusi.
+  - repo: mmornati/docker-mock-rpmbuilder
+    family: tools
+    summary:
+      en: Build RPMs for any platform with the Mock project, inside a container.
+      fr: Construire des RPM pour n'importe quelle plateforme avec le projet Mock, dans un conteneur.
+      it: Costruire RPM per qualsiasi piattaforma con il progetto Mock, dentro un container.
+  - repo: mmornati/proton-faces
+    family: tools
+    summary:
+      en: Face and object search for Proton Photos, running on your own machine.
+      fr: La recherche de visages et d'objets pour Proton Photos, sur votre propre machine.
+      it: La ricerca di volti e oggetti per Proton Photos, sulla tua macchina.

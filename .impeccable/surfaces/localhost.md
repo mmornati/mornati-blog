@@ -13,7 +13,7 @@ Whole-site redesign (pass 3, replaces the rack/schematic world): home, article, 
 
 THESIS: The blog is Marco's home-lab notebook: graph-paper pages, marker headings, highlighter topics, so the newest page is always the first thing you see and every page tells you which page comes next. Refuses both the Blowfish card grid and the rack dashboard that put projects ahead of posts.
 
-OWN-WORLD: White graph-paper ground (pale blue 28px grid) by day, a dark slate notebook with a faint grid by night. Black marker ink. Highlighter colours, one per topic (yellow AI, mint smart home, pink DevOps, orange Linux, lilac programming, sky web, lime mobile, apricot solar), used as swipes behind labels, never as text colour. Shantell Sans for headings, nav and annotations only; Atkinson Hyperlegible for body and article prose; Fragment Mono for code, dates and figures. Wobbly hand-drawn frame radius on panels, sticky notes for topics, hand-drawn SVG arrows.
+OWN-WORLD: White graph-paper ground (pale blue 28px grid) by day, a dark slate notebook with a faint grid by night. Black marker ink. Highlighter colours, one per topic (yellow AI, mint smart home, pink DevOps, orange Linux, lilac programming, sky web, lime mobile, apricot solar), used as swipes behind labels, never as text colour. Shantell Sans for headings, nav and annotations only; Literata for body and article prose; Fragment Mono for code, dates and figures. Wobbly hand-drawn frame radius on panels, sticky notes for topics, hand-drawn SVG arrows.
 
 STORY: A visitor sees the newest post at once, scans the latest pages as a ruled list, picks a topic sticky note or a running project, and at the end of every article is handed the previous/next page of the same project plus older/newer posts.
 
@@ -25,5 +25,5 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
 ## Unresolved decisions
 
-- Handwritten face never sets article body text or long titles in lists; long-form reading stays in Atkinson Hyperlegible.
+- Handwritten face never sets article body text or long titles in lists; long-form reading stays in Literata.
 - /graph/ keeps its JS; only colours and labels move to the notebook world.

@@ -3,7 +3,7 @@ name: Deploy blog
 on:
   push:
     branches: [main]
-    paths: ['content/**', 'config/**', 'layouts/**', 'assets/**', 'i18n/**', 'static/**', 'themes/blowfish/**']
+    paths: ['content/**', 'config/**', 'layouts/**', 'assets/**', 'data/**', 'i18n/**', 'static/**', 'themes/blowfish/**']
   workflow_dispatch:
 
 concurrency:
@@ -55,6 +55,8 @@ jobs:
           OPENOBSERVE_RUM_SERVICE: ${{ secrets.OPENOBSERVE_RUM_SERVICE }}
           OPENOBSERVE_RUM_ENV: ${{ secrets.OPENOBSERVE_RUM_ENV }}
           OPENOBSERVE_RUM_VERSION: ${{ secrets.OPENOBSERVE_RUM_VERSION }}
+          # Read-only: lets the /open-source/ page ask the GitHub API for star counts without the anonymous rate limit.
+          HUGO_GITHUB_TOKEN: ${{ github.token }}
         run: bash scripts/ci/build.sh
 
       - name: Cache Cloudinary sync state
