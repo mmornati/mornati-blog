@@ -11,6 +11,7 @@ Usage:
   python3 scripts/sync_opensource.py                  # stats + missing screenshots
   python3 scripts/sync_opensource.py --refresh-shots  # retake every screenshot
   python3 scripts/sync_opensource.py --no-shots       # stats only
+  python3 scripts/sync_opensource.py --no-stats       # screenshots only, no GitHub API call
 
 Needs: a Chrome/Chromium binary and `cwebp` for screenshots. Set GITHUB_TOKEN to avoid the
 unauthenticated rate limit (60 requests an hour). No third-party Python packages.
@@ -88,8 +89,11 @@ def find_chrome() -> str | None:
 def screenshot(chrome: str, url: str, out: Path) -> bool:
     with tempfile.TemporaryDirectory() as tmp:
         png = Path(tmp) / "shot.png"
-        cmd = [chrome, "--headless=new", "--disable-gpu", "--hide-scrollbars", "--no-sandbox",
+        cmd = [chrome, "--headless=new", "--disable-gpu", "--hide-scrollbars",
                "--window-size=1280,800", "--virtual-time-budget=6000", f"--screenshot={png}", url]
+        # Chrome's sandbox stays on. Only for a container that cannot run it: CHROME_NO_SANDBOX=1.
+        if os.environ.get("CHROME_NO_SANDBOX") == "1":
+            cmd.insert(1, "--no-sandbox")
         try:
             subprocess.run(cmd, check=True, timeout=90, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             subprocess.run(["cwebp", "-quiet", "-q", "80", "-resize", "1200", "750", str(png), "-o", str(out)],
@@ -104,6 +108,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--refresh-shots", action="store_true", help="retake every screenshot")
     ap.add_argument("--no-shots", action="store_true", help="only refresh the stats file")
+    ap.add_argument("--no-stats", action="store_true", help="only take screenshots, without calling the GitHub API")
     args = ap.parse_args()
 
     projects = read_projects()
@@ -123,7 +128,7 @@ def main() -> int:
             print(f"skipping invalid repo {repo!r}", file=sys.stderr)
             continue
         print(repo)
-        info = github(repo)
+        info = None if args.no_stats else github(repo)
         if info:
             stats[repo] = {
                 "stars": int(info.get("stargazers_count") or 0),

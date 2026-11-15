@@ -4,6 +4,10 @@ name: Open source sync
 # and takes a screenshot for any project in data/opensource.yaml that does not have one yet.
 # Commits the result to main and dispatches the deploy workflow when something changed.
 # Run it by hand with "retake every screenshot" after a project's site was redesigned.
+#
+# Two jobs on purpose: `capture` opens external websites in a browser, so it runs read-only, keeps
+# no git credentials, and takes its screenshots in a step that has no token at all. `publish` holds
+# the write permission and only ever handles the files `capture` produced.
 
 on:
   schedule:
@@ -19,25 +23,55 @@ concurrency:
   group: opensource-sync
   cancel-in-progress: false
 
-permissions:
-  contents: write
-  actions: write
+permissions: {}
 
 jobs:
-  sync:
+  capture:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Install cwebp
         run: sudo apt-get update -qq && sudo apt-get install -y -qq webp
 
-      - name: Refresh stats and screenshots
+      - name: Refresh stats (GitHub API)
         env:
           GITHUB_TOKEN: ${{ github.token }}
+        run: python3 scripts/sync_opensource.py --no-shots
+
+      - name: Take screenshots (no token in this step)
+        env:
           REFRESH: ${{ inputs.refresh_shots && '--refresh-shots' || '' }}
-        run: python3 scripts/sync_opensource.py $REFRESH
+        run: python3 scripts/sync_opensource.py --no-stats $REFRESH
+
+      - name: Upload result
+        uses: actions/upload-artifact@v4
+        with:
+          name: opensource-sync
+          path: |
+            data/opensource_stats.json
+            assets/opensource/*.webp
+          if-no-files-found: error
+
+  publish:
+    needs: capture
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download result
+        uses: actions/download-artifact@v4
+        with:
+          name: opensource-sync
 
       - name: Commit and deploy when something changed
         env:
