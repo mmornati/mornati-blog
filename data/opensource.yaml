@@ -79,6 +79,30 @@ projects:
       en: Hourly Gmail triage, rules first and a small model last, that turns real requests into Google Tasks.
       fr: Un tri Gmail toutes les heures, les règles d'abord et un petit modèle en dernier, qui transforme les vraies demandes en Google Tasks.
       it: Uno smistamento di Gmail ogni ora, prima le regole e un modello piccolo per ultimo, che trasforma le vere richieste in Google Tasks.
+  - repo: mmornati/nexus-dev
+    family: ai
+    summary:
+      en: "A local RAG and MCP gateway that gives coding agents memory without the token bill."
+      fr: "Un RAG local et une passerelle MCP qui donnent de la mémoire aux agents de code sans exploser les tokens."
+      it: "Un RAG locale e un gateway MCP che danno memoria agli agenti di codice senza far esplodere i token."
+  - repo: mmornati/ai-nutrition-coach
+    family: ai
+    summary:
+      en: "An offline-first meal log that shows real grams and nutrients and keeps your history encrypted on your own device."
+      fr: "Un journal de repas offline-first qui affiche les vrais grammes et nutriments et garde votre historique chiffré sur votre appareil."
+      it: "Un diario dei pasti offline-first che mostra grammi e nutrienti reali e tiene la cronologia cifrata sul tuo dispositivo."
+  - repo: mmornati/ai-brief
+    family: ai
+    summary:
+      en: "Turns raw ideas into structured briefs, blog posts and slide decks with AI coding assistants."
+      fr: "Transforme des idées brutes en briefs structurés, articles de blog et présentations avec des assistants de code IA."
+      it: "Trasforma idee grezze in brief strutturati, articoli e presentazioni con assistenti di codice IA."
+  - repo: mmornati/bmad-dev-loop
+    family: ai
+    summary:
+      en: "An unattended orchestrator that takes each story of a sprint through dev, review, PR, CI and merge."
+      fr: "Un orchestrateur autonome qui mène chaque story d'un sprint du dev à la revue, la PR, la CI et le merge."
+      it: "Un orchestratore autonomo che porta ogni story di uno sprint da dev a review, PR, CI e merge."
   - repo: mmornati/home-assistant-csnet-home
     family: home
     summary:
@@ -91,6 +115,36 @@ projects:
       en: A solar weather station on an ESP32-C6 that reports over Zigbee.
       fr: Une station météo solaire sur ESP32-C6 qui communique en Zigbee.
       it: Una stazione meteo solare su ESP32-C6 che comunica via Zigbee.
+  - repo: mmornati/home-assistant-mel-garbage-collection
+    family: home
+    summary:
+      en: "Waste collection days for the Lille metropolis in Home Assistant: calendar, sensors and alerts."
+      fr: "Les jours de collecte des déchets de la Métropole Européenne de Lille dans Home Assistant : calendrier, capteurs et alertes."
+      it: "I giorni di raccolta dei rifiuti della metropoli di Lille in Home Assistant: calendario, sensori e avvisi."
+  - repo: mmornati/reed-contact-zigbee
+    family: home
+    summary:
+      en: "A mains-powered Zigbee contact sensor on an ESP32-C6 that also strengthens the mesh."
+      fr: "Un capteur de contact Zigbee sur secteur, sur ESP32-C6, qui renforce aussi le maillage."
+      it: "Un sensore di contatto Zigbee alimentato a rete, su ESP32-C6, che rinforza anche la rete mesh."
+  - repo: mmornati/water-flow-meter-zigbee
+    family: home
+    summary:
+      en: "A Zigbee water flow meter on an ESP32-C6 that keeps counting through power cuts."
+      fr: "Un débitmètre d'eau Zigbee sur ESP32-C6 qui continue de compter pendant les coupures de courant."
+      it: "Un misuratore di flusso d'acqua Zigbee su ESP32-C6 che continua a contare durante i blackout."
+  - repo: mmornati/arlo-base-station
+    family: home
+    summary:
+      en: "Arlo cameras running without Arlo's cloud, on my own base station and Home Assistant."
+      fr: "Des caméras Arlo sans le cloud Arlo, sur ma propre station de base et Home Assistant."
+      it: "Telecamere Arlo senza il cloud Arlo, sulla mia base station e Home Assistant."
+  - repo: mmornati/ha-energy-analysis
+    family: home
+    summary:
+      en: "Home Assistant consumption and solar data analysed to decide whether a battery pays off."
+      fr: "Les données de consommation et de production solaire de Home Assistant analysées pour savoir si une batterie est rentable."
+      it: "I dati di consumo e di produzione solare di Home Assistant analizzati per capire se una batteria conviene."
   - repo: mmornati/gphoto2proton
     family: tools
     summary:
