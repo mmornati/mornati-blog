@@ -56,17 +56,17 @@ typography:
     fontWeight: 600
     fontVariation: "'INFM' 40"
   body:
-    fontFamily: "Atkinson Hyperlegible, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif"
-    fontSize: "1.08rem"
+    fontFamily: "Literata, Iowan Old Style, Palatino Linotype, Georgia, serif"
+    fontSize: "1.125rem"
     fontWeight: 400
-    lineHeight: 1.7
+    lineHeight: 1.75
   body-ui:
-    fontFamily: "Atkinson Hyperlegible, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif"
+    fontFamily: "Literata, Iowan Old Style, Palatino Linotype, Georgia, serif"
     fontSize: "1.05rem"
     fontWeight: 400
     lineHeight: 1.6
   row-title:
-    fontFamily: "Atkinson Hyperlegible, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif"
+    fontFamily: "Literata, Iowan Old Style, Palatino Linotype, Georgia, serif"
     fontSize: "1.05rem"
     fontWeight: 700
     lineHeight: 1.35
@@ -163,7 +163,7 @@ components:
 
 **Creative North Star: "The Home-Lab Notebook"**
 
-Every page of the blog is a page torn from Marco's lab notebook: white graph paper ruled in a pale blue 28px grid by day, a dark slate notebook with a faint grid by night. Headings, navigation and margin notes are lettered in a variable marker face; reading happens in a hyperlegible sans; dates, minutes, figures and code are typed in mono. Colour comes almost entirely from highlighters: one per topic, swiped behind dark ink, never used to colour the ink itself.
+Every page of the blog is a page torn from Marco's lab notebook: white graph paper ruled in a pale blue 28px grid by day, a dark slate notebook with a faint grid by night. Headings, navigation and margin notes are lettered in a variable marker face; reading happens in a sturdy book serif; dates, minutes, figures and code are typed in mono. Colour comes almost entirely from highlighters: one per topic, swiped behind dark ink, never used to colour the ink itself.
 
 Structure is chronological and sequential, not a dashboard. The newest post sits in a framed panel with a hand-drawn "newest page!" arrow, the next pages run as a ruled list, topics are sticky notes, projects are cards that tick off one box per post, and every article ends by handing the reader the neighbouring pages of the same project plus the older and newer post. Frames are drawn in marker with a deliberately wobbly radius; paper notes lift off the page with a soft drop; nothing else casts a shadow.
 
@@ -173,7 +173,7 @@ Hand-drawn strokes (the wordmark underline, the arrows) are static SVG. They ren
 - Graph-paper ground in both modes, carried by the body background, never by a panel.
 - Marker-ink frames (2 to 2.5px) with an asymmetric wobble radius on every panel, sheet, card and pill.
 - One highlighter per topic, mapped in data/topics.yaml, always behind marker ink.
-- Three faces with fixed jobs: marker for voice, hyperlegible sans for reading, mono for facts.
+- Three faces with fixed jobs: marker for voice, book serif for reading, mono for facts.
 - Lists are ruled sheets with dashed rules; no post image grids.
 - Reader state is visible: "new" ring on recent posts, "read" mark from this browser's history, "you are here" on project steps.
 
@@ -216,10 +216,10 @@ One per category, keyed in data/topics.yaml and exposed as `--hl-<key>`:
 ## Typography
 
 **Display Font:** Shantell Sans (with Comic Neue, ui-rounded)
-**Body Font:** Atkinson Hyperlegible (with the system sans stack)
+**Body Font:** Literata (with Iowan Old Style, Palatino, Georgia)
 **Label/Mono Font:** Fragment Mono (with the system mono stack)
 
-**Character:** A friendly variable marker hand (weight plus the INFM informality and BNCE bounce axes) against a sans built for legibility, with a plain mono for anything you might copy or compare. The marker gets bouncier the more it behaves like a note (annotations at INFM 100, BNCE 60) and steadier the more it has to be read (article titles at INFM 25 to 30, BNCE 5 to 10).
+**Character:** A friendly variable marker hand (weight plus the INFM informality and BNCE bounce axes) against a serif built for long reading on screens, with a plain mono for anything you might copy or compare. The marker gets bouncier the more it behaves like a note (annotations at INFM 100, BNCE 60) and steadier the more it has to be read (article titles at INFM 25 to 30, BNCE 5 to 10).
 
 ### Hierarchy
 - **Display** (800, clamp(1.9rem, 1.2rem + 2.1vw, 3rem), 1.06): the lead post title on the home and article titles (clamp to 3rem at 1.08). Balanced wrapping. Index page titles use a sibling clamp(2rem, 1.5rem + 1.6vw, 2.9rem).
@@ -227,13 +227,13 @@ One per category, keyed in data/topics.yaml and exposed as `--hl-<key>`:
 - **Title** (800, 1.2 to 1.45rem, 1.2): project card names, older/newer page titles, project story titles, sticky note titles (1.08 to 1.3rem).
 - **Annotation** (700, 1.15rem): the "newest page!" note, CTA links, the punchline line.
 - **Nav** (600, INFM 40): main menu, footer links, map filter chips.
-- **Body** (400, 1.08rem, 1.7): article prose in the theme's prose column. Summaries and leads use body-ui (1.05rem, 1.6) capped at 52 to 68ch.
+- **Body** (400, 1.125rem, 1.75): article prose in a 40rem column, lining figures, on a clean paper sheet where the grid fades out under the text. Summaries and leads use body-ui (1.05rem, 1.6) capped at 52 to 68ch.
 - **Row title** (700, 1.05rem, 1.35): post titles in ruled lists, in the reading face, not the marker.
 - **Label** (Fragment Mono 400, 0.75 to 0.85rem): dates, minutes, post counts, topic labels, the article meta line, pagination. Never uppercase, never tracked.
 - **Code** (Fragment Mono, 0.88rem, 1.6): code blocks and inline code on a graphite tint.
 
 ### Named Rules
-**The Three Jobs Rule.** Marker for voice (headings, nav, notes, CTAs), Atkinson for anything read as sentences (including list titles), mono for facts (dates, counts, minutes, code). A face never borrows another's job.
+**The Three Jobs Rule.** Marker for voice (headings, nav, notes, CTAs), Literata for anything read as sentences (including list titles), mono for facts (dates, counts, minutes, code). A face never borrows another's job.
 
 **The Marker Is Not Body Rule.** Shantell Sans never sets paragraphs or summaries.
 
@@ -267,7 +267,7 @@ Every frame is drawn, not ruled. Large frames (panels, sheets, project cards, ol
 ## Components
 
 ### Navigation
-- **Style:** marker nav (600) beside a hand-lettered wordmark ("Marco's home-lab notebook", 800, 1.5rem) underlined by a static yellow SVG stroke (6px, round caps). Menu: All posts, Topics, Projects, Map, About, then language, search and appearance.
+- **Style:** marker nav (600) beside a hand-lettered wordmark ("Marco's home-lab notebook", 800, 1.5rem) underlined by a static yellow SVG stroke (6px, round caps). Menu: All posts, Topics, Projects, Open source, Lab (a drop-down: Solar data, Model benchmark, Map of posts), About, then language, search and appearance. Below 1280px the hamburger menu takes over.
 - **States:** hover lays a yellow swipe in a wobble pill; the section you are in gets a 2px inset ink ring (set by script from the path). Search and appearance are 2.4 by 2.2rem wobble-framed icon buttons with the same yellow hover.
 - **Mobile:** the theme's mobile menu in the marker face; the wordmark drops to 1.2rem and may wrap.
 
@@ -321,7 +321,7 @@ One easing for everything: `cubic-bezier(0.16, 1, 0.3, 1)`. Card and page-turn l
 ### Do:
 - **Do** put every highlighter behind marker ink (`marker-ink`) and take a topic's colour from data/topics.yaml.
 - **Do** frame panels, sheets and cards with a 2 to 2.5px ink stroke and the wobble radius.
-- **Do** list posts as ruled rows with a marker date column, an Atkinson title, a topic label and mono minutes.
+- **Do** list posts as ruled rows with a marker date column, an Literata title, a topic label and mono minutes.
 - **Do** keep reader state visible: "new" rings, read marks, "you are here".
 - **Do** end every article with the project's pages and the older and newer post.
 - **Do** set dates, counts, minutes and figures in Fragment Mono.

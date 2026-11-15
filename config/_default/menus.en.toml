@@ -1,4 +1,4 @@
-# -- English navigation (home-lab notebook): five plain destinations; extras live in the footer --
+# -- English navigation (home-lab notebook): plain destinations plus a "Lab" drop-down for the dashboards and the map --
 [[main]]
   identifier = "archive"
   name = "All posts"
@@ -18,10 +18,38 @@
   weight = 30
 
 [[main]]
+  identifier = "open-source"
+  name = "Open source"
+  url = "/open-source/"
+  weight = 32
+
+# "Lab": the two standalone dashboards and the map of posts, reachable from every page.
+[[main]]
+  identifier = "data"
+  name = "Lab"
+  url = "/#data"
+  weight = 35
+
+[[main]]
+  identifier = "data-solar"
+  name = "Solar data"
+  url = "/solar-analysis/"
+  parent = "data"
+  weight = 10
+
+[[main]]
+  identifier = "data-benchmark"
+  name = "Model benchmark"
+  url = "/system-one-benchmark/"
+  parent = "data"
+  weight = 20
+
+[[main]]
   identifier = "map"
-  name = "Map"
+  name = "Map of posts"
   url = "/graph/"
-  weight = 40
+  parent = "data"
+  weight = 30
 
 [[main]]
   identifier = "about"

@@ -1,0 +1,72 @@
+{
+  "angelia-dev/angelia": {
+    "stars": 0,
+    "description": "Core server and CLI: watch PyPI, npm, crates, GitHub, OCI… and deliver release events (CloudEvents) to CI, chat and agents.",
+    "homepage": ""
+  },
+  "horae-dev/horae": {
+    "stars": 0,
+    "description": "Core runtime, CLI, HTTP API, MCP server, SDK and docs for Horae, a predictable self-hosted personal agent.",
+    "homepage": ""
+  },
+  "mmornati/ai-email-assistant": {
+    "stars": 0,
+    "description": "Low-cost Gmail triage: deterministic rules first, a small model only when human mail needs interpretation. Google Tasks integration, dry-run by default.",
+    "homepage": "https://mmornati.github.io/ai-email-assistant/"
+  },
+  "mmornati/ai-finance-coach": {
+    "stars": 6,
+    "description": "Private, self-hosted personal finance coach: PSD2 bank sync, local classification, deterministic analytics, encrypted storage, an LLM coach that never sees raw bank data",
+    "homepage": "https://mmornati.github.io/ai-finance-coach/"
+  },
+  "mmornati/ai-running-coach": {
+    "stars": 24,
+    "description": "Running Coach made with AI agents and tools",
+    "homepage": "https://mmornati.github.io/ai-running-coach/"
+  },
+  "mmornati/canvas-video-skill": {
+    "stars": 1,
+    "description": "Narrated product & documentation videos that are web pages: frames drawn in JavaScript on a canvas, a free synthetic voice-over, any language. Claude Code skills.",
+    "homepage": "https://mmornati.github.io/canvas-video-skill/"
+  },
+  "mmornati/docker-mock-rpmbuilder": {
+    "stars": 63,
+    "description": "Build RPMs using the Mock Project (for any platform)",
+    "homepage": ""
+  },
+  "mmornati/gphoto2proton": {
+    "stars": 7,
+    "description": "Migrate Google Photo to Proton Drive with Album migration / Exif fix / streaming. Available for all platforms",
+    "homepage": "https://mmornati.github.io/gphoto2proton/"
+  },
+  "mmornati/graft": {
+    "stars": 12,
+    "description": "Graft: review and policy layer for agent-written pull requests (Phase 0)",
+    "homepage": "https://mmornati.github.io/graft/"
+  },
+  "mmornati/home-assistant-csnet-home": {
+    "stars": 15,
+    "description": "CSNet Home to control Hitachi heaters using the atw-iot-01 module",
+    "homepage": "https://mmornati.github.io/home-assistant-csnet-home/"
+  },
+  "mmornati/leanproxy-mcp": {
+    "stars": 5,
+    "description": "A \"Token Firewall\" for MCP - reduce AI token costs by 50-80% while securing your code from secret leaks.",
+    "homepage": "https://mmornati.github.io/leanproxy-mcp/"
+  },
+  "mmornati/proton-faces": {
+    "stars": 1,
+    "description": "Faces and objects recognition added to the Proton Photos",
+    "homepage": "https://mmornati.github.io/proton-faces/"
+  },
+  "mmornati/system-one-router": {
+    "stars": 4,
+    "description": "A fast System One decision model (Jev or local Laya) picks which LLM answers each prompt: OpenAI-compatible Go gateway + decision benchmark",
+    "homepage": "https://mmornati.github.io/system-one-router/"
+  },
+  "mmornati/weather-station-zigbee": {
+    "stars": 1,
+    "description": "DIY Weather station with ESP32C6 over the Zigbee networl",
+    "homepage": "https://mmornati.github.io/weather-station-zigbee/"
+  }
+}

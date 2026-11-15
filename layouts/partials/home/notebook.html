@@ -61,3 +61,20 @@
     <a class="nb-cta" href="{{ "projects/" | relLangURL }}">{{ i18n "nb.all_projects" }}{{ partial "notebook/arrow.html" "right" }}</a>
   </section>
 {{ end }}
+
+{{/* The two standalone dashboards: also in the "Data" menu and the footer. */}}
+<section class="nb-projects" id="data" aria-labelledby="nb-data-h">
+  <h2 class="nb-h2" id="nb-data-h">{{ i18n "nb.data_title" }} <small>{{ i18n "nb.data_lead" }}</small></h2>
+  <ul class="nb-exps nb-exps--two">
+    <li class="nb-exp"><a href="/solar-analysis/">
+      <b class="nb-exp__name">{{ i18n "nb.data_solar" }}</b>
+      <span class="nb-exp__sum">{{ i18n "nb.data_solar_sum" }}</span>
+      <span class="nb-exp__meta">{{ i18n "nb.data_solar_meta" }}</span>
+    </a></li>
+    <li class="nb-exp"><a href="/system-one-benchmark/">
+      <b class="nb-exp__name">{{ i18n "nb.data_bench" }}</b>
+      <span class="nb-exp__sum">{{ i18n "nb.data_bench_sum" }}</span>
+      <span class="nb-exp__meta">{{ i18n "nb.data_bench_meta" }}</span>
+    </a></li>
+  </ul>
+</section>

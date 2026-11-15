@@ -1,0 +1,92 @@
+{{ define "main" }}
+  {{/* Open-source gallery: one project in a large panel, the others grouped by family.
+       Source of truth: data/opensource.yaml. Stars come from the GitHub API at build time
+       (token: HUGO_GITHUB_TOKEN, optional), falling back to data/opensource_stats.json. */}}
+  {{ $lang := .Site.Language.Lang }}
+  {{ $cfg := hugo.Data.opensource }}
+  {{ $cache := hugo.Data.opensource_stats | default dict }}
+  {{ $token := os.Getenv "HUGO_GITHUB_TOKEN" }}
+
+  {{ $items := slice }}
+  {{ $owners := slice }}
+  {{ range $cfg.projects }}
+    {{ $repo := .repo }}
+    {{ $parts := split $repo "/" }}
+    {{ $owner := index $parts 0 }}
+    {{ $name := index $parts 1 }}
+    {{ $st := index $cache $repo | default dict }}
+    {{ $stars := $st.stars | default 0 }}
+    {{ $desc := $st.description | default "" }}
+    {{ $home := $st.homepage | default "" }}
+    {{ $headers := dict "Accept" "application/vnd.github+json" "User-Agent" "blog-opensource" }}
+    {{ with $token }}{{ $headers = merge $headers (dict "Authorization" (printf "Bearer %s" .)) }}{{ end }}
+    {{ with try (resources.GetRemote (printf "https://api.github.com/repos/%s" $repo) (dict "headers" $headers)) }}
+      {{ with .Err }}
+        {{ warnf "open-source: GitHub API unavailable for %s, using data/opensource_stats.json" $repo }}
+      {{ else with .Value }}
+        {{ $live := . | transform.Unmarshal }}
+        {{ $stars = $live.stargazers_count | default $stars }}
+        {{ $desc = $live.description | default $desc }}
+        {{ $home = $live.homepage | default $home }}
+      {{ end }}
+    {{ end }}
+    {{ $github := printf "https://github.com/%s" $repo }}
+    {{ $site := .site | default $home | default $github }}
+    {{ $summary := $desc }}
+    {{ with .summary }}{{ $summary = index . $lang | default .en | default $desc }}{{ end }}
+    {{ $shot := resources.Get (printf "opensource/%s.webp" $name) }}
+    {{ $items = $items | append (dict "repo" $repo "owner" $owner "name" $name "family" .family "featured" (.featured | default false) "stars" (int $stars) "site" $site "github" $github "hasSite" (ne $site $github) "summary" $summary "shot" $shot) }}
+    {{ $owners = $owners | append $owner }}
+  {{ end }}
+  {{ $owners = $owners | uniq }}
+  {{ $feat := index (where $items "featured" true) 0 | default (index $items 0) }}
+
+  {{ partial "notebook/page-head.html" (dict "page" . "lead" (i18n "oss.lead")) }}
+
+  <div class="nb-chips" id="oss-chips" role="group" aria-label="{{ i18n "oss.filter" }}" hidden>
+    <button type="button" id="oss-chip-all" data-owner="" aria-pressed="true">{{ i18n "oss.all" }} <small>{{ len $items }}</small></button>
+    {{ range $owners }}
+      <button type="button" id="oss-chip-{{ . }}" data-owner="{{ . }}" aria-pressed="false">{{ . }} <small>{{ len (where $items "owner" .) }}</small></button>
+    {{ end }}
+  </div>
+
+  {{ with $feat }}
+    <article class="nb-panel nb-lead nb-oss-feat" data-owner="{{ .owner }}">
+      <span class="nb-anno">{{ i18n "oss.on_desk" }}{{ partial "notebook/arrow.html" "curve" }}</span>
+      {{ partial "notebook/oss-shot.html" (dict "p" . "size" "1200x750" "class" "nb-lead__cover" "eager" true) }}
+      <div class="nb-lead__body">
+        <p class="nb-lead__meta"><span>{{ .owner }}</span>{{ partial "notebook/oss-stars.html" . }}</p>
+        <h2 class="nb-lead__title"><a href="{{ .site }}" rel="noopener">{{ .name }}</a></h2>
+        <p class="nb-lead__summary">{{ .summary }}</p>
+        <p class="nb-oss-feat__links">
+          <a class="nb-cta" href="{{ .site }}" rel="noopener">{{ if .hasSite }}{{ i18n "oss.open_docs" }}{{ else }}{{ i18n "oss.open_repo" }}{{ end }}{{ partial "notebook/arrow.html" "right" }}</a>
+          {{ if .hasSite }}<a class="nb-proj" href="{{ .github }}" rel="noopener">github.com/{{ .repo }}</a>{{ end }}
+        </p>
+      </div>
+    </article>
+  {{ end }}
+
+  {{ range $cfg.families }}
+    {{ $fam := . }}
+    {{ $in := where (where $items "family" $fam.key) "repo" "ne" $feat.repo }}
+    {{ with $in }}
+      <section class="nb-fam" aria-labelledby="oss-fam-{{ $fam.key }}">
+        <h2 class="nb-h2" id="oss-fam-{{ $fam.key }}">{{ index $fam.name $lang | default $fam.name.en }} <small>{{ i18n "oss.projects" (len .) }}</small></h2>
+        <ul class="nb-shelf">
+          {{ range sort . "stars" "desc" }}
+            <li class="nb-oss" data-owner="{{ .owner }}">
+              {{ partial "notebook/oss-shot.html" (dict "p" . "size" "720x450" "class" "nb-oss__shot") }}
+              <p class="nb-oss__head"><a class="nb-oss__name" href="{{ .site }}" rel="noopener">{{ .name }}</a>{{ partial "notebook/oss-stars.html" . }}</p>
+              <p class="nb-oss__sum">{{ .summary }}</p>
+            </li>
+          {{ end }}
+        </ul>
+      </section>
+    {{ end }}
+  {{ end }}
+
+  <p class="nb-oss-none" id="oss-none" hidden>{{ i18n "oss.none" }}</p>
+
+  {{ $js := resources.Get "js/opensource.js" | minify | fingerprint }}
+  <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+{{ end }}

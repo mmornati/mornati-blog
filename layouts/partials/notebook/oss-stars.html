@@ -1,0 +1,8 @@
+{{/* Star count as a link to the repository. With no stars yet it just says "GitHub". */}}
+<a class="nb-stars" href="{{ .github }}" rel="noopener" aria-label="{{ if gt .stars 0 }}{{ i18n "oss.stars" .stars }}, {{ end }}{{ .name }} {{ i18n "oss.on_github" }}">
+  {{- if gt .stars 0 -}}
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 6 6.5.6-4.9 4.4 1.5 6.4L12 16.6 6.2 20l1.5-6.4-4.9-4.4 6.5-.6z"/></svg>{{ .stars | lang.FormatNumber 0 }}
+  {{- else -}}
+    GitHub
+  {{- end -}}
+</a>

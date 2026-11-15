@@ -5,14 +5,15 @@
    "Home-lab notebook" design system
    White graph paper by day, a dark slate notebook by night. Marker ink, one
    highlighter colour per topic, Shantell Sans for headings and notes,
-   Atkinson Hyperlegible for reading, Fragment Mono for code, dates and figures.
+   Literata for reading, Fragment Mono for code, dates and figures.
    Ramps live in assets/css/schemes/notebook.css; this file adds the notebook
    tokens and every component on top of the theme's compiled utilities.
    ============================================================ */
 
 :root {
   --font-hand: "Shantell Sans", "Comic Neue", ui-rounded, system-ui, sans-serif;
-  --font-sans: "Atkinson Hyperlegible", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  /* Reading face. To try a sans instead, swap the family here and in layouts/partials/extend-head.html. */
+  --font-read: "Literata", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
   --font-mono: "Fragment Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   --nb-ink: rgb(var(--color-neutral-900));
@@ -50,13 +51,16 @@
 /* ---- Paper, type, browser surfaces ---- */
 html { scrollbar-color: rgb(var(--color-neutral-400)) transparent; }
 body {
-  font-family: var(--font-sans);
+  font-family: var(--font-read);
   background-color: var(--nb-paper);
   background-image:
     linear-gradient(var(--nb-grid) 1px, transparent 1px),
     linear-gradient(90deg, var(--nb-grid) 1px, transparent 1px);
   background-size: 28px 28px;
   background-position: -1px -1px;
+  font-optical-sizing: auto;
+  font-variant-numeric: lining-nums;
+  text-rendering: optimizeLegibility;
 }
 ::selection { background: var(--hl-ai); color: var(--hl-ink); }
 a:focus-visible,
@@ -136,14 +140,42 @@ mark.hl { font-weight: 700; }
   font-variation-settings: "INFM" 40;
 }
 .main-menu nav > a,
-.main-menu nav > div > a {
+.main-menu nav > div > a,
+.main-menu nav > .nested-menu > div > a {
   padding: 0.3rem 0.65rem;
   border-radius: var(--wob);
   white-space: nowrap;
   transition: background-color 0.2s;
 }
 .main-menu nav > a:hover,
+.main-menu nav > .nested-menu > div > a:hover,
 .main-menu nav > div > a:hover { background: var(--hl-ai); color: var(--hl-ink); }
+/* Seven entries plus language, search and theme must fit the 1024px column: tighter gaps, and
+   the hamburger menu takes over below 1280px, where the column gets narrower than the menu. */
+.nb-header nav.flex { column-gap: 0.2rem; }
+.nb-header nav.flex > a,
+.nb-header nav.flex > .nested-menu > div > a { padding-inline: 0.45rem; }
+:lang(it) .nb-wordmark, :lang(fr) .nb-wordmark { font-size: 1.35rem; }
+@media (max-width: 1279px) {
+  .nb-header .md\:flex { display: none; }
+  .nb-header .md\:hidden { display: flex; }
+}
+/* Drop-down ("Lab"): a small paper sheet instead of the theme's blurred glass. */
+.main-menu .nested-menu > div > a svg { width: 0.7em; height: 0.7em; margin-left: 0.3em; }
+.main-menu .menuhide { right: 0; padding-top: 0.35rem; }
+.main-menu .menuhide > div {
+  margin-top: 0;
+  padding: 0.6rem 0.5rem;
+  background: var(--nb-paper);
+  border: 2px solid var(--nb-ink);
+  border-radius: var(--wob-sm);
+  box-shadow: 0 16px 30px -18px rgba(0, 0, 0, 0.5);
+  backdrop-filter: none;
+}
+.main-menu .menuhide .flex-col { gap: 0.15rem; }
+.main-menu .menuhide .flex-col > a { margin: 0; padding: 0.3rem 0.65rem; border-radius: var(--wob); color: var(--nb-ink); }
+.main-menu .menuhide .flex-col > a:hover { background: var(--hl-ai); color: var(--hl-ink); }
+.main-menu .menuhide .flex-col > a span { font-size: 1rem; }
 .main-menu nav a.is-current {
   box-shadow: inset 0 0 0 2px var(--nb-ink);
 }
@@ -412,6 +444,10 @@ mark.hl { font-weight: 700; }
   border-radius: var(--wob);
   transition: transform 0.35s var(--ease-out);
 }
+.nb-exps--two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.nb-exps--two .nb-exp__sum { font-size: 1rem; max-width: 46ch; }
+.nb-exps--two .nb-exp__meta { margin-top: auto; padding-top: 0.6rem; }
+#data { scroll-margin-top: 5rem; }
 .nb-exp > a:hover { transform: translateY(-3px); }
 .nb-exp > a:hover .nb-exp__name { background: linear-gradient(100deg, transparent 0 2%, var(--hl-ai) 3% 97%, transparent 98%); }
 .nb-exp__name { align-self: flex-start; font-family: var(--font-hand); font-weight: 800; font-size: 1.2rem; color: var(--nb-ink); padding: 0 0.15em; }
@@ -437,6 +473,61 @@ mark.hl { font-weight: 700; }
 .nb-ticks em { font-style: normal; font-family: var(--font-mono); font-size: 0.75rem; color: var(--nb-dim); }
 .nb-exp__meta { font-family: var(--font-mono); font-size: 0.76rem; color: var(--nb-dim); }
 .nb-exps--page { margin-top: 1.75rem; }
+
+/* ---- Open-source gallery (/open-source/) ---- */
+.nb-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0 0 0.5rem; }
+.nb-chips button {
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-size: 1rem;
+  font-variation-settings: "INFM" 40;
+  color: var(--nb-ink);
+  background: var(--nb-paper);
+  border: 2px solid var(--nb-ink);
+  border-radius: var(--wob);
+  padding: 0.25rem 0.85rem;
+  cursor: pointer;
+}
+.nb-chips button:hover { background: color-mix(in srgb, var(--hl-ai) 55%, var(--nb-paper)); color: var(--hl-ink); }
+.nb-chips button[aria-pressed="true"] { background: var(--hl-ai); color: var(--hl-ink); }
+.nb-chips small { font-family: var(--font-mono); font-weight: 400; font-size: 0.75rem; opacity: 0.8; }
+.nb-oss-feat .nb-anno { left: 2rem; }
+.nb-oss-feat .nb-lead__title a { overflow-wrap: anywhere; }
+.nb-oss-feat__links { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 1.5rem; margin: 1.1rem 0 0; }
+.nb-oss-feat__links .nb-cta { margin-top: 0; }
+.nb-shot { display: block; overflow: hidden; aspect-ratio: 16 / 10; background: var(--nb-paper); border: 2px solid var(--nb-ink); border-radius: var(--wob-sm); }
+.nb-shot img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.nb-shot--none {
+  display: grid;
+  place-content: center;
+  gap: 0.4rem;
+  padding: 1rem;
+  text-align: center;
+  background-image: linear-gradient(var(--nb-grid) 1px, transparent 1px), linear-gradient(90deg, var(--nb-grid) 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+.nb-shot--none b { font-family: var(--font-hand); font-weight: 800; font-size: 1.25rem; line-height: 1.15; font-variation-settings: "INFM" 100, "BNCE" 60; color: var(--nb-ink); transform: rotate(-3deg); overflow-wrap: anywhere; }
+.nb-shot--none small { font-family: var(--font-mono); font-size: 0.72rem; color: var(--nb-dim); }
+.nb-lead__cover.nb-shot--none b { font-size: 2rem; }
+.nb-stars { display: inline-flex; align-items: center; gap: 0.3rem; font-family: var(--font-mono); font-size: 0.82rem; color: var(--nb-dim); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.nb-stars svg { width: 1.05rem; height: 1.05rem; fill: var(--hl-ai); stroke: var(--nb-ink); stroke-width: 1.8; stroke-linejoin: round; }
+.nb-stars:hover { color: var(--nb-pen); text-decoration: underline; text-underline-offset: 3px; }
+.nb-fam { margin-top: 3.5rem; }
+.nb-shelf { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2rem 1.5rem; }
+.nb-oss { display: flex; flex-direction: column; gap: 0.4rem; min-width: 0; }
+.nb-oss__shot { margin-bottom: 0.3rem; transition: transform 0.35s var(--ease-out); }
+.nb-oss:nth-child(odd) .nb-oss__shot { transform: rotate(-0.7deg); }
+.nb-oss:nth-child(even) .nb-oss__shot { transform: rotate(0.6deg); }
+.nb-oss .nb-oss__shot:hover { transform: rotate(0deg) translateY(-3px); }
+.nb-oss__head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; margin: 0; }
+.nb-oss__name { font-family: var(--font-hand); font-weight: 800; font-size: 1.08rem; line-height: 1.2; font-variation-settings: "INFM" 40; color: var(--nb-ink); overflow-wrap: anywhere; }
+.nb-oss__name:hover { background: linear-gradient(100deg, transparent 0 2%, var(--hl-ai) 3% 97%, transparent 98%); color: var(--hl-ink); }
+.nb-oss__sum { margin: 0; font-size: 0.9rem; line-height: 1.45; color: var(--nb-dim); }
+.nb-oss-none { margin-top: 2rem; color: var(--nb-dim); }
+@media (max-width: 1023px) { .nb-shelf { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 767px) { .nb-shelf { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem 1rem; } .nb-oss-feat .nb-anno { left: auto; } }
+@media (max-width: 420px) { .nb-shelf { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .nb-oss__shot { transition: none; } }
 
 /* ---- Index pages ---- */
 .nb-pagehead { margin: 2rem 0 1.75rem; max-width: 68ch; }
@@ -638,7 +729,19 @@ details.toc-inside > summary { background: transparent !important; font-family: 
 .nb-note--ok { background: var(--hl-home); }
 
 /* Prose */
-.prose { color: var(--nb-ink); font-size: 1.08rem; line-height: 1.7; }
+/* The article is a clean sheet laid on the graph paper: the grid fades out under the text
+   instead of running through every line. */
+main > article:has(.article-content) {
+  background: var(--nb-paper);
+  box-shadow: 0 0 0 1.25rem var(--nb-paper), 0 0 2.5rem 2.75rem var(--nb-paper);
+}
+.prose { color: var(--nb-ink); font-size: 1.125rem; line-height: 1.75; }
+.article-content.max-w-prose { max-width: 40rem; }
+.article-content > :where(p, ul, ol) { hanging-punctuation: first; }
+.prose :where(p):not(:where([class~="not-prose"] *)) { margin-top: 1.15em; margin-bottom: 1.15em; text-wrap: pretty; }
+.prose :where(li):not(:where([class~="not-prose"] *)) { margin-top: 0.4em; margin-bottom: 0.4em; }
+.prose :where(strong, b):not(:where([class~="not-prose"] *)) { font-weight: 650; }
+.prose :where(table):not(:where([class~="not-prose"] *)) { font-variant-numeric: lining-nums tabular-nums; }
 .prose :where(h2, h3, h4):not(:where([class~="not-prose"] *)) {
   font-family: var(--font-hand);
   font-weight: 800;
@@ -933,7 +1036,7 @@ a.nb-step__t:hover { text-decoration: underline wavy; text-underline-offset: 4px
 #search-results .text-lg { font-family: var(--font-hand); font-weight: 800; }
 
 /* ---- Footer ---- */
-#site-footer { font-family: var(--font-sans); }
+#site-footer { font-family: var(--font-read); }
 #site-footer nav a { font-family: var(--font-hand); font-weight: 600; }
 #site-footer nav a:hover { background: var(--hl-ai); color: var(--hl-ink); }
 

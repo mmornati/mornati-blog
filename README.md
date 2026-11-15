@@ -111,3 +111,23 @@ comment import procedure.
   `static/images/` to Cloudinary (state in `build/cloudinary.synced.json`,
   gitignored) and rewrites built HTML to use the CDN URLs. Requires
   `CLOUDINARY_CLOUD_NAME/API_KEY/API_SECRET` env vars (see `.env.example`).
+
+## Open-source gallery (`/open-source/`)
+
+The page lists the projects in `data/opensource.yaml`. To publish a new one, add an entry and push:
+
+```yaml
+- repo: owner/name      # required
+  family: ai            # required: a key from `families` in the same file
+  site: https://...     # optional: defaults to the repository homepage, then to GitHub
+  featured: true        # optional: shown in the large panel
+  summary: { en: ..., fr: ..., it: ... }   # optional: defaults to the GitHub description
+```
+
+- Stars are read from the GitHub API at build time (`HUGO_GITHUB_TOKEN`, set in the workflows, avoids the
+  anonymous rate limit) and fall back to `data/opensource_stats.json`.
+- Screenshots live in `assets/opensource/<name>.webp`. `python3 scripts/sync_opensource.py` takes the missing
+  ones and refreshes the stats file (needs Chrome and `cwebp`); add `--refresh-shots` to retake them all.
+- The "Open source sync" workflow runs that script every Monday, commits what changed and triggers a deploy.
+  A project without a screenshot shows a lettered tile until the script has run.
+
