@@ -2,7 +2,7 @@
   "angelia-dev/angelia": {
     "stars": 0,
     "description": "Core server and CLI: watch PyPI, npm, crates, GitHub, OCI… and deliver release events (CloudEvents) to CI, chat and agents.",
-    "homepage": ""
+    "homepage": "https://angelia-dev.github.io/docs/"
   },
   "horae-dev/horae": {
     "stars": 0,
@@ -30,7 +30,7 @@
     "homepage": "https://mmornati.github.io/ai-nutrition-coach/"
   },
   "mmornati/ai-running-coach": {
-    "stars": 25,
+    "stars": 26,
     "description": "Running Coach made with AI agents and tools",
     "homepage": "https://mmornati.github.io/ai-running-coach/"
   },
