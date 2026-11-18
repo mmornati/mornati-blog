@@ -1,0 +1,33 @@
+{
+  "_doc": "Home Assistant to an agentic PR. One entry per scene; sentences are cues. Numbers in words. Re-run narrate.py after any change.",
+  "langs": ["en"],
+  "voices": {"kokoro": {"en": {"voice": "af_heart"}}},
+  "scenes": [
+    {"id": "problem", "min": 9, "lead": 0.6, "chapter": {"en": "Every month"},
+     "en": ["Home Assistant ships a new release every month, with betas the week before.",
+            "For a custom integration, any of them can break something."]},
+    {"id": "before", "min": 9, "chapter": {"en": "Before"},
+     "en": ["This heat pump integration used to check PyPI every six hours, from a cron job.",
+            "Late, wasteful, and blind to everything but that one index."]},
+    {"id": "watch", "min": 13, "chapter": {"en": "The watch"},
+     "en": ["Now Angelia watches the Home Assistant releases on GitHub.",
+            "The calendar version scheme makes betas count as pre-releases.",
+            "And a one hour cooldown lets the wheel reach PyPI before anyone acts."]},
+    {"id": "dispatch", "min": 11, "chapter": {"en": "The dispatch"},
+     "en": ["When a release lands, Angelia sends a repository dispatch to the integration's repository.",
+            "It carries the package, the version, the bump, and a stable event id."]},
+    {"id": "tests", "min": 11, "chapter": {"en": "Tests first"},
+     "en": ["A workflow validates the payload, then installs that exact Home Assistant version.",
+            "The import smoke test and the unit tests run against it, before anyone reads a changelog."]},
+    {"id": "review", "min": 13, "chapter": {"en": "The review"},
+     "en": ["If this month's release has no review yet, Claude reads the release notes and the diff of the Home Assistant code the integration builds on.",
+            "It has no tools. It can only write a report."]},
+    {"id": "fix", "min": 13, "chapter": {"en": "The fix"},
+     "en": ["The report becomes an issue.",
+            "When the maintainer adds a label, an agent prepares the fix, confined to the integration and its tests.",
+            "It opens a pull request, for a human to review."]},
+    {"id": "outro", "min": 8, "tail": 1.8, "chapter": {"en": "Your turn"},
+     "en": ["Detect, test, review, fix.",
+            "One release, one event, and a human always in charge. The full recipe is in the Angelia docs."]}
+  ]
+}
