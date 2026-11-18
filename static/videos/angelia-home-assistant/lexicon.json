@@ -1,0 +1,11 @@
+{
+  "_doc": "Pronunciation fixes, applied to the spoken text only (subtitles keep the original). Keys are whole words, case-sensitive. A [[…]] value is raw IPA. Verified with the narration-lexicon skill.",
+  "en": {
+    "PyPI": "pie pea eye",
+    "npm": "N P M",
+    "MCP": "M C P",
+    "SQLite": "sequel light",
+    "CloudEvent": "cloud event",
+    "URL": "U R L"
+  }
+}
