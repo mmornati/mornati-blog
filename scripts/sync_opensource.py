@@ -89,7 +89,8 @@ def find_chrome() -> str | None:
 def screenshot(chrome: str, url: str, out: Path) -> bool:
     with tempfile.TemporaryDirectory() as tmp:
         png = Path(tmp) / "shot.png"
-        cmd = [chrome, "--headless=new", "--disable-gpu", "--hide-scrollbars",
+        # Dark mode on purpose: the same rendering on a Mac, a Linux runner or anything in between.
+        cmd = [chrome, "--headless=new", "--disable-gpu", "--hide-scrollbars", "--force-dark-mode",
                "--window-size=1280,800", "--virtual-time-budget=6000", f"--screenshot={png}", url]
         # Chrome's sandbox stays on. Only for a container that cannot run it: CHROME_NO_SANDBOX=1.
         if os.environ.get("CHROME_NO_SANDBOX") == "1":

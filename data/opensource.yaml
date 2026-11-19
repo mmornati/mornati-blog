@@ -79,6 +79,13 @@ projects:
       en: Hourly Gmail triage, rules first and a small model last, that turns real requests into Google Tasks.
       fr: Un tri Gmail toutes les heures, les règles d'abord et un petit modèle en dernier, qui transforme les vraies demandes en Google Tasks.
       it: Uno smistamento di Gmail ogni ora, prima le regole e un modello piccolo per ultimo, che trasforma le vere richieste in Google Tasks.
+  - repo: mmornati/paeon
+    family: ai
+    site: https://mmornati.github.io/paeon/
+    summary:
+      en: "An on-call colleague for self-hosted servers: a small model triages alerts, a strong one investigates read-only, nothing runs without your Go."
+      fr: "Un collègue d'astreinte pour serveurs auto-hébergés : un petit modèle trie les alertes, un modèle puissant enquête en lecture seule, rien ne s'exécute sans votre Go."
+      it: "Un collega di reperibilità per server self-hosted: un modello piccolo smista gli allarmi, uno potente indaga in sola lettura, niente parte senza il tuo Go."
   - repo: mmornati/nexus-dev
     family: ai
     summary:

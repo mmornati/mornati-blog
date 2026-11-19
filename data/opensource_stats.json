@@ -1,6 +1,6 @@
 {
   "angelia-dev/angelia": {
-    "stars": 0,
+    "stars": 1,
     "description": "Core server and CLI: watch PyPI, npm, crates, GitHub, OCI… and deliver release events (CloudEvents) to CI, chat and agents.",
     "homepage": "https://angelia-dev.github.io/docs/"
   },
@@ -30,7 +30,7 @@
     "homepage": "https://mmornati.github.io/ai-nutrition-coach/"
   },
   "mmornati/ai-running-coach": {
-    "stars": 26,
+    "stars": 28,
     "description": "Running Coach made with AI agents and tools",
     "homepage": "https://mmornati.github.io/ai-running-coach/"
   },
@@ -50,7 +50,7 @@
     "homepage": "https://mmornati.github.io/canvas-video-skill/"
   },
   "mmornati/docker-mock-rpmbuilder": {
-    "stars": 63,
+    "stars": 62,
     "description": "Build RPMs using the Mock Project (for any platform)",
     "homepage": ""
   },
@@ -71,7 +71,7 @@
   },
   "mmornati/home-assistant-csnet-home": {
     "stars": 15,
-    "description": "CSNet Home to control Hitachi heaters using the atw-iot-01 module",
+    "description": "Unofficial Home Assistant integration for Hitachi heat pumps with the ATW-IOT-01 module, through CSNet Manager",
     "homepage": "https://mmornati.github.io/home-assistant-csnet-home/"
   },
   "mmornati/home-assistant-mel-garbage-collection": {
@@ -88,6 +88,11 @@
     "stars": 8,
     "description": "Nexus-Dev is an open-source MCP server that provides persistent memory for AI coding agents. It uses LanceDB as a local vector database and tree-sitter for multi-language intelligent code chunking.",
     "homepage": ""
+  },
+  "mmornati/paeon": {
+    "stars": 0,
+    "description": "LLM incident responder for self-hosted servers: alert triage, read-only investigation, approved remediation from a typed action catalog, and postmortems.",
+    "homepage": "https://mmornati.github.io/paeon/"
   },
   "mmornati/proton-faces": {
     "stars": 1,
