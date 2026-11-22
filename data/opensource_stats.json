@@ -1,8 +1,13 @@
 {
   "angelia-dev/angelia": {
-    "stars": 1,
+    "stars": 2,
     "description": "Core server and CLI: watch PyPI, npm, crates, GitHub, OCI… and deliver release events (CloudEvents) to CI, chat and agents.",
     "homepage": "https://angelia-dev.github.io/docs/"
+  },
+  "breach-game/breach": {
+    "stars": 0,
+    "description": "A cybersecurity thriller in your browser: attack a fictional AI startup under contract, then defend it. Fully simulated, in English and French.",
+    "homepage": "https://breach-game.github.io/breach/"
   },
   "horae-dev/horae": {
     "stars": 0,
@@ -20,7 +25,7 @@
     "homepage": "https://mmornati.github.io/ai-email-assistant/"
   },
   "mmornati/ai-finance-coach": {
-    "stars": 6,
+    "stars": 7,
     "description": "Private, self-hosted personal finance coach: PSD2 bank sync, local classification, deterministic analytics, encrypted storage, an LLM coach that never sees raw bank data",
     "homepage": "https://mmornati.github.io/ai-finance-coach/"
   },
@@ -30,7 +35,7 @@
     "homepage": "https://mmornati.github.io/ai-nutrition-coach/"
   },
   "mmornati/ai-running-coach": {
-    "stars": 28,
+    "stars": 29,
     "description": "Running Coach made with AI agents and tools",
     "homepage": "https://mmornati.github.io/ai-running-coach/"
   },
@@ -70,7 +75,7 @@
     "homepage": ""
   },
   "mmornati/home-assistant-csnet-home": {
-    "stars": 15,
+    "stars": 16,
     "description": "Unofficial Home Assistant integration for Hitachi heat pumps with the ATW-IOT-01 module, through CSNet Manager",
     "homepage": "https://mmornati.github.io/home-assistant-csnet-home/"
   },
