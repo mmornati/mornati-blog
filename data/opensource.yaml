@@ -86,6 +86,13 @@ projects:
       en: "An on-call colleague for self-hosted servers: a small model triages alerts, a strong one investigates read-only, nothing runs without your Go."
       fr: "Un collègue d'astreinte pour serveurs auto-hébergés : un petit modèle trie les alertes, un modèle puissant enquête en lecture seule, rien ne s'exécute sans votre Go."
       it: "Un collega di reperibilità per server self-hosted: un modello piccolo smista gli allarmi, uno potente indaga in sola lettura, niente parte senza il tuo Go."
+  - repo: breach-game/breach
+    family: ai
+    site: https://breach-game.github.io/
+    summary:
+      en: "A hacking game in the browser: attack a startup full of AI agents under contract, then see it all from the defender's side."
+      fr: "Un jeu de hacking dans le navigateur : attaquer sous contrat une startup pleine d'agents IA, puis tout revoir du côté du défenseur."
+      it: "Un gioco di hacking nel browser: attacca sotto contratto una startup piena di agenti IA, poi rivedi tutto dalla parte di chi difende."
   - repo: mmornati/nexus-dev
     family: ai
     summary:
