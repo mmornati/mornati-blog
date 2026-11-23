@@ -1,6 +1,6 @@
 {
   "angelia-dev/angelia": {
-    "stars": 2,
+    "stars": 3,
     "description": "Core server and CLI: watch PyPI, npm, crates, GitHub, OCI… and deliver release events (CloudEvents) to CI, chat and agents.",
     "homepage": "https://angelia-dev.github.io/docs/"
   },
@@ -95,7 +95,7 @@
     "homepage": ""
   },
   "mmornati/paeon": {
-    "stars": 0,
+    "stars": 1,
     "description": "LLM incident responder for self-hosted servers: alert triage, read-only investigation, approved remediation from a typed action catalog, and postmortems.",
     "homepage": "https://mmornati.github.io/paeon/"
   },
