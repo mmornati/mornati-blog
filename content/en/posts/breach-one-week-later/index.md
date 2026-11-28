@@ -25,7 +25,7 @@ summary: What changed in BREACH in a week. The campaign now ends on the defender
 
 A week ago I wrote about [BREACH](/breach-a-new-hacking-game/), the hacking game I made to show how easy real attacks have become: a key left in a git history, an intern who wants to help, a chatbot that recites its secret instructions if you ask nicely. At the time it was one campaign of seven missions, all at NovaMind, the startup full of AI agents.
 
-It's not really the same game any more. I kept adding "just one more mission", and a week later the title screen looks like this.
+It's not really the same game any more. Right after the launch I asked Fable to map out everyday security and company security, and to propose everything the game was still missing. Then I let it work in the background for most of the week, while I was at my actual job. It's a strange feeling, a bit like having two jobs at once: one at the office, and one running on the PC at home after a few prompts in the morning. A week later, the title screen looks like this.
 
 ![The BREACH title screen: Seasons, Trainings, Community missions, Replay a mission, My progress and Settings](/images/breach-one-week-later/title.webp)
 
