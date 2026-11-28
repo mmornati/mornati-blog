@@ -17,8 +17,8 @@ translationKey: heat-pump-heating-curve
 cover: cover.jpg
 showHero: true
 keyfigure: '60 → 50 °C à −10 °C dehors'
-description: "Trois semaines après avoir remis les circuits de ma pompe à chaleur à l'endroit, la maison chauffe enfin correctement. Restait à trouver la bonne température d'eau. Comment fonctionne une loi d'eau, quels signaux de Home Assistant disent que l'eau est trop chaude, ce qu'on a changé (et ce que ça a donné), et pourquoi on peut sans doute descendre encore. Premier article d'une série de trois."
-summary: "Une loi d'eau expliquée simplement, les signaux qui montrent que l'eau est trop chaude (temps d'ouverture des vannes, vitesse de chauffe des pièces, dépassement de consigne), les quatre réglages de novembre avec leurs chiffres, et la méthode pour descendre encore. Premier épisode de la série « Ma PAC remise à l'endroit »."
+description: "Trois semaines après avoir remis les circuits de ma pompe à chaleur à l'endroit, la maison chauffe enfin correctement. Restait à trouver la bonne température d'eau. Comment fonctionne une loi d'eau, quels signaux de Home Assistant disent que l'eau est trop chaude, ce qu'on a changé (et ce que ça a donné), et pourquoi j'ai choisi de ne pas descendre plus bas. Premier article d'une série de trois."
+summary: "Une loi d'eau expliquée simplement, les signaux qui montrent que l'eau est trop chaude (temps d'ouverture des vannes, vitesse de chauffe des pièces, dépassement de consigne), les quatre réglages de novembre avec leurs chiffres, la comparaison avec l'hiver dernier, et pourquoi je garde 50 °C malgré la marge qui reste. Premier épisode de la série « Ma PAC remise à l'endroit »."
 projects:
 - hitachi-csnet
 ---
@@ -29,7 +29,7 @@ Mais remettre les circuits à l'endroit n'était que la première étape. Avec u
 
 1.  **La loi d'eau, réglée avec les données** (cet article) : comment fonctionne une loi d'eau, quels signaux disent que l'eau est trop chaude, ce qu'on a changé.
 2.  **Une vanne par pièce, et une PAC qui n'écoute que la demande** : les automatisations Home Assistant qui règlent chaque chambre de l'étage et pilotent la PAC, avec le nombre de mouvements des vannes et ce que ça coûte en piles.
-3.  **Le bilan de l'hiver** : confort et consommation sur toute la saison, comparés à l'hiver dernier, avec le résultat des prochaines baisses de la loi d'eau. Cet article-ci donne déjà une première comparaison avec l'hiver dernier.
+3.  **Le bilan de l'hiver** : confort et consommation sur toute la saison, comparés à l'hiver dernier. Cet article-ci donne déjà une première comparaison avec l'hiver dernier.
 
 ## La loi d'eau, en deux minutes
 
@@ -122,11 +122,11 @@ On consomme 10 à 25 % de moins par temps doux, et à peu près autant quand il 
 
 À écart égal, les jours d'après le 15 novembre tombent **sur la tendance de l'hiver dernier** : 501 kWh mesurés sur 13 jours, pour 510 kWh prévus (−2 %, bien en dessous de la dispersion d'un jour à l'autre). Un peu moins par temps doux, un peu plus quand il gèle.
 
-Autrement dit : l'eau est 6 à 10 °C plus chaude, ce qui coûte en rendement, et pourtant la PAC ne consomme pas plus par degré d'écart. Ce surcoût est compensé par tout le reste : le circulateur qui module, la PAC qui ne chauffe l'étage que quand une pièce le demande, les nuits à 18 °C, et la fin de la surchauffe du rez-de-chaussée. Et la maison, elle, est maintenant **à sa consigne dans chaque pièce**, au lieu de 21 °C en bas et d'un étage qui dépendait de la loi d'eau du plancher. C'est aussi pour ça que la suite se joue sur la loi d'eau : chaque degré d'eau en moins, maintenant, est un gain net.
+Autrement dit : l'eau est 6 à 10 °C plus chaude, ce qui coûte en rendement, et pourtant la PAC ne consomme pas plus par degré d'écart. Ce surcoût est compensé par tout le reste : le circulateur qui module, la PAC qui ne chauffe l'étage que quand une pièce le demande, les nuits à 18 °C, et la fin de la surchauffe du rez-de-chaussée. Et la maison, elle, est maintenant **à sa consigne dans chaque pièce**, au lieu de 21 °C en bas et d'un étage qui dépendait de la loi d'eau du plancher. Et maintenant que tout le reste est en place, chaque degré d'eau en moins serait un gain net. Restait à savoir s'il en vaut la peine.
 
 **Et le COP de l'hiver dernier ?** CSNet garde un compteur de chaleur mensuel depuis octobre 2025. Divisé par l'électricité du compteur de la PAC, il donnerait un COP de **3,2 à 3,6** l'hiver dernier, contre 2,7 en novembre 2026. Je ne m'y fie pas : avec le circulateur à 100 % et un écart départ/retour de 1 à 2 °C, ce compteur surestimait nettement la chaleur. Il a compté 9 à 14 kWh de chaleur par jour en plein été, sans aucun besoin de chauffage, et du 1er au 10 novembre 2026, il annonçait 64 à 113 kWh par jour, là où le calcul débit × écart de température en donnait 30 à 72. Depuis le passage du circulateur en ΔT, les deux mesures sont d'accord à quelques pourcents près sur une semaine. Le mauvais réglage du circulateur ne coûtait donc pas seulement de l'électricité : il **faussait aussi la mesure**. Les COP d'aujourd'hui (autour de 2,2 par 0 °C, 3 par 10 °C) sont les premiers chiffres fiables de cette PAC.
 
-## Jusqu'où peut-on descendre ?
+## Faut-il descendre encore ?
 
 Le meilleur indicateur reste le premier : combien de temps les vannes chauffent-elles chaque jour ?
 
@@ -134,14 +134,18 @@ Le meilleur indicateur reste le premier : combien de temps les vannes chauffent-
 
 Même pendant la semaine la plus froide (autour de 0 °C de moyenne, −3 °C la nuit), les vannes des chambres ne chauffent que **4 à 6 heures par jour**. La bibliothèque monte à 8-9 heures, mais c'est aussi la pièce qui chauffe le plus lentement, et sa vanne ne se ferme jamais complètement (elle garde 10 % d'ouverture pour que l'eau circule toujours quelque part). Autrement dit, les radiateurs restent fermés les trois quarts du temps alors qu'il gèle. L'eau à 40 °C est encore plus chaude que nécessaire.
 
-La méthode que je vais suivre, plutôt qu'un grand saut :
+Il y a donc de la marge. Pour qui veut la prendre, la méthode est simple, plutôt qu'un grand saut :
 
 1.  **Baisser le point froid de la loi des radiateurs de 2 à 3 °C à la fois** (50 → 47 °C à −10 °C, puis peut-être 45 °C), en laissant le point à +20 °C tel quel.
 2.  **Attendre au moins une semaine**, pour avoir des jours froids et des jours doux.
 3.  **Surveiller trois chiffres** : les heures de chauffe des vannes (elles vont monter, c'est voulu), la chambre la plus lente au réveil (elle doit atteindre 19 °C dans les 90 minutes de préchauffe), et le COP à température extérieure égale.
 4.  **S'arrêter quand la pièce la plus lente commence à décrocher** les matins de gel, et remonter d'un cran.
 
-L'objectif n'est pas des vannes ouvertes en permanence : il faut garder de la marge pour les matins de grand froid et les relances après une nuit à 18 °C. Mais 4 heures sur 24 par 0 °C, c'est clairement trop peu. Le résultat de ces essais sera dans le troisième article.
+Avant de le faire, j'ai voulu savoir ce que ça rapporterait. Passer de 50 à 47 °C, c'est 1 °C d'eau en moins par 10 °C dehors, 2 °C par 0 °C et 2,5 °C par −5 °C. Avec la règle des 2 à 3 % de COP par degré, ça fait **4 à 6 % de consommation en moins**, surtout quand il fait froid. Sur une saison de chauffe d'environ 5 500 kWh pour cette PAC, c'est **200 à 300 kWh par an, soit 50 à 80 €**. C'est une estimation, pas une mesure.
+
+En face, ce qu'on perd : des radiateurs qui chauffent 10 à 15 % moins vite, une préchauffe du matin un peu plus longue, et le risque d'une pièce fraîche les matins de grand froid. Les pièces les plus exposées sont justement les plus lentes : une des chambres (1,3 °C/h) et la bibliothèque (0,9 °C/h), où se trouve le thermostat de la PAC. Au rez-de-chaussée, rien ne changerait : la PAC produirait encore de l'eau plus chaude que ce que demande le plancher, et la vanne trois voies s'ouvrirait simplement un peu plus.
+
+**J'ai décidé de rester à 50 °C.** 80 € par an, ce n'est pas rien, mais une maison qui est à la bonne température au bon moment compte plus pour nous, surtout les matins d'hiver. Aujourd'hui, chaque pièce tient sa consigne, y compris par −3 °C, et à écart de température égal la PAC consomme autant que l'hiver dernier, mais pour une maison enfin équilibrée. Le gros du travail était ailleurs : les circuits, le circulateur, les vannes, le pilotage de la PAC. Ce qui reste, c'est de l'optimisation à la marge, et je préfère la garder en réserve.
 
 Il reste aussi un défaut que la loi d'eau ne corrigera pas seule : le compresseur démarre **2 à 3 fois par heure** pour des cycles de 8 à 13 minutes. La PAC (20 kW) est surdimensionnée pour une maison qui demande en moyenne 5 à 6 kW quand il gèle. De l'eau moins chaude allonge un peu les cycles, mais ce sera un sujet à part.
 

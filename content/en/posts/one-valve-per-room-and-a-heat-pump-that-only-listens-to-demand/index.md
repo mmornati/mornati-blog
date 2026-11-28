@@ -86,7 +86,7 @@ Here is what a day looks like in a bedroom, on 27 November, with an average of �
 
 ![A day in a bedroom: the setpoint goes from 18 °C at night to 19 °C at 05:00 (preheat for a 06:30 wake-up), to 19.5 °C at 21:00, then 18 °C at 22:00; the room temperature swings around the setpoint, with short valve openings of about fifteen minutes](/images/heat-pump-room-valves/bedroom-day-en.webp)
 
-The whole system is there: the preheat at 05:00 that takes the bedroom from 17.4 to 19.4 °C in half an hour, the sawtooth during the day (the valve opens for a quarter of an hour, the room gains almost a degree, then slowly drifts back down), the "bedtime" setpoint at 21:00 and the night at 18 °C. You can also see that the water is still a bit too hot: openings this short and an overshoot like that are exactly what the [first post](/my-heat-pump-heating-curve-tuned-with-data/) proposes to fix by lowering the heating curve further.
+The whole system is there: the preheat at 05:00 that takes the bedroom from 17.4 to 19.4 °C in half an hour, the sawtooth during the day (the valve opens for a quarter of an hour, the room gains almost a degree, then slowly drifts back down), the "bedtime" setpoint at 21:00 and the night at 18 °C. You can also see that the water is still a bit too hot: openings this short and an overshoot like that are the headroom the [first post](/my-heat-pump-heating-curve-tuned-with-data/) talks about, and that I chose to keep for comfort.
 
 ## Second level: the heat pump only heats upstairs if a room asks for it
 
@@ -114,6 +114,25 @@ Two sensors record what happens, without controlling anything for now:
 
 The next step is to use them: a preheat computed for each bedroom from its learned wake-up time and its heating rate, instead of 90 minutes for everyone. A bedroom that warms up at 2.4 °C/h doesn't need an hour and a half to gain one degree.
 
+## And when we open the windows?
+
+A question I had: when we air the rooms, while cleaning for example, the automation cuts the room's heating. Fine, we don't heat the street. But if the room then takes hours to get back to temperature, that's a shame, and maybe not even that economical overall.
+
+**How it works.** There are no contact sensors on the upstairs windows. In the two children's bedrooms, a Home Assistant trend sensor watches the room temperature: if it sees it fall by more than **3.6 °C in 30 minutes**, it assumes a window is open, and the room's setpoint switches to frost protection (12 °C). As soon as the temperature stops falling (window closed), the sensor drops back and the normal setpoint returns immediately. So the cut lasts as long as the airing, no longer.
+
+**What the data says.** I looked for every fast temperature drop in the four upstairs rooms since 12 November. Result: **no real airing** detected in 16 days, and only two triggers, both false:
+
+*   on 14 November at 07:58, in one bedroom, the room sensor dropped off the Zigbee network for a minute and came back with a lower value. The trend sensor saw a drop, and since the temperature then barely moved, it **stayed on for two hours**. The room went from 18.1 to 17.9 °C in that time, then climbed back to 19 °C **in 53 minutes** once the setpoint came back;
+*   on the evening of 22 November, in the living room, a 0.1 °C change was enough to trigger it. Downstairs, this sensor does not drive the heating.
+
+The 3.6 °C in 30 minutes threshold is therefore quite strict: a wide-open window in winter crosses it, a window left ajar probably doesn't. And the real flaw isn't how long the recovery takes, but a sensor that stays stuck when readings become sparse. A time limit (30 to 45 minutes of frost protection at most) would fix that.
+
+**How long to recover?** With no real airing measured, the heating rates give an order of magnitude. For **2 °C lost**, it takes about **50 minutes** for the fastest bedroom (2.4 °C/h), **1 h 30** for the other one (1.3 °C/h) and a little over **2 hours** for the library (0.9 °C/h). In practice, after a short airing it's often faster: the air cools quickly, but the walls and furniture keep their heat and give it back to the room. That's a long way from the 10 hours I was afraid of, at least upstairs. Downstairs is another story: the underfloor heating takes hours to react, and there is no automatic cut. I don't yet have a clean measurement of an airing downstairs.
+
+**And the savings?** Cutting the heat while airing is still the right choice. The air in a bedroom holds very little heat: warming it by 3 °C takes a few hundredths of a kWh. What costs is heating while the window is open, since the heat goes straight outside, and walls cooling down when the airing goes on. And a room that has cooled loses less heat while it's cool: bringing it back never costs more than what was saved by letting it cool. The only real price is comfort during the recovery. Good practice doesn't change: **air wide and short** rather than leaving a window ajar for a long time.
+
+Next step: log a few real airings, cleaning included, to measure the actual recovery, downstairs as well as upstairs, and add that time limit to the frost protection mode.
+
 ## How often the valves move, and what it costs in batteries
 
 This was the question that worried me most: a valve that really regulates moves much more than a valve stuck wide open, and every motor movement is paid for in batteries.
@@ -130,7 +149,7 @@ The result is fairly clear, even if these valves' battery percentage is coarse a
 *   the valves that move less lose 0.1 to 0.2% a day;
 *   before 11 November, when the valves stayed open, the levels barely moved.
 
-That's the price of fine-grained control, and I find it reasonable: one set of batteries per winter for the hardest-working valves. There are two levers if it becomes a nuisance: widening the reopening gap (−0.4 °C → −0.6 °C: fewer cycles, a bit more swing), and spacing out the external temperature heartbeat. A lower heating curve will help too: longer heating cycles mean fewer openings.
+That's the price of fine-grained control, and I find it reasonable: one set of batteries per winter for the hardest-working valves. There are two levers if it becomes a nuisance: widening the reopening gap (−0.4 °C → −0.6 °C: fewer cycles, a bit more swing), and spacing out the external temperature heartbeat. A lower heating curve would help too: longer heating cycles mean fewer openings.
 
 ## And comfort?
 
@@ -142,7 +161,7 @@ Connected thermostatic valves regulate nothing on their own if they measure the 
 
 And, as often happens, the most useful part wasn't planned: these valves have become the best sensor in the house for telling whether the water is too hot.
 
-The third and last post will be the winter's verdict: comfort and consumption over the whole season, compared with last winter (the [first post](/my-heat-pump-heating-curve-tuned-with-data/) already gives a first comparison), with the results of the next steps down on the heating curve.
+The third and last post will be the winter's verdict: comfort and consumption over the whole season, compared with last winter (the [first post](/my-heat-pump-heating-curve-tuned-with-data/) already gives a first comparison).
 
 ## How it was done
 

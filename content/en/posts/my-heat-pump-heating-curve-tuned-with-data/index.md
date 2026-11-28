@@ -17,8 +17,8 @@ translationKey: heat-pump-heating-curve
 cover: cover.jpg
 showHero: true
 keyfigure: '60 → 50 °C at −10 °C outside'
-description: "Three weeks after putting my heat pump's circuits the right way round, the house finally heats properly. What was left was finding the right water temperature. How a heating curve works, which Home Assistant signals tell you the water is too hot, what we changed (and what it gave), and why we can probably go lower still. First post in a series of three."
-summary: "A heating curve explained simply, the signals that show the water is too hot (valve opening time, how fast rooms heat up, overshooting the set point), the four November changes with their numbers, and the method to go lower. First episode of the series \"My heat pump, the right way round\"."
+description: "Three weeks after putting my heat pump's circuits the right way round, the house finally heats properly. What was left was finding the right water temperature. How a heating curve works, which Home Assistant signals tell you the water is too hot, what we changed (and what it gave), and why I chose not to go any lower. First post in a series of three."
+summary: "A heating curve explained simply, the signals that show the water is too hot (valve opening time, how fast rooms heat up, overshooting the set point), the four November changes with their numbers, the comparison with last winter, and why I keep 50 °C despite the headroom left. First episode of the series \"My heat pump, the right way round\"."
 projects:
 - hitachi-csnet
 ---
@@ -29,7 +29,7 @@ But fixing the circuits was only the first step. With a heat pump, every extra d
 
 1.  **The heating curve, tuned with data** (this post): how a heating curve works, which signals tell you the water is too hot, what we changed.
 2.  **One valve per room, and a heat pump that only listens to demand**: the Home Assistant automations that control each upstairs bedroom and drive the heat pump, with how often the valves move and what that costs in batteries.
-3.  **The winter's verdict**: comfort and consumption over the whole season, compared with last winter, with the results of the next steps down on the heating curve. This post already gives a first comparison with last winter.
+3.  **The winter's verdict**: comfort and consumption over the whole season, compared with last winter. This post already gives a first comparison with last winter.
 
 ## The heating curve, in two minutes
 
@@ -122,11 +122,11 @@ We use 10 to 25% less in mild weather, and about the same when it freezes. But t
 
 At the same gap, the days since 15 November fall **on last winter's trend**: 501 kWh measured over 13 days, against 510 kWh predicted (−2%, well inside the day-to-day scatter). A little less in mild weather, a little more when it freezes.
 
-In other words: the water is 6 to 10 °C hotter, which costs efficiency, and yet the heat pump does not use more per degree of gap. That extra cost is offset by everything else: the pump that modulates, the heat pump that only heats upstairs when a room asks, nights at 18 °C, and the end of the ground floor overheating. And the house is now **at its setpoint in every room**, instead of 21 °C downstairs and an upstairs that depended on the floor's curve. That is also why what comes next is about the heating curve: every degree of water saved now is a net gain.
+In other words: the water is 6 to 10 °C hotter, which costs efficiency, and yet the heat pump does not use more per degree of gap. That extra cost is offset by everything else: the pump that modulates, the heat pump that only heats upstairs when a room asks, nights at 18 °C, and the end of the ground floor overheating. And the house is now **at its setpoint in every room**, instead of 21 °C downstairs and an upstairs that depended on the floor's curve. And now that everything else is in place, every degree of water saved would be a net gain. The question was whether it's worth it.
 
 **And last winter's COP?** CSNet keeps a monthly heat counter since October 2025. Divided by the electricity from the heat pump's meter, it would give a COP of **3.2 to 3.6** last winter, against 2.7 in November 2026. I don't trust it: with the pump at 100% and a supply/return gap of 1 to 2 °C, that counter clearly overstated the heat. It counted 9 to 14 kWh of heat a day in mid-summer, with no heating needed at all, and from 1 to 10 November 2026 it reported 64 to 113 kWh a day, where flow × temperature difference gave 30 to 72. Since the pump went to ΔT mode, the two agree within a few percent over a week. So the wrong pump setting did not only cost electricity: it **also skewed the measurement**. Today's COPs (around 2.2 at 0 °C, 3 at 10 °C) are the first reliable figures for this heat pump.
 
-## How low can we go?
+## Should we go lower?
 
 The best indicator is still the first one: how long do the valves heat each day?
 
@@ -134,14 +134,18 @@ The best indicator is still the first one: how long do the valves heat each day?
 
 Even during the coldest week (around 0 °C on average, −3 °C at night), the bedroom valves only heat **4 to 6 hours a day**. The library goes up to 8-9 hours, but it's also the room that heats up the slowest, and its valve never closes completely (it keeps 10% open so the water always has somewhere to circulate). In other words, the radiators stay closed three quarters of the time while it's freezing outside. 40 °C water is still hotter than it needs to be.
 
-The method I'm going to follow, rather than one big jump:
+So there is headroom. For anyone who wants to use it, the method is simple, rather than one big jump:
 
 1.  **Lower the cold point of the radiator curve by 2 to 3 °C at a time** (50 → 47 °C at −10 °C, then maybe 45 °C), leaving the +20 °C point as it is.
 2.  **Wait at least a week**, to get both cold and mild days.
 3.  **Watch three numbers**: the valves' heating hours (they'll go up, that's the idea), the slowest bedroom at wake-up (it has to reach 19 °C within the 90-minute preheat), and the COP at the same outdoor temperature.
 4.  **Stop when the slowest room starts falling behind** on frosty mornings, and go back up one step.
 
-The goal isn't valves open all the time: you need to keep headroom for very cold mornings and for recovering after a night at 18 °C. But 4 hours out of 24 at 0 °C is clearly too little. The results of these tests will be in the third post.
+Before doing it, I wanted to know what it would bring. Going from 50 to 47 °C means 1 °C less water at 10 °C outside, 2 °C at 0 °C and 2.5 °C at −5 °C. With the rule of 2 to 3% of COP per degree, that is **4 to 6% less consumption**, mostly when it's cold. Over a heating season of about 5,500 kWh for this heat pump, that's **200 to 300 kWh a year, or 50 to 80 €**. It's an estimate, not a measurement.
+
+On the other side, what we lose: radiators that heat 10 to 15% more slowly, a slightly longer morning preheat, and the risk of a cool room on very cold mornings. The rooms most at risk are precisely the slowest ones: one of the bedrooms (1.3 °C/h) and the library (0.9 °C/h), where the heat pump's thermostat is. Downstairs, nothing would change: the heat pump would still make water hotter than the floor asks for, and the three-way valve would simply open a little more.
+
+**I decided to stay at 50 °C.** 80 € a year isn't nothing, but a house at the right temperature at the right time matters more to us, especially on winter mornings. Today every room holds its setpoint, even at −3 °C, and at the same temperature gap the heat pump uses as much as last winter, but for a house that is finally balanced. The big work was elsewhere: the circuits, the pump, the valves, driving the heat pump. What's left is fine-tuning at the margin, and I prefer to keep it in reserve.
 
 There's also a flaw the heating curve won't fix on its own: the compressor starts **2 to 3 times an hour** for cycles of 8 to 13 minutes. The heat pump (20 kW) is oversized for a house that needs 5 to 6 kW on average when it freezes. Cooler water stretches the cycles a little, but that's a topic for another day.
 

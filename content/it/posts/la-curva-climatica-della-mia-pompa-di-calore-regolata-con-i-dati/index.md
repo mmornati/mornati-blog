@@ -17,8 +17,8 @@ translationKey: heat-pump-heating-curve
 cover: cover.jpg
 showHero: true
 keyfigure: '60 → 50 °C a −10 °C fuori'
-description: "Tre settimane dopo aver rimesso a posto i circuiti della mia pompa di calore, la casa finalmente scalda come si deve. Restava da trovare la temperatura dell'acqua giusta. Come funziona una curva climatica, quali segnali di Home Assistant dicono che l'acqua è troppo calda, cosa abbiamo cambiato (e cosa ha dato), e perché probabilmente si può scendere ancora. Primo articolo di una serie di tre."
-summary: "Una curva climatica spiegata in modo semplice, i segnali che mostrano che l'acqua è troppo calda (tempo di apertura delle valvole, velocità di riscaldamento delle stanze, superamento del set point), le quattro regolazioni di novembre con i loro numeri, e il metodo per scendere ancora. Primo episodio della serie \"La mia pompa di calore, rimessa a posto\"."
+description: "Tre settimane dopo aver rimesso a posto i circuiti della mia pompa di calore, la casa finalmente scalda come si deve. Restava da trovare la temperatura dell'acqua giusta. Come funziona una curva climatica, quali segnali di Home Assistant dicono che l'acqua è troppo calda, cosa abbiamo cambiato (e cosa ha dato), e perché ho scelto di non scendere oltre. Primo articolo di una serie di tre."
+summary: "Una curva climatica spiegata in modo semplice, i segnali che mostrano che l'acqua è troppo calda (tempo di apertura delle valvole, velocità di riscaldamento delle stanze, superamento del set point), le quattro regolazioni di novembre con i loro numeri, il confronto con l'inverno scorso, e perché tengo 50 °C nonostante il margine che resta. Primo episodio della serie \"La mia pompa di calore, rimessa a posto\"."
 projects:
 - hitachi-csnet
 ---
@@ -29,7 +29,7 @@ Ma rimettere a posto i circuiti era solo il primo passo. Con una pompa di calore
 
 1.  **La curva climatica, regolata con i dati** (questo articolo): come funziona una curva climatica, quali segnali dicono che l'acqua è troppo calda, cosa abbiamo cambiato.
 2.  **Una valvola per stanza, e una pompa di calore che ascolta solo la richiesta**: le automazioni Home Assistant che regolano ogni camera del piano di sopra e comandano la pompa di calore, con il numero di movimenti delle valvole e quanto costa in batterie.
-3.  **Il bilancio dell'inverno**: comfort e consumi su tutta la stagione, confrontati con l'inverno scorso, con i risultati dei prossimi abbassamenti della curva climatica. Questo articolo dà già un primo confronto con l'inverno scorso.
+3.  **Il bilancio dell'inverno**: comfort e consumi su tutta la stagione, confrontati con l'inverno scorso. Questo articolo dà già un primo confronto con l'inverno scorso.
 
 ## La curva climatica, in due minuti
 
@@ -122,11 +122,11 @@ Consumiamo dal 10 al 25% in meno con il tempo mite, e più o meno lo stesso quan
 
 A parità di differenza, i giorni dal 15 novembre cadono **sulla tendenza dell'inverno scorso**: 501 kWh misurati in 13 giorni, contro 510 kWh previsti (−2%, ben dentro la dispersione da un giorno all'altro). Un po' meno con il tempo mite, un po' di più quando gela.
 
-In altre parole: l'acqua è da 6 a 10 °C più calda, il che costa in rendimento, eppure la pompa di calore non consuma di più per grado di differenza. Quel costo in più è compensato da tutto il resto: il circolatore che modula, la pompa di calore che scalda il piano di sopra solo quando una stanza lo chiede, le notti a 18 °C, e la fine del surriscaldamento del piano terra. E la casa ora è **al suo set point in ogni stanza**, invece di 21 °C sotto e un piano di sopra che dipendeva dalla curva del pavimento. È anche per questo che il seguito si gioca sulla curva climatica: ogni grado d'acqua in meno, ora, è un guadagno netto.
+In altre parole: l'acqua è da 6 a 10 °C più calda, il che costa in rendimento, eppure la pompa di calore non consuma di più per grado di differenza. Quel costo in più è compensato da tutto il resto: il circolatore che modula, la pompa di calore che scalda il piano di sopra solo quando una stanza lo chiede, le notti a 18 °C, e la fine del surriscaldamento del piano terra. E la casa ora è **al suo set point in ogni stanza**, invece di 21 °C sotto e un piano di sopra che dipendeva dalla curva del pavimento. E ora che tutto il resto è a posto, ogni grado d'acqua in meno sarebbe un guadagno netto. Restava da capire se ne vale la pena.
 
 **E il COP dell'inverno scorso?** CSNet conserva un contatore di calore mensile da ottobre 2025. Diviso per l'elettricità del contatore della pompa di calore, darebbe un COP da **3,2 a 3,6** l'inverno scorso, contro 2,7 a novembre 2026. Non mi fido: con il circolatore al 100% e una differenza mandata/ritorno di 1-2 °C, quel contatore sovrastimava nettamente il calore. Ha contato da 9 a 14 kWh di calore al giorno in piena estate, senza alcun bisogno di riscaldamento, e dall'1 al 10 novembre 2026 indicava da 64 a 113 kWh al giorno, dove il calcolo portata × differenza di temperatura ne dava da 30 a 72. Da quando il circolatore è in modalità ΔT, le due misure concordano a pochi punti percentuali su una settimana. Quindi la cattiva impostazione del circolatore non costava solo elettricità: **falsava anche la misura**. I COP di oggi (circa 2,2 a 0 °C, 3 a 10 °C) sono i primi numeri affidabili di questa pompa di calore.
 
-## Fin dove si può scendere?
+## Conviene scendere ancora?
 
 Il miglior indicatore resta il primo: quanto tempo scaldano le valvole ogni giorno?
 
@@ -134,14 +134,18 @@ Il miglior indicatore resta il primo: quanto tempo scaldano le valvole ogni gior
 
 Anche nella settimana più fredda (circa 0 °C di media, −3 °C di notte), le valvole delle camere scaldano solo **dalle 4 alle 6 ore al giorno**. La biblioteca sale a 8-9 ore, ma è anche la stanza che si scalda più lentamente, e la sua valvola non si chiude mai del tutto (resta aperta al 10% perché l'acqua possa sempre circolare da qualche parte). In altre parole, i radiatori restano chiusi tre quarti del tempo mentre fuori gela. L'acqua a 40 °C è ancora più calda del necessario.
 
-Il metodo che seguirò, invece di un grande salto:
+Quindi il margine c'è. Per chi vuole sfruttarlo, il metodo è semplice, invece di un unico grande salto:
 
 1.  **Abbassare il punto freddo della curva dei radiatori di 2-3 °C alla volta** (50 → 47 °C a −10 °C, poi forse 45 °C), lasciando com'è il punto a +20 °C.
-2.  **Aspettare almeno una settimana**, per avere giorni freddi e giorni miti.
-3.  **Tenere d'occhio tre numeri**: le ore di riscaldamento delle valvole (saliranno, ed è voluto), la camera più lenta al risveglio (deve arrivare a 19 °C entro i 90 minuti di preriscaldamento), e il COP a parità di temperatura esterna.
+2.  **Aspettare almeno una settimana**, per avere sia giorni freddi sia giorni miti.
+3.  **Tenere d'occhio tre numeri**: le ore di riscaldamento delle valvole (saliranno, è voluto), la camera più lenta al risveglio (deve arrivare a 19 °C entro i 90 minuti di preriscaldamento), e il COP a parità di temperatura esterna.
 4.  **Fermarsi quando la stanza più lenta comincia a non farcela** nelle mattine di gelo, e risalire di un gradino.
 
-L'obiettivo non è avere le valvole sempre aperte: bisogna tenere un margine per le mattine di freddo intenso e per le riprese dopo una notte a 18 °C. Ma 4 ore su 24 con 0 °C sono chiaramente troppo poche. I risultati di queste prove saranno nel terzo articolo.
+Prima di farlo, ho voluto sapere quanto avrebbe reso. Passare da 50 a 47 °C significa 1 °C d'acqua in meno con 10 °C fuori, 2 °C con 0 °C e 2,5 °C con −5 °C. Con la regola del 2-3% di COP per grado, fa **dal 4 al 6% di consumi in meno**, soprattutto quando fa freddo. Su una stagione di riscaldamento di circa 5.500 kWh per questa pompa di calore, sono **da 200 a 300 kWh l'anno, cioè da 50 a 80 €**. È una stima, non una misura.
+
+Dall'altra parte, cosa si perde: radiatori che scaldano il 10-15% più lentamente, un preriscaldamento del mattino un po' più lungo, e il rischio di una stanza fresca nelle mattine di gran freddo. Le stanze più esposte sono proprio le più lente: una delle camere (1,3 °C/h) e la biblioteca (0,9 °C/h), dove si trova il termostato della pompa di calore. Al piano terra non cambierebbe nulla: la pompa di calore produrrebbe comunque acqua più calda di quella che chiede il pavimento, e la valvola a tre vie si aprirebbe semplicemente un po' di più.
+
+**Ho deciso di restare a 50 °C.** 80 € l'anno non sono pochi, ma una casa alla temperatura giusta al momento giusto conta di più per noi, soprattutto le mattine d'inverno. Oggi ogni stanza tiene il suo set point, anche con −3 °C, e a parità di differenza di temperatura la pompa di calore consuma quanto l'inverno scorso, ma per una casa finalmente equilibrata. Il grosso del lavoro era altrove: i circuiti, il circolatore, le valvole, il pilotaggio della pompa di calore. Quello che resta è ottimizzazione al margine, e preferisco tenerla in riserva.
 
 Resta anche un difetto che la curva climatica da sola non correggerà: il compressore parte **2-3 volte all'ora** per cicli di 8-13 minuti. La pompa di calore (20 kW) è sovradimensionata per una casa che chiede in media 5-6 kW quando gela. Un'acqua meno calda allunga un po' i cicli, ma sarà un argomento a parte.
 

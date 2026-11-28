@@ -86,7 +86,7 @@ Voici à quoi ressemble une journée dans une chambre, le 27 novembre, par −1 
 
 ![Une journée dans une chambre : la consigne passe de 18 °C la nuit à 19 °C à 05:00 (préchauffe pour un réveil à 06:30), à 19,5 °C à 21:00 puis 18 °C à 22:00 ; la température de la pièce oscille autour de la consigne, avec des ouvertures de vanne courtes, d'une quinzaine de minutes](/images/heat-pump-room-valves/bedroom-day-fr.webp)
 
-On voit tout le système : la préchauffe à 05:00 qui amène la chambre de 17,4 à 19,4 °C en une demi-heure, les dents de scie de la journée (la vanne s'ouvre un quart d'heure, la pièce prend presque un degré, puis redescend lentement), la consigne « coucher » à 21:00 et la nuit à 18 °C. On voit aussi que l'eau est encore un peu chaude : des ouvertures si courtes et un tel dépassement, c'est ce que le [premier article](/fr/la-loi-deau-de-ma-pompe-a-chaleur-reglee-avec-les-donnees/) propose de corriger en baissant encore la loi d'eau.
+On voit tout le système : la préchauffe à 05:00 qui amène la chambre de 17,4 à 19,4 °C en une demi-heure, les dents de scie de la journée (la vanne s'ouvre un quart d'heure, la pièce prend presque un degré, puis redescend lentement), la consigne « coucher » à 21:00 et la nuit à 18 °C. On voit aussi que l'eau est encore un peu chaude : des ouvertures si courtes et un tel dépassement, c'est la marge dont parle le [premier article](/fr/la-loi-deau-de-ma-pompe-a-chaleur-reglee-avec-les-donnees/), et que j'ai choisi de garder pour le confort.
 
 ## Deuxième niveau : la PAC ne chauffe l'étage que si une pièce le demande
 
@@ -114,6 +114,25 @@ Deux capteurs enregistrent ce qui se passe, sans rien piloter pour l'instant :
 
 La prochaine étape est de s'en servir : une préchauffe calculée pour chaque chambre à partir de son réveil appris et de sa vitesse de chauffe, au lieu de 90 minutes pour tout le monde. Une chambre qui monte à 2,4 °C/h n'a pas besoin d'une heure et demie pour gagner un degré.
 
+## Et quand on ouvre les fenêtres ?
+
+Une question que je me posais : quand on aère, pendant le ménage par exemple, l'automatisation coupe le chauffage de la pièce. Très bien, on ne chauffe pas la rue. Mais si la pièce met ensuite des heures à retrouver sa température, c'est dommage, et peut-être même pas si économique au total.
+
+**Comment c'est fait.** Il n'y a pas de capteur d'ouverture sur les fenêtres de l'étage. Dans les deux chambres d'enfants, un capteur de tendance de Home Assistant surveille la température de la pièce : s'il la voit baisser de plus de **3,6 °C en 30 minutes**, il considère qu'une fenêtre est ouverte, et la consigne de la pièce passe en hors-gel (12 °C). Dès que la température arrête de chuter (fenêtre refermée), le capteur retombe et la consigne normale revient immédiatement. La coupure dure donc aussi longtemps que l'aération, pas plus.
+
+**Ce que disent les données.** J'ai cherché toutes les chutes rapides de température dans les quatre pièces de l'étage depuis le 12 novembre. Résultat : **aucune vraie aération** détectée en 16 jours, et seulement deux déclenchements, tous les deux faux :
+
+*   le 14 novembre à 07:58, dans une chambre, le capteur de la pièce a disparu une minute du réseau Zigbee puis est revenu avec une valeur plus basse. Le capteur de tendance y a vu une chute, et comme la température n'a presque plus bougé ensuite, il est **resté allumé deux heures**. La pièce est passée de 18,1 à 17,9 °C pendant ce temps, puis est remontée à 19 °C **en 53 minutes** une fois la consigne revenue ;
+*   le 22 novembre au soir, au salon, une variation de 0,1 °C a suffi à le déclencher. Au rez-de-chaussée, ce capteur ne pilote pas le chauffage.
+
+Le seuil de 3,6 °C en 30 minutes est donc assez strict : une fenêtre grande ouverte en hiver le franchit, une fenêtre entrouverte probablement pas. Et le vrai défaut n'est pas la durée de la remontée, mais un capteur qui reste bloqué quand les mesures se font rares. Une limite de durée (30 à 45 minutes de hors-gel au maximum) réglerait ça.
+
+**Combien de temps pour revenir ?** Faute de vraie aération mesurée, les vitesses de chauffe donnent un ordre de grandeur. Pour **2 °C perdus**, il faut environ **50 minutes** à la chambre la plus rapide (2,4 °C/h), **1 h 30** à l'autre (1,3 °C/h) et un peu plus de **2 heures** à la bibliothèque (0,9 °C/h). En pratique, après une aération courte, c'est souvent plus rapide : l'air se refroidit vite, mais les murs et les meubles gardent leur chaleur et la rendent à la pièce. On est loin des 10 heures qui me faisaient peur, du moins à l'étage. Au rez-de-chaussée, c'est une autre histoire : le plancher chauffant met des heures à réagir, et il n'y a pas de coupure automatique. Je n'ai pas encore de mesure propre d'une aération en bas.
+
+**Et l'économie ?** Couper pendant l'aération reste le bon choix. L'air d'une chambre contient très peu de chaleur : le réchauffer de 3 °C demande quelques centièmes de kWh. Ce qui coûte, c'est de chauffer pendant que la fenêtre est ouverte, puisque la chaleur part directement dehors, et les murs qui se refroidissent quand l'aération dure. Et une pièce qui a refroidi perd moins de chaleur tant qu'elle est fraîche : la remonter ne coûte jamais plus que ce qu'on a économisé en la laissant refroidir. Le seul vrai prix, c'est le confort pendant la remontée. La bonne pratique ne change pas : **aérer grand et court** plutôt que laisser une fenêtre entrouverte longtemps.
+
+Prochaine étape : noter quelques vraies aérations, ménage compris, pour mesurer la remontée réelle, en bas comme en haut, et ajouter cette limite de durée au mode hors-gel.
+
 ## Combien de fois les vannes bougent, et ce que ça coûte en piles
 
 C'était la question qui m'inquiétait le plus : une vanne qui régule vraiment bouge beaucoup plus qu'une vanne bloquée grande ouverte, et chaque mouvement de moteur se paie en piles.
@@ -130,7 +149,7 @@ Le résultat est assez clair, même si le pourcentage de pile de ces vannes est 
 *   les vannes qui bougent moins perdent 0,1 à 0,2 % par jour ;
 *   avant le 11 novembre, quand les vannes restaient ouvertes, les niveaux bougeaient à peine.
 
-C'est le prix d'une régulation fine, et je le trouve raisonnable : un jeu de piles par hiver pour les vannes les plus sollicitées. Deux leviers existent si ça devient gênant : élargir l'écart de réouverture (−0,4 °C → −0,6 °C : moins de cycles, un peu plus d'oscillation), et espacer le battement de cœur de la température externe. Et une loi d'eau plus basse aidera aussi : des chauffes plus longues, c'est moins d'ouvertures.
+C'est le prix d'une régulation fine, et je le trouve raisonnable : un jeu de piles par hiver pour les vannes les plus sollicitées. Deux leviers existent si ça devient gênant : élargir l'écart de réouverture (−0,4 °C → −0,6 °C : moins de cycles, un peu plus d'oscillation), et espacer le battement de cœur de la température externe. Une loi d'eau plus basse aiderait aussi : des chauffes plus longues, c'est moins d'ouvertures.
 
 ## Et le confort ?
 
@@ -142,7 +161,7 @@ Des vannes thermostatiques connectées ne régulent rien toutes seules si elles 
 
 Et, comme souvent, le plus utile n'était pas prévu au départ : ces vannes sont devenues le meilleur capteur de la maison pour savoir si l'eau est trop chaude.
 
-Le troisième et dernier article fera le bilan de l'hiver : confort et consommation sur toute la saison, comparés à l'hiver dernier (le [premier article](/fr/la-loi-deau-de-ma-pompe-a-chaleur-reglee-avec-les-donnees/) en donne déjà une première comparaison), avec le résultat des prochaines baisses de la loi d'eau.
+Le troisième et dernier article fera le bilan de l'hiver : confort et consommation sur toute la saison, comparés à l'hiver dernier (le [premier article](/fr/la-loi-deau-de-ma-pompe-a-chaleur-reglee-avec-les-donnees/) en donne déjà une première comparaison).
 
 ## Comment ça a été fait
 

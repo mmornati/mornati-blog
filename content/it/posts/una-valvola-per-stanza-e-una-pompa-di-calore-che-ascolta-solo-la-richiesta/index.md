@@ -86,7 +86,7 @@ Ecco com'è una giornata in una camera, il 27 novembre, con una media di −1 °
 
 ![Una giornata in una camera: il setpoint passa da 18 °C di notte a 19 °C alle 05:00 (preriscaldamento per una sveglia alle 06:30), a 19,5 °C alle 21:00 e poi a 18 °C alle 22:00; la temperatura della stanza oscilla attorno al setpoint, con aperture della valvola brevi, di una quindicina di minuti](/images/heat-pump-room-valves/bedroom-day-it.webp)
 
-Si vede tutto il sistema: il preriscaldamento alle 05:00 che porta la camera da 17,4 a 19,4 °C in mezz'ora, il dente di sega della giornata (la valvola si apre per un quarto d'ora, la stanza guadagna quasi un grado, poi riscende piano), il setpoint «prima di dormire» alle 21:00 e la notte a 18 °C. Si vede anche che l'acqua è ancora un po' troppo calda: aperture così brevi e un superamento del genere sono proprio quello che il [primo articolo](/it/la-curva-climatica-della-mia-pompa-di-calore-regolata-con-i-dati/) propone di correggere abbassando ancora la curva climatica.
+Si vede tutto il sistema: il preriscaldamento alle 05:00 che porta la camera da 17,4 a 19,4 °C in mezz'ora, il dente di sega della giornata (la valvola si apre per un quarto d'ora, la stanza guadagna quasi un grado, poi riscende piano), il setpoint «prima di dormire» alle 21:00 e la notte a 18 °C. Si vede anche che l'acqua è ancora un po' troppo calda: aperture così brevi e un superamento del genere sono il margine di cui parla il [primo articolo](/it/la-curva-climatica-della-mia-pompa-di-calore-regolata-con-i-dati/), e che ho scelto di tenere per il comfort.
 
 ## Secondo livello: la pompa di calore scalda il piano di sopra solo se una stanza lo chiede
 
@@ -114,6 +114,25 @@ Due sensori registrano quello che succede, senza pilotare niente per ora:
 
 Il prossimo passo è usarli: un preriscaldamento calcolato per ogni camera a partire dalla sua sveglia appresa e dalla sua velocità di riscaldamento, invece di 90 minuti per tutti. Una camera che sale a 2,4 °C/h non ha bisogno di un'ora e mezza per guadagnare un grado.
 
+## E quando apriamo le finestre?
+
+Una domanda che mi facevo: quando arieggiamo, durante le pulizie per esempio, l'automazione spegne il riscaldamento della stanza. Bene, non scaldiamo la strada. Ma se poi la stanza ci mette ore a ritrovare la sua temperatura, è un peccato, e forse nemmeno così conveniente nel complesso.
+
+**Come funziona.** Non ci sono sensori di apertura sulle finestre del piano di sopra. Nelle due camere dei ragazzi, un sensore di tendenza di Home Assistant sorveglia la temperatura della stanza: se la vede scendere di più di **3,6 °C in 30 minuti**, considera che una finestra sia aperta, e il setpoint della stanza passa ad antigelo (12 °C). Appena la temperatura smette di scendere (finestra richiusa), il sensore si spegne e il setpoint normale torna subito. Lo stop dura quindi quanto l'aerazione, non di più.
+
+**Cosa dicono i dati.** Ho cercato tutti i cali rapidi di temperatura nelle quattro stanze del piano di sopra dal 12 novembre. Risultato: **nessuna vera aerazione** rilevata in 16 giorni, e solo due attivazioni, entrambe false:
+
+*   il 14 novembre alle 07:58, in una camera, il sensore della stanza è sparito per un minuto dalla rete Zigbee ed è tornato con un valore più basso. Il sensore di tendenza ci ha visto un calo, e siccome dopo la temperatura non si è quasi più mossa, **è rimasto acceso due ore**. Nel frattempo la stanza è passata da 18,1 a 17,9 °C, poi è risalita a 19 °C **in 53 minuti** una volta tornato il setpoint;
+*   la sera del 22 novembre, in salotto, è bastata una variazione di 0,1 °C per attivarlo. Al piano terra, questo sensore non pilota il riscaldamento.
+
+La soglia di 3,6 °C in 30 minuti è quindi piuttosto severa: una finestra spalancata d'inverno la supera, una finestra socchiusa probabilmente no. E il vero difetto non è la durata della risalita, ma un sensore che resta bloccato quando le misure si diradano. Un limite di durata (30-45 minuti di antigelo al massimo) lo risolverebbe.
+
+**Quanto tempo per tornare in temperatura?** In mancanza di una vera aerazione misurata, le velocità di riscaldamento danno un ordine di grandezza. Per **2 °C persi** servono circa **50 minuti** alla camera più veloce (2,4 °C/h), **1 h 30** all'altra (1,3 °C/h) e poco più di **2 ore** alla biblioteca (0,9 °C/h). In pratica, dopo un'aerazione breve spesso si fa prima: l'aria si raffredda in fretta, ma muri e mobili tengono il calore e lo restituiscono alla stanza. Siamo lontani dalle 10 ore che temevo, almeno al piano di sopra. Al piano terra è un'altra storia: il riscaldamento a pavimento ci mette ore a reagire, e non c'è uno stop automatico. Non ho ancora una misura pulita di un'aerazione al piano terra.
+
+**E il risparmio?** Spegnere mentre si arieggia resta la scelta giusta. L'aria di una camera contiene pochissimo calore: riscaldarla di 3 °C richiede qualche centesimo di kWh. Quello che costa è scaldare con la finestra aperta, perché il calore va dritto fuori, e i muri che si raffreddano quando l'aerazione dura. E una stanza che si è raffreddata perde meno calore finché è fresca: riportarla in temperatura non costa mai più di quanto si è risparmiato lasciandola raffreddare. L'unico vero prezzo è il comfort durante la risalita. La buona pratica non cambia: **arieggiare molto e per poco** invece di lasciare una finestra socchiusa a lungo.
+
+Prossimo passo: annotare qualche vera aerazione, pulizie comprese, per misurare la risalita reale, al piano terra come al piano di sopra, e aggiungere quel limite di durata alla modalità antigelo.
+
 ## Quante volte si muovono le valvole, e quanto costa in batterie
 
 Era la domanda che mi preoccupava di più: una valvola che regola davvero si muove molto più di una valvola bloccata spalancata, e ogni movimento del motore si paga in batterie.
@@ -130,7 +149,7 @@ Il risultato è abbastanza chiaro, anche se la percentuale di batteria di queste
 *   le valvole che si muovono meno perdono dallo 0,1 allo 0,2% al giorno;
 *   prima dell'11 novembre, quando le valvole restavano aperte, i livelli si muovevano appena.
 
-È il prezzo di una regolazione fine, e lo trovo ragionevole: un set di batterie a inverno per le valvole più sollecitate. Se diventa un fastidio ci sono due leve: allargare lo scarto di riapertura (−0,4 °C → −0,6 °C: meno cicli, un po' più di oscillazione) e diradare il battito della temperatura esterna. E anche una curva climatica più bassa aiuterà: cicli di riscaldamento più lunghi vogliono dire meno aperture.
+È il prezzo di una regolazione fine, e lo trovo ragionevole: un set di batterie a inverno per le valvole più sollecitate. Se diventa un fastidio ci sono due leve: allargare lo scarto di riapertura (−0,4 °C → −0,6 °C: meno cicli, un po' più di oscillazione) e diradare il battito della temperatura esterna. Anche una curva climatica più bassa aiuterebbe: cicli di riscaldamento più lunghi vogliono dire meno aperture.
 
 ## E il comfort?
 
@@ -142,7 +161,7 @@ Delle valvole termostatiche connesse non regolano niente da sole se misurano la 
 
 E, come spesso succede, la cosa più utile non era prevista all'inizio: queste valvole sono diventate il miglior sensore della casa per capire se l'acqua è troppo calda.
 
-Il terzo e ultimo articolo farà il bilancio dell'inverno: comfort e consumi su tutta la stagione, confrontati con l'inverno scorso (il [primo articolo](/it/la-curva-climatica-della-mia-pompa-di-calore-regolata-con-i-dati/) ne dà già un primo confronto), con i risultati dei prossimi abbassamenti della curva climatica.
+Il terzo e ultimo articolo farà il bilancio dell'inverno: comfort e consumi su tutta la stagione, confrontati con l'inverno scorso (il [primo articolo](/it/la-curva-climatica-della-mia-pompa-di-calore-regolata-con-i-dati/) ne dà già un primo confronto).
 
 ## Come è stato fatto
 
