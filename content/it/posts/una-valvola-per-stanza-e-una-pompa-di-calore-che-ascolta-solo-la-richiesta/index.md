@@ -142,7 +142,7 @@ Delle valvole termostatiche connesse non regolano niente da sole se misurano la 
 
 E, come spesso succede, la cosa più utile non era prevista all'inizio: queste valvole sono diventate il miglior sensore della casa per capire se l'acqua è troppo calda.
 
-Il terzo e ultimo articolo farà il bilancio su un anno: comfort e consumi confrontati con l'inverno scorso, a temperature esterne paragonabili. Per questo aspetto qualche settimana di freddo vero, e il risultato dei prossimi abbassamenti della curva climatica.
+Il terzo e ultimo articolo farà il bilancio dell'inverno: comfort e consumi su tutta la stagione, confrontati con l'inverno scorso (il [primo articolo](/it/la-curva-climatica-della-mia-pompa-di-calore-regolata-con-i-dati/) ne dà già un primo confronto), con i risultati dei prossimi abbassamenti della curva climatica.
 
 ## Come è stato fatto
 

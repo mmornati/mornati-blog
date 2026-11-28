@@ -142,7 +142,7 @@ Connected thermostatic valves regulate nothing on their own if they measure the 
 
 And, as often happens, the most useful part wasn't planned: these valves have become the best sensor in the house for telling whether the water is too hot.
 
-The third and last post will look back over a year: comfort and consumption compared with last winter, at comparable outdoor temperatures. For that I'm waiting for a few weeks of real cold, and the results of the next reductions of the heating curve.
+The third and last post will be the winter's verdict: comfort and consumption over the whole season, compared with last winter (the [first post](/my-heat-pump-heating-curve-tuned-with-data/) already gives a first comparison), with the results of the next steps down on the heating curve.
 
 ## How it was done
 

@@ -29,7 +29,7 @@ Mais remettre les circuits à l'endroit n'était que la première étape. Avec u
 
 1.  **La loi d'eau, réglée avec les données** (cet article) : comment fonctionne une loi d'eau, quels signaux disent que l'eau est trop chaude, ce qu'on a changé.
 2.  **Une vanne par pièce, et une PAC qui n'écoute que la demande** : les automatisations Home Assistant qui règlent chaque chambre de l'étage et pilotent la PAC, avec le nombre de mouvements des vannes et ce que ça coûte en piles.
-3.  **Le bilan, un an après** : confort et consommation comparés à l'hiver dernier, à températures extérieures comparables. Celui-là attendra quelques semaines de grand froid, pour comparer ce qui est comparable.
+3.  **Le bilan de l'hiver** : confort et consommation sur toute la saison, comparés à l'hiver dernier, avec le résultat des prochaines baisses de la loi d'eau. Cet article-ci donne déjà une première comparaison avec l'hiver dernier.
 
 ## La loi d'eau, en deux minutes
 
@@ -95,6 +95,36 @@ Ce qui saute aux yeux sur la courbe du COP, c'est surtout la **température ext�
 Il faut lire ce tableau honnêtement. L'écart de consigne d'eau est plus petit que ce que la loi laisse croire (0,9 °C), parce que le 14, Home Assistant ne pilotait pas encore la consigne du thermostat et la compensation d'ambiance jouait. Et une bonne partie des 13 % vient du fait que **l'étage surchauffait le 14** : 20,1 °C de moyenne, avec une bibliothèque à 21 °C. Le 22, l'étage est à sa consigne, avec la nuit à 18 °C. C'est justement le but : ne plus produire de chaleur que personne n'a demandée.
 
 Pour la marge du 25 novembre, je n'ai **pas encore d'effet mesurable** : la consigne d'eau moyenne est passée de 40,3 °C le 24 à 39,7 °C le 25, puis 40,2 et 40,1 °C les jours suivants, avec un peu plus froid dehors chaque jour. À ce niveau, le bruit des journées l'emporte. On verra sur plusieurs semaines.
+
+## Et par rapport à l'hiver dernier ?
+
+L'hiver dernier, la maison tournait encore avec les circuits inversés : la PAC produisait l'eau selon la loi prévue pour le plancher, la vanne trois voies était en manuel, et le circulateur tournait à 100 % jour et nuit. Qu'est-ce que tous ces changements ont réellement changé, par rapport à ça ?
+
+**D'abord, un piège.** Ma première comparaison disait que l'hiver dernier, la PAC consommait **deux fois plus** à température extérieure égale. Le chiffre était faux : le capteur « température extérieure moyenne » que je m'étais fait dans Home Assistant lisait **3 à 5 °C trop haut** l'hiver dernier (8,9 °C de moyenne en janvier, quand ma station Netatmo et la sonde Ecojoko, qui sont d'accord entre elles, disaient 3,4 à 4 °C). Les jours « doux » de l'hiver dernier étaient en réalité des jours froids. Tout ce qui suit utilise la station Netatmo.
+
+**La température de l'eau.** Home Assistant n'a pas enregistré les températures d'eau de la PAC l'hiver dernier (ces capteurs n'existent que depuis juin 2026). Mais octobre et début novembre 2026, avant la correction, avaient exactement la même configuration : l'eau était à **24-28 °C** par 5 à 10 °C dehors. Aujourd'hui, elle est à 30-34 °C par le même temps, et vers 40 °C quand il gèle. L'eau est donc **6 à 10 °C plus chaude** qu'avant : c'est le prix des radiateurs qui chauffent enfin.
+
+**La consommation.** Le compteur de la PAC est le même depuis octobre 2024. À température extérieure égale :
+
+| Dehors | Hiver 2025-26 | Depuis le 15 nov. 2026 |
+|---|---|---|
+| −2 à 0 °C | 69,2 kWh/j · maison à 18,5 / 20,0 °C | 62,0 kWh/j · 18,6 / 19,3 °C |
+| 0 à 2 °C | 58,0 kWh/j · 19,1 / 19,7 °C | 56,9 kWh/j · 18,7 / 19,4 °C |
+| 2 à 4 °C | 43,8 kWh/j · 19,9 / 20,8 °C | 39,3 kWh/j · 19,2 / 19,6 °C |
+| 6 à 8 °C | 31,4 kWh/j · 20,5 / 21,5 °C | 24,5 kWh/j · 19,2 / 19,7 °C |
+| 8 à 10 °C | 21,8 kWh/j · 20,0 / 20,9 °C | 16,4 kWh/j · 19,0 / 19,8 °C |
+
+*(températures : étage / rez-de-chaussée, moyennes du jour)*
+
+On consomme 10 à 25 % de moins par temps doux, et à peu près autant quand il gèle. Mais la maison n'est pas la même : l'hiver dernier, elle était **0,5 à 1,5 °C plus chaude**, et le rez-de-chaussée montait à 21-21,5 °C dès qu'il faisait doux, parce que le plancher recevait son eau sans régulation. Pour comparer honnêtement, il faut rapporter la consommation à l'écart entre l'intérieur et l'extérieur :
+
+![Électricité de la PAC par jour selon l'écart entre l'intérieur et l'extérieur : les jours de l'hiver 2025-26 forment une tendance, les jours d'octobre-novembre 2026 avant la correction sont un peu en dessous, ceux d'après le 15 novembre sont sur la tendance](/images/heat-pump-heating-curve/last-winter-fr.webp)
+
+À écart égal, les jours d'après le 15 novembre tombent **sur la tendance de l'hiver dernier** : 501 kWh mesurés sur 13 jours, pour 510 kWh prévus (−2 %, bien en dessous de la dispersion d'un jour à l'autre). Un peu moins par temps doux, un peu plus quand il gèle.
+
+Autrement dit : l'eau est 6 à 10 °C plus chaude, ce qui coûte en rendement, et pourtant la PAC ne consomme pas plus par degré d'écart. Ce surcoût est compensé par tout le reste : le circulateur qui module, la PAC qui ne chauffe l'étage que quand une pièce le demande, les nuits à 18 °C, et la fin de la surchauffe du rez-de-chaussée. Et la maison, elle, est maintenant **à sa consigne dans chaque pièce**, au lieu de 21 °C en bas et d'un étage qui dépendait de la loi d'eau du plancher. C'est aussi pour ça que la suite se joue sur la loi d'eau : chaque degré d'eau en moins, maintenant, est un gain net.
+
+**Et le COP de l'hiver dernier ?** CSNet garde un compteur de chaleur mensuel depuis octobre 2025. Divisé par l'électricité du compteur de la PAC, il donnerait un COP de **3,2 à 3,6** l'hiver dernier, contre 2,7 en novembre 2026. Je ne m'y fie pas : avec le circulateur à 100 % et un écart départ/retour de 1 à 2 °C, ce compteur surestimait nettement la chaleur. Il a compté 9 à 14 kWh de chaleur par jour en plein été, sans aucun besoin de chauffage, et du 1er au 10 novembre 2026, il annonçait 64 à 113 kWh par jour, là où le calcul débit × écart de température en donnait 30 à 72. Depuis le passage du circulateur en ΔT, les deux mesures sont d'accord à quelques pourcents près sur une semaine. Le mauvais réglage du circulateur ne coûtait donc pas seulement de l'électricité : il **faussait aussi la mesure**. Les COP d'aujourd'hui (autour de 2,2 par 0 °C, 3 par 10 °C) sont les premiers chiffres fiables de cette PAC.
 
 ## Jusqu'où peut-on descendre ?
 

@@ -142,7 +142,7 @@ Des vannes thermostatiques connectées ne régulent rien toutes seules si elles 
 
 Et, comme souvent, le plus utile n'était pas prévu au départ : ces vannes sont devenues le meilleur capteur de la maison pour savoir si l'eau est trop chaude.
 
-Le troisième et dernier article fera le bilan sur un an : confort et consommation comparés à l'hiver dernier, à températures extérieures comparables. J'attends pour ça quelques semaines de vrai froid, et le résultat des prochaines baisses de la loi d'eau.
+Le troisième et dernier article fera le bilan de l'hiver : confort et consommation sur toute la saison, comparés à l'hiver dernier (le [premier article](/fr/la-loi-deau-de-ma-pompe-a-chaleur-reglee-avec-les-donnees/) en donne déjà une première comparaison), avec le résultat des prochaines baisses de la loi d'eau.
 
 ## Comment ça a été fait
 

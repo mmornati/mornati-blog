@@ -29,7 +29,7 @@ Ma rimettere a posto i circuiti era solo il primo passo. Con una pompa di calore
 
 1.  **La curva climatica, regolata con i dati** (questo articolo): come funziona una curva climatica, quali segnali dicono che l'acqua è troppo calda, cosa abbiamo cambiato.
 2.  **Una valvola per stanza, e una pompa di calore che ascolta solo la richiesta**: le automazioni Home Assistant che regolano ogni camera del piano di sopra e comandano la pompa di calore, con il numero di movimenti delle valvole e quanto costa in batterie.
-3.  **Il bilancio, un anno dopo**: comfort e consumi confrontati con l'inverno scorso, a temperature esterne comparabili. Questo dovrà aspettare qualche settimana di freddo vero, per confrontare cose confrontabili.
+3.  **Il bilancio dell'inverno**: comfort e consumi su tutta la stagione, confrontati con l'inverno scorso, con i risultati dei prossimi abbassamenti della curva climatica. Questo articolo dà già un primo confronto con l'inverno scorso.
 
 ## La curva climatica, in due minuti
 
@@ -95,6 +95,36 @@ Quello che salta all'occhio sulla curva del COP è soprattutto la **temperatura 
 Questa tabella va letta onestamente. La differenza di set point dell'acqua è più piccola di quanto farebbe pensare la curva (0,9 °C), perché il 14 Home Assistant non comandava ancora il set point del termostato e la compensazione ambiente entrava in gioco. E buona parte del 13% viene dal fatto che **il piano di sopra era surriscaldato il 14**: 20,1 °C di media, con la biblioteca a 21 °C. Il 22 il piano di sopra è al suo set point, con la notte a 18 °C. È proprio questo lo scopo: smettere di produrre calore che nessuno ha chiesto.
 
 Per il margine del 25 novembre **non ho ancora un effetto misurabile**: il set point medio dell'acqua è passato da 40,3 °C il 24 a 39,7 °C il 25, poi 40,2 e 40,1 °C nei giorni seguenti, con un po' più di freddo fuori ogni giorno. A questo livello vince il rumore delle singole giornate. Vedremo su più settimane.
+
+## E rispetto all'inverno scorso?
+
+L'inverno scorso la casa funzionava ancora con i circuiti invertiti: la pompa di calore produceva l'acqua secondo la curva pensata per il pavimento, la valvola a tre vie era in manuale e il circolatore girava al 100% giorno e notte. Cosa hanno davvero cambiato tutte queste modifiche, rispetto a quella situazione?
+
+**Prima, una trappola.** Il mio primo confronto diceva che l'inverno scorso la pompa di calore consumava **il doppio** a parità di temperatura esterna. Era sbagliato: il sensore "temperatura esterna media" che mi ero costruito in Home Assistant leggeva **da 3 a 5 °C in più** l'inverno scorso (8,9 °C di media a gennaio, quando la mia stazione Netatmo e la sonda Ecojoko, che concordano tra loro, dicevano da 3,4 a 4 °C). I giorni "miti" dell'inverno scorso erano in realtà giorni freddi. Tutto quello che segue usa la stazione Netatmo.
+
+**La temperatura dell'acqua.** Home Assistant non ha registrato le temperature dell'acqua della pompa di calore l'inverno scorso (questi sensori esistono solo da giugno 2026). Ma ottobre e inizio novembre 2026, prima della correzione, avevano esattamente la stessa configurazione: l'acqua era a **24-28 °C** con 5-10 °C fuori. Oggi è a 30-34 °C con lo stesso tempo, e intorno ai 40 °C quando gela. L'acqua è quindi **da 6 a 10 °C più calda** di prima: è il prezzo di radiatori che finalmente scaldano.
+
+**I consumi.** Il contatore della pompa di calore è lo stesso da ottobre 2024. A parità di temperatura esterna:
+
+| Fuori | Inverno 2025-26 | Dal 15 nov. 2026 |
+|---|---|---|
+| da −2 a 0 °C | 69,2 kWh/g · casa a 18,5 / 20,0 °C | 62,0 kWh/g · 18,6 / 19,3 °C |
+| da 0 a 2 °C | 58,0 kWh/g · 19,1 / 19,7 °C | 56,9 kWh/g · 18,7 / 19,4 °C |
+| da 2 a 4 °C | 43,8 kWh/g · 19,9 / 20,8 °C | 39,3 kWh/g · 19,2 / 19,6 °C |
+| da 6 a 8 °C | 31,4 kWh/g · 20,5 / 21,5 °C | 24,5 kWh/g · 19,2 / 19,7 °C |
+| da 8 a 10 °C | 21,8 kWh/g · 20,0 / 20,9 °C | 16,4 kWh/g · 19,0 / 19,8 °C |
+
+*(temperature: piano di sopra / piano terra, medie del giorno)*
+
+Consumiamo dal 10 al 25% in meno con il tempo mite, e più o meno lo stesso quando gela. Ma la casa non è la stessa: l'inverno scorso era **da 0,5 a 1,5 °C più calda**, e il piano terra saliva a 21-21,5 °C appena faceva mite, perché il pavimento riceveva l'acqua senza alcuna regolazione. Per un confronto onesto bisogna rapportare i consumi alla differenza tra interno ed esterno:
+
+![Elettricità della pompa di calore al giorno in base alla differenza tra interno ed esterno: i giorni dell'inverno 2025-26 formano una tendenza, i giorni di ottobre-novembre 2026 prima della correzione stanno un po' sotto, quelli dopo il 15 novembre ci stanno sopra](/images/heat-pump-heating-curve/last-winter-it.webp)
+
+A parità di differenza, i giorni dal 15 novembre cadono **sulla tendenza dell'inverno scorso**: 501 kWh misurati in 13 giorni, contro 510 kWh previsti (−2%, ben dentro la dispersione da un giorno all'altro). Un po' meno con il tempo mite, un po' di più quando gela.
+
+In altre parole: l'acqua è da 6 a 10 °C più calda, il che costa in rendimento, eppure la pompa di calore non consuma di più per grado di differenza. Quel costo in più è compensato da tutto il resto: il circolatore che modula, la pompa di calore che scalda il piano di sopra solo quando una stanza lo chiede, le notti a 18 °C, e la fine del surriscaldamento del piano terra. E la casa ora è **al suo set point in ogni stanza**, invece di 21 °C sotto e un piano di sopra che dipendeva dalla curva del pavimento. È anche per questo che il seguito si gioca sulla curva climatica: ogni grado d'acqua in meno, ora, è un guadagno netto.
+
+**E il COP dell'inverno scorso?** CSNet conserva un contatore di calore mensile da ottobre 2025. Diviso per l'elettricità del contatore della pompa di calore, darebbe un COP da **3,2 a 3,6** l'inverno scorso, contro 2,7 a novembre 2026. Non mi fido: con il circolatore al 100% e una differenza mandata/ritorno di 1-2 °C, quel contatore sovrastimava nettamente il calore. Ha contato da 9 a 14 kWh di calore al giorno in piena estate, senza alcun bisogno di riscaldamento, e dall'1 al 10 novembre 2026 indicava da 64 a 113 kWh al giorno, dove il calcolo portata × differenza di temperatura ne dava da 30 a 72. Da quando il circolatore è in modalità ΔT, le due misure concordano a pochi punti percentuali su una settimana. Quindi la cattiva impostazione del circolatore non costava solo elettricità: **falsava anche la misura**. I COP di oggi (circa 2,2 a 0 °C, 3 a 10 °C) sono i primi numeri affidabili di questa pompa di calore.
 
 ## Fin dove si può scendere?
 

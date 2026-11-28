@@ -29,7 +29,7 @@ But fixing the circuits was only the first step. With a heat pump, every extra d
 
 1.  **The heating curve, tuned with data** (this post): how a heating curve works, which signals tell you the water is too hot, what we changed.
 2.  **One valve per room, and a heat pump that only listens to demand**: the Home Assistant automations that control each upstairs bedroom and drive the heat pump, with how often the valves move and what that costs in batteries.
-3.  **The verdict, one year on**: comfort and consumption compared with last winter, at comparable outdoor temperatures. That one will have to wait for a few weeks of real cold, so I compare like with like.
+3.  **The winter's verdict**: comfort and consumption over the whole season, compared with last winter, with the results of the next steps down on the heating curve. This post already gives a first comparison with last winter.
 
 ## The heating curve, in two minutes
 
@@ -95,6 +95,36 @@ What stands out on the COP line is above all the **outdoor temperature**: a litt
 This table needs reading honestly. The gap in water set point is smaller than the curve would suggest (0.9 °C), because on the 14th Home Assistant wasn't yet driving the thermostat set point and room compensation was kicking in. And a good part of the 13% comes from the fact that **upstairs was overheating on the 14th**: 20.1 °C on average, with the library at 21 °C. On the 22nd upstairs is at its set point, with nights at 18 °C. That's exactly the point: stop producing heat nobody asked for.
 
 For the 25 Nov margin change I have **no measurable effect yet**: the average water set point went from 40.3 °C on the 24th to 39.7 °C on the 25th, then 40.2 and 40.1 °C the following days, with a bit colder outside each day. At that scale the day-to-day noise wins. We'll see over several weeks.
+
+## And compared with last winter?
+
+Last winter the house was still running with the circuits swapped: the heat pump made its water for the curve meant for the floor, the three-way valve was on manual, and the circulation pump ran at 100% day and night. What did all these changes really change, compared with that?
+
+**First, a trap.** My first comparison said that last winter the heat pump used **twice as much** at the same outdoor temperature. That was wrong: the "average outdoor temperature" sensor I had built in Home Assistant read **3 to 5 °C too high** last winter (an 8.9 °C average in January, when my Netatmo station and the Ecojoko probe, which agree with each other, said 3.4 to 4 °C). Last winter's "mild" days were actually cold ones. Everything below uses the Netatmo station.
+
+**Water temperature.** Home Assistant did not record the heat pump's water temperatures last winter (those sensors only exist since June 2026). But October and early November 2026, before the fix, had exactly the same configuration: the water was at **24-28 °C** with 5 to 10 °C outside. Today it is at 30-34 °C in the same weather, and around 40 °C when it freezes. The water is therefore **6 to 10 °C hotter** than before: that is the price of radiators that finally heat.
+
+**Consumption.** The heat pump's meter has been the same since October 2024. At the same outdoor temperature:
+
+| Outside | Winter 2025-26 | Since 15 Nov 2026 |
+|---|---|---|
+| −2 to 0 °C | 69.2 kWh/day · house at 18.5 / 20.0 °C | 62.0 kWh/day · 18.6 / 19.3 °C |
+| 0 to 2 °C | 58.0 kWh/day · 19.1 / 19.7 °C | 56.9 kWh/day · 18.7 / 19.4 °C |
+| 2 to 4 °C | 43.8 kWh/day · 19.9 / 20.8 °C | 39.3 kWh/day · 19.2 / 19.6 °C |
+| 6 to 8 °C | 31.4 kWh/day · 20.5 / 21.5 °C | 24.5 kWh/day · 19.2 / 19.7 °C |
+| 8 to 10 °C | 21.8 kWh/day · 20.0 / 20.9 °C | 16.4 kWh/day · 19.0 / 19.8 °C |
+
+*(temperatures: upstairs / ground floor, daily averages)*
+
+We use 10 to 25% less in mild weather, and about the same when it freezes. But the house is not the same: last winter it was **0.5 to 1.5 °C warmer**, and the ground floor climbed to 21-21.5 °C as soon as it was mild, because the floor got its water with no regulation. To compare honestly, consumption has to be set against the gap between inside and outside:
+
+![Heat pump electricity per day by the gap between indoor and outdoor: the days of winter 2025-26 form a trend, the October-November 2026 days before the fix sit slightly below it, those after 15 November sit on it](/images/heat-pump-heating-curve/last-winter-en.webp)
+
+At the same gap, the days since 15 November fall **on last winter's trend**: 501 kWh measured over 13 days, against 510 kWh predicted (−2%, well inside the day-to-day scatter). A little less in mild weather, a little more when it freezes.
+
+In other words: the water is 6 to 10 °C hotter, which costs efficiency, and yet the heat pump does not use more per degree of gap. That extra cost is offset by everything else: the pump that modulates, the heat pump that only heats upstairs when a room asks, nights at 18 °C, and the end of the ground floor overheating. And the house is now **at its setpoint in every room**, instead of 21 °C downstairs and an upstairs that depended on the floor's curve. That is also why what comes next is about the heating curve: every degree of water saved now is a net gain.
+
+**And last winter's COP?** CSNet keeps a monthly heat counter since October 2025. Divided by the electricity from the heat pump's meter, it would give a COP of **3.2 to 3.6** last winter, against 2.7 in November 2026. I don't trust it: with the pump at 100% and a supply/return gap of 1 to 2 °C, that counter clearly overstated the heat. It counted 9 to 14 kWh of heat a day in mid-summer, with no heating needed at all, and from 1 to 10 November 2026 it reported 64 to 113 kWh a day, where flow × temperature difference gave 30 to 72. Since the pump went to ΔT mode, the two agree within a few percent over a week. So the wrong pump setting did not only cost electricity: it **also skewed the measurement**. Today's COPs (around 2.2 at 0 °C, 3 at 10 °C) are the first reliable figures for this heat pump.
 
 ## How low can we go?
 
