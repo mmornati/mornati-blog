@@ -414,6 +414,14 @@ La recette réutilisable : *dériver un binary sensor « fait-il son travail » 
 
 ---
 
+## Faire la même chose chez vous, avec votre assistant IA
+
+Le YAML ci-dessus est propre à ma maison : ma prise, mes noms d'entités, des seuils choisis pour une pompe qui tourne par salves d'une minute. Le copier ne vous avancerait pas beaucoup, il faudrait presque tout réécrire. Ce qui se transporte d'une cave à l'autre, c'est la recette ci-dessous : l'intention, les règles, les garde-fous, et mes cas réels en guise de tests. Donnez-la à votre assistant (Claude, ChatGPT, celui que vous utilisez), idéalement connecté à votre Home Assistant, et laissez-le partir de vos appareils plutôt que des miens.
+
+{{< ai-prompt >}}
+
+---
+
 ## Avertissements
 
 - **Notes de terrain, pas conseils.** Ce sont mes seuils, pour ma pompe, dans ma cave, dans le nord de la France. Votre pompe, votre nappe phréatique, votre installation électrique sont différentes.

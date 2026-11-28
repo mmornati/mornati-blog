@@ -414,6 +414,14 @@ The reusable recipe: *derive a binary "is it doing its job" sensor from power, t
 
 ---
 
+## Do the same at home, with your AI assistant
+
+The YAML above is specific to my house: my plug, my entity names, thresholds picked for a pump that runs in one-minute bursts. Copying it would not get you far, you would have to rewrite most of it. What travels from one cellar to another is the recipe below: the intent, the rules, the safeguards, and my real cases as tests. Give it to your own assistant (Claude, ChatGPT, whichever you use), ideally connected to your Home Assistant, and let it start from your devices instead of mine.
+
+{{< ai-prompt >}}
+
+---
+
 ## Disclaimers
 
 - **Field notes, not advice.** These are my thresholds for my pump in my cellar in northern France. Your pump, your water table, your wiring are different.
