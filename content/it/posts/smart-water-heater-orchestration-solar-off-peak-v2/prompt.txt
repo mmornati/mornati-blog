@@ -1,0 +1,46 @@
+RICETTA: scaldabagno elettrico su surplus solare e fasce a tariffa ridotta (Home Assistant)
+Fonte: https://blog.mornati.net/it/smart-water-heater-orchestration-solar-off-peak-v2/
+
+Aiutami a creare questa automazione nel MIO Home Assistant. Parti dai miei dispositivi, non dal codice di un altro.
+
+PRIMA DI SCRIVERE QUALSIASI COSA
+1. Trova i miei scaldabagni: il relè che comanda ciascuno e il suo sensore di potenza.
+2. Trova i miei sensori di produzione solare e di consumo della casa, e verifica se quel consumo include lo scaldabagno.
+3. Elenca le automazioni che comandano già gli scaldabagni.
+4. Fammi le tue domande, poi aspetta le risposte: potenza di ogni scaldabagno, le mie fasce a tariffa ridotta, come segnalo che siamo via, come avvisarmi.
+Non hai accesso al mio Home Assistant? Chiedi invece di supporre.
+
+IL PROBLEMA
+Uno scaldabagno con un orario fisso in fascia ridotta non sa se il serbatoio è davvero caldo, né se il sole potrebbe finire il lavoro gratis. Tirare a indovinare costa denaro appena c'è il fotovoltaico.
+
+COSA VOGLIO (per ogni scaldabagno)
+A. Fine ciclo: la dichiara il termostato del serbatoio. Quando la potenza crolla, aprire il relè, segnare il serbatoio come completato, avvisarmi.
+B. Ciclo solare: se il serbatoio non è completato alla chiusura della fascia ridotta diurna, continuare in fascia piena solo se il surplus solare copre tutto lo scaldabagno.
+C. Sentinella: durante un ciclo solare, fermarsi quando il sole cala o la casa consuma troppo. Il serbatoio resta "non completato".
+D. Notte: un serbatoio ancora non completato ha diritto a un ciclo notturno, chiuso dal termostato o da un tetto di durata, quello che arriva prima.
+
+SOGLIE DI PARTENZA (da calibrare a casa mia)
+- Completato: potenza sotto i 50 W per 5 minuti.
+- Surplus: produzione meno casa >= potenza dello scaldabagno x 1,1, con la casa sotto i 1500 W.
+- Interruzione: casa sopra i 1500 W per 2 minuti.
+- Notte: 02:00, tetto di 90 minuti (serbatoio grande) o 60 (piccolo).
+
+PROTEZIONI
+- Mai importare dalla rete in fascia piena per scaldare l'acqua.
+- Misura dello scaldabagno non disponibile per 10 minuti: aprire il relè e chiudere il ciclo.
+- Sensore solare o di casa non disponibile: nessun ciclo solare.
+- Modalità assenza attiva: non parte niente.
+- La sentinella tocca solo i cicli solari.
+- Comandare solo il relè, mai il setpoint del serbatoio.
+
+CASI DI TEST (presi dall'articolo)
+1. Scaldabagno sotto i 50 W per 5 minuti -> relè aperto, serbatoio completato, notifica.
+2. Misura non disponibile per 10 minuti -> relè aperto, ciclo chiuso.
+3. 14:09, serbatoio non completato, scaldabagno da 2,9 kW, surplus >= 3190 W, casa sotto i 1500 W -> parte il ciclo solare.
+4. Stesso caso con un surplus più basso -> niente, ci pensa la notte.
+5. Ciclo solare, casa sopra i 1500 W per 2 minuti (forno, bollitore) -> relè aperto, serbatoio ancora "non completato".
+6. 02:00, serbatoio non completato, il termostato non stacca mai -> stop a 90 minuti.
+7. Modalità assenza attiva -> né ciclo solare, né ciclo notturno.
+
+METODO
+Prima un piano breve e le tue domande. Poi le automazioni con le mie entità, ogni soglia spiegata, e un modo per testare prima di attivare. Comincia dal solo rilevamento di fine ciclo.
