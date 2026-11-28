@@ -127,3 +127,9 @@ To understand the script:
 So every 30 minutes, if conditions are met, a random light is selected and turned on for 5 to 30 minutes.
 
 You can adjust any of these parameters to suit your needs.
+
+## Do the same at home, with your AI assistant
+
+The YAML above is specific to my house: my lights, my group, my away switch tied to my alarm. Copying it will not get you far, you would have to rename everything anyway. What travels from one home to another is the intent, the rules and the safeguards, so here is the recipe to give to your own AI assistant (Claude, ChatGPT, the one you use), ideally connected to your Home Assistant.
+
+{{< ai-prompt >}}

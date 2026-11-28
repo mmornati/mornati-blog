@@ -32,3 +32,18 @@
   });
 })();
 
+
+// AI recipe block: copy the prompt of the post.
+document.addEventListener("click", function (e) {
+  var btn = e.target.closest && e.target.closest(".ai-prompt__copy");
+  if (!btn) return;
+  var box = btn.closest(".ai-prompt");
+  var pre = box && box.querySelector(".ai-prompt__text");
+  if (!pre || !navigator.clipboard) return;
+  navigator.clipboard.writeText(pre.textContent).then(function () {
+    var label = btn.textContent;
+    btn.textContent = btn.getAttribute("data-copied") || label;
+    btn.classList.add("is-copied");
+    setTimeout(function () { btn.textContent = label; btn.classList.remove("is-copied"); }, 2000);
+  });
+});

@@ -100,3 +100,10 @@ oss.projects:
 oss.stars:
   one: "{{ .Count }} star"
   other: "{{ .Count }} stars"
+# --- AI recipe block (shortcode ai-prompt) ---
+aiprompt.title: "A recipe for your AI assistant"
+aiprompt.intro: "My code would not work in your home: different devices, different sensors. Give this recipe to your AI assistant instead. It describes the intent, the rules, the safeguards and test cases taken from my data, and asks the assistant to start from your own setup."
+aiprompt.show: "Read the recipe"
+aiprompt.copy: "Copy the recipe"
+aiprompt.copied: "Copied"
+aiprompt.raw: "Plain text file (to give to an agent)"
