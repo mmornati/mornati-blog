@@ -316,6 +316,12 @@ Pourquoi 8 heures ? Ça empêche la ré-exécution dans la même plage horaire t
 5. **Le différentiel de 2°C fonctionne bien** - Prévient les déclenchements par temps nuageux
 6. **Les Velux ont besoin d'un traitement spécial** - Les fenêtres de toit chauffent plus vite et nécessitent une fermeture complète
 
+## Faites la Même Chose Chez Vous, avec Votre Assistant IA
+
+Le YAML ci-dessus est propre à ma maison : mes noms d'entités, mes fenêtres, les heures où le soleil tape sur mes murs. Le copier ne vous avancerait pas beaucoup. Ce qui se transporte d'une maison à l'autre, c'est l'intention, les règles et les garde-fous. Voici donc la recette à donner à votre assistant IA (Claude, ChatGPT, celui que vous utilisez), idéalement connecté à votre Home Assistant. Elle lui demande de partir de vos volets et de vos capteurs, pas des miens.
+
+{{< ai-prompt >}}
+
 ## Et Ensuite ?
 
 Le post original mentionnait l'ajout de capteurs d'intensité lumineuse (lux) pour empêcher la fermeture des volets quand il fait nuageux mais chaud. J'ai implémenté ceci dans mes automatisations d'éclairage externe et prévois de l'intégrer ici aussi.
