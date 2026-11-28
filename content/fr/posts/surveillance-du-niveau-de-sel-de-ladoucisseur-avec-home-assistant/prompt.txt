@@ -1,0 +1,39 @@
+RECETTE : alerte de niveau de sel de l'adoucisseur (Home Assistant)
+Source : https://blog.mornati.net/fr/monitoring-water-softener-salt-level-with-home-assistant/
+
+Tu vas m'aider à créer cette automatisation dans MON Home Assistant. Ne recopie pas le code d'un autre : pars de mes appareils.
+
+AVANT D'ÉCRIRE QUOI QUE CE SOIT
+1. Trouve mes capteurs de fuite d'eau et ce que chacun expose : état sec/mouillé, pile, disponibilité.
+2. Demande-moi lequel est dans le bac à sel de l'adoucisseur. Ne le devine pas d'après son nom.
+3. Liste les services de notification que j'utilise déjà.
+4. Pose-moi tes questions, puis attends mes réponses : le capteur est-il prévu pour l'immersion (celui de l'article est IP67), à quelle hauteur est-il posé dans le bac, qui prévenir et comment.
+Si tu n'as pas accès à mon Home Assistant, demande-moi au lieu de supposer.
+
+LE PROBLÈME
+Un adoucisseur sans sel envoie de l'eau dure dans toute la maison : tartre, appareils abîmés. Je veux être prévenu avant de manquer de sel, sans avoir à ouvrir le bac pour regarder.
+
+CE QUE JE VEUX
+A. Un capteur de fuite est placé bas dans le bac à sel. Avec assez de sel, il reste sec. Quand le sel est presque épuisé, l'eau l'atteint : c'est le signal.
+B. Quand le capteur passe de sec à mouillé, m'envoyer une notification : il manque du sel, il faut remplir le bac.
+C. Une alerte par événement, aucune répétition tant que le capteur reste mouillé.
+D. En option, demande-moi d'abord : d'autres canaux (e-mail, Telegram, voix), une carte sur le tableau de bord, un historique des déclenchements.
+
+SEUILS DE DÉPART (à calibrer chez moi)
+- Déclenchement : le passage sec -> mouillé, sans délai.
+- Le capteur de l'article réagit dès 0,5 mm d'eau : c'est sa hauteur dans le bac qui décide de l'avance que j'aurai. Aide-moi à la choisir.
+
+GARDE-FOUS (non négociables)
+- Capteur indisponible ou inconnu : ne rien faire. Ce n'est pas une alerte de manque de sel.
+- Un capteur qui revient d'un état indisponible ne doit pas alerter : seul un vrai passage de sec à mouillé compte.
+- Cette automatisation ne fait que prévenir. Elle ne touche jamais à une vanne ni à l'arrivée d'eau, sauf demande explicite de ma part.
+
+CAS DE TEST
+1. Assez de sel, capteur sec -> il ne se passe rien.
+2. Le capteur passe de sec à mouillé -> une notification : manque de sel, remplir le bac.
+3. Le capteur reste mouillé pendant des jours -> pas de deuxième notification.
+4. Capteur indisponible, puis de retour, mouillé ou sec -> aucune alerte.
+5. Bac rempli, capteur de nouveau sec, puis mouillé plus tard -> une nouvelle notification.
+
+MÉTHODE
+Propose-moi d'abord un plan court et tes questions. Ensuite écris l'automatisation avec mes entités, explique chaque choix, et montre-moi comment la tester avant de l'activer, par exemple en trempant le capteur dans un verre d'eau. N'ajoute les options qu'une fois l'alerte de base en place.

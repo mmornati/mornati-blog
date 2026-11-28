@@ -1,0 +1,39 @@
+RECIPE: water softener salt level alert (Home Assistant)
+Source: https://blog.mornati.net/monitoring-water-softener-salt-level-with-home-assistant/
+
+You are going to help me build this automation in MY Home Assistant. Do not copy someone else's code: start from my devices.
+
+BEFORE WRITING ANYTHING
+1. Find my water leak sensors and what each one exposes: wet/dry state, battery, availability.
+2. Ask me which one sits in the softener salt tank. Do not guess from its name.
+3. List the notification services I already use.
+4. Ask me your questions, then wait for my answers: is the sensor made for immersion (the post uses an IP67 one), how high it sits in the tank, who must be warned and how.
+If you have no access to my Home Assistant, ask me instead of assuming.
+
+THE PROBLEM
+A softener with no salt left sends hard water through the house: scale, damaged appliances. I want to be warned before the salt runs out, without opening the tank to look.
+
+WHAT I WANT
+A. A leak sensor sits low in the salt tank. With enough salt it stays dry. When the salt is nearly gone, water reaches it: that is the signal.
+B. When the sensor goes from dry to wet, send me one notification: salt is low, refill the tank.
+C. One alert per event, no repeat while the sensor stays wet.
+D. Optional, ask me first: other channels (email, Telegram, voice), a dashboard card, a history of triggers.
+
+STARTING THRESHOLDS (to calibrate at my home)
+- Trigger: the dry -> wet transition, with no delay.
+- The post's sensor reacts to 0.5 mm of water, so its height in the tank decides how early I am warned. Help me choose it.
+
+SAFEGUARDS (not negotiable)
+- Sensor unavailable or unknown: do nothing. It is not a low salt alert.
+- A sensor coming back from unavailable must not alert: only a real dry -> wet change counts.
+- This automation only notifies. It never touches a valve or the water supply unless I ask explicitly.
+
+TEST CASES
+1. Enough salt, sensor dry -> nothing happens.
+2. Sensor goes from dry to wet -> one notification: salt low, refill the tank.
+3. Sensor stays wet for days -> no second notification.
+4. Sensor unavailable, then back, wet or dry -> no alert.
+5. Tank refilled, sensor dry again, wet again later -> a new notification.
+
+METHOD
+First give me a short plan and your questions. Then write the automation with my entities, explain each choice, and show me how to test it before enabling it, for example by dipping the sensor in a glass of water. Add the options only once the basic alert works.

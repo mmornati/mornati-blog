@@ -97,6 +97,12 @@ You can enhance this setup with:
 - **Historical tracking**: Monitor how often the sensor triggers to optimize your refill schedule
 - **Smart valves**: Automatically shut off water if combined with a solenoid valve (advanced)
 
+## Do the Same at Home, with Your AI Assistant
+
+The YAML above is specific to my house: my sensor, my entity names, my notification service. Copying it would not get you far. What travels from one home to another is the intent, the rules and the safeguards, so here is the recipe to give to your own AI assistant (Claude, ChatGPT, the one you use), ideally connected to your Home Assistant. It tells it to start from your devices, not mine.
+
+{{< ai-prompt >}}
+
 ## Conclusion
 
 This simple yet effective DIY solution transforms your water softener into a smart appliance. No more guessing or unexpected hard water days. The total cost is under €30 for the sensor, and the peace of mind is priceless.
