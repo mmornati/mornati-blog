@@ -1,0 +1,47 @@
+RECIPE: motorised roof shutters and frost (Home Assistant)
+Source: https://blog.mornati.net/velux-solar-shutters-and-frost-never-force-and-check-it-in-the-data/
+
+You are going to help me build this automation in MY Home Assistant. Don't copy someone else's code: start from my devices.
+
+BEFORE WRITING ANYTHING
+1. List my roof shutters (cover entities) and tell me what they expose: position, opening/closing states, any obstacle or fault attribute.
+2. Find my sources for: the outdoor temperature, the hour-by-hour weather forecast, the outdoor light (illuminance sensor, otherwise the sun's elevation).
+3. Look at which automations already open or close these shutters, and at what time.
+4. Ask me the useful questions, then wait for my answers: orientation of each shutter (which slope sees the sun in the morning), rooms involved, time at which we can close without bothering anyone, how I want to be notified.
+If you don't have access to my Home Assistant, ask me for this information instead of assuming it.
+
+THE PROBLEM
+When moisture freezes in the side rails, the shutter motor refuses to move (overload protection). The manufacturer says never to force it and to wait for the thaw. Retrying is useless and wears out the mechanism.
+
+WHAT I WANT
+A. Detect a refusal. Observed signature: the shutter goes to closing (or opening), then returns to its starting state in less than a minute, with a position that moved by less than 10%. Check this signature in MY history before relying on it. A shutter that became unavailable during the movement is not a refusal.
+B. Close before the frost. When it is dark outside and frost is coming, close the shutters that are still open, a single command, only once per evening.
+C. Postpone the morning opening. If it is freezing at the scheduled time, don't send the command: put it on hold and send it only once when conditions are good. Past a cut-off time, give up and notify me.
+D. Keep a log. Every movement: date and time, shutter, direction, succeeded or refused, temperature, humidity, dew point. This log is what will be used to correct the thresholds.
+
+STARTING THRESHOLDS (to be calibrated for my home, don't take them for granted)
+- Close: temperature <= 2 °C, or <= 5 °C with a forecast low <= 0 °C during the night.
+- "Night": less than 10 lx and sun below 3° of elevation.
+- Open: temperature > 1 °C. Careful, "0 °C with sun" turned out to be too tight.
+- Refused shutter: considered blocked for 12 h, excluded from all automatic commands.
+- Giving up on the pending opening: 15:00.
+Handle each roof slope separately: a shutter in the shade in the morning thaws much later than a shutter in the sun.
+
+GUARDRAILS (non-negotiable)
+- One command per decision. Never a retry loop, anywhere.
+- Temperature sensor unavailable or unknown: do nothing.
+- Never block a manual command. If someone retries a shutter less than 10 minutes after a refusal, send a reminder, nothing more.
+- A block must expire on its own: a shutter blocked while closing stays open, and no movement will come to clear it.
+
+TEST CASES (real facts, November 2026)
+1. 17:15, night has fallen, 1.6 °C, 85% humidity, forecast low below 0 °C -> must close. (Without the rule, the closing at 20:42 at −1.2 °C was refused by 3 shutters out of 4.)
+2. Shutter at 100%, goes to closing, returns to open at 100% after 25 s -> refusal detected, alert, no retry.
+3. Shutter 100 -> 34 -> 0 in 13 s -> normal movement, no alert.
+4. 7:15, −3 °C -> opening put on hold, no command sent.
+5. 11:10, 0.1 °C, sun: 4 shutters open, the one on the north slope refuses -> the opening threshold for this slope must be more cautious.
+6. 15:00, bright afternoon, 1.5 °C -> does not close (it is daylight).
+7. Evening at 9 °C, no frost forecast -> no action.
+8. Three shutters refuse in the same second -> all three are recorded as blocked, none is missed.
+
+METHOD
+First give me a short plan and your questions. Then write the automation with my entities, explain each threshold, and show me how to test it on my history before enabling it. Start with the detector and the log alone (they send no commands), and only add the automatic closings and openings after that.

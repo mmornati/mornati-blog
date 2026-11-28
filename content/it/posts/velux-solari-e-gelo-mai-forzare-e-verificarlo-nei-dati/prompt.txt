@@ -1,0 +1,47 @@
+RICETTA: tapparelle da tetto motorizzate e gelo (Home Assistant)
+Fonte: https://blog.mornati.net/it/velux-solari-e-gelo-mai-forzare-e-verificarlo-nei-dati/
+
+Mi aiuterai a creare questa automazione nel MIO Home Assistant. Non copiare il codice di qualcun altro: parti dai miei dispositivi.
+
+PRIMA DI SCRIVERE QUALSIASI COSA
+1. Elenca le mie tapparelle da tetto (entità cover) e dimmi cosa espongono: posizione, stati opening/closing, un eventuale attributo di ostacolo o di guasto.
+2. Trova le mie fonti per: la temperatura esterna, la previsione meteo ora per ora, la luce esterna (sensore di luminosità, altrimenti l'altezza del sole).
+3. Guarda quali automazioni aprono o chiudono già queste tapparelle, e a che ora.
+4. Fammi le domande utili, poi aspetta le mie risposte: orientamento di ogni tapparella (quale falda vede il sole al mattino), stanze interessate, ora in cui si può chiudere senza dare fastidio, come voglio essere avvisato.
+Se non hai accesso al mio Home Assistant, chiedimi queste informazioni invece di supporle.
+
+IL PROBLEMA
+Quando l'umidità gela nelle guide, il motore della tapparella si rifiuta di muoversi (protezione da sovraccarico). Il costruttore dice di non forzare mai e di aspettare il disgelo. Riprovare non serve a niente e affatica il meccanismo.
+
+COSA VOGLIO
+A. Rilevare un rifiuto. Firma osservata: la tapparella passa a closing (o opening), poi torna al suo stato di partenza in meno di un minuto, con una posizione che si è mossa di meno del 10 %. Verifica questa firma nel MIO storico prima di fidarti. Una tapparella diventata non disponibile durante il movimento non è un rifiuto.
+B. Chiudere prima del gelo. Quando fuori è buio e il gelo sta arrivando, chiudere le tapparelle ancora aperte, un solo comando, una sola volta per sera.
+C. Rimandare l'apertura del mattino. Se gela all'ora prevista, non inviare il comando: metterlo in attesa e inviarlo una sola volta quando le condizioni sono buone. Superata un'ora limite, abbandonare e avvisarmi.
+D. Tenere un registro. Ogni movimento: data e ora, tapparella, verso, riuscito o rifiutato, temperatura, umidità, punto di rugiada. Sarà questo registro a servire per correggere le soglie.
+
+SOGLIE DI PARTENZA (da calibrare a casa mia, non darle per buone)
+- Chiudere: temperatura <= 2 °C, oppure <= 5 °C con una minima prevista <= 0 °C nella notte.
+- «Notte»: meno di 10 lx e sole sotto i 3° di altezza.
+- Aprire: temperatura > 1 °C. Attenzione, «0 °C con il sole» si è rivelato troppo al limite.
+- Tapparella rifiutata: considerata bloccata per 12 h, esclusa da tutti i comandi automatici.
+- Abbandono dell'apertura in attesa: 15:00.
+Tratta ogni falda separatamente: una tapparella all'ombra al mattino sgela molto più tardi di una tapparella al sole.
+
+PALETTI (non negoziabili)
+- Un comando per decisione. Mai un ciclo di tentativi ripetuti, da nessuna parte.
+- Sensore di temperatura non disponibile o sconosciuto: non fare niente.
+- Non bloccare mai un comando manuale. Se qualcuno rilancia una tapparella meno di 10 minuti dopo un rifiuto, inviare un promemoria, niente di più.
+- Un blocco deve scadere da solo: una tapparella bloccata in chiusura resta aperta, e nessun movimento verrà a cancellarlo.
+
+CASI DI TEST (fatti reali, novembre 2026)
+1. 17:15, notte già calata, 1,6 °C, 85 % di umidità, minima prevista sotto 0 °C -> deve chiudere. (Senza la regola, la chiusura delle 20:42 a −1,2 °C è stata rifiutata da 3 tapparelle su 4.)
+2. Tapparella al 100 %, passa a closing, torna a open al 100 % dopo 25 s -> rifiuto rilevato, avviso, nessun nuovo tentativo.
+3. Tapparella 100 -> 34 -> 0 in 13 s -> movimento normale, nessun avviso.
+4. 7:15, −3 °C -> apertura messa in attesa, nessun comando inviato.
+5. 11:10, 0,1 °C, sole: 4 tapparelle si aprono, quella della falda nord si rifiuta -> la soglia di apertura di questa falda deve essere più prudente.
+6. 15:00, pomeriggio luminoso, 1,5 °C -> non chiude (è giorno).
+7. Sera a 9 °C, nessun gelo previsto -> nessuna azione.
+8. Tre tapparelle si rifiutano nello stesso secondo -> tutte e tre vengono segnate come bloccate, nessuna viene dimenticata.
+
+METODO
+Proponimi prima un piano breve e le tue domande. Poi scrivi l'automazione con le mie entità, spiega ogni soglia e mostrami come testarla sul mio storico prima di attivarla. Comincia dal rilevatore e dal registro da soli (non inviano nessun comando), e aggiungi le chiusure e le aperture automatiche solo dopo.
