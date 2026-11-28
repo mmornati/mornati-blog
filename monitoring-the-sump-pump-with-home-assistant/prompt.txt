@@ -1,0 +1,48 @@
+RECIPE: monitoring a cellar sump pump from its power draw (Home Assistant)
+Source: https://blog.mornati.net/monitoring-the-sump-pump-with-home-assistant/
+
+You are going to help me build this monitoring in MY Home Assistant. Do not copy someone else's code: start from my devices.
+
+BEFORE WRITING ANYTHING
+1. Find the smart plug my pump is plugged into and what it exposes: instant power, energy counter, switch.
+2. Read its power history: idle draw, draw during a run, usual run length, runs per day.
+3. Check which automations already touch this plug and which notification services I have.
+4. Ask me, then wait for my answers: may the automation cut power to the pump, who must be alerted, what a normal run looks like.
+If you have no access to my Home Assistant, ask me instead of assuming.
+
+THE PROBLEM
+A sump pump empties the groundwater that seeps into the cellar. When it fails (stuck float, blocked discharge, burned motor), nobody notices until the cellar floods. I have no level sensor: everything must be inferred from the power draw.
+
+WHAT I WANT
+A. A "pump is running" signal derived from power, and the time of every start and stop.
+B. When a run does not end: a warning, then an alert with a power cut, a pause and a retry.
+C. After several failed retries: forced off, a lockout so nothing restarts the pump, the time recorded.
+D. The lockout expires by itself: power restored, retry counter reset.
+E. An alert when the pump has not started for a long time, with the hours since the last start.
+F. A weekly report: run time, energy, last start and stop.
+
+STARTING THRESHOLDS (to calibrate at my home)
+- Running: power above 5 W.
+- Warning at 2 minutes of continuous run, anomaly at 5, extra alert with live power at 10.
+- Retries: cut, wait 2 minutes, power back, check after 1 minute; give up at the 3rd attempt.
+- Lockout: 24 hours. Not started: more than 48 hours, checked every 6 hours. Report: Monday 08:00.
+These suit a pump whose normal runs last about a minute. Compare with MY history first.
+
+SAFEGUARDS (non negotiable)
+- Plug unavailable or unknown: neither a run nor a stop. Do nothing, cut nothing.
+- Never switch the plug on and off quickly: without the pauses, the monitor creates the failure it watches for.
+- A lockout must always end on its own: a disabled pump is a flooded cellar in waiting.
+- No "not started" alert while the lockout is active.
+
+TEST CASES (real facts from the post)
+1. Runs of 1 min 06 s, 8 s and 1 min 15 s on the same day -> recorded, no alert.
+2. Run from 18:20:55 to 18:21:05 (about 10 s) -> recorded, nothing else.
+3. Continuous run reaching 2 minutes -> warning only, power stays on.
+4. Continuous run reaching 5 minutes -> alert, power cut, one retry counted, power back after 2 minutes.
+5. Still drawing power 1 minute after the 3rd attempt -> forced off, lockout, no restart before 24 hours (it happened once, on 14 October 2025).
+6. Lockout older than 24 hours -> counter back to 0, power restored.
+7. Dry summer, no start for more than 48 hours -> a reminder with the hours elapsed, not an alarm.
+8. Plug briefly unavailable (Zigbee drop) -> nothing recorded, no alert, no power cut.
+
+METHOD
+First give me a short plan and your questions. Then write the automations with my entities, explain every threshold, and show me how to test them against my history before enabling them. Start with tracking and alerts only, and add the power cut and the lockout afterwards.

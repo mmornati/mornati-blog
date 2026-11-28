@@ -1,0 +1,45 @@
+RECETTE : fermer les volets par zone quand il fait chaud (Home Assistant)
+Source : https://blog.mornati.net/fr/homeassistant-close-cover-to-control-the-home-temperature-v2/
+
+Tu vas m'aider à créer cette automatisation dans MON Home Assistant. Ne recopie pas le code d'un autre : pars de mes appareils.
+
+AVANT D'ÉCRIRE QUOI QUE CE SOIT
+1. Liste mes volets, fenêtres de toit comprises : lesquels acceptent une position, lesquels ne savent qu'ouvrir et fermer.
+2. Trouve mes capteurs de température, dehors et dedans, pièce par pièce.
+3. Regarde quelles automatisations bougent déjà ces volets, et quand.
+4. Pose-moi tes questions, puis attends mes réponses : quelles fenêtres reçoivent le soleil et quand, comment les regrouper en zones, jusqu'où fermer, quand rouvrir.
+Si tu n'as pas accès à mon Home Assistant, demande-moi au lieu de supposer.
+
+LE PROBLÈME
+En été, le soleil chauffe la maison par les fenêtres. Chaque façade le reçoit à une heure différente, et un seul capteur de température est trop fragile pour décider quand fermer.
+
+CE QUE JE VEUX
+A. Des températures moyennées : une moyenne extérieure, une moyenne intérieure par étage, chacune sur plusieurs capteurs.
+B. Une règle de fermeture par zone, vérifiée toutes les 10 minutes dans la plage horaire de la zone, qui compare extérieur et intérieur.
+C. Une règle de réouverture par zone, plus tard dans la journée, qui n'agit que si la fermeture de cette zone a tourné le jour même.
+D. Chaque règle agit au plus une fois par jour.
+
+SEUILS DE DÉPART (à calibrer chez moi)
+- Zone d'après-midi (rez-de-chaussée) : 12h00-18h00, moyenne extérieure supérieure de plus de 2 °C à la moyenne intérieure, pièce de référence au-dessus de 20 °C, position 40. Réouverture 19h00-20h00.
+- Zone du matin (bureau) : 8h00-13h00, extérieur simplement au-dessus de l'intérieur, pièce au-dessus de 20 °C, position 40. Réouverture 14h00-14h30.
+- Fenêtres de toit : 11h00-18h00, moyenne extérieure au-dessus de la moyenne de l'étage, fermeture complète. Réouverture 19h00-20h00.
+- « Déjà fait » : une règle ne tourne jamais deux fois en 8 heures.
+
+GARDE-FOUS (non négociables)
+- Un capteur manquant dans une moyenne ne casse rien : la moyenne continue avec les autres.
+- Tous les capteurs d'une moyenne indisponibles ou inconnus : ne rien faire.
+- Ne jamais rouvrir une zone que l'automatisation n'a pas fermée elle-même ce jour-là.
+- Les volets qu'elle a fermés ne restent pas fermés toute la nuit.
+
+CAS DE TEST (règles tirées de l'article)
+1. Rez-de-chaussée, 12h00-18h00, extérieur supérieur de plus de 2 °C à l'intérieur, pièce de référence au-dessus de 20 °C -> position 40.
+2. Idem, extérieur plus chaud de moins de 2 °C -> rien (la marge évite les déclenchements par temps nuageux).
+3. Idem, pièce de référence à 20 °C ou moins -> rien.
+4. Bureau, 8h00-13h00, extérieur juste au-dessus de l'intérieur, pièce au-dessus de 20 °C -> position 40, sans marge.
+5. Fenêtres de toit, après 11h00, extérieur au-dessus de la moyenne de l'étage -> fermeture complète, pas 40.
+6. Conditions toujours vraies 10 minutes après une fermeture -> pas de seconde commande.
+7. 19h00-20h00 : zone fermée par l'automatisation dans la journée -> elle se rouvre ; zone qu'elle n'a pas fermée -> rien.
+8. Un capteur d'un groupe indisponible -> la règle fonctionne encore.
+
+MÉTHODE
+D'abord un plan court et tes questions. Ensuite les automatisations avec mes entités, l'explication de chaque seuil, et une façon de tester avant d'activer : commence par une seule zone, avec une notification à la place de la commande de volet.

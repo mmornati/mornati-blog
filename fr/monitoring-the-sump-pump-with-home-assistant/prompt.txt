@@ -1,0 +1,48 @@
+RECETTE : surveiller une pompe de relevage par sa consommation (Home Assistant)
+Source : https://blog.mornati.net/fr/monitoring-the-sump-pump-with-home-assistant/
+
+Tu vas m'aider à créer cette surveillance dans MON Home Assistant. Ne recopie pas le code d'un autre : pars de mes appareils.
+
+AVANT D'ÉCRIRE QUOI QUE CE SOIT
+1. Trouve la prise connectée sur laquelle ma pompe est branchée et ce qu'elle expose : puissance instantanée, compteur d'énergie, interrupteur.
+2. Lis son historique de puissance : consommation au repos, consommation en marche, durée habituelle d'un cycle, nombre de cycles par jour.
+3. Regarde quelles automatisations touchent déjà cette prise et quels services de notification j'ai.
+4. Pose-moi tes questions, puis attends mes réponses : l'automatisation a-t-elle le droit de couper la pompe, qui prévenir, à quoi ressemble un cycle normal.
+Si tu n'as pas accès à mon Home Assistant, demande-moi au lieu de supposer.
+
+LE PROBLÈME
+Une pompe de relevage évacue l'eau qui s'infiltre dans la cave. Quand elle tombe en panne (flotteur coincé, refoulement bouché, moteur grillé), personne ne s'en aperçoit avant l'inondation. Je n'ai pas de sonde de niveau : tout doit se déduire de la consommation électrique.
+
+CE QUE JE VEUX
+A. Un signal « la pompe tourne » déduit de la puissance, et l'heure de chaque démarrage et de chaque arrêt.
+B. Quand un cycle ne se termine pas : un avertissement, puis une alerte avec coupure, pause et nouvel essai.
+C. Après plusieurs essais ratés : arrêt forcé, verrouillage pour que rien ne relance la pompe, heure enregistrée.
+D. Le verrouillage expire tout seul : courant rétabli, compteur d'essais remis à zéro.
+E. Une alerte quand la pompe n'a pas démarré depuis longtemps, avec les heures depuis le dernier démarrage.
+F. Un rapport hebdomadaire : durée de marche, énergie, dernier démarrage, dernier arrêt.
+
+SEUILS DE DÉPART (à calibrer chez moi)
+- En marche : puissance supérieure à 5 W.
+- Avertissement à 2 minutes de marche continue, anomalie à 5, alerte supplémentaire avec la puissance en direct à 10.
+- Essais : couper, attendre 2 minutes, réalimenter, vérifier après 1 minute ; abandonner au 3e essai.
+- Verrouillage : 24 heures. Pas démarrée : plus de 48 heures, vérifié toutes les 6 heures. Rapport : lundi 08h00.
+Ces valeurs conviennent à une pompe dont les cycles normaux durent environ une minute. Compare d'abord avec MON historique.
+
+GARDE-FOUS (non négociables)
+- Prise indisponible ou inconnue : ni un démarrage ni un arrêt. Ne rien faire, ne rien couper.
+- Ne jamais allumer et éteindre la prise coup sur coup : sans les pauses, la surveillance crée la panne qu'elle guette.
+- Un verrouillage doit toujours finir tout seul : une pompe désactivée, c'est une cave inondée en préparation.
+- Pas d'alerte « pas démarrée » tant que le verrouillage est actif.
+
+CAS DE TEST (faits réels tirés de l'article)
+1. Cycles de 1 min 06 s, 8 s et 1 min 15 s dans la même journée -> enregistrés, aucune alerte.
+2. Cycle de 18:20:55 à 18:21:05 (environ 10 s) -> enregistré, rien d'autre.
+3. Marche continue qui atteint 2 minutes -> avertissement seulement, la prise reste alimentée.
+4. Marche continue qui atteint 5 minutes -> alerte, coupure, un essai compté, courant rétabli après 2 minutes.
+5. La pompe consomme encore 1 minute après le 3e essai -> arrêt forcé, verrouillage, aucune relance avant 24 heures (c'est arrivé une fois, le 14 octobre 2025).
+6. Verrouillage vieux de plus de 24 heures -> compteur remis à 0, courant rétabli.
+7. Été sec, aucun démarrage depuis plus de 48 heures -> un rappel avec les heures écoulées, pas une alarme.
+8. Prise brièvement indisponible (décrochage Zigbee) -> rien d'enregistré, aucune alerte, aucune coupure.
+
+MÉTHODE
+Propose-moi d'abord un plan court et tes questions. Ensuite écris les automatisations avec mes entités, explique chaque seuil, et montre-moi comment les tester sur mon historique avant de les activer. Commence par le suivi et les alertes seuls, et n'ajoute la coupure et le verrouillage qu'ensuite.

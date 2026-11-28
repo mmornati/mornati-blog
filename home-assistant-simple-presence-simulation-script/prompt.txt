@@ -1,0 +1,46 @@
+RECIPE: presence simulation with lights while the house is empty (Home Assistant)
+Source: https://blog.mornati.net/home-assistant-simple-presence-simulation-script/
+
+You are going to help me build this automation in MY Home Assistant. Do not copy someone else's code: start from my devices.
+
+BEFORE WRITING ANYTHING
+1. List my lights and other simple on/off devices, room by room.
+2. Find what tells Home Assistant that nobody is home: an alarm in away mode, an "away" toggle, presence tracking.
+3. Check which automations already switch these lights.
+4. Ask me your questions, then wait for my answers: which lights can be seen from outside, how I declare that I am away, when the simulation should stop for the night.
+If you have no access to my Home Assistant, ask me instead of assuming.
+
+THE PROBLEM
+An empty house stays dark all evening, and it shows from the street. I want it to look lived in: lights that come on and go off after dark, with no fixed pattern.
+
+WHAT I WANT
+A. A reusable routine: turn a given light on, wait a given duration, turn that same light off.
+B. A regular check, not a fixed start time. With a fixed time, leaving five minutes later means nothing ever runs.
+C. At each check, if I am away and it is dark, pick one light and one duration at random.
+D. Several lights may be on at once, each with its own timer.
+
+STARTING THRESHOLDS (to calibrate at my home)
+- Check every 30 minutes.
+- Start 30 minutes before sunset.
+- No new light after 23:59.
+- Duration: random, 5 to 30 minutes.
+- List: about four lights visible from outside.
+
+SAFEGUARDS (not negotiable)
+- A new run must never cancel a timer still running, or that light never goes off.
+- Only lights from my list.
+- The duration must always be a valid delay: a badly formatted value makes the wait fail.
+- Away state unknown or unavailable: do nothing.
+
+TEST CASES
+1. Away, dark, half-hour check -> one listed light comes on, then goes off 5 to 30 minutes later.
+2. Not away, dark -> nothing.
+3. Away, more than 30 minutes before sunset -> nothing.
+4. Away, 20 minutes before sunset -> a light may come on.
+5. I leave at 20:05 -> the simulation starts at the next half-hour check.
+6. A second light is picked while the first is still on -> both stay on, each goes off at its own time.
+7. Drawn duration of 5 minutes -> the light goes off after 5 minutes.
+8. Check after 23:59 -> no new light.
+
+METHOD
+First give me a short plan and your questions. Then write the routine and the automation with my entities, explain each threshold, and show me how to test before enabling: run the routine by hand on one light with a short duration, and check that it goes off.
