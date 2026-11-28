@@ -1,0 +1,43 @@
+RECIPE: a light driven by a motion sensor and by a switch (Home Assistant)
+Source: https://blog.mornati.net/home-assistant-motion-sensor-coupled-with-a-switch/
+
+You are going to help me build this automation in MY Home Assistant. Do not copy someone else's code: start from my devices.
+
+BEFORE WRITING ANYTHING
+1. Find the light to control (a smart bulb, or whatever switches the bulb) and tell me how it can be turned on by hand: wall switch, app, dashboard.
+2. Find the motion sensor covering that area: its occupancy entity, and whether it reports illuminance. If it does not, look for another light level source.
+3. Look at the automations that already turn this light on or off.
+4. Ask me the useful questions, then wait for my answers: when motion must not turn the light on (for me, at night when the alarm is armed), and whether I want a way to force the automatic switch-off even after a manual switch-on.
+If you have no access to my Home Assistant, ask me for this information instead of assuming it.
+
+THE PROBLEM
+A motion sensor turns my outdoor light on, then off when nobody moves. When we sit still, at dinner on the deck for example, the light goes off and we have to wave our arms to get it back. A light I turned on myself must stay on.
+
+WHAT I WANT
+A. Turn on with motion. Motion detected, light off, dark enough, motion lighting enabled: turn the light on and remember that the automation did it (a helper such as an input_boolean).
+B. Turn off only what the automation turned on. No motion for a while and the light is on: turn it off only if the marker is set, then clear the marker.
+C. Leave manual switch-ons alone. A light turned on by hand has no marker, so motion never turns it off.
+D. Two helpers for me: one that disables motion lighting completely, one that forces the automatic switch-off whatever turned the light on.
+
+STARTING THRESHOLDS (to calibrate at my home, do not take them for granted)
+- Dark enough: illuminance below 50 lx, measured by the motion sensor itself. 0 would work, the value was raised a little to also trigger in low light.
+- No motion: occupancy off for 2 minutes, to avoid flickering when movement is not constant.
+
+SAFEGUARDS (not negotiable)
+- Never turn off a light that was turned on by hand, unless the override helper is on.
+- Motion never turns the light on while motion lighting is disabled.
+- Motion sensor or illuminance unavailable or unknown: do nothing, in both directions.
+- Every automatic switch-off clears the marker.
+
+TEST CASES (from the original post)
+1. Motion, light off, below 50 lx, motion lighting enabled -> light on, marker set.
+2. Motion, 50 lx or more -> nothing.
+3. Motion in the dark, alarm armed, motion lighting disabled -> nothing.
+4. Light turned on by hand, dinner on the deck, nobody moves for more than 2 minutes -> the light stays on.
+5. Light turned on by motion, no motion for 2 minutes -> light off, marker cleared.
+6. Light turned on by motion, motion stops for less than 2 minutes then resumes -> the light stays on, no flicker.
+7. Light turned on by hand, override helper on, no motion for 2 minutes -> light off.
+8. Motion while the light is already on by hand -> nothing, the marker stays off.
+
+METHOD
+First give me a short plan and your questions. Then write the automation with my entities, explain each threshold, and show me how to test it before enabling it: by setting the helpers and the sensor states by hand in the developer tools, one test case at a time.
