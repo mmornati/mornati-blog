@@ -129,13 +129,15 @@ La causa proposta, al 60 %: il disco di destinazione è *molto probabilmente* un
 
 Ecco la parte scomoda. **Paeon l'ha trovato quattro volte.** Gli incidenti #44 e #56, e di nuovo tramite i loro monitor di gruppo #45 e #57: la stessa diagnosi ogni volta, circa 1,20 USD di indagini, mentre io facevo altro. La diagnosi era giusta dalla prima volta, e nessuno ha agito. È da qui che è nato `repeat_hours`: se la risposta è la stessa, non serve pagarla di nuovo, basta rimandare all'incidente precedente. Il 22 alle 10:58 la cartella è passata su un disco ext4, l'importazione è andata a buon fine, e gli errori si sono fermati.
 
-### Una pila scarica
+### Una pila scarica? Non proprio
 
-Non tutto è spettacolare. Il 26, un pulsante Zigbee del corridoio è andato offline. L'indagine ha notato che segnalava l'1 % di batteria in ogni messaggio da tre giorni, che il suo segnale radio era buono fino alla fine, e che il resto della rete mesh stava bene: *«la causa più probabile è una pila scarica»*. Una CR2032 nuova, ed è tutto.
+Non tutto è spettacolare. Il 26, un pulsante Zigbee del corridoio è andato offline. L'indagine ha notato che segnalava l'1 % di batteria in ogni messaggio da tre giorni, che il suo segnale radio era buono fino alla fine, e che il resto della rete mesh stava bene: *«la causa più probabile è una pila scarica»*, al 70 %.
 
 ![Incidente #86: un pulsante Zigbee offline, batteria all'1 % da tre giorni, buon segnale: molto probabilmente una pila scarica](/images/paeon-first-week-on-call/button-incident.webp)
 
-È il tipo di alert che forse avrei guardato la domenica. Paeon l'ha guardato subito, e la risposta è arrivata con il motivo.
+Solo che non ho cambiato nessuna pila. E l'indagine aveva già scritto la riserva da sola, alla fine della causa: *«i telecomandi Hue di questa rete continuano a funzionare tra lo 0 e il 5 % di batteria, quindi una lettura dell'1 % da sola non prova che la pila sia scarica»*. Il suo piano elencava perfino altri sette interruttori tra lo 0 e il 7 %, tutti funzionanti. La percentuale di batteria che riportano questi interruttori semplicemente non è molto affidabile, e un'indagine seria lo dice invece di trasformarla in una certezza.
+
+Un ultimo dettaglio dal log: l'incidente si è «risolto» esattamente 24 ore dopo l'apertura. Non perché il pulsante sia tornato, ma perché è finita la finestra dell'alert. Un incidente risolto non è sempre un problema sistemato.
 
 ## Il dispositivo che continuava a tornare (ero io)
 
@@ -183,4 +185,4 @@ Paeon è su [GitHub](https://github.com/mmornati/paeon), ora alla 0.8.0, con tut
 
 ## Come è stato fatto
 
-La revisione del weekend è stata una sessione di Claude Code che ha letto gli incidenti e i postmortem sul server e li ha ordinati per causa. Una seconda sessione ha confrontato ogni proposta con il codice di Paeon e ha scritto la 0.7.0 e la 0.8.0, e una terza ha modificato gli alert sul server. Per questo articolo, una sessione di Claude Code ha copiato il log degli eventi dal server (in sola lettura), ha confrontato le settimane prima e dopo, ha controllato il disco FAT32, ha costruito una copia anonimizzata del log, ci ha fatto girare la console in locale per gli screenshot, e ha scritto il testo. La mia parte: decidere cosa valeva la pena correggere, spostare la cartella fuori dal disco FAT32, cambiare una pila, e riconoscere il mio telefono.
+La revisione del weekend è stata una sessione di Claude Code che ha letto gli incidenti e i postmortem sul server e li ha ordinati per causa. Una seconda sessione ha confrontato ogni proposta con il codice di Paeon e ha scritto la 0.7.0 e la 0.8.0, e una terza ha modificato gli alert sul server. Per questo articolo, una sessione di Claude Code ha copiato il log degli eventi dal server (in sola lettura), ha confrontato le settimane prima e dopo, ha controllato il disco FAT32, ha costruito una copia anonimizzata del log, ci ha fatto girare la console in locale per gli screenshot, e ha scritto il testo. La mia parte: decidere cosa valeva la pena correggere, spostare la cartella fuori dal disco FAT32, e riconoscere il mio telefono.

@@ -129,13 +129,15 @@ La cause proposée, à 60 % : le disque de destination est *très probablement* 
 
 Voici la partie gênante. **Paeon l'a trouvé quatre fois.** Les incidents #44 et #56, puis à nouveau via leurs moniteurs groupe #45 et #57 : le même diagnostic à chaque fois, environ 1,20 USD d'investigations, pendant que je faisais autre chose. Le diagnostic était juste dès la première fois, et personne n'a agi. C'est ce qui a donné `repeat_hours` : si la réponse est la même, inutile de la payer à nouveau, il suffit de renvoyer vers l'incident précédent. Le 22 à 10:58, le dossier est passé sur un disque ext4, l'import a réussi, et les erreurs se sont arrêtées.
 
-### Une pile morte
+### Une pile morte ? Pas si sûr
 
-Tout n'est pas spectaculaire. Le 26, un bouton Zigbee du couloir est passé hors ligne. L'investigation a remarqué qu'il annonçait 1 % de batterie dans chaque message depuis trois jours, que son signal radio était bon jusqu'au bout, et que le reste du maillage allait bien : *« la cause la plus probable est une pile vide »*. Une CR2032 neuve, et c'est réglé.
+Tout n'est pas spectaculaire. Le 26, un bouton Zigbee du couloir est passé hors ligne. L'investigation a remarqué qu'il annonçait 1 % de batterie dans chaque message depuis trois jours, que son signal radio était bon jusqu'au bout, et que le reste du maillage allait bien : *« la cause la plus probable est une pile vide »*, à 70 %.
 
 ![Incident #86 : un bouton Zigbee hors ligne, batterie à 1 % depuis trois jours, bon signal : très probablement une pile vide](/images/paeon-first-week-on-call/button-incident.webp)
 
-C'est le genre d'alerte que j'aurais peut-être regardée le dimanche. Paeon l'a regardée tout de suite, et la réponse est arrivée avec la raison.
+Sauf que je n'ai changé aucune pile. Et l'investigation avait déjà écrit la réserve elle-même, à la fin de sa cause : *« les télécommandes Hue de ce réseau continuent de fonctionner entre 0 et 5 % de batterie, donc une lecture à 1 % ne prouve pas à elle seule que la pile est vide »*. Son plan listait même sept autres interrupteurs entre 0 et 7 %, qui fonctionnent tous. Le pourcentage de batterie que remontent ces interrupteurs n'est simplement pas très fiable, et une investigation sérieuse le dit au lieu d'en faire une certitude.
+
+Un dernier détail tiré du journal : l'incident s'est « résolu » exactement 24 heures après son ouverture. Pas parce que le bouton est revenu, mais parce que la fenêtre de l'alerte s'est terminée. Un incident résolu n'est pas toujours un problème réglé.
 
 ## L'appareil qui revenait sans cesse (c'était moi)
 
@@ -183,4 +185,4 @@ Paeon est sur [GitHub](https://github.com/mmornati/paeon), maintenant en 0.8.0, 
 
 ## Comment ça a été fait
 
-La revue du week-end était une session Claude Code qui a lu les incidents et les post-mortems sur le serveur et les a classés par cause. Une deuxième session a confronté chaque proposition au code de Paeon et a écrit la 0.7.0 et la 0.8.0, et une troisième a modifié les alertes sur le serveur. Pour cet article, une session Claude Code a copié le journal d'événements depuis le serveur (en lecture seule), comparé les semaines avant et après, vérifié le disque FAT32, construit une copie anonymisée du journal, lancé la console en local dessus pour prendre les captures, et rédigé le texte. Ma part : décider ce qui valait la peine d'être corrigé, déplacer le dossier hors du disque FAT32, changer une pile, et reconnaître mon propre téléphone.
+La revue du week-end était une session Claude Code qui a lu les incidents et les post-mortems sur le serveur et les a classés par cause. Une deuxième session a confronté chaque proposition au code de Paeon et a écrit la 0.7.0 et la 0.8.0, et une troisième a modifié les alertes sur le serveur. Pour cet article, une session Claude Code a copié le journal d'événements depuis le serveur (en lecture seule), comparé les semaines avant et après, vérifié le disque FAT32, construit une copie anonymisée du journal, lancé la console en local dessus pour prendre les captures, et rédigé le texte. Ma part : décider ce qui valait la peine d'être corrigé, déplacer le dossier hors du disque FAT32, et reconnaître mon propre téléphone.

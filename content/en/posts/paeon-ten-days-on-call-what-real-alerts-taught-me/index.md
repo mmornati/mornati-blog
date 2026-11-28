@@ -129,13 +129,15 @@ The root cause it proposed, at 60 %: *"most likely because the destination is a 
 
 Here is the uncomfortable part. **Paeon found it four times.** Incidents #44 and #56, and again through their group monitors #45 and #57: the same diagnosis each time, about 1.20 USD of investigations, while I was doing other things. The diagnosis was right the first time, and nobody acted. That's what gave `repeat_hours`: if the answer is the same, don't pay for it again, point to the previous incident. On the 22nd at 10:58 the folder moved to an ext4 disk, the import went through, and the errors stopped.
 
-### A dead battery
+### A dead battery? Not so sure
 
-Not everything is dramatic. On the 26th, a Zigbee button in the hallway went offline. The investigation noticed that it had been reporting 1 % battery in every message for three days, that its radio signal was good until the end, and that the rest of the mesh was fine: *"the most likely cause is an empty battery"*. A new CR2032 is the whole fix.
+Not everything is dramatic. On the 26th, a Zigbee button in the hallway went offline. The investigation noticed that it had been reporting 1 % battery in every message for three days, that its radio signal was good until the end, and that the rest of the mesh was fine: *"the most likely cause is an empty battery"*, 70 % sure.
 
 ![Incident #86: a Zigbee button offline, battery at 1 % for three days, good signal: most likely an empty battery](/images/paeon-first-week-on-call/button-incident.webp)
 
-This is the kind of alert I would have looked at on Sunday, maybe. Paeon looked at it right away, and the answer arrived with the reason.
+I didn't change any battery, though. And the investigation had already written the caveat itself, at the end of its root cause: *"Hue remotes on this mesh keep working at 0–5 % battery, so a reading of 1 % alone does not prove the battery is dead."* Its plan even listed seven other switches reading between 0 and 7 %, all working. The battery percentage these switches report is just not very reliable, and a careful investigation says so instead of turning it into a certainty.
+
+One more detail from the record: the incident "resolved" exactly 24 hours after it opened. Not because the button came back, but because the alert's window ended. A resolved incident is not always a fixed problem.
 
 ## The device that kept coming back (it was me)
 
@@ -183,4 +185,4 @@ Paeon is on [GitHub](https://github.com/mmornati/paeon), now at 0.8.0, with ever
 
 ## How it was built
 
-The weekend review was a Claude Code session that read the incidents and postmortems on the server and sorted them by cause. A second session checked each proposal against Paeon's code and wrote 0.7.0 and 0.8.0, and a third changed the alerts on the server. For this post, a Claude Code session copied the event log from the server (read-only), compared the weeks before and after, checked the FAT32 disk, built an anonymised copy of the log, ran the console locally on it to take the screenshots, and drafted the text. My part: deciding what was worth fixing, moving the folder off the FAT32 disk, changing a battery, and recognizing my own phone.
+The weekend review was a Claude Code session that read the incidents and postmortems on the server and sorted them by cause. A second session checked each proposal against Paeon's code and wrote 0.7.0 and 0.8.0, and a third changed the alerts on the server. For this post, a Claude Code session copied the event log from the server (read-only), compared the weeks before and after, checked the FAT32 disk, built an anonymised copy of the log, ran the console locally on it to take the screenshots, and drafted the text. My part: deciding what was worth fixing, moving the folder off the FAT32 disk, and recognizing my own phone.
