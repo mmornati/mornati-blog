@@ -1,0 +1,48 @@
+RICETTA: una valvola per stanza, e una pompa di calore che scalda solo su richiesta (Home Assistant)
+Fonte: https://blog.mornati.net/it/una-valvola-per-stanza-e-una-pompa-di-calore-che-ascolta-solo-la-richiesta/
+
+Mi aiuterai a creare questo riscaldamento a due livelli nel MIO Home Assistant. Non copiare il codice di qualcun altro: parti dai miei dispositivi.
+
+PRIMA DI SCRIVERE QUALSIASI COSA
+1. Trova le valvole dei miei radiatori e cosa espongono: ingresso di temperatura esterna, scarto di riapertura, apertura minima, stato di riscaldamento, batteria.
+2. Trova il sensore di temperatura di ogni stanza, e il termostato che comanda la mia pompa di calore su questo circuito: puoi scriverne il setpoint?
+3. Leggi lo storico delle temperature delle stanze, delle aperture delle valvole e delle batterie.
+4. Fammi le tue domande, poi aspetta le mie risposte: a che ora ci si sveglia e si va a dormire, stanze spesso vuote, presenza di un bypass idraulico, chi va avvisato.
+Se non hai accesso al mio Home Assistant, chiedi a me invece di supporre.
+
+IL PROBLEMA
+Le mie valvole misurano la temperatura attaccate al radiatore e leggono troppo alto: restano quindi spalancate. E il termostato della pompa di calore chiede calore anche quando nessuna stanza ne ha bisogno.
+
+COSA VOGLIO
+A. Ogni valvola regola sul sensore della sua stanza, reinviato a ogni variazione e a intervalli regolari perché la valvola non torni sul sensore interno.
+B. Un setpoint per stanza, con il suo motivo, prima regola che si applica: vacanza, stanza non occupata, finestra aperta, notte, prima di dormire, comfort.
+C. Un preriscaldamento prima della sveglia, giorno di scuola o no.
+D. Un segnale «richiesta»: acceso quando una valvola di una stanza attiva sta scaldando, spento dopo un ritardo senza richiesta.
+E. Il setpoint del termostato appena sopra la sua lettura se c'è una richiesta, appena sotto altrimenti.
+F. Finestra aperta dedotta da un calo rapido di temperatura: antigelo per la durata dell'aerazione.
+
+SOGLIE DI PARTENZA (da calibrare a casa mia)
+- Temperatura della stanza inviata a ogni variazione di 0,1 °C e ogni 30 minuti.
+- Scarto di riapertura −0,4 °C; setpoint inviato solo se cambia di 0,25 °C o più.
+- Comfort 19 °C, prima di dormire 19,5 °C un'ora prima della notte, notte 18 °C dalle 22:00, eco 16 °C, antigelo 12 °C, preriscaldamento 90 minuti.
+- Richiesta spenta dopo 15 minuti senza richiesta.
+- Termostato: lettura + 0,5 °C con richiesta, lettura − 1 °C senza, riscritto solo se si sposta di 0,5 °C o più.
+- Finestra: più di 3,6 °C persi in 30 minuti.
+
+PARACADUTE (non negoziabili)
+- Sensore della stanza non disponibile o con un valore assurdo: ritorno al sensore interno con un setpoint di emergenza, e un avviso.
+- Senza bypass idraulico, una valvola non si chiude mai del tutto (10% nell'articolo).
+- Mai cambiare la modalità della pompa di calore; non scrivere niente se il termostato non è in riscaldamento.
+- Una modalità osservazione che calcola senza scrivere; un setpoint di emergenza (19 °C) quando il pilotaggio è spento.
+- Una durata massima per «finestra aperta» (30-45 minuti).
+
+CASI DI TEST (fatti reali presi dall'articolo)
+1. Camera a 18 °C di notte -> riapertura 0,4 °C sotto il setpoint, non a 17 °C.
+2. Giorno di scuola, sveglia alle 06:30 -> 19 °C alle 05:00, 19,5 °C alle 21:00, 18 °C alle 22:00.
+3. Camera degli ospiti non occupata -> 16 °C. Bambino in vacanza ma a casa -> sveglia delle 08:30, non 16 °C.
+4. Tutte le valvole delle camere chiuse di notte -> richiesta spenta dopo 15 minuti, termostato a lettura − 1 °C.
+5. Sensore della stanza sparito per un minuto, tornato con un valore più basso (14 novembre, 07:58) -> non due ore di antigelo: la durata massima lo chiude.
+6. Variazione di 0,1 °C (22 novembre) -> nessuna finestra aperta.
+
+METODO
+Prima un piano breve e le tue domande. Poi scrivi le automazioni con le mie entità, spiega ogni soglia e provale sul mio storico prima di attivarle. Comincia dalle valvole; lascia la parte termostato in osservazione e verifica che cosa fa davvero un setpoint più basso (nell'articolo non ferma il circuito, abbassa l'acqua di circa 2 °C per grado). Tieni d'occhio le batterie: nell'articolo, le valvole più attive perdono circa lo 0,5% al giorno.

@@ -1,0 +1,48 @@
+RECETTE : une vanne par pièce, et une pompe à chaleur qui ne chauffe que sur demande (Home Assistant)
+Source : https://blog.mornati.net/fr/une-vanne-par-piece-et-une-pac-qui-necoute-que-la-demande/
+
+Tu vas m'aider à créer ce chauffage à deux niveaux dans MON Home Assistant. Ne recopie pas le code d'un autre : pars de mes appareils.
+
+AVANT D'ÉCRIRE QUOI QUE CE SOIT
+1. Trouve mes vannes de radiateur et ce qu'elles exposent : entrée de température externe, écart de réouverture, ouverture minimale, état de chauffe, pile.
+2. Trouve le capteur de température de chaque pièce, et le thermostat qui commande ma pompe à chaleur sur ce circuit : peux-tu écrire sa consigne ?
+3. Lis l'historique des températures des pièces, des ouvertures de vannes et des piles.
+4. Pose-moi tes questions, puis attends mes réponses : heures de réveil et de coucher, pièces souvent vides, présence d'un bypass hydraulique, qui prévenir.
+Si tu n'as pas accès à mon Home Assistant, demande-moi au lieu de supposer.
+
+LE PROBLÈME
+Mes vannes mesurent la température collées au radiateur et lisent trop haut : elles restent donc grandes ouvertes. Et le thermostat de la pompe à chaleur demande de la chaleur même quand aucune pièce n'en a besoin.
+
+CE QUE JE VEUX
+A. Chaque vanne régule sur le capteur de sa pièce, renvoyé à chaque variation et à intervalle régulier pour qu'elle ne retombe pas sur son capteur interne.
+B. Une consigne par pièce, avec sa raison, première règle qui s'applique : vacances, pièce inoccupée, fenêtre ouverte, nuit, coucher, confort.
+C. Une préchauffe avant le réveil, jour d'école ou non.
+D. Un signal « demande » : allumé quand une vanne d'une pièce active chauffe, éteint après un délai sans demande.
+E. La consigne du thermostat juste au-dessus de sa lecture s'il y a une demande, juste en dessous sinon.
+F. Fenêtre ouverte déduite d'une chute rapide de température : hors-gel le temps de l'aération.
+
+SEUILS DE DÉPART (à calibrer chez moi)
+- Température de la pièce envoyée à chaque variation de 0,1 °C et toutes les 30 minutes.
+- Écart de réouverture −0,4 °C ; consigne envoyée seulement si elle change de 0,25 °C ou plus.
+- Confort 19 °C, coucher 19,5 °C une heure avant la nuit, nuit 18 °C dès 22:00, éco 16 °C, hors-gel 12 °C, préchauffe 90 minutes.
+- Demande éteinte après 15 minutes sans demande.
+- Thermostat : lecture + 0,5 °C avec demande, lecture − 1 °C sans, réécrit seulement s'il bouge de 0,5 °C ou plus.
+- Fenêtre : plus de 3,6 °C perdus en 30 minutes.
+
+GARDE-FOUS (non négociables)
+- Capteur de pièce indisponible ou absurde : retour au capteur interne avec une consigne de secours, et une alerte.
+- Sans bypass hydraulique, une vanne ne se ferme jamais complètement (10 % dans l'article).
+- Ne jamais changer le mode de la pompe à chaleur ; ne rien écrire si le thermostat n'est pas en chauffe.
+- Un mode observation qui calcule sans écrire ; une consigne de secours (19 °C) quand le pilotage est coupé.
+- Une durée maximale pour « fenêtre ouverte » (30 à 45 minutes).
+
+CAS DE TEST (faits réels tirés de l'article)
+1. Chambre à 18 °C la nuit -> réouverture 0,4 °C sous la consigne, pas à 17 °C.
+2. Jour d'école, réveil à 06:30 -> 19 °C à 05:00, 19,5 °C à 21:00, 18 °C à 22:00.
+3. Chambre d'amis non occupée -> 16 °C. Enfant en vacances mais à la maison -> réveil de 08:30, pas 16 °C.
+4. Toutes les vannes des chambres fermées la nuit -> demande éteinte après 15 minutes, thermostat à lecture − 1 °C.
+5. Capteur de pièce disparu une minute, revenu plus bas (14 novembre, 07:58) -> pas deux heures de hors-gel : la durée maximale y met fin.
+6. Variation de 0,1 °C (22 novembre) -> aucune fenêtre ouverte.
+
+MÉTHODE
+D'abord un plan court et tes questions. Écris ensuite les automatisations avec mes entités, explique chaque seuil, et teste-les sur mon historique avant de les activer. Commence par les vannes ; laisse la partie thermostat en observation et vérifie ce que fait vraiment une baisse de consigne (dans l'article, elle n'arrête pas le circuit, elle baisse l'eau d'environ 2 °C par degré). Surveille les piles : dans l'article, les vannes les plus actives perdent environ 0,5 % par jour.

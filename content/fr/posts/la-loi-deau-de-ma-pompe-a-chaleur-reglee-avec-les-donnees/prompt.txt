@@ -1,0 +1,42 @@
+RECETTE : régler la loi d'eau d'une pompe à chaleur avec les données enregistrées (Home Assistant)
+Source : https://blog.mornati.net/fr/la-loi-deau-de-ma-pompe-a-chaleur-reglee-avec-les-donnees/
+
+Aide-moi à trouver la température d'eau la plus basse qui garde MA maison confortable. C'est une méthode de réglage, pas une automatisation : tu lis mon historique et tu proposes, je change moi-même les réglages sur la télécommande de la pompe à chaleur.
+
+AVANT DE PROPOSER QUOI QUE CE SOIT
+1. Trouve dans mon Home Assistant, par rôle : température extérieure, consigne d'eau de la pompe à chaleur, températures de départ et de retour, compteur électrique, chaleur produite, température et consigne de chaque pièce, et ce qui dit quand chaque radiateur chauffe (ouverture de vanne, demande).
+2. Lis tous les jours de chauffe de l'historique et dis-moi ce qui manque.
+3. Pose-moi tes questions, puis attends mes réponses : la loi de chaque circuit telle que la télécommande l'affiche, mes consignes de nuit et du matin, ma durée de préchauffe.
+Si tu n'as pas accès à mon Home Assistant, demande-moi au lieu de supposer.
+
+LE PROBLÈME
+Chaque degré d'eau en trop se paie sur le rendement (on cite souvent 2 à 3 % de COP par degré). Ma loi d'eau n'a jamais été remise en question depuis l'installation. Seules les données peuvent montrer qu'elle est trop haute.
+
+CE QUE JE VEUX
+A. L'analyse d'abord. Les signes que l'eau est trop chaude : vannes ouvertes une petite part du temps alors que les pièces tiennent leur consigne, chauffes courtes qui dépassent, préchauffe du matin finie en avance.
+B. La vitesse de chauffe médiane de chaque pièce. La plus lente fixe la limite basse.
+C. Un COP par jour, comparé seulement entre jours à la même température extérieure.
+D. Ensuite l'ordre des changements : d'abord ce qui n'est pas la loi d'eau (débit du circulateur, pompe à chaleur en demande alors qu'aucune pièce ne demande), ensuite la loi.
+
+VALEURS DE DÉPART (celles de l'auteur, à calibrer chez moi)
+- Pas : 2 à 3 °C de moins sur le point froid de la loi, point doux inchangé.
+- Au moins une semaine entre deux changements.
+- Écart départ/retour : environ 5 °C. À 1 ou 2 °C, le débit est trop fort.
+- La chambre la plus lente atteint sa consigne du matin pendant la préchauffe (90 minutes chez lui).
+
+GARDE-FOUS
+- Un seul changement à la fois.
+- Tu ne changes rien sur la pompe à chaleur : je le fais à la main, après avoir photographié les valeurs d'avant.
+- Vérifie la sonde extérieure avec une deuxième avant de comparer deux périodes.
+- Ne conclus jamais sur un seul jour.
+- Si la pièce la plus lente décroche les matins de gel, remonte d'un cran et arrête-toi.
+
+CAS DE TEST (faits réels tirés de l'article)
+1. Vannes des chambres ouvertes 6 à 13 % du temps, une pièce à 21 °C pour une consigne de 19 -> eau trop chaude : baisser le point froid (le sien est passé de 60 à 50 °C).
+2. Deux jours à 2,2 °C dehors, 53,0 puis 46,0 kWh, mais l'étage à 20,1 puis 18,5 °C -> une partie de l'économie vient de la fin de la surchauffe, pas de la loi.
+3. Consigne d'eau moyenne de 40,3, 39,7, 40,2 puis 40,1 °C après un changement -> pas encore d'effet mesurable, attendre plusieurs semaines.
+4. Sonde extérieure à 8,9 °C de moyenne en janvier quand deux autres s'accordent sur 3,4 à 4 °C -> l'écarter et refaire la comparaison.
+5. Semaine autour de 0 °C, vannes des chambres qui chauffent 4 à 6 heures par jour, consignes tenues -> il reste de la marge : proposer un pas avec son gain (4 à 6 % chez lui) et son coût (radiateurs 10 à 15 % plus lents).
+
+MÉTHODE
+D'abord un plan court et tes questions. Ensuite l'analyse avec ses chiffres. Puis UN SEUL changement, avec le chiffre qui le justifie, le gain attendu, ce que je perds, les trois chiffres à surveiller (heures de chauffe des vannes, pièce la plus lente au réveil, COP à température extérieure égale) et la valeur à laquelle revenir. Attends ensuite au moins une semaine avant de proposer le suivant.
