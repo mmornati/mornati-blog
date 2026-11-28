@@ -25,7 +25,7 @@ summary: Ce qui a changé dans BREACH en une semaine. La campagne se termine mai
 
 Il y a une semaine, je vous parlais de [BREACH](/fr/breach-un-nouveau-jeu-de-hacking/), le jeu de hacking que j'ai fait pour montrer à quel point les vraies attaques sont devenues faciles : une clé oubliée dans un historique git, un stagiaire qui veut rendre service, un chatbot qui récite ses instructions secrètes si on lui demande gentiment. À l'époque, c'était une campagne de sept missions, toutes chez NovaMind, la startup bourrée d'agents IA.
 
-Ce n'est plus vraiment le même jeu. Je me suis dit « allez, juste une mission de plus » un certain nombre de fois, et une semaine plus tard, l'écran titre ressemble à ça.
+Ce n'est plus vraiment le même jeu. Juste après la sortie, j'ai demandé à Fable de cartographier la sécurité du quotidien et celle de l'entreprise, et de me proposer tout ce qui manquait encore au jeu. Puis je l'ai laissé tourner en tâche de fond une bonne partie de la semaine, pendant que j'étais à mon vrai travail. C'est une drôle de sensation, un peu comme avoir deux jobs en parallèle : un au bureau, et un qui tourne sur le PC de la maison après quelques prompts le matin. Une semaine plus tard, l'écran titre ressemble à ça.
 
 ![L'écran titre de BREACH : Saisons, Entraînements, Missions communautaires, Rejouer une mission, Ma progression et Réglages](/images/breach-one-week-later/title.webp)
 
