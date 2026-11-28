@@ -205,3 +205,10 @@ L'extinction fait le contraire : elle remet le flag à false.
     - service: input_boolean.turn_off
       entity_id: input_boolean.terrasse_salon_auto_on
 ```
+
+## Faire pareil chez vous, avec votre assistant IA
+
+Le YAML ci-dessus est propre à ma maison : ma terrasse, mes noms d'entités, un seuil de luminosité réglé pour mon capteur. Le recopier ne vous avancerait pas beaucoup. Ce qui se transporte d'une maison à l'autre, ce sont l'intention, les règles et les cas à tester. Voici donc la recette à donner à votre assistant (Claude, ChatGPT, celui que vous utilisez), idéalement connecté à votre Home Assistant.
+
+{{< ai-prompt >}}
+
