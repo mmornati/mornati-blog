@@ -1,0 +1,26 @@
+{{- /*
+  AI recipe block: a prompt the reader gives to their own assistant to build
+  the automation of the post on their own devices.
+
+  The text lives in the post's bundle as `prompt.txt` (one per language), so it
+  is also served as a plain file an agent can fetch: {{< ai-prompt >}}
+  Another file name: {{< ai-prompt file="prompt-detector.txt" >}}
+*/ -}}
+{{- $name := .Get "file" | default "prompt.txt" -}}
+{{- $res := .Page.Resources.GetMatch $name -}}
+{{- if not $res -}}
+  {{- errorf "ai-prompt: %q not found in the bundle of %s" $name .Page.File.Path -}}
+{{- else -}}
+<aside class="ai-prompt not-prose" aria-label="{{ i18n "aiprompt.title" }}">
+  <p class="ai-prompt__title">{{ i18n "aiprompt.title" }}</p>
+  <p class="ai-prompt__intro">{{ i18n "aiprompt.intro" }}</p>
+  <details>
+    <summary>{{ i18n "aiprompt.show" }}</summary>
+    <pre class="ai-prompt__text" tabindex="0">{{ $res.Content | strings.TrimSpace }}</pre>
+  </details>
+  <p class="ai-prompt__actions">
+    <button type="button" class="ai-prompt__copy" data-copied="{{ i18n "aiprompt.copied" }}">{{ i18n "aiprompt.copy" }}</button>
+    <a href="{{ $res.RelPermalink }}">{{ i18n "aiprompt.raw" }}</a>
+  </p>
+</aside>
+{{- end -}}
