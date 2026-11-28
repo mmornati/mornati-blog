@@ -1,0 +1,46 @@
+RECIPE: electric water heater on solar surplus and off-peak hours (Home Assistant)
+Source: https://blog.mornati.net/smart-water-heater-orchestration-solar-off-peak-v2/
+
+Help me build this automation in MY Home Assistant. Start from my devices, not from someone else's code.
+
+BEFORE WRITING ANYTHING
+1. Find my water heaters: the relay switching each one and its power sensor.
+2. Find my solar production and house consumption sensors, and check whether house consumption includes the heater.
+3. List the automations that already switch the heaters.
+4. Ask me, then wait for my answers: power of each heater, my off-peak windows, how I flag that we are away, how to notify me.
+No access to my Home Assistant? Ask instead of assuming.
+
+THE PROBLEM
+A heater on a fixed off-peak schedule does not know whether the tank is really hot, nor whether the sun could finish the job for free. Guessing costs money once there is solar.
+
+WHAT I WANT (for each heater)
+A. End of cycle: the heater's own thermostat declares it. When power collapses, cut the relay, mark the tank finished, notify me.
+B. Solar run: if the tank is not finished when the daytime off-peak window closes, keep heating at peak rate only if the solar surplus covers the whole heater.
+C. Watch: during a solar run, stop when the sun drops or the house load spikes. The tank stays "not finished".
+D. Night: a tank still not finished gets a night cycle, ended by the thermostat or by a time cap, whichever comes first.
+
+STARTING THRESHOLDS (calibrate them at my home)
+- Finished: power below 50 W for 5 minutes.
+- Surplus: production minus house >= heater power x 1.1, with house below 1500 W.
+- Abort: house above 1500 W for 2 minutes.
+- Night: 02:00, cap of 90 minutes (large tank) or 60 (small).
+
+SAFEGUARDS
+- Never import at peak rate to heat water.
+- Heater meter unavailable for 10 minutes: cut the relay and end the cycle.
+- Solar or house sensor unavailable: no solar run.
+- Away mode on: nothing starts.
+- The watch only touches solar runs.
+- Only switch the relay, never the tank's setpoint.
+
+TEST CASES (from the article)
+1. Heater under 50 W for 5 minutes -> relay off, tank finished, notification.
+2. Meter unavailable for 10 minutes -> relay off, cycle ended.
+3. 14:09, tank not finished, 2.9 kW heater, surplus >= 3190 W, house under 1500 W -> solar run starts.
+4. Same with a smaller surplus -> nothing, the night handles it.
+5. Solar run, house above 1500 W for 2 minutes (oven, kettle) -> relay off, tank still "not finished".
+6. 02:00, tank not finished, thermostat never cuts -> stop at 90 minutes.
+7. Away mode on -> no solar run, no night cycle.
+
+METHOD
+First a short plan and your questions. Then the automations with my entities, each threshold explained, and a way to test before enabling. Start with end-of-cycle detection alone.

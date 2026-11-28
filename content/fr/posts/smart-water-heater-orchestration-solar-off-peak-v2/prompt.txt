@@ -1,0 +1,46 @@
+RECETTE : chauffe-eau électrique sur surplus solaire et heures creuses (Home Assistant)
+Source : https://blog.mornati.net/fr/smart-water-heater-orchestration-solar-off-peak-v2/
+
+Aide-moi à créer cette automatisation dans MON Home Assistant. Pars de mes appareils, pas du code d'un autre.
+
+AVANT D'ÉCRIRE QUOI QUE CE SOIT
+1. Trouve mes chauffe-eau : le relais qui commande chacun et son capteur de puissance.
+2. Trouve mes capteurs de production solaire et de consommation de la maison, et vérifie si cette consommation inclut le chauffe-eau.
+3. Liste les automatisations qui pilotent déjà les chauffe-eau.
+4. Pose-moi tes questions, puis attends mes réponses : puissance de chaque chauffe-eau, mes heures creuses, comment je signale une absence, comment me prévenir.
+Pas d'accès à mon Home Assistant ? Demande au lieu de supposer.
+
+LE PROBLÈME
+Un chauffe-eau sur un horaire fixe d'heures creuses ne sait pas si le ballon est vraiment chaud, ni si le soleil pourrait finir le travail gratuitement. Deviner coûte de l'argent dès qu'il y a du solaire.
+
+CE QUE JE VEUX (pour chaque chauffe-eau)
+A. Fin de cycle : c'est le thermostat du ballon qui la déclare. Quand la puissance s'effondre, couper le relais, noter le ballon terminé, me prévenir.
+B. Chauffe solaire : si le ballon n'est pas terminé à la fin des heures creuses de journée, continuer en heures pleines seulement si le surplus solaire couvre tout le chauffe-eau.
+C. Vigie : pendant une chauffe solaire, arrêter quand le soleil baisse ou que la maison consomme trop. Le ballon reste « pas terminé ».
+D. Nuit : un ballon encore pas terminé a droit à un cycle de nuit, arrêté par le thermostat ou par un plafond de durée, le premier des deux.
+
+SEUILS DE DÉPART (à calibrer chez moi)
+- Terminé : puissance sous 50 W pendant 5 minutes.
+- Surplus : production moins maison >= puissance du chauffe-eau x 1,1, avec la maison sous 1500 W.
+- Abandon : maison au-dessus de 1500 W pendant 2 minutes.
+- Nuit : 2h00, plafond de 90 minutes (grand ballon) ou 60 (petit).
+
+GARDE-FOUS
+- Ne jamais importer en heures pleines pour chauffer l'eau.
+- Mesure du chauffe-eau indisponible pendant 10 minutes : couper le relais et clore le cycle.
+- Capteur solaire ou maison indisponible : pas de chauffe solaire.
+- Mode absence actif : rien ne démarre.
+- La vigie ne touche qu'aux chauffes solaires.
+- Ne commander que le relais, jamais la consigne du ballon.
+
+CAS DE TEST (tirés de l'article)
+1. Chauffe-eau sous 50 W pendant 5 minutes -> relais coupé, ballon terminé, notification.
+2. Mesure indisponible pendant 10 minutes -> relais coupé, cycle clos.
+3. 14h09, ballon pas terminé, chauffe-eau de 2,9 kW, surplus >= 3190 W, maison sous 1500 W -> la chauffe solaire démarre.
+4. Même cas avec un surplus plus faible -> rien, la nuit s'en charge.
+5. Chauffe solaire, maison au-dessus de 1500 W pendant 2 minutes (four, bouilloire) -> relais coupé, ballon toujours « pas terminé ».
+6. 2h00, ballon pas terminé, le thermostat ne coupe jamais -> arrêt à 90 minutes.
+7. Mode absence actif -> ni chauffe solaire, ni cycle de nuit.
+
+MÉTHODE
+D'abord un plan court et tes questions. Ensuite les automatisations avec mes entités, chaque seuil expliqué, et une façon de tester avant d'activer. Commence par la détection de fin de cycle seule.

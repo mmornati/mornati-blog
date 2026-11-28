@@ -398,6 +398,14 @@ Comme dit en tête : toutes les automatisations v2 de ce post sont **dans ma con
 
 ---
 
+## Faites la même chose chez vous, avec votre assistant IA
+
+Le YAML ci-dessus est propre à ma maison : mes deux ballons, mes relais Shelly, mes plages d'heures creuses, mes noms d'entités. Le recopier ne vous avancerait pas beaucoup. Ce qui se transporte d'une maison à l'autre, c'est l'intention, les règles, les garde-fous et les cas à tester. Je les ai donc écrits sous forme de recette à donner à votre assistant (Claude, ChatGPT, celui que vous utilisez), idéalement connecté à votre Home Assistant.
+
+{{< ai-prompt >}}
+
+---
+
 ## Avertissements
 
 - **C'est spécifique à la France (Heures Creuses / Heures Pleines).** Une tarification avec une seule fenêtre midi + nuit n'existe pas partout ; la marge de 1,1× et le seuil 1500 W sont mes constantes, pas les vôtres.
