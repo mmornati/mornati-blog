@@ -1,0 +1,47 @@
+RECETTE : volets de toit motorisés et gel (Home Assistant)
+Source : https://blog.mornati.net/fr/velux-solaires-et-gel-ne-jamais-forcer-et-le-verifier-dans-les-donnees/
+
+Tu vas m'aider à créer cette automatisation dans MON Home Assistant. Ne recopie pas le code d'un autre : pars de mes appareils.
+
+AVANT D'ÉCRIRE QUOI QUE CE SOIT
+1. Liste mes volets de toit (entités cover) et dis-moi ce qu'ils exposent : position, états opening/closing, un éventuel attribut d'obstacle ou de défaut.
+2. Trouve mes sources pour : la température extérieure, la prévision météo heure par heure, la lumière extérieure (capteur de luminosité, sinon la hauteur du soleil).
+3. Regarde quelles automatisations ouvrent ou ferment déjà ces volets, et à quelle heure.
+4. Pose-moi les questions utiles, puis attends mes réponses : orientation de chaque volet (quel versant voit le soleil le matin), pièces concernées, heure à laquelle on peut fermer sans gêner, comment je veux être prévenu.
+Si tu n'as pas accès à mon Home Assistant, demande-moi ces informations au lieu de les supposer.
+
+LE PROBLÈME
+Quand l'humidité gèle dans les coulisses, le moteur du volet refuse de bouger (protection de surcharge). Le constructeur dit de ne jamais forcer et d'attendre le dégel. Réessayer ne sert à rien et fatigue le mécanisme.
+
+CE QUE JE VEUX
+A. Détecter un refus. Signature observée : le volet passe à closing (ou opening), puis revient à son état de départ en moins d'une minute, avec une position qui a bougé de moins de 10 %. Vérifie cette signature dans MON historique avant de t'y fier. Un volet devenu indisponible pendant le mouvement n'est pas un refus.
+B. Fermer avant le gel. Quand il fait nuit dehors et que le gel arrive, fermer les volets encore ouverts, une seule commande, une seule fois par soir.
+C. Reporter l'ouverture du matin. S'il gèle à l'heure prévue, ne pas envoyer l'ordre : le mettre en attente et l'envoyer une seule fois quand les conditions sont bonnes. Passé une heure limite, abandonner et me prévenir.
+D. Tenir un journal. Chaque mouvement : date et heure, volet, sens, réussi ou refusé, température, humidité, point de rosée. C'est ce journal qui servira à corriger les seuils.
+
+SEUILS DE DÉPART (à calibrer chez moi, ne les prends pas pour acquis)
+- Fermer : température <= 2 °C, ou <= 5 °C avec un minimum prévu <= 0 °C dans la nuit.
+- « Nuit » : moins de 10 lx et soleil sous 3° de hauteur.
+- Ouvrir : température > 1 °C. Attention, « 0 °C avec du soleil » s'est révélé trop juste.
+- Volet refusé : considéré bloqué 12 h, exclu de toutes les commandes automatiques.
+- Abandon de l'ouverture en attente : 15h00.
+Traite chaque versant séparément : un volet à l'ombre le matin dégèle bien plus tard qu'un volet au soleil.
+
+GARDE-FOUS (non négociables)
+- Une commande par décision. Jamais de boucle de relance, nulle part.
+- Capteur de température indisponible ou inconnu : ne rien faire.
+- Ne jamais bloquer une commande manuelle. Si quelqu'un relance un volet moins de 10 minutes après un refus, envoyer un rappel, rien de plus.
+- Un blocage doit expirer tout seul : un volet bloqué en se fermant reste ouvert, et aucun mouvement ne viendra l'effacer.
+
+CAS DE TEST (faits réels, novembre 2026)
+1. 17h15, nuit tombée, 1,6 °C, 85 % d'humidité, minimum prévu sous 0 °C -> doit fermer. (Sans la règle, la fermeture à 20h42 par −1,2 °C a été refusée par 3 volets sur 4.)
+2. Volet à 100 %, passe à closing, revient à open à 100 % après 25 s -> refus détecté, alerte, aucune relance.
+3. Volet 100 -> 34 -> 0 en 13 s -> mouvement normal, pas d'alerte.
+4. 7h15, −3 °C -> ouverture mise en attente, aucun ordre envoyé.
+5. 11h10, 0,1 °C, soleil : 4 volets s'ouvrent, celui du versant nord refuse -> le seuil d'ouverture de ce versant doit être plus prudent.
+6. 15 h, après-midi lumineuse, 1,5 °C -> ne ferme pas (il fait jour).
+7. Soir à 9 °C, aucun gel prévu -> aucune action.
+8. Trois volets refusent dans la même seconde -> les trois sont notés bloqués, aucun n'est oublié.
+
+MÉTHODE
+Propose-moi d'abord un plan court et tes questions. Ensuite écris l'automatisation avec mes entités, explique chaque seuil, et montre-moi comment la tester sur mon historique avant de l'activer. Commence par le détecteur et le journal seuls (ils n'envoient aucune commande), et n'ajoute les fermetures et ouvertures automatiques qu'ensuite.
