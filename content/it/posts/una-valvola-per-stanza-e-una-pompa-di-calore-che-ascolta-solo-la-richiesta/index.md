@@ -163,6 +163,12 @@ E, come spesso succede, la cosa più utile non era prevista all'inizio: queste v
 
 Il terzo e ultimo articolo farà il bilancio dell'inverno: comfort e consumi su tutta la stagione, confrontati con l'inverno scorso (il [primo articolo](/it/la-curva-climatica-della-mia-pompa-di-calore-regolata-con-i-dati/) ne dà già un primo confronto).
 
+## Fare lo stesso a casa propria, con un assistente IA
+
+La mia configurazione è specifica di casa mia: le mie valvole, il mio termostato a parete, gli orari dei miei figli, un piano senza bypass. Copiarla servirebbe a poco, andrebbe riscritto quasi tutto. Quello che si trasporta da una casa all'altra è la ricetta qui sotto: l'intenzione, le regole, i paracadute e i miei casi reali come test. Va data al proprio assistente (Claude, ChatGPT, quello che si usa di solito), meglio se collegato a Home Assistant, lasciando che parta dai dispositivi di casa e non dai miei.
+
+{{< ai-prompt >}}
+
 ## Come è stato fatto
 
 Diverse sessioni Claude Code con Opus 5.5, tra l'11 e il 25 novembre, nel repository della mia configurazione Home Assistant. Claude ha analizzato lo storico (valvole, sensori delle stanze, termostato CSNet, luci per le sveglie), proposto il piano a due livelli, scritto il package `chauffage_etage` e le macro Jinja, con test che rigiocano i dati reali nell'immagine Home Assistant di produzione prima di ogni pull request. Ogni correzione (scarto di riapertura, apertura minima della biblioteca, preriscaldamento, richiesta basata sulle valvole, margine della pompa di calore) è partita da una rilettura dei dati dei giorni precedenti. Le risposte alle domande sulla vita della casa (a che ora si alzano i bambini, il cane, le vacanze) venivano da me. I numeri e i grafici di questo articolo sono stati estratti dallo storico di Home Assistant in un'altra sessione.

@@ -163,6 +163,12 @@ And, as often happens, the most useful part wasn't planned: these valves have be
 
 The third and last post will be the winter's verdict: comfort and consumption over the whole season, compared with last winter (the [first post](/my-heat-pump-heating-curve-tuned-with-data/) already gives a first comparison).
 
+## Do the same at home, with your AI assistant
+
+My configuration is specific to my house: my valves, my wall thermostat, my children's schedules, an upstairs circuit with no bypass. Copying it would not get you far, you would have to rewrite most of it. What travels from one house to another is the recipe below: the intent, the rules, the safeguards, and my real cases as tests. Give it to your own assistant (Claude, ChatGPT, whichever you use), ideally connected to your Home Assistant, and let it start from your devices instead of mine.
+
+{{< ai-prompt >}}
+
 ## How it was done
 
 Several Claude Code sessions with Opus 5.5, between 11 and 25 November, in the repository of my Home Assistant configuration. Claude analysed the history (valves, room sensors, CSNet thermostat, lights for the wake-up times), proposed the two-level plan, and wrote the `chauffage_etage` package and the Jinja macros, with tests that replay real data in the production Home Assistant image before every pull request. Each correction (reopening gap, library minimum opening, preheat, valve-based demand, heat pump margin) started from a review of the previous days' data. The answers to questions about life in the house (what time the children get up, the dog, the holidays) came from me. The numbers and charts in this post were pulled from the Home Assistant history in a separate session.

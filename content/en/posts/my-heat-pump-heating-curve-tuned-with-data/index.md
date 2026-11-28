@@ -155,6 +155,12 @@ A heating curve isn't something you set once and for all from the installer's ta
 
 What changed is having **signals that answer the question**: valves that tell you how long they heat, sensors that measure how fast each room warms up, a meter that gives the daily COP. With that, tuning the heating curve is no longer a matter of feel ("it's a bit chilly tonight"), it's a loop: lower it, measure, keep it or roll back.
 
+## Do the same at home, with your AI assistant
+
+My numbers are specific to my house: my radiators, my underfloor heating, an oversized heat pump and bedrooms we like at 19 °C. Copying my curve would not get you far, yours has no reason to land on 50 °C. What travels from one house to another is the recipe below: the signals to look for, the order of the changes, the safeguards, and my real cases as tests. Give it to your own assistant (Claude, ChatGPT, whichever you use), ideally connected to your Home Assistant, and let it start from your history instead of mine.
+
+{{< ai-prompt >}}
+
 ## How it was done
 
 Several Claude Code sessions with Opus 5.5, spread over two weeks, in the CSNet integration repository and in my Home Assistant configuration repository. Claude read Home Assistant's history (through OpenObserve, which receives all of HA's events and metrics, and through a read-only copy of the recorder database for long-term statistics), computed the valve opening times and the daily COPs, proposed each change with the numbers that justified it, and wrote the automations and sensors (heating rate, heat pump set point, heating curve in the integration). The settings on the heat pump itself I changed by hand on the controller, photographing every screen first. This post was written in a separate session, from that data and the notes from those sessions; the charts were generated from the same data.

@@ -1,0 +1,48 @@
+RECIPE: one valve per room, and a heat pump that only heats on demand (Home Assistant)
+Source: https://blog.mornati.net/one-valve-per-room-and-a-heat-pump-that-only-listens-to-demand/
+
+You are going to help me build this two-level heating control in MY Home Assistant. Do not copy someone else's code: start from my devices.
+
+BEFORE WRITING ANYTHING
+1. Find my radiator valves and what they expose: external temperature input, reopening gap, minimum opening, heating state, battery.
+2. Find each room's temperature sensor, and the thermostat that drives my heat pump on this circuit: can you write its setpoint?
+3. Read the history of room temperatures, valve openings and batteries.
+4. Ask me, then wait for my answers: wake-up and bedtime hours, rooms that are often empty, whether there is a hydraulic bypass, who must be alerted.
+If you have no access to my Home Assistant, ask me instead of assuming.
+
+THE PROBLEM
+My valves measure temperature right next to the radiator and read too high, so they stay wide open. And the heat pump's thermostat calls for heat even when no room needs any.
+
+WHAT I WANT
+A. Each valve regulates on its room's sensor, resent on every change and at a regular interval so the valve does not fall back to its internal sensor.
+B. A setpoint per room, with its reason, first rule that applies: holiday, room not occupied, window open, night, bedtime, comfort.
+C. A preheat before wake-up, school day or not.
+D. A "demand" signal: on when a valve in an active room is heating, off after a delay without demand.
+E. The thermostat setpoint just above its reading when there is demand, just below otherwise.
+F. Window open inferred from a fast temperature drop: frost protection while the airing lasts.
+
+STARTING THRESHOLDS (to calibrate at my home)
+- Room temperature sent on every 0.1 °C change and every 30 minutes.
+- Reopening gap −0.4 °C; setpoint sent only if it changes by 0.25 °C or more.
+- Comfort 19 °C, bedtime 19.5 °C one hour before night, night 18 °C from 22:00, eco 16 °C, frost protection 12 °C, preheat 90 minutes.
+- Demand off after 15 minutes without demand.
+- Thermostat: reading + 0.5 °C with demand, reading − 1 °C without, rewritten only if it moves by 0.5 °C or more.
+- Window: more than 3.6 °C lost in 30 minutes.
+
+SAFEGUARDS (non negotiable)
+- Room sensor unavailable or reporting nonsense: back to the internal sensor with a fallback setpoint, and an alert.
+- Without a hydraulic bypass, one valve never closes completely (10% in the post).
+- Never change the heat pump's mode; write nothing if the thermostat is not heating.
+- An observation mode that computes without writing; a fallback setpoint (19 °C) when control is switched off.
+- A maximum duration for "window open" (30 to 45 minutes).
+
+TEST CASES (real facts from the post)
+1. Bedroom at 18 °C at night -> reopens 0.4 °C below the setpoint, not at 17 °C.
+2. School day, wake-up at 06:30 -> 19 °C at 05:00, 19.5 °C at 21:00, 18 °C at 22:00.
+3. Guest room not occupied -> 16 °C. Child on holiday but at home -> 08:30 wake-up, not 16 °C.
+4. Every bedroom valve closed at night -> demand off after 15 minutes, thermostat at reading − 1 °C.
+5. Room sensor gone for a minute, back with a lower value (14 November, 07:58) -> not two hours of frost protection: the maximum duration ends it.
+6. A 0.1 °C change (22 November) -> no window open.
+
+METHOD
+First a short plan and your questions. Then write the automations with my entities, explain every threshold, and test them on my history before enabling them. Start with the valves; keep the thermostat part in observation and check what lowering its setpoint really does (in the post it does not stop the circuit, it lowers the water temperature by about 2 °C per degree). Watch the batteries: in the post, the busiest valves lose about 0.5% a day.

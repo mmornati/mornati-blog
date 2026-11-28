@@ -1,0 +1,42 @@
+RECIPE: tuning a heat pump's heating curve from recorded data (Home Assistant)
+Source: https://blog.mornati.net/my-heat-pump-heating-curve-tuned-with-data/
+
+Help me find the lowest water temperature that keeps MY house comfortable. This is a tuning method, not an automation: you read my history and propose, I change the settings myself on the heat pump's controller.
+
+BEFORE PROPOSING ANYTHING
+1. Find in my Home Assistant, by role: outdoor temperature, the heat pump's water set point, supply and return temperatures, electricity meter, heat produced, each room's temperature and set point, and what says when each radiator heats (valve opening, demand).
+2. Read every heating day in the history and tell me what is missing.
+3. Ask me, then wait for my answers: each circuit's curve as the controller shows it, my night and morning set points, my preheat time.
+If you have no access to my Home Assistant, ask me instead of assuming.
+
+THE PROBLEM
+Every extra degree of water costs efficiency (often quoted: 2 to 3% of COP per degree). My curve has never been questioned since the installation. Only the data can show that it is too high.
+
+WHAT I WANT
+A. The analysis first. The signs that the water is too hot: valves open a small share of the time while rooms hold their set point, short bursts that overshoot, morning preheat finished early.
+B. Each room's median heating rate. The slowest room sets the lower limit.
+C. A daily COP, compared only between days at the same outdoor temperature.
+D. Then the order of changes: first what is not the curve (circulation pump flow, heat pump in demand while no room asks), then the curve.
+
+STARTING VALUES (the author's, to calibrate at my home)
+- Step: 2 to 3 °C less on the curve's cold point, mild point untouched.
+- At least a week between two changes.
+- Supply/return difference: about 5 °C. At 1 to 2 °C the flow is too high.
+- The slowest bedroom reaches its morning set point within the preheat (90 minutes for him).
+
+SAFEGUARDS
+- One change at a time.
+- You change nothing on the heat pump: I do it by hand, after photographing the previous values.
+- Check the outdoor sensor against a second one before comparing two periods.
+- Never conclude from a single day.
+- If the slowest room falls behind on frosty mornings, go back up one step and stop.
+
+TEST CASES (real facts from the post)
+1. Bedroom valves open 6 to 13% of the time, one room at 21 °C for a set point of 19 -> water too hot: lower the cold point (his went from 60 to 50 °C).
+2. Two days at 2.2 °C outside, 53.0 then 46.0 kWh, but upstairs at 20.1 then 18.5 °C -> part of the saving is the end of overheating, not the curve.
+3. Average water set point of 40.3, 39.7, 40.2 then 40.1 °C after a change -> no measurable effect yet, wait several weeks.
+4. Outdoor sensor averaging 8.9 °C in January when two others agree on 3.4 to 4 °C -> discard it and redo the comparison.
+5. Week around 0 °C, bedroom valves heating 4 to 6 hours a day, set points held -> headroom: propose one step with its gain (4 to 6% for him) and its cost (radiators 10 to 15% slower).
+
+METHOD
+First a short plan and your questions. Then the analysis with its figures. Then ONE change, with the number that justifies it, the expected gain, what I lose, the three figures to watch (valve heating hours, slowest room at wake-up, COP at the same outdoor temperature) and the value to go back to. Then wait at least a week before proposing the next one.

@@ -1,0 +1,42 @@
+RICETTA: regolare la curva climatica di una pompa di calore con i dati registrati (Home Assistant)
+Fonte: https://blog.mornati.net/it/la-curva-climatica-della-mia-pompa-di-calore-regolata-con-i-dati/
+
+Aiutami a trovare la temperatura dell'acqua più bassa che tiene confortevole la MIA casa. È un metodo di regolazione, non un'automazione: tu leggi il mio storico e proponi, le impostazioni le cambio io sul comando della pompa di calore.
+
+PRIMA DI PROPORRE QUALSIASI COSA
+1. Trova nel mio Home Assistant, per ruolo: temperatura esterna, set point dell'acqua della pompa di calore, temperature di mandata e di ritorno, contatore elettrico, calore prodotto, temperatura e set point di ogni stanza, e ciò che dice quando ogni radiatore scalda (apertura della valvola, richiesta).
+2. Leggi tutti i giorni di riscaldamento dello storico e dimmi cosa manca.
+3. Fammi le tue domande, poi aspetta le mie risposte: la curva di ogni circuito come la mostra il comando, i miei set point di notte e del mattino, la durata del preriscaldamento.
+Se non hai accesso al mio Home Assistant, chiedi a me invece di supporre.
+
+IL PROBLEMA
+Ogni grado d'acqua in più si paga in rendimento (si cita spesso dal 2 al 3% di COP per grado). La mia curva non è mai stata messa in discussione dall'installazione. Solo i dati possono mostrare che è troppo alta.
+
+COSA VOGLIO
+A. Prima l'analisi. I segni che l'acqua è troppo calda: valvole aperte per una piccola parte del tempo mentre le stanze tengono il set point, riscaldamenti brevi che lo superano, preriscaldamento del mattino finito in anticipo.
+B. La velocità di riscaldamento mediana di ogni stanza. La più lenta fissa il limite inferiore.
+C. Un COP giornaliero, confrontato solo tra giorni alla stessa temperatura esterna.
+D. Poi l'ordine delle modifiche: prima ciò che non è la curva (portata del circolatore, pompa di calore in richiesta mentre nessuna stanza chiede), poi la curva.
+
+VALORI DI PARTENZA (quelli dell'autore, da calibrare a casa mia)
+- Passo: 2-3 °C in meno sul punto freddo della curva, punto mite invariato.
+- Almeno una settimana tra due modifiche.
+- Differenza mandata/ritorno: circa 5 °C. Con 1-2 °C la portata è troppo alta.
+- La camera più lenta arriva al set point del mattino entro il preriscaldamento (90 minuti da lui).
+
+PARACADUTE
+- Una sola modifica alla volta.
+- Tu non cambi nulla sulla pompa di calore: lo faccio io a mano, dopo aver fotografato i valori di prima.
+- Controlla la sonda esterna con una seconda prima di confrontare due periodi.
+- Non trarre conclusioni da un solo giorno.
+- Se la stanza più lenta non ce la fa nelle mattine di gelo, risali di un gradino e fermati.
+
+CASI DI TEST (fatti reali presi dall'articolo)
+1. Valvole delle camere aperte dal 6 al 13% del tempo, una stanza a 21 °C con un set point di 19 -> acqua troppo calda: abbassare il punto freddo (il suo è passato da 60 a 50 °C).
+2. Due giorni a 2,2 °C fuori, 53,0 poi 46,0 kWh, ma il piano di sopra a 20,1 poi a 18,5 °C -> parte del risparmio viene dalla fine del surriscaldamento, non dalla curva.
+3. Set point medio dell'acqua di 40,3, 39,7, 40,2 poi 40,1 °C dopo una modifica -> nessun effetto misurabile per ora, aspettare più settimane.
+4. Sonda esterna a 8,9 °C di media a gennaio quando altre due concordano su 3,4-4 °C -> scartarla e rifare il confronto.
+5. Settimana intorno a 0 °C, valvole delle camere che scaldano dalle 4 alle 6 ore al giorno, set point tenuti -> c'è ancora margine: proporre un passo con il suo guadagno (dal 4 al 6% da lui) e il suo costo (radiatori il 10-15% più lenti).
+
+METODO
+Prima un piano breve e le tue domande. Poi l'analisi con i suoi numeri. Poi UNA SOLA modifica, con il numero che la giustifica, il guadagno atteso, cosa perdo, i tre numeri da tenere d'occhio (ore di riscaldamento delle valvole, stanza più lenta al risveglio, COP a parità di temperatura esterna) e il valore a cui tornare. Poi aspetta almeno una settimana prima di proporre la successiva.

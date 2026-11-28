@@ -155,6 +155,12 @@ Une loi d'eau ne se règle pas une fois pour toutes en suivant le tableau de l'i
 
 Ce qui a changé, c'est d'avoir **des signaux qui répondent à la question** : des vannes qui disent combien de temps elles chauffent, des capteurs qui mesurent la vitesse de chauffe de chaque pièce, un compteur qui donne le COP du jour. Avec ça, régler la loi d'eau n'est plus une affaire de sensation (« il fait un peu frais ce soir »), c'est une boucle : on baisse, on mesure, on garde ou on revient en arrière.
 
+## Faire la même chose chez vous, avec votre assistant IA
+
+Mes chiffres sont propres à ma maison : mes radiateurs, mon plancher chauffant, une pompe à chaleur surdimensionnée et des chambres qu'on aime à 19 °C. Recopier ma loi d'eau ne vous avancerait pas beaucoup, la vôtre n'a aucune raison de tomber sur 50 °C. Ce qui se transporte d'une maison à l'autre, c'est la recette ci-dessous : les signaux à chercher, l'ordre des changements, les garde-fous, et mes cas réels en guise de tests. Donnez-la à votre assistant (Claude, ChatGPT, celui que vous utilisez), idéalement connecté à votre Home Assistant, et laissez-le partir de votre historique plutôt que du mien.
+
+{{< ai-prompt >}}
+
 ## Comment ça a été fait
 
 Plusieurs sessions Claude Code avec Opus 5.5, réparties sur deux semaines, dans le dépôt de l'intégration CSNet et dans celui de ma configuration Home Assistant. Claude a lu l'historique de Home Assistant (via OpenObserve, qui reçoit tous les événements et métriques de HA, et via une copie en lecture seule de la base du recorder pour les statistiques longues), calculé les temps d'ouverture des vannes et les COP journaliers, proposé chaque changement avec les chiffres qui le justifiaient, et écrit les automatisations et les capteurs (vitesse de chauffe, consigne de la PAC, loi d'eau dans l'intégration). Les réglages de la PAC elle-même, je les ai faits à la main sur la télécommande, en photographiant chaque écran avant. Cet article a été écrit dans une autre session, à partir de ces données et des notes de ces sessions ; les graphiques ont été générés depuis les mêmes données.

@@ -155,6 +155,12 @@ Una curva climatica non si regola una volta per tutte seguendo la tabella dell'i
 
 Quello che è cambiato è avere **segnali che rispondono alla domanda**: valvole che dicono per quanto tempo scaldano, sensori che misurano la velocità di riscaldamento di ogni stanza, un contatore che dà il COP del giorno. Con questi, regolare la curva climatica non è più una questione di sensazioni ("stasera fa un po' fresco"), è un ciclo: si abbassa, si misura, si tiene o si torna indietro.
 
+## Fare lo stesso a casa propria, con un assistente IA
+
+I miei numeri sono specifici di casa mia: i miei radiatori, il mio riscaldamento a pavimento, una pompa di calore sovradimensionata e camere che ci piacciono a 19 °C. Copiare la mia curva servirebbe a poco, la tua non ha nessun motivo di fermarsi a 50 °C. Quello che si trasporta da una casa all'altra è la ricetta qui sotto: i segnali da cercare, l'ordine delle modifiche, i paracadute e i miei casi reali come test. Dalla al tuo assistente (Claude, ChatGPT, quello che usi di solito), meglio se collegato al tuo Home Assistant, e lascia che parta dal tuo storico e non dal mio.
+
+{{< ai-prompt >}}
+
 ## Come è stato fatto
 
 Diverse sessioni di Claude Code con Opus 5.5, distribuite su due settimane, nel repository dell'integrazione CSNet e in quello della mia configurazione Home Assistant. Claude ha letto lo storico di Home Assistant (tramite OpenObserve, che riceve tutti gli eventi e le metriche di HA, e tramite una copia in sola lettura del database del recorder per le statistiche a lungo termine), ha calcolato i tempi di apertura delle valvole e i COP giornalieri, ha proposto ogni modifica con i numeri che la giustificavano, e ha scritto le automazioni e i sensori (velocità di riscaldamento, set point della pompa di calore, curva climatica nell'integrazione). Le regolazioni della pompa di calore vera e propria le ho fatte a mano sul comando, fotografando prima ogni schermata. Questo articolo è stato scritto in un'altra sessione, a partire da quei dati e dalle note di quelle sessioni; i grafici sono stati generati dagli stessi dati.

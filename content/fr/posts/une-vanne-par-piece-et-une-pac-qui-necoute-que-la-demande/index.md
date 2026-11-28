@@ -163,6 +163,12 @@ Et, comme souvent, le plus utile n'était pas prévu au départ : ces vannes son
 
 Le troisième et dernier article fera le bilan de l'hiver : confort et consommation sur toute la saison, comparés à l'hiver dernier (le [premier article](/fr/la-loi-deau-de-ma-pompe-a-chaleur-reglee-avec-les-donnees/) en donne déjà une première comparaison).
 
+## Faire la même chose chez vous, avec votre assistant IA
+
+Ma configuration est propre à ma maison : mes vannes, mon thermostat mural, les horaires de mes enfants, un étage sans bypass. La copier ne vous avancerait pas beaucoup, il faudrait presque tout réécrire. Ce qui se transporte d'une maison à l'autre, c'est la recette ci-dessous : l'intention, les règles, les garde-fous, et mes cas réels en guise de tests. Donnez-la à votre assistant (Claude, ChatGPT, celui que vous utilisez), idéalement connecté à votre Home Assistant, et laissez-le partir de vos appareils plutôt que des miens.
+
+{{< ai-prompt >}}
+
 ## Comment ça a été fait
 
 Plusieurs sessions Claude Code avec Opus 5.5, entre le 11 et le 25 novembre, dans le dépôt de ma configuration Home Assistant. Claude a analysé l'historique (vannes, capteurs de pièces, thermostat CSNet, lumières pour les réveils), proposé le plan en deux niveaux, écrit le package `chauffage_etage` et les macros Jinja, avec des tests qui rejouent les données réelles dans l'image Home Assistant de production avant chaque pull request. Chaque correction (écart de réouverture, ouverture minimale de la bibliothèque, préchauffe, demande basée sur les vannes, marge de la PAC) est partie d'une relecture des données des jours précédents. Les réponses aux questions de vie de la maison (l'heure à laquelle les enfants se lèvent, le chien, les vacances) venaient de moi. Les chiffres et les graphiques de cet article ont été tirés de l'historique de Home Assistant dans une autre session.
