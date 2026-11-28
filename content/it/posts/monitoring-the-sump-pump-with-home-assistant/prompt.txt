@@ -1,0 +1,48 @@
+RICETTA: monitorare una pompa di scarico in cantina dal suo consumo (Home Assistant)
+Fonte: https://blog.mornati.net/it/monitoring-the-sump-pump-with-home-assistant/
+
+Mi aiuterai a creare questo monitoraggio nel MIO Home Assistant. Non copiare il codice di qualcun altro: parti dai miei dispositivi.
+
+PRIMA DI SCRIVERE QUALSIASI COSA
+1. Trova la presa smart a cui è collegata la mia pompa e cosa espone: potenza istantanea, contatore di energia, interruttore.
+2. Leggi il suo storico di potenza: consumo a riposo, consumo in marcia, durata abituale di un ciclo, numero di cicli al giorno.
+3. Controlla quali automazioni toccano già questa presa e quali servizi di notifica ho.
+4. Fammi le tue domande, poi aspetta le mie risposte: l'automazione può togliere corrente alla pompa, chi va avvisato, che aspetto ha un ciclo normale.
+Se non hai accesso al mio Home Assistant, chiedi a me invece di supporre.
+
+IL PROBLEMA
+Una pompa di scarico svuota l'acqua che filtra in cantina. Quando si guasta (galleggiante bloccato, scarico ostruito, motore bruciato), nessuno se ne accorge finché la cantina non si allaga. Non ho una sonda di livello: tutto va dedotto dal consumo elettrico.
+
+COSA VOGLIO
+A. Un segnale «la pompa gira» ricavato dalla potenza, e l'ora di ogni avvio e di ogni arresto.
+B. Quando un ciclo non finisce: un avviso, poi un allarme con spegnimento, pausa e nuovo tentativo.
+C. Dopo più tentativi falliti: spegnimento forzato, blocco perché nulla riaccenda la pompa, ora registrata.
+D. Il blocco scade da solo: corrente ripristinata, contatore dei tentativi azzerato.
+E. Un avviso quando la pompa non parte da molto tempo, con le ore dall'ultimo avvio.
+F. Un report settimanale: tempo di marcia, energia, ultimo avvio, ultimo arresto.
+
+SOGLIE DI PARTENZA (da calibrare a casa mia)
+- In marcia: potenza superiore a 5 W.
+- Avviso a 2 minuti di marcia continua, anomalia a 5, avviso ulteriore con la potenza in tempo reale a 10.
+- Tentativi: spegni, aspetta 2 minuti, riaccendi, controlla dopo 1 minuto; rinuncia al 3° tentativo.
+- Blocco: 24 ore. Non avviata: più di 48 ore, controllato ogni 6 ore. Report: lunedì alle 08:00.
+Sono valori adatti a una pompa i cui cicli normali durano circa un minuto. Confrontali prima con il MIO storico.
+
+PARACADUTE (non negoziabili)
+- Presa non disponibile o sconosciuta: né un avvio né un arresto. Non fare nulla, non spegnere nulla.
+- Mai accendere e spegnere la presa a raffica: senza le pause, il monitoraggio crea il guasto che sorveglia.
+- Un blocco deve sempre finire da solo: una pompa disabilitata è una cantina allagata in preparazione.
+- Nessun avviso «non avviata» finché il blocco è attivo.
+
+CASI DI TEST (fatti reali presi dall'articolo)
+1. Cicli di 1 min 06 s, 8 s e 1 min 15 s nella stessa giornata -> registrati, nessun avviso.
+2. Ciclo dalle 18:20:55 alle 18:21:05 (circa 10 s) -> registrato, nient'altro.
+3. Marcia continua che arriva a 2 minuti -> solo un avviso, la presa resta alimentata.
+4. Marcia continua che arriva a 5 minuti -> allarme, spegnimento, un tentativo contato, corrente ripristinata dopo 2 minuti.
+5. La pompa consuma ancora 1 minuto dopo il 3° tentativo -> spegnimento forzato, blocco, nessuna riaccensione prima di 24 ore (è successo una volta, il 14 ottobre 2025).
+6. Blocco più vecchio di 24 ore -> contatore di nuovo a 0, corrente ripristinata.
+7. Estate secca, nessun avvio da più di 48 ore -> un promemoria con le ore trascorse, non un allarme.
+8. Presa per un attimo non disponibile (caduta Zigbee) -> nulla di registrato, nessun avviso, nessuno spegnimento.
+
+METODO
+Proponimi prima un piano breve e le tue domande. Poi scrivi le automazioni con le mie entità, spiega ogni soglia e mostrami come provarle sul mio storico prima di attivarle. Comincia dal tracciamento e dagli avvisi da soli, e aggiungi lo spegnimento e il blocco solo dopo.
