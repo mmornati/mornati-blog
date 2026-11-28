@@ -322,6 +322,12 @@ Why 8 hours? It prevents re-execution in the same timeframe while allowing execu
 5. **The 2°C differential works well** - Prevents false triggers on cloudy days
 6. **Velux need special treatment** - Roof windows heat up faster and need full closure
 
+## Do the Same at Home, with Your AI Assistant
+
+The YAML above is specific to my house: my entity names, my windows, the hours when the sun hits my walls. Copying it would not get you far. What travels from one home to another is the intent, the rules and the safeguards, so here is the recipe to give to your own AI assistant (Claude, ChatGPT, whichever you use), ideally connected to your Home Assistant. It tells the assistant to start from your shutters and your sensors, not mine.
+
+{{< ai-prompt >}}
+
 ## What's Next?
 
 The original post mentioned adding light intensity (lux) sensors to prevent closing covers when it's cloudy but warm. I've implemented this in my external lighting automations and plan to integrate it here as well.

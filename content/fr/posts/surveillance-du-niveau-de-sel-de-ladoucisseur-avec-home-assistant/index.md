@@ -97,6 +97,12 @@ Tu peux améliorer cette installation avec :
 - **Suivi historique** : Surveille la fréquence des déclenchements pour optimiser ton calendrier de remplissage
 - **Vannes intelligentes** : Coupe automatiquement l'eau si combiné avec une électrovanne (avancé)
 
+## Faites la même chose chez vous, avec votre assistant IA
+
+Le YAML ci-dessus est propre à ma maison : mon capteur, mes noms d'entités, mon service de notification. Le recopier ne vous avancerait pas beaucoup. Ce qui se transporte d'une maison à l'autre, c'est l'intention, les règles et les garde-fous. Voici donc la recette à donner à votre assistant IA (Claude, ChatGPT, celui que vous utilisez), idéalement connecté à votre Home Assistant. Elle lui demande de partir de vos appareils, pas des miens.
+
+{{< ai-prompt >}}
+
 ## Conclusion
 
 Cette solution DIY simple mais efficace transforme ton adoucisseur en appareil intelligent. Plus de devinettes ou de jours d'eau dure inattendus. Le coût total est inférieur à 30€ pour le capteur, et la tranquillité d'esprit n'a pas de prix.

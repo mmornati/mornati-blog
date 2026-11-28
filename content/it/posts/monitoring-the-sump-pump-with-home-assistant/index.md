@@ -414,6 +414,14 @@ La ricetta riutilizzabile: *deriva un binary sensor «sta facendo il suo lavoro�
 
 ---
 
+## Fare lo stesso a casa propria, con un assistente IA
+
+Lo YAML qui sopra è specifico di casa mia: la mia presa, i miei nomi di entità, soglie scelte per una pompa che lavora a raffiche di un minuto. Copiarlo servirebbe a poco, andrebbe riscritto quasi tutto. Quello che si trasporta da una cantina all'altra è la ricetta qui sotto: l'intenzione, le regole, i paracadute e i miei casi reali come test. Va data al proprio assistente (Claude, ChatGPT, quello che si usa di solito), meglio se collegato a Home Assistant, lasciando che parta dai dispositivi di casa e non dai miei.
+
+{{< ai-prompt >}}
+
+---
+
 ## Avvertenze
 
 - **Appunti di campo, non consigli.** Queste sono le mie soglie, per la mia pompa, nella mia cantina, nel nord della Francia. La vostra pompa, la vostra falda, il vostro impianto elettrico sono diversi.

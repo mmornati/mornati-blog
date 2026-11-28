@@ -1,0 +1,43 @@
+RECETTE : une lumière pilotée par un capteur de mouvement et par un interrupteur (Home Assistant)
+Source : https://blog.mornati.net/fr/home-assistant-motion-sensor-coupled-with-a-switch/
+
+Tu vas m'aider à créer cette automatisation dans MON Home Assistant. Ne recopie pas le code d'un autre : pars de mes appareils.
+
+AVANT D'ÉCRIRE QUOI QUE CE SOIT
+1. Trouve la lumière à piloter (une ampoule connectée, ou ce qui commande l'ampoule) et dis-moi comment on peut l'allumer à la main : interrupteur mural, application, tableau de bord.
+2. Trouve le capteur de mouvement qui couvre cette zone : son entité d'occupation, et s'il mesure la luminosité. Sinon, cherche une autre source de luminosité.
+3. Regarde quelles automatisations allument ou éteignent déjà cette lumière.
+4. Pose-moi les questions utiles, puis attends mes réponses : quand le mouvement ne doit pas allumer (chez moi, la nuit quand l'alarme est activée), et si je veux pouvoir forcer l'extinction automatique même après un allumage manuel.
+Si tu n'as pas accès à mon Home Assistant, demande-moi ces informations au lieu de les supposer.
+
+LE PROBLÈME
+Un capteur de mouvement allume ma lumière extérieure, puis l'éteint quand plus personne ne bouge. Quand on reste assis, pendant un dîner sur la terrasse par exemple, la lumière s'éteint et il faut agiter les bras pour la rallumer. Une lumière que j'ai allumée moi-même doit rester allumée.
+
+CE QUE JE VEUX
+A. Allumer sur mouvement. Mouvement détecté, lumière éteinte, assez sombre, éclairage sur mouvement autorisé : allumer et retenir que c'est l'automatisation qui l'a fait (une entrée du type input_boolean).
+B. N'éteindre que ce que l'automatisation a allumé. Plus de mouvement depuis un moment et lumière allumée : éteindre seulement si le marqueur est posé, puis l'effacer.
+C. Ne pas toucher aux allumages manuels. Une lumière allumée à la main n'a pas de marqueur, donc le mouvement ne l'éteint jamais.
+D. Deux entrées pour moi : une qui désactive complètement l'éclairage sur mouvement, une qui force l'extinction automatique quelle que soit l'origine de l'allumage.
+
+SEUILS DE DÉPART (à calibrer chez moi, ne les prends pas pour acquis)
+- Assez sombre : luminosité sous 50 lx, mesurée par le capteur de mouvement lui-même. 0 fonctionnerait, la valeur a été un peu relevée pour déclencher aussi en faible lumière.
+- Plus de mouvement : occupation inactive depuis 2 minutes, pour éviter les clignotements quand le mouvement n'est pas constant.
+
+GARDE-FOUS (non négociables)
+- Ne jamais éteindre une lumière allumée à la main, sauf si l'entrée de forçage est active.
+- Le mouvement n'allume jamais tant que l'éclairage sur mouvement est désactivé.
+- Capteur de mouvement ou de luminosité indisponible ou inconnu : ne rien faire, dans les deux sens.
+- Toute extinction automatique efface le marqueur.
+
+CAS DE TEST (tirés de l'article d'origine)
+1. Mouvement, lumière éteinte, moins de 50 lx, éclairage sur mouvement autorisé -> la lumière s'allume, le marqueur est posé.
+2. Mouvement, 50 lx ou plus -> rien.
+3. Mouvement dans le noir, alarme activée, éclairage sur mouvement désactivé -> rien.
+4. Lumière allumée à la main, dîner sur la terrasse, personne ne bouge pendant plus de 2 minutes -> la lumière reste allumée.
+5. Lumière allumée par le mouvement, plus de mouvement depuis 2 minutes -> la lumière s'éteint, le marqueur est effacé.
+6. Lumière allumée par le mouvement, le mouvement s'arrête moins de 2 minutes puis reprend -> la lumière reste allumée, pas de clignotement.
+7. Lumière allumée à la main, entrée de forçage active, plus de mouvement depuis 2 minutes -> la lumière s'éteint.
+8. Mouvement alors que la lumière est déjà allumée à la main -> rien, le marqueur reste inactif.
+
+MÉTHODE
+Propose-moi d'abord un plan court et tes questions. Ensuite écris l'automatisation avec mes entités, explique chaque seuil, et montre-moi comment la tester avant de l'activer : en réglant à la main les entrées et l'état des capteurs dans les outils de développement, un cas de test à la fois.

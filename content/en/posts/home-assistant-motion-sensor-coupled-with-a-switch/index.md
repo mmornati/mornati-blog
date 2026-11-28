@@ -205,3 +205,9 @@ The power-off does the opposite: it sets the flag back to false.
     - service: input_boolean.turn_off
       entity_id: input_boolean.terrasse_salon_auto_on
 ```
+
+## Do the same at home, with your AI assistant
+
+The YAML above is specific to my house: my deck, my entity names, a lux threshold tuned for my sensor. Copying it would not get you very far. What travels from one home to another is the intent, the rules and the cases to test, so here is the recipe to give to your own assistant (Claude, ChatGPT, the one you use), ideally connected to your Home Assistant.
+
+{{< ai-prompt >}}

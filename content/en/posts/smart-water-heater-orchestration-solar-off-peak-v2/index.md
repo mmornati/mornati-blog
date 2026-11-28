@@ -396,6 +396,14 @@ As flagged at the top: all v2 automations in this post are **in my config and be
 
 ---
 
+## Do the same at home, with your AI assistant
+
+The YAML above is specific to my house: my two tanks, my Shelly relays, my tariff windows, my entity names. Copying it would not get you far. What travels from one home to another is the intent, the rules, the safeguards and the cases to test, so I wrote them down as a recipe you can hand to your own assistant (Claude, ChatGPT, whichever you use), ideally one that can see your Home Assistant.
+
+{{< ai-prompt >}}
+
+---
+
 ## Disclaimers
 
 - **This is France-specific (Heures Creuses / Heures Pleines)**. A tariff with a single midday + night window doesn't exist everywhere; the 1.1x margin and 1500 W are my constants, not yours.

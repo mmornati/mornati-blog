@@ -1087,3 +1087,49 @@ a.nb-step__t:hover { text-decoration: underline wavy; text-underline-offset: 4px
   @view-transition { navigation: none; }
   .nb-sticky, .nb-exp > a, .nb-turn__page, .nb-lead__cover, .peek, .nb-cta .nb-arrow { transition: none; }
 }
+
+/* ---- AI recipe block (shortcode ai-prompt) ---- */
+.ai-prompt {
+  margin: 2rem 0;
+  padding: 1rem 1.2rem 1.1rem;
+  background: var(--nb-paper);
+  border: 2px solid var(--nb-ink);
+  border-radius: var(--wob-sm);
+  color: var(--nb-ink);
+}
+.ai-prompt__title {
+  display: inline-block;
+  margin: 0 0 0.5rem;
+  padding: 0 0.4rem;
+  font-family: var(--font-hand);
+  font-weight: 800;
+  font-size: 1.15rem;
+  background: var(--hl-ai);
+  color: var(--hl-ink);
+}
+.ai-prompt__intro { margin: 0 0 0.75rem; font-size: 1rem; line-height: 1.55; color: var(--nb-dim); }
+.ai-prompt summary { cursor: pointer; font-family: var(--font-hand); font-weight: 700; }
+.ai-prompt__text {
+  margin: 0.75rem 0 0;
+  padding: 0.9rem 1rem;
+  max-height: 26rem;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.55;
+  border: 1.5px dashed var(--nb-rule);
+  border-radius: var(--wob-sm);
+}
+.ai-prompt__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; margin: 0.9rem 0 0; }
+.ai-prompt__copy {
+  padding: 0.3rem 0.9rem;
+  font-family: var(--font-hand);
+  font-weight: 700;
+  border: 2px solid var(--nb-ink);
+  border-radius: var(--wob);
+  color: var(--nb-ink);
+}
+.ai-prompt__copy:hover, .ai-prompt__copy.is-copied { background: var(--hl-ai); color: var(--hl-ink); }
+.ai-prompt__actions a { font-family: var(--font-mono); font-size: 0.85rem; color: var(--nb-pen); text-decoration: underline; }

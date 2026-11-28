@@ -398,6 +398,14 @@ Come detto all'inizio: tutte le automazioni v2 di questo post sono **nella mia c
 
 ---
 
+## Fai lo stesso a casa tua, con il tuo assistente IA
+
+Lo YAML qui sopra è specifico di casa mia: i miei due serbatoi, i miei relè Shelly, le mie fasce orarie, i miei nomi di entità. Copiarlo non ti porterebbe lontano. Quello che si trasporta da una casa all'altra sono l'intenzione, le regole, le protezioni e i casi da testare. Li ho quindi scritti sotto forma di ricetta da dare al tuo assistente (Claude, ChatGPT, quello che usi), meglio se collegato al tuo Home Assistant.
+
+{{< ai-prompt >}}
+
+---
+
 ## Avvertenze
 
 - **È specifico della Francia (Heures Creuses / Heures Pleines).** Una tariffa con una sola finestra diurna + notturna non esiste ovunque; il margine 1,1× e la soglia 1500 W sono le mie costanti, non le vostre.

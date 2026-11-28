@@ -100,3 +100,10 @@ oss.projects:
 oss.stars:
   one: "{{ .Count }} étoile"
   other: "{{ .Count }} étoiles"
+# --- AI recipe block (shortcode ai-prompt) ---
+aiprompt.title: "Recette pour votre assistant IA"
+aiprompt.intro: "Mon code ne marcherait pas chez vous : pas les mêmes appareils, pas les mêmes capteurs. Donnez plutôt cette recette à votre assistant IA. Elle décrit l'intention, les règles, les garde-fous et des cas de test tirés de mes données, et lui demande de partir de votre installation."
+aiprompt.show: "Lire la recette"
+aiprompt.copy: "Copier la recette"
+aiprompt.copied: "Copié"
+aiprompt.raw: "Fichier texte (à donner à un agent)"

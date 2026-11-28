@@ -1,0 +1,45 @@
+RECIPE: closing shutters by zone when it is hot (Home Assistant)
+Source: https://blog.mornati.net/homeassistant-close-cover-to-control-the-home-temperature-v2/
+
+You are going to help me build this automation in MY Home Assistant. Do not copy someone else's code: start from my devices.
+
+BEFORE WRITING ANYTHING
+1. List my shutters, roof windows included: which accept a position, which only open and close.
+2. Find my temperature sensors, outdoor and indoor, room by room.
+3. Look at which automations already move these shutters, and when.
+4. Ask me your questions, then wait for my answers: which windows get the sun and when, how to group them into zones, how far to close, when to reopen.
+If you have no access to my Home Assistant, ask me instead of assuming.
+
+THE PROBLEM
+In summer the sun heats the house through the windows. Each side gets the sun at a different time, and a single temperature sensor is too fragile to decide when to close.
+
+WHAT I WANT
+A. Averaged temperatures: one outdoor average, one indoor average per floor, each built from several sensors.
+B. One closing rule per zone, checked every 10 minutes inside that zone's time window, comparing outdoor and indoor.
+C. One reopening rule per zone, later in the day, acting only if that zone's closing rule ran the same day.
+D. Each rule acts at most once a day.
+
+STARTING THRESHOLDS (to calibrate at my home)
+- Afternoon zone (ground floor): 12:00-18:00, outdoor average more than 2 °C above indoor average, reference room above 20 °C, position 40. Reopen 19:00-20:00.
+- Morning zone (office): 08:00-13:00, outdoor simply above indoor, room above 20 °C, position 40. Reopen 14:00-14:30.
+- Roof windows: 11:00-18:00, outdoor average above first floor average, full closure. Reopen 19:00-20:00.
+- "Already done": a rule never runs twice within 8 hours.
+
+SAFEGUARDS (not negotiable)
+- One sensor missing from an average breaks nothing: the average carries on with the others.
+- Every sensor of an average unavailable or unknown: do nothing.
+- Never reopen a zone the automation did not close itself that day.
+- Shutters it closed must not stay closed all night.
+
+TEST CASES (rules from the article)
+1. Ground floor, 12:00-18:00, outdoor more than 2 °C above indoor, reference room above 20 °C -> position 40.
+2. Same, outdoor warmer by less than 2 °C -> nothing (the margin avoids false triggers on cloudy days).
+3. Same, reference room at 20 °C or below -> nothing.
+4. Office, 08:00-13:00, outdoor just above indoor, room above 20 °C -> position 40, no margin.
+5. Roof windows, after 11:00, outdoor above first floor average -> full closure, not 40.
+6. Conditions still true 10 minutes after a closure -> no second command.
+7. 19:00-20:00: zone closed by the automation that day -> reopens; zone it did not close -> nothing.
+8. One sensor of a group unavailable -> the rule still works.
+
+METHOD
+First a short plan and your questions. Then the automations with my entities, an explanation of each threshold, and a way to test before enabling: start with one zone, with a notification in place of the shutter command.
